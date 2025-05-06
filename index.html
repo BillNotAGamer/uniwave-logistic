@@ -1353,6 +1353,12 @@
 	<div id="arcontactus" class="hidden-md hidden-lg">
 		<div class=""></div>
 	</div>
+	<!-- Phần bên trái: chứa ảnh social-block-img -->
+	<div class="icon-need-help">
+		<a style="display:block; background: #183051; border-radius: 50%;">
+			<img src="/image/social-block-img.jpg">
+		</a>
+	</div>
 	<div id="social_box" style="position:fixed;right:20px;bottom:30px;z-index:99">
 		<ul class="social-chat" style="list-style:none;margin:0;padding:0">
 			<li>
@@ -1372,21 +1378,7 @@
 					<img src="./wp-content/uploads/2024/05/ic_messenger.png"
 						style="width: 58px; height: 58px">
 				</a>
-			</li>
-			<li style="margin-bottom:0"><a class="o" style="display:block;background: #183051;border-radius: 50%;"><img
-						src="/image/social-block-img.jpg" style="
-    			width: 58px;
-    			height: 58px;
-    			border-radius: 50%;
-    			padding: 2px;
-    			margin-bottom: 4px;
-				"></a></li>
-			<li style="margin:0"><a class="c" style="display:none"><svg width="58" height="58" viewBox="0 0 58 58"
-						fill="none" xmlns="http://www.w3.org/2000/svg">
-						<circle cx="29" cy="29" r="29" fill="#DC3837" />
-						<path d="M35.4101 22.5919L22.5938 35.4082M35.4101 35.4081L22.5938 22.5918" stroke="white"
-							stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-					</svg></a></li>
+			</li>			
 		</ul>
 	</div>
 	<div class="shadow" id="popup_vipo" onclick="closeModal()">
@@ -1403,65 +1395,6 @@
 					alt=""></a>
 		</div>
 	</div>
-	<style>
-		.social-chat li {
-			margin: 5px 0;
-		}
-
-		.social-chat li a.o {
-			padding-bottom: 0
-		}
-
-		.social-chat li a {
-			display: block;
-			padding: 5px;
-			transition: display ease .5s;
-			cursor: pointer
-		}
-
-		.social-chat li a:not(.o) {
-			display: none;
-		}
-
-		.shadow {
-			position: fixed;
-			left: 0;
-			right: 0;
-			width: 100%;
-			top: 0;
-			bottom: 0;
-			background-color: rgba(0, 0, 0, .5);
-			z-index: 9991;
-		}
-
-		#popup_vipo {
-			display: none;
-			justify-content: center;
-			align-items: center;
-		}
-
-		#popup_vipo .wrapper {
-			max-width: 432px;
-			border-radius: 5px;
-			position: relative;
-		}
-
-		#popup_vipo img {
-			max-width: 100%;
-		}
-
-		.close {
-			position: absolute;
-			right: -20px;
-			top: -15px;
-			width: 38px;
-			height: 38px;
-			border-radius: 50%;
-			opacity: 1;
-			z-index: 9999;
-			cursor: pointer;
-		}
-	</style>
 
 	<script type="text/javascript"
 		src="./wp-content/themes/uniwave/assets/js/jquery-3.2.1.min.js"></script>
@@ -1551,16 +1484,6 @@
 				console.log(error)
 			}
 		}
-	</script>
-	<script>
-		$('#social_box').find('a.c').click(function () {
-			$('#social_box').find('a[href],a.c').hide();
-			$('#social_box').find('a.o').show();
-		});
-		$('#social_box').find('a.o').on('click', function () {
-			$('#social_box').find('a[href],a.c').show();
-			$(this).hide();
-		})
 	</script>
 
 	<script type="text/javascript" src="js/scripts.js"></script>
