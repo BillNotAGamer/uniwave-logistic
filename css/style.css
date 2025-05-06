@@ -26,13 +26,17 @@ h2 {
 
 /* Banner */
 .banner {
-    background: url('/image/banner-img.png') no-repeat center;
-    background-size: cover;
+    background: url('/image/banner1.png') no-repeat center;
+    background-size: contain;
     padding: 100px 0;
     text-align: center;
     color: white;
     position: relative;
-    animation: zoomIn 5s infinite;
+    min-height: 300px;
+    max-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .banner-slogan {
@@ -80,14 +84,29 @@ h2 {
 .feature:nth-child(2) { animation-delay: 0.4s; }
 .feature:nth-child(3) { animation-delay: 0.6s; }
 
-.feature img {
-    width: 50px;
-    height: 50px;
+.feature-img-container {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.feature-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
     transition: transform 0.3s;
 }
 
-.feature:hover img {
+.feature:hover .feature-img {
     transform: scale(1.2);
+    transform-origin: center top;
+}
+
+.feature p {
+    margin: 0;
+    font-size: 16px;
 }
 
 @keyframes slideUp {
@@ -247,11 +266,13 @@ h2 {
     50% { transform: translateY(-10px); }
 }
 
-/* Responsive */
+
 @media (max-width: 1199px) {
     .banner-slogan { font-size: 36px; }
     .features, .service-list { flex-wrap: wrap; }
     .feature, .service { width: 45%; }
+    .feature-img-container { width: 80px; height: 80px; }
+    .feature p { font-size: 14px; }
 }
 
 @media (max-width: 767px) {
@@ -260,6 +281,8 @@ h2 {
     .banner-buttons .btn { display: block; margin: 10px auto; }
     h2 { font-size: 28px; }
     .feature, .service { width: 100%; }
+    .feature-img-container { width: 60px; height: 60px; }
+    .feature p { font-size: 12px; }
     .form-group select, .form-group input { font-size: 14px; }
     .slider { flex-direction: column; animation: none; }
     .slider img { margin: 0 auto; }

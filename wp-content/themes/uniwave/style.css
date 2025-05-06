@@ -11324,3 +11324,82 @@ footer {
         line-height: 36px;
     }
 }
+
+/* Định kiểu nội dung Banner */
+#bn .banner-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    width: 90%;
+    max-width: 1200px;
+    z-index: 2;
+}
+
+#bn .banner-slogan {
+    font-family: "Sf Ui Bold", sans-serif;
+    font-size: 36px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#bn .banner-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#bn .banner-btn {
+    background: linear-gradient(104.7deg, #D63C32 2.2%, #FF4F44 97.18%);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-family: "Sf Ui Medium", sans-serif;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+#bn .banner-btn:hover {
+    background: linear-gradient(104.7deg, #FF4F44 2.2%, #D63C32 97.18%);
+    text-decoration: none;
+    animation: pulse 0.7s;
+}
+
+/* Đảm bảo hình ảnh banner responsive */
+#bn .item img.lz {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Điều chỉnh cho responsive */
+@media (max-width: 768px) {
+    #bn .banner-slogan {
+        font-size: 24px;
+    }
+
+    #bn .banner-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    #bn .banner-buttons {
+        gap: 15px;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 576px) {
+    #bn .banner-slogan {
+        font-size: 18px;
+    }
+
+    #bn .banner-btn {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+}
