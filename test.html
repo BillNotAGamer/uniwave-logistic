@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Báo Giá</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f4f4f4;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      background: #28a745;
+      color: white;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #218838;
+    }
+    .thank-you {
+      display: none;
+      background: #d4edda;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 10px;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="quoteForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <h2>📝 Yêu Cầu Báo Giá Vận Chuyển</h2>
+
+    <label for="route">Tuyến vận chuyển</label>
+    <select name="Tuyến vận chuyển" id="route" required>
+      <option value="">-- Chọn tuyến --</option>
+      <option value="TQ-VN">Trung Quốc → Việt Nam</option>
+      <option value="VN-HN">Việt Nam → Hà Nội</option>
+      <option value="VN-HCM">Việt Nam → TP.HCM</option>
+      <option value="Khác">Khác</option>
+    </select>
+
+    <label for="type">Loại hàng hóa</label>
+    <input type="text" name="Loại hàng hóa" id="type" placeholder="Ví dụ: quần áo, linh kiện..." required>
+
+    <label for="packages">Số kiện</label>
+    <input type="number" name="Số kiện" id="packages" required min="1">
+
+    <label for="weight">Tổng khối lượng (kg)</label>
+    <input type="number" name="Khối lượng (kg)" id="weight" required step="0.1">
+
+    <label for="notes">Yêu cầu đặc biệt</label>
+    <textarea name="Yêu cầu đặc biệt" id="notes" rows="3"></textarea>
+
+    <label for="email">Email</label>
+    <input type="email" name="Email" id="email" required>
+
+    <label for="phone">Số điện thoại</label>
+    <input type="tel" name="Số điện thoại" id="phone" required pattern="[0-9]{10,11}">
+
+    <button type="submit">Gửi Yêu Cầu Báo Giá</button>
+
+    <div class="thank-you" id="thankYouMessage">
+      🎉 Cảm ơn bạn đã gửi yêu cầu! Chúng tôi sẽ liên hệ báo giá trong vòng 1 giờ.
+    </div>
+  </form>
+
+  <script>
+    document.getElementById("quoteForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+
+      // Gửi qua Formspree hoặc có thể thay bằng API CRM ở đây
+      fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (response.ok) {
+          document.getElementById("thankYouMessage").style.display = "block";
+          form.reset();
+        } else {
+          alert("Có lỗi xảy ra khi gửi. Vui lòng thử lại sau.");
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

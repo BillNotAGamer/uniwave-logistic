@@ -642,3 +642,95 @@ h2 {
     }
 }
 
+/* Bo cong thuong */
+.badge-container img:last-child {
+    max-width: 120px;
+    height: auto;
+    vertical-align: middle;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1570px) {
+            .fanpage {
+                max-width: 100%;
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 1145px) {
+            .row {
+                flex-direction: row; /* Đảm bảo các cột nằm ngang */
+                justify-content: space-between;
+            }
+
+            .col-3, .col-4, .col-5 {
+                flex: 1; /* Chia đều không gian */
+                max-width: 30%; /* Giới hạn chiều rộng mỗi cột */
+                min-width: 200px; /* Đảm bảo không bị co quá nhỏ */
+            }
+
+            .fanpage {
+                max-width: 100%;
+                height: 200px;
+            }
+
+            .badge-container {
+                flex-direction: row; /* Giữ hàng ngang */
+                gap: 8px;
+            }
+        }
+
+@media (max-width: 768px) {
+            .col-5 {
+                max-width: 100%; /* Chiếm toàn bộ chiều rộng trên màn hình vừa */
+
+            }
+
+            h4 {
+                font-size: 1.25rem; /* Giảm kích thước chữ trên màn hình vừa */
+            }
+
+            .fanpage {
+                max-width: 100%; /* Chiếm toàn bộ chiều rộng container */
+                height: 180px; /* Giảm chiều cao một chút */
+            }
+
+            .badge-container {
+                flex-direction: row; /* Vẫn giữ hàng ngang trên màn hình vừa */
+                gap: 8px;
+            }
+
+            .badge-container img {
+                max-width: 100px; /* Giảm kích thước ảnh */
+            }
+        }
+
+        @media (max-width:685px) {
+            .badge-container img {
+                max-width: 80%; /* Giảm kích thước ảnh */
+            }
+        }
+        @media (max-width: 480px) {
+            .col-5 {
+                padding: 5px;
+            }
+
+            h4 {
+                font-size: 1rem; /* Giảm kích thước chữ trên màn hình nhỏ */
+            }
+
+            .fanpage {
+                height: 150px; /* Giảm chiều cao iframe trên màn hình nhỏ */
+            }
+
+            .badge-container {
+                flex-direction: column; /* Chuyển sang hàng dọc trên màn hình nhỏ */
+                gap: 5px;
+            }
+
+            .badge-container img {
+                max-width: 80px; /* Giảm kích thước ảnh trên màn hình nhỏ */
+            }
+        }
+
+        
