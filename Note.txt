@@ -1,7 +1,4 @@
-Note lại header và footer mới cho mỗi trang:
-
-<!------------------------------------------------------------------------------------Header start-------------------------------------------------------------------------------------------->
-
+<!-------------------------------------------------------------------------------Header start------------------------------------------------------------------------------->
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -9,10 +6,8 @@ Note lại header và footer mới cho mỗi trang:
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>UNIWAVE LOGISTICS -Tổng Công ty cổ phần bưu chính Viettel</title>
-	<link rel="shortcut icon" href="./image/logo.png"
-		type="image/x-icon" />
-	<link href="./wp-content/themes/uniwave/assets/fonts/css/font-awesome.min.css"
-		rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" href="./image/logo.png" type="image/x-icon" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
 	<link href="./wp-content/themes/uniwave/style.css" rel="stylesheet" type="text/css" />
@@ -89,13 +84,7 @@ Note lại header và footer mới cho mỗi trang:
 		href="https://viettelpost.com.vn/feed/" />
 	<link rel="alternate" type="application/rss+xml" title="UNIWAVE LOGISTICS &raquo; Dòng bình luận"
 		href="https://viettelpost.com.vn/comments/feed/" />
-	<script type="text/javascript">
-		/* <![CDATA[ */
-		window._wpemojiSettings = { "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/15.1.0\/72x72\/", "ext": ".png", "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/15.1.0\/svg\/", "svgExt": ".svg", "source": { "concatemoji": "https:\/\/viettelpost.com.vn\/wp-includes\/js\/wp-emoji-release.min.js" } };
-		/*! This file is auto-generated */
-		!function (i, n) { var o, s, e; function c(e) { try { var t = { supportTests: e, timestamp: (new Date).valueOf() }; sessionStorage.setItem(o, JSON.stringify(t)) } catch (e) { } } function p(e, t, n) { e.clearRect(0, 0, e.canvas.width, e.canvas.height), e.fillText(t, 0, 0); var t = new Uint32Array(e.getImageData(0, 0, e.canvas.width, e.canvas.height).data), r = (e.clearRect(0, 0, e.canvas.width, e.canvas.height), e.fillText(n, 0, 0), new Uint32Array(e.getImageData(0, 0, e.canvas.width, e.canvas.height).data)); return t.every(function (e, t) { return e === r[t] }) } function u(e, t, n) { switch (t) { case "flag": return n(e, "\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f", "\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f") ? !1 : !n(e, "\ud83c\uddfa\ud83c\uddf3", "\ud83c\uddfa\u200b\ud83c\uddf3") && !n(e, "\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f", "\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f"); case "emoji": return !n(e, "\ud83d\udc26\u200d\ud83d\udd25", "\ud83d\udc26\u200b\ud83d\udd25") }return !1 } function f(e, t, n) { var r = "undefined" != typeof WorkerGlobalScope && self instanceof WorkerGlobalScope ? new OffscreenCanvas(300, 150) : i.createElement("canvas"), a = r.getContext("2d", { willReadFrequently: !0 }), o = (a.textBaseline = "top", a.font = "600 32px Arial", {}); return e.forEach(function (e) { o[e] = t(a, e, n) }), o } function t(e) { var t = i.createElement("script"); t.src = e, t.defer = !0, i.head.appendChild(t) } "undefined" != typeof Promise && (o = "wpEmojiSettingsSupports", s = ["flag", "emoji"], n.supports = { everything: !0, everythingExceptFlag: !0 }, e = new Promise(function (e) { i.addEventListener("DOMContentLoaded", e, { once: !0 }) }), new Promise(function (t) { var n = function () { try { var e = JSON.parse(sessionStorage.getItem(o)); if ("object" == typeof e && "number" == typeof e.timestamp && (new Date).valueOf() < e.timestamp + 604800 && "object" == typeof e.supportTests) return e.supportTests } catch (e) { } return null }(); if (!n) { if ("undefined" != typeof Worker && "undefined" != typeof OffscreenCanvas && "undefined" != typeof URL && URL.createObjectURL && "undefined" != typeof Blob) try { var e = "postMessage(" + f.toString() + "(" + [JSON.stringify(s), u.toString(), p.toString()].join(",") + "));", r = new Blob([e], { type: "text/javascript" }), a = new Worker(URL.createObjectURL(r), { name: "wpTestEmojiSupports" }); return void (a.onmessage = function (e) { c(n = e.data), a.terminate(), t(n) }) } catch (e) { } c(n = f(s, u, p)) } t(n) }).then(function (e) { for (var t in e) n.supports[t] = e[t], n.supports.everything = n.supports.everything && n.supports[t], "flag" !== t && (n.supports.everythingExceptFlag = n.supports.everythingExceptFlag && n.supports[t]); n.supports.everythingExceptFlag = n.supports.everythingExceptFlag && !n.supports.flag, n.DOMReady = !1, n.readyCallback = function () { n.DOMReady = !0 } }).then(function () { return e }).then(function () { var e; n.supports.everything || (n.readyCallback(), (e = n.source || {}).concatemoji ? t(e.concatemoji) : e.wpemoji && e.twemoji && (t(e.twemoji), t(e.wpemoji))) })) }((window, document), window._wpemojiSettings);
-		/* ]]> */
-	</script>
+
 	<style id='wp-emoji-styles-inline-css' type='text/css'>
 		img.wp-smiley,
 		img.emoji {
@@ -735,7 +724,7 @@ Note lại header và footer mới cho mỗi trang:
 							<ul class="sub-menu">
 								<li id="menu-item-15898"
 									class="menu-item menu-item-type-taxonomy menu-item-object-danh_muc_dich_vu menu-item-has-children menu-item-15898">
-									<a href="services.html">Dịch
+									<a href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/dich-vu-trong-nuoc/">Dịch
 										vụ trong nước</a>
 									<ul class="sub-menu">
 										<li id="menu-item-12487"
@@ -775,119 +764,78 @@ Note lại header và footer mới cho mỗi trang:
 												thêm</a></li>
 									</ul>
 								</li>
-									
-								
+								<li id="menu-item-12492"
+									class="mega menu-item menu-item-type-taxonomy menu-item-object-danh_muc_dich_vu menu-item-has-children menu-item-12492">
+									<a href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/dich-vu-quoc-te/">Dịch
+										vụ quốc tế</a>
+									<ul class="sub-menu">
+										<li id="menu-item-13966"
+											class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-13966">
+											<a href="https://viettelpost.com.vn/tin-moi-nhat/">Tin mới nhất</a></li>
+										<li id="menu-item-12957"
+											class="menu-item menu-item-type-post_type menu-item-object-dich_vu menu-item-12957">
+											<a
+												href="https://viettelpost.com.vn/dich_vu/chuyen-phat-quoc-te-chi-dinh-hang-ups/">Chuyển
+												Phát Quốc Tế UPS</a></li>
+										<li id="menu-item-12062"
+											class="menu-item menu-item-type-post_type menu-item-object-dich_vu menu-item-12062">
+											<a
+												href="https://viettelpost.com.vn/dich_vu/chuyen-phat-quoc-te-chi-dinh-hang/">Chuyển
+												phát Quốc tế DHL</a></li>
+										<li id="menu-item-12063"
+											class="menu-item menu-item-type-post_type menu-item-object-dich_vu menu-item-12063">
+											<a href="https://viettelpost.com.vn/dich_vu/chuyen-phat-quoc-te-nhanh/">Chuyển
+												phát Quốc tế VQN</a></li>
+										<li id="menu-item-14730"
+											class="menu-item menu-item-type-post_type menu-item-object-page menu-item-14730">
+											<a href="https://viettelpost.com.vn/dich-vu-thong-quan/">Dịch vụ thông
+												quan</a></li>
+										<li id="menu-item-12076"
+											class="mega_more menu-item menu-item-type-taxonomy menu-item-object-danh_muc_dich_vu menu-item-12076">
+											<a
+												href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/dich-vu-quoc-te/">Xem
+												thêm</a></li>
+									</ul>
+								</li>
 							</ul>
 						</li>
 						
 						<li id="menu-item-9439"
 							class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-9439">
-							<a href="https://viettelpost.com.vn/tin-tuc/">Theo dõi đơn hàng</a>
-							<ul class="sub-menu">
-								<li id="menu-item-9442"
-									class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-9442">
-									<a href="https://viettelpost.com.vn/tin-hoat-dong/">Tin hoạt động</a></li>
-								<li id="menu-item-9441"
-									class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-9441">
-									<a href="https://viettelpost.com.vn/tin-khuyen-mai/">Tin khuyến mãi</a></li>
-								<li id="menu-item-9440"
-									class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-9440">
-									<a href="https://viettelpost.com.vn/tin-dau-thau/">Tin đấu thầu</a></li>
-								<li id="menu-item-9443"
-									class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-9443">
-									<a href="https://viettelpost.com.vn/huong-dan-su-dung/">Hướng dẫn sử dụng</a></li>
-								<li id="menu-item-17551"
-									class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-17551">
-									<a href="https://viettelpost.com.vn/tin-tuc/bi-kip-trieu-don/">Bí kíp triệu đơn</a>
-								</li>
-							</ul>
+							<a href="tracking-shipment.html">Theo dõi đơn hàng</a>
 						</li>
 						<li id="menu-item-9471"
 							class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-9471">
-							<a href="#">Báo giá</a>
-							<ul class="sub-menu">
-								<li id="menu-item-9474"
-									class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9474"><a
-										target="_blank" href="https://appviettelpost.page.link/app">ViettelPost App</a>
-								</li>
-								<li id="menu-item-9475"
-									class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9475"><a
-										target="_blank" href="https://viettelsale.com/">ViettelSale</a></li>
-								<li id="menu-item-9476"
-									class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9476"><a
-										target="_blank" href="https://ads.viettelsale.com/">Quảng cáo số</a></li>
-							</ul>
+							<a href="price-check.html">Báo giá</a>
 						</li>
 						<li id="menu-item-9479"
 							class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-9479">
-							<a href="#">Liên hệ</a>
-							<ul class="sub-menu">
-								<li id="menu-item-12219"
-									class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12219"><a
-										href="https://viettelpost.com.vn/page-huong-dan-su-dung/">Hướng dẫn sử dụng</a>
-								</li>
-								<li id="menu-item-12414"
-									class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12414"><a
-										href="https://viettelpost.com.vn/gui-khieu-nai/">Gửi thông tin khiếu nại</a>
-								</li>
-								<li id="menu-item-12417"
-									class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12417"><a
-										href="https://viettelpost.com.vn/gop-y/">Góp ý sản phẩm dịch vụ</a></li>
-								<li id="menu-item-9676"
-									class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9676"><a
-										href="https://viettelpost.com.vn/lien-he/">Liên hệ</a></li>
-								<li id="menu-item-16022"
-									class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16022"><a
-										href="https://viettelpost.com.vn/thong-tin-ho-tro-khach-hang/">Thông tin hỗ trợ
-										khách hàng</a></li>
-							</ul>
+							<a href="contact.html">Liên hệ</a>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	</header>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-		integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-	<link href="./wp-content/themes/uniwave/assets/css/home.css" rel="stylesheet"
-		type="text/css" />
-	<link href="./wp-content/themes/uniwave/css/danhmucdichvu.css" rel="stylesheet"
-		type="text/css" />
-	<link href="./wp-content/themes/uniwave/css/page_thong_quan_quoc_te_chieu_ve.css"
-		rel="stylesheet" type="text/css" />
-	<link href="./wp-content/themes/uniwave/css/tra-cuu-cuoc-phi-qt.css" rel="stylesheet"
-		type="text/css" />
 <!------------------------------------------------------------------------------------Header end-------------------------------------------------------------------------------------------->
 
 <!------------------------------------------------------------------------------------Footer start-------------------------------------------------------------------------------------------->
-
+	<!--Footer start-->
 	<footer>
-		<!-- <section id="ftop">
-			<div class="container">
-				<div class="dt">
-															<img src="./wp-content/uploads/2021/02/dt11.jpg" alt="" class="lz">
-										<img src="./wp-content/uploads/2021/02/dt21.jpg" alt="" class="lz">
-										<img src="./wp-content/uploads/2021/02/dt31.jpg" alt="" class="lz">
-										<img src="./wp-content/uploads/2021/02/dt41.jpg" alt="" class="lz">
-										<img src="./wp-content/uploads/2021/02/dt51.jpg" alt="" class="lz">
-										<img src="./wp-content/uploads/2021/02/dt61.jpg" alt="" class="lz">
-										<img src="./wp-content/uploads/2021/02/dt71.jpg" alt="" class="lz">
-									</div>
-				
-			</div>			
-		</section> -->
 		<section class="line-footer"></section>
 		<section id="fbot">
 			<div class="container">
 				<div class="row position-relative" style="background: #212D33">
 					<div class="col-md-5">
 						<div>
-							<h3>CÔNG TY LOGISTICS UNIWAVE</h3>
-							<p>UNIWAVE LOGISTICS là doanh nghiệp cung cấp dịch vụ chuyển phát nhanh hàng hoá, bưu kiện trong
-								nước, quốc tế tại Việt Nam.</p>
-							<p><i class="fa fa-paper-plane"></i>Giấy chứng nhận Đăng ký Kinh doanh số: 0104093672 do Sở
-								KHDT thành phố Hà Nội cấp lần đầu ngày 03/07/2009, cấp thay đổi lần thứ 24 ngày
-								16/10/2023</p>
+							<div class="col-4" style="padding-bottom: 20px;">
+								<a href="/" alt="">
+									<img src="/image/Uniwave-Logo-on-Cream.png">
+								</a>
+							</div>
+							<h3>UNIWAVE LOGISTICS COMPANY LIMITED - " Ship Smart.Move Fast "</h3>
+							<p></p>
+							<p>Giấy chứng nhận Đăng ký Kinh doanh số: 0104093672 do Sở KHDT thành phố Hà Nội cấp lần đầu ngày 03/07/2009, cấp thay đổi lần thứ 24 ngày 16/10/2023</p>
 							<p><i class="fa fa-paper-plane"></i>
 								<a style="color:#ffff"
 									href="./wp-content/uploads/2023/10/GIAY-PHEP-BUU-CHINH-2017.pdf"
@@ -972,17 +920,15 @@ Note lại header và footer mới cho mỗi trang:
 							<div class="col-5">
 								<h4>Fanpage</h4>
 								<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/Uniwavelogistics&amp;tabs=timeline&amp;width=400&amp;height=200&amp;small_header=false&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId" width="400" height="200" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-								<div class="l4" style="padding-top: 15px;">
-									<ul>
-										<p style="text-align: center;">Liên hệ ngay</p>
-										<a href="https://viettelpost.com.vn/lien-he/">
-											<img width="110px"
-												src="./wp-content/uploads/2022/03/qr-hotline-kinh-doanh.jpg"
-												alt="">
-										</a>
-									</ul>
+								<div style="padding-top: 30px;">
+									<a href="https://www.dmca.com/Protection/Status.aspx?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
+										title="DMCA.com Protection Status" class="dmca-badge">
+										<img
+											src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
+											alt="DMCA.com Protection Status" /></a>
+									<script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js">
+									</script>
 								</div>
-								<a href="//www.dmca.com/Protection/Status.aspx?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0" title="DMCA.com Protection Status" class="dmca-badge"> <img src ="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"  alt="DMCA.com Protection Status" /></a>  <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
 							</div>
 						</div>
 					</div>
@@ -1088,28 +1034,6 @@ Note lại header và footer mới cho mỗi trang:
 											thêm</a></li>
 								</ul>
 							</li>
-							<li
-								class="mega menu-item menu-item-type-taxonomy menu-item-object-danh_muc_dich_vu menu-item-has-children menu-item-12491">
-								<a href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/dich-vu-supply-chain/">Dịch
-									vụ Supply Chain</a>
-								<ul class="sub-menu">
-									<li
-										class="menu-item menu-item-type-post_type menu-item-object-dich_vu menu-item-20802">
-										<a href="https://viettelpost.com.vn/dich_vu/xu-ly-don-hang-fulfillment/">Xử lý
-											đơn hàng Fulfillment</a></li>
-								</ul>
-							</li>
-							<li
-								class="mega menu-item menu-item-type-taxonomy menu-item-object-danh_muc_dich_vu menu-item-has-children menu-item-12494">
-								<a href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/thuong-mai-dien-tu/">Thương
-									mại điện tử</a>
-								<ul class="sub-menu">
-									<li
-										class="menu-item menu-item-type-post_type menu-item-object-dich_vu menu-item-12066">
-										<a href="https://viettelpost.com.vn/dich_vu/dich-vu-ban-ve-may-bay-vtbay/">Dịch
-											vụ bán vé máy bay (VTBay)</a></li>
-								</ul>
-							</li>
 						</ul>
 					</li>
 					
@@ -1135,7 +1059,7 @@ Note lại header và footer mới cho mỗi trang:
 					</li>
 					<li
 						class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-9471">
-						<a href="#">Liên hệ</a>
+						<a href="contact.html">Liên hệ</a>
 						<ul class="sub-menu">
 							<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9474"><a
 									target="_blank" href="https://appviettelpost.page.link/app">ViettelPost App</a></li>
@@ -1214,19 +1138,19 @@ Note lại header và footer mới cho mỗi trang:
 			<li>
 				<a href="https://zalo.me/428184826361302827" target="_blank">
 					<img src="./wp-content/uploads/2024/05/ic_zalo.png"
-						style="width: 58px; height: 58px; border-radius: 50%">
+						style="width: 48px; height: 48px; border-radius: 50%">
 				</a>
 			</li>
 			<li>
 				<a href="https://t.me/viettel_post_bot" target="_blank">
 					<img src="./wp-content/uploads/2024/05/ic_telegram.webp"
-						style="width: 58px; height: 58px; border-radius: 50%">
+						style="width: 48px; height: 48px; border-radius: 50%">
 				</a>
 			</li>
 			<li>
 				<a href="https://m.me/443136805736330" target="_blank">
 					<img src="./wp-content/uploads/2024/05/ic_messenger.png"
-						style="width: 58px; height: 58px">
+						style="width: 48px; height: 48px">
 				</a>
 			</li>			
 		</ul>
@@ -1336,6 +1260,7 @@ Note lại header và footer mới cho mỗi trang:
 		}
 	</script>
 
+	<script type="text/javascript" src="js/emoji-support.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
 </body>
 <script type="speculationrules">
