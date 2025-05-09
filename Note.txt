@@ -1,0 +1,2 @@
+Note lại header và footer mới cho mỗi trang:
+
