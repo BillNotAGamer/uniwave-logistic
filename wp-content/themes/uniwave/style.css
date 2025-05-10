@@ -10483,7 +10483,6 @@ header>.menu {
 }
 
 .menu ul li.menu-item-has-children a:before {
-    content: "\f107";
     display: inline-block;
     font: normal normal normal 13px/1 FontAwesome;
     text-rendering: auto;
