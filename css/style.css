@@ -381,13 +381,13 @@ h2 {
 /* Tracking shipment */
 /* Định kiểu chung cho section */
 .post-office-tracking {
-    margin-top: -30px;
+    margin-top: 10px;
     position: relative;
     width: 50%;
     margin-left: auto;
     margin-right: auto;
     z-index: 99;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     font-family: 'Mulish', sans-serif;
 }
 
