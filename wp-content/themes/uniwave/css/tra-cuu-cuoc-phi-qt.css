@@ -100,10 +100,6 @@
     color: #fff !important;
 }
 
-.uoctinh-container .form-content {
-    display: none;
-}
-
 .uoctinh-container .form-content.active {
     display: block;
 }
