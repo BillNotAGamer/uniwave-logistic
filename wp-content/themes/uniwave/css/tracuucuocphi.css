@@ -16,10 +16,10 @@
 	cursor: pointer;
 }
 .box-khoiluong > div:hover{
-	background-color: #fd4a70;
+	background-color: #74b9ff;
 }
 .box-khoiluong > div.active{
-	background-color: #e03;
+	background-color: #1e3799;
 }
 .box-khoiluong > div.active p{
 	color: #fff;
