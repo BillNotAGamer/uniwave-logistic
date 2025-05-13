@@ -75,14 +75,14 @@
 	border-radius: 0px;
 	border: 1px solid #ccc;
 	height: 40px;
-	border-radius: 0px;
+	border-radius: 5px;
 	width: 100%;
 	padding-left: 10px;
 }
 .form-tracuu button.btn-tracuu{
     width: 100%;
     height: 50px;
-    background-color: #e03;
+    background-color: #1e3799;
     border: none;
     color: #fff;
     font-size: 17px;
@@ -98,4 +98,13 @@
 	margin-bottom: 40px;
 	background-color: #f9f9f9;
 	font-size: 15px;
+}
+
+.form-tracuu .form-group textarea {
+	width: 100%;
+      padding: 5px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
 }
