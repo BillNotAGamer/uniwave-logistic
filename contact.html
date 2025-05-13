@@ -1076,34 +1076,48 @@
 		<div class=""></div>
 	</div>
 	<!-- Phần bên trái: chứa ảnh social-block-img -->
-	<div class="icon-need-help">
-		<a style="display:block; background: #183051; border-radius: 50%;">
-			<img src="/image/social-block-img.jpg">
-		</a>
-	</div>
-	<!-- Phần bên phải: chứa social-box -->
-	<div id="social_box" style="position:fixed;right:20px;bottom:30px;z-index:99">
-		<ul class="social-chat" style="list-style:none;margin:0;padding:0">
-			<li>
-				<a href="https://zalo.me/428184826361302827" target="_blank">
-					<img src="./wp-content/uploads/2024/05/ic_zalo.png"
-						style="width: 48px; height: 48px; border-radius: 50%">
-				</a>
-			</li>
-			<li>
-				<a href="https://t.me/viettel_post_bot" target="_blank">
-					<img src="./wp-content/uploads/2024/05/ic_telegram.webp"
-						style="width: 48px; height: 48px; border-radius: 50%">
-				</a>
-			</li>
-			<li>
-				<a href="https://m.me/443136805736330" target="_blank">
-					<img src="./wp-content/uploads/2024/05/ic_messenger.png"
-						style="width: 48px; height: 48px">
-				</a>
-			</li>			
-		</ul>
-	</div>
+    <div class="icon-need-help" id="icon-need-help">
+        <a>
+            <img src="/image/social-block-img.jpg" alt="Laboon Assistant">
+        </a>
+        <div class="chat-box" id="chat-box">
+            <p>Chào bạn! Mình là Laboon – trợ lý siêu tốc ngành logistics!<br>
+            📦 Bạn cần mình hỗ trợ gì trong quá trình vận chuyển, báo giá hay theo dõi đơn hàng không nè?<br>
+            👉 Cứ nói nha, Laboon luôn sẵn sàng giúp đỡ!</p>
+        </div>
+        <div class="popup-form" id="popup-form">
+            <button class="close-btn" onclick="togglePopup()">✕</button>
+            <h3>Để lại thông tin</h3>
+            <input type="text" placeholder="Họ và tên" required>
+            <input type="tel" placeholder="Số điện thoại" required>
+            <textarea placeholder="Nội dung cần hỗ trợ" required></textarea>
+            <button type="submit">Gửi</button>
+        </div>
+    </div>
+
+    <!-- Phần bên phải: chứa social-box -->
+    <div id="social_box" style="position:fixed;right:20px;bottom:30px;z-index:99">
+        <ul class="social-chat" style="list-style:none;margin:0;padding:0">
+            <li>
+                <a href="https://zalo.me/428184826361302827" target="_blank">
+                    <img src="./wp-content/uploads/2024/05/ic_zalo.png"
+                         style="width: 48px; height: 48px; border-radius: 50%">
+                </a>
+            </li>
+            <li>
+                <a href="https://t.me/viettel_post_bot" target="_blank">
+                    <img src="./wp-content/uploads/2024/05/ic_telegram.webp"
+                         style="width: 48px; height: 48px; border-radius: 50%">
+                </a>
+            </li>
+            <li>
+                <a href="https://m.me/443136805736330" target="_blank">
+                    <img src="./wp-content/uploads/2024/05/ic_messenger.png"
+                         style="width: 48px; height: 48px">
+                </a>
+            </li>			
+        </ul>
+    </div>
 	<div class="shadow" id="popup_vipo" onclick="closeModal()">
 		<div class="wrapper">
 			<span class="close" onclick="closeModal()">
@@ -1235,8 +1249,6 @@
 	id="contact-form-7-js"></script>
 
 </html>
-
-
 <script type="text/javascript" src="./wp-content/themes/uniwave/assets/js/home.js"></script>
 <script type="text/javascript">
 	var render_service = function () {

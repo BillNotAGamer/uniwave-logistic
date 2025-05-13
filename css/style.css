@@ -290,53 +290,162 @@ h2 {
 }
 
 /* Định kiểu cho icon-need-help */
-.icon-need-help {
-    position: fixed;
-    bottom: 30px; /* Khoảng cách từ dưới lên */
-    left: 30px; /* Khoảng cách từ trái sang */
-    z-index: 1000; /* Đảm bảo hiển thị trên các phần tử khác */
-}
+/* Định kiểu cho icon-need-help */
+        .icon-need-help {
+            position: fixed;
+            bottom: 30px; /* Khoảng cách từ dưới lên */
+            left: 30px; /* Khoảng cách từ trái sang */
+            z-index: 1000; /* Đảm bảo hiển thị trên các phần tử khác */
+            cursor: pointer;
+        }
 
-.icon-need-help a {
-    display: block;
-    background: #183051;
-    border-radius: 50%;
-    padding: 2px;
-    animation: pulse 2s ease-in-out infinite; /* Hiệu ứng phóng to thu nhỏ */
-}
+        .icon-need-help a {
+            display: block;
+            background: #183051;
+            border-radius: 50%;
+            padding: 2px;
+            animation: pulse 2s ease-in-out infinite; /* Hiệu ứng phóng to thu nhỏ với phát sáng */
+        }
 
-.icon-need-help a img {
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    display: block;
-}
+        .icon-need-help a img {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            display: block;
+        }
 
-/* Định kiểu cho social-chat */
-.social-chat li {
-    margin: 5px 0;
-}
+        /* Định kiểu cho social-chat */
+        .social-chat li {
+            margin: 5px 0;
+        }
 
-.social-chat li a {
-    display: block;
-    padding: 5px;
-    transition: display ease .5s;
-    cursor: pointer;
-    animation: pulse 2s ease-in-out infinite; /* Hiệu ứng phóng to thu nhỏ */
-}
+        .social-chat li a {
+            display: block;
+            padding: 5px;
+            transition: display ease .5s;
+            cursor: pointer;
+            animation: pulse 2s ease-in-out infinite; /* Hiệu ứng phóng to thu nhỏ với phát sáng */
+        }
 
-/* Keyframes cho hiệu ứng phóng to thu nhỏ */
-@keyframes pulse {
-    0% {
-        transform: scale(1); /* Kích thước ban đầu */
-    }
-    50% {
-        transform: scale(1.2); /* Phóng to 120% */
-    }
-    100% {
-        transform: scale(1); /* Thu nhỏ về kích thước ban đầu */
-    }
-}
+        /* Keyframes cho hiệu ứng phóng to thu nhỏ và phát sáng */
+        @keyframes pulse {
+            0% {
+                transform: scale(1); /* Kích thước ban đầu */
+                box-shadow: 0 0 0 rgba(255, 214, 0, 0); /* Không có bóng */
+            }
+            50% {
+                transform: scale(1.2); /* Phóng to 120% */
+                box-shadow: 0 0 15px 5px rgba(255, 214, 0, 0.6); /* Viền phát sáng vàng nhẹ */
+            }
+            100% {
+                transform: scale(1); /* Thu nhỏ về kích thước ban đầu */
+                box-shadow: 0 0 0 rgba(255, 214, 0, 0); /* Không có bóng */
+            }
+        }
+
+        /* Chat box styles */
+        .chat-box {
+            position: fixed;
+            bottom: 100px; /* Above the icon */
+            left: 30px;
+            width: 250px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            z-index: 999;
+            animation: fadeInUp 0.5s ease-out;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .chat-box p {
+            margin: 0;
+        }
+
+        /* Pop-up form styles */
+        .popup-form {
+            position: fixed;
+            bottom: 100px; /* Above the icon */
+            left: 30px;
+            width: 300px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            z-index: 1001; /* Above chat box */
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .popup-form h3 {
+            margin: 0 0 15px;
+            font-size: 18px;
+            color: #183051;
+        }
+
+        .popup-form input,
+        .popup-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .popup-form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .popup-form button {
+            background: #183051;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .popup-form button:hover {
+            background: #2a4b7c;
+        }
+
+        .popup-form .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* Animation keyframes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
 
 /* Responsive cho mobile */
 @media (max-width: 768px) {
@@ -780,15 +889,17 @@ h2 {
 }
 
 .card-content {
+    align-items: center;
     padding: 16px;
 }
 
-.card-content h3 {
+.card-content .service-title {
     font-size: 28px;
     margin-bottom: 8px;
+    font-weight: 600;
 }
 
-.card-content p {
+.card-content .service-info {
     font-size: 15px;
     color: #555;
     line-height: 1.3;
