@@ -1,5 +1,55 @@
+/* Sidebar wrapper */
+.sidebar-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 1000;
+}
+
+/* Sidebar toggle (hamburger icon) */
+.sidebar-toggle {
+    position: fixed;
+    top: 25%;
+    width: 40px;
+    height: 40px;
+    background: #183051; /* Màu nền xanh */
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.sidebar-toggle:hover {
+    background: #2a4b7c; /* Xanh nhạt hơn khi hover */
+}
+
+/* Sidebar container */
+.sidebar-service {
+    position: fixed;
+    top: 25%;
+    left: 0;
+    width: 275px;
+    background: #fff;
+    transform: translateX(-100%); /* Ẩn mặc định */ 
+    transition: transform 0.3s ease;
+    border-radius: 8px;
+    overflow-y: auto; /* Allow vertical scrolling if content overflows */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    padding-bottom: 20px; /* Add padding for better spacing */
+}
+
+/* Hiện sidebar khi hover vào wrapper hoặc toggle */
+.sidebar-wrapper:hover .sidebar-service {
+    transform: translateX(0);
+}
+
+/* Header của sidebar */
 .sidebar-header {
-    /*height: 50px;*/
     background: #183051;
     padding: 8px 25px;
     display: flex;
@@ -7,20 +57,19 @@
     font-size: 22px;
     line-height: 34px;
     color: #fff;
-    /*text-transform: uppercase;*/
     margin-bottom: 25px;
-    /*font-weight: bold;*/
 }
 
-.service-menu a:hover,
-.service-menu li.current-menu-item>a,
-.service-menu li.current-menu-parent>a {
-    color: #183051;
-}
-
+/* Menu dịch vụ */
 .service-menu,
 .service-menu ul {
     list-style: none;
+}
+
+.service-menu a:hover,
+.service-menu li.current-menu-item > a,
+.service-menu li.current-menu-parent > a {
+    color: #183051;
 }
 
 .service-menu ul {
@@ -28,52 +77,139 @@
 }
 
 .service-menu img {
-    width: 24px;
+    width: 22px;
     margin-right: 10px;
-    height: 24px;
+    height: 22px;
     object-fit: cover;
 }
 
-.service-menu>li {
+.service-menu > li {
     border-bottom: 1px solid #8B8B8B;
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
 
-.sidebar-service .title p,
-.service-menu>li>a {
+.service-menu > li > a {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding-left: 5px;    
     border-left: 5px solid #FF4F44;
-    display: block;
-    padding-left: 10px;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 30px;
-    font-weight: bold;
+    font-weight: 300;
     color: #8B8B8B;
     margin-bottom: 20px;
-
+    text-decoration: none;
 }
 
-.sidebar-service .title p.collapsed {
-    border-left: none;
-    padding-left: 0px;
+/* Sub-menu */
+.service-menu ul {
+    display: none;
 }
 
-.sidebar-service .title p {
-    cursor: pointer;
+.service-menu li:hover > ul {
+    display: block;
 }
 
-.sidebar-service .card-body {
-    padding-top: 0px;
-}
-
-.sidebar-service .card-body a,
 .service-menu ul a {
     color: #8B8B8B;
     font-size: 18px;
     line-height: 24px;
     display: block;
     padding-bottom: 15px;
+    text-decoration: none;
+}
+
+/* Main content styles */
+.main-content {
+    margin-left: 0;
+    padding: 40px 20px;
+    background: #FFD600;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content .row {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.main-content .item {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.main-content .item:hover {
+    transform: translateY(-5px);
+}
+
+.main-content .item img {
+    max-width: 60px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.main-content .p1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+.main-content .p2 {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.main-content .readmore {
+    display: inline-block;
+    background: #183051;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.main-content .readmore:hover {
+    background: #2a4b7c;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 20px 10px;
+    }
+
+    .main-content .row {
+        gap: 15px;
+    }
+
+    .main-content .item {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .main-content .p1 {
+        font-size: 18px;
+    }
+
+    .main-content .p2 {
+        font-size: 12px;
+    }
+
+    .main-content .readmore {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
 }

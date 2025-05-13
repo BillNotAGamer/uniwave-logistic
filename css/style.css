@@ -733,3 +733,92 @@ h2 {
             }
         }
 
+/*Service page*/
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.service-card {
+    width: 325px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+    transform: translateY(20px); /* Initial position for load animation */
+    opacity: 0; /* Initial opacity for fade-in */
+    animation: fadeInUp 0.6s ease-out forwards; /* Load animation */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover transition */
+}
+
+/* Staggered animation delay for each card */
+.service-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.service-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.service-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+/* Hover effect */
+.service-card:hover {
+    transform: scale(1.05); /* Slight scale-up on hover */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+.service-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 16px;
+}
+
+.card-content h3 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.card-content p {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.3;
+}
+
+.card-content .btn-send {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 16px;
+    color: #fff;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth button transition */
+}
+
+/* Button hover effect */
+.card-content .btn-send:hover {
+    background-color: #555; /* Lighter background on hover */
+    transform: scale(1.1); /* Slight scale-up for button */
+}
+
+/* Keyframes for load animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
