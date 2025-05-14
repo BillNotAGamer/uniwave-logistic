@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sections.forEach(section => observer.observe(section));
 });
 
+// Script cho phần chat-box và popup-form trang home
 document.addEventListener('DOMContentLoaded', function() {
     const iconNeedHelp = document.getElementById('icon-need-help');
     const chatBox = document.getElementById('chat-box');
@@ -47,4 +48,58 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Gọi hàm hiển thị chat-box khi load trang
     showChatBoxTemporarily();
+});
+
+//script cho phần logo slider trang home
+document.addEventListener('DOMContentLoaded', function() {
+    const slider = document.querySelector('.slider');
+    const slides = document.querySelectorAll('.slider img');
+    const totalSlides = slides.length;
+    let currentSlide = 0;
+    const slidesPerView = 4; // Số logo hiển thị mỗi lần
+    let autoSlideInterval;
+
+    // Nhân bản danh sách logo 3 lần để đảm bảo lặp vô tận mượt mà
+    slider.innerHTML += slider.innerHTML + slider.innerHTML;
+
+    // Cập nhật danh sách slides sau khi nhân bản
+    const allSlides = document.querySelectorAll('.slider img');
+    const slideWidth = slides[0].offsetWidth + 40; // Chiều rộng logo + margin
+    const maxSlides = totalSlides; // Số slide gốc
+    const totalWidth = slideWidth * totalSlides * 3; // Tổng chiều rộng slider (sau khi nhân bản 3 lần)
+
+    function moveSlide() {
+        currentSlide++;
+        slider.style.transition = 'transform 0.5s ease-in-out';
+        slider.style.transform = `translateX(-${currentSlide * slideWidth * slidesPerView}px)`;
+
+        // Khi đến gần cuối danh sách nhân bản, reset về vị trí tương ứng trong danh sách gốc
+        if (currentSlide >= maxSlides * 2) {
+            currentSlide = currentSlide - maxSlides;
+            slider.style.transition = 'none';
+            slider.style.transform = `translateX(-${currentSlide * slideWidth * slidesPerView}px)`;
+            // Bật lại transition sau reset
+            setTimeout(() => {
+                slider.style.transition = 'transform 0.5s ease-in-out';
+            }, 50);
+        }
+    }
+
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(moveSlide, 3000); // Dừng 3 giây mỗi slide
+    }
+
+    function stopAutoSlide() {
+        clearInterval(autoSlideInterval);
+    }
+
+    // Khởi động slider
+    startAutoSlide();
+
+    // Tạm dừng khi hover
+    document.querySelector('.slider-container').addEventListener('mouseenter', stopAutoSlide);
+    document.querySelector('.slider-container').addEventListener('mouseleave', startAutoSlide);
+
+    // Điều chỉnh kích thước container để hiển thị đúng số logo
+    document.querySelector('.slider-container').style.maxWidth = `${slideWidth * slidesPerView}px`;
 });
