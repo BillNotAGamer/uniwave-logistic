@@ -68,17 +68,38 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxSlides = totalSlides; // Số slide gốc
     const totalWidth = slideWidth * totalSlides * 3; // Tổng chiều rộng slider (sau khi nhân bản 3 lần)
 
+    function getSlidesPerView() {
+        if (window.innerWidth < 576) return 1; // Mobile: 1 logo
+        if (window.innerWidth >= 576 && window.innerWidth < 992) return 3; // Tablet: 3 logo
+        return 4; // Desktop: 4 logo
+    }
+
+    function updateSlider() {
+        const slidesPerView = getSlidesPerView();
+        const slideWidth = slides[0].offsetWidth + (window.innerWidth < 576 ? 20 : window.innerWidth < 992 ? 30 : 40); // Margin thay đổi theo màn hình
+        const maxSlides = totalSlides;
+
+        // Cập nhật maxWidth của container
+        document.querySelector('.slider-container').style.maxWidth = `${slideWidth * slidesPerView}px`;
+
+        // Cập nhật vị trí slider
+        slider.style.transform = `translateX(-${currentSlide * slideWidth * slidesPerView}px)`;
+    }
+
     function moveSlide() {
+        const slidesPerView = getSlidesPerView();
+        const slideWidth = slides[0].offsetWidth + (window.innerWidth < 576 ? 20 : window.innerWidth < 992 ? 30 : 40);
+        const maxSlides = totalSlides;
+
         currentSlide++;
         slider.style.transition = 'transform 0.5s ease-in-out';
         slider.style.transform = `translateX(-${currentSlide * slideWidth * slidesPerView}px)`;
 
-        // Khi đến gần cuối danh sách nhân bản, reset về vị trí tương ứng trong danh sách gốc
+        // Reset khi gần cuối danh sách nhân bản
         if (currentSlide >= maxSlides * 2) {
             currentSlide = currentSlide - maxSlides;
             slider.style.transition = 'none';
             slider.style.transform = `translateX(-${currentSlide * slideWidth * slidesPerView}px)`;
-            // Bật lại transition sau reset
             setTimeout(() => {
                 slider.style.transition = 'transform 0.5s ease-in-out';
             }, 50);
@@ -102,4 +123,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Điều chỉnh kích thước container để hiển thị đúng số logo
     document.querySelector('.slider-container').style.maxWidth = `${slideWidth * slidesPerView}px`;
+    
+    // Cập nhật slider khi thay đổi kích thước màn hình
+    window.addEventListener('resize', () => {
+        currentSlide = 0; // Reset về đầu để tránh lệch
+        updateSlider();
+        stopAutoSlide();
+        startAutoSlide();
+    });
 });

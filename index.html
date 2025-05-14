@@ -865,16 +865,14 @@
     <!-- 3. Form Nhận báo giá nhanh -->
     <section id="quote-form" class="quote-form">
         <h2>Nhận báo giá nhanh</h2>
-        <form action="mailto:cskh@viettelpost.com.vn" method="post">
+        <form action="mailto:sales@uniwavelogistics.com" method="post">
             <div class="form-group">
-                <label for="province_from">Tỉnh/Thành gửi:</label>
-                <select id="province_from" name="province_from"></select>
-                <select id="listDistrict-from" name="district_from"></select>
-            </div>
-            <div class="form-group">
-                <label for="province_to">Tỉnh/Thành nhận:</label>
-                <select id="province_to" name="province_to"></select>
-                <select id="listDistrict-to" name="district_to"></select>
+				<label>Tuyến vận chuyển *</label>
+                <select class="js-select" id="service">
+                    <option value="10" >Trung Quốc -> Việt Nam</option>
+                    <option value="12" selected>Việt Nam -> Hà Nội</option>
+                    <option value="11" >Việt Nam -> TP.HCM</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="goods_type">Loại hàng:</label>
@@ -926,8 +924,6 @@
             <img src="image/partner/vietnamairline-logo.png" alt="Vietnam Airlines">
         </div>
     </section>
-
-	
 
 	<!-- 6. CTA cuối trang -->
     <section id="cta" class="cta">
