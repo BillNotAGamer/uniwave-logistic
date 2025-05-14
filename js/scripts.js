@@ -13,20 +13,38 @@ document.addEventListener('DOMContentLoaded', () => {
     sections.forEach(section => observer.observe(section));
 });
 
-const icon = document.getElementById('icon-need-help');
-        const chatBox = document.getElementById('chat-box');
-        const popupForm = document.getElementById('popup-form');
-        const closeButton = document.getElementById('close-popup');
+document.addEventListener('DOMContentLoaded', function() {
+    const iconNeedHelp = document.getElementById('icon-need-help');
+    const chatBox = document.getElementById('chat-box');
+    const popupForm = document.getElementById('popup-form');
 
-        function showPopup() {
-            popupForm.style.display = 'block';
+    // Hàm hiển thị chat-box trong 5 giây khi load trang
+    function showChatBoxTemporarily() {
+        chatBox.style.display = 'block';
+        setTimeout(() => {
             chatBox.style.display = 'none';
-        }
+        }, 5000);
+    }
 
-        function hidePopup() {
-            popupForm.style.display = 'none';
-            chatBox.style.display = 'block';
-        }
+    // Hàm toggle popup-form
+    window.togglePopup = function() {
+        popupForm.style.display = popupForm.style.display === 'block' ? 'none' : 'block';
+        chatBox.style.display = 'none'; // Ẩn chat-box khi toggle popup-form
+    }
 
-        icon.addEventListener('click', showPopup);
-        closeButton.addEventListener('click', hidePopup);
+    // Hiển thị chat-box khi click vào icon
+    iconNeedHelp.querySelector('a').addEventListener('click', function(e) {
+        e.preventDefault();
+        chatBox.style.display = 'block';
+        popupForm.style.display = 'none'; // Đảm bảo popup-form ẩn khi click icon
+    });
+
+    // Hiển thị popup-form khi click vào chat-box
+    chatBox.addEventListener('click', function() {
+        chatBox.style.display = 'none';
+        popupForm.style.display = 'block';
+    });
+
+    // Gọi hàm hiển thị chat-box khi load trang
+    showChatBoxTemporarily();
+});

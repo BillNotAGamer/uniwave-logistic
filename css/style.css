@@ -290,7 +290,6 @@ h2 {
 }
 
 /* Định kiểu cho icon-need-help */
-/* Định kiểu cho icon-need-help */
         .icon-need-help {
             position: fixed;
             bottom: 30px; /* Khoảng cách từ dưới lên */
@@ -358,6 +357,16 @@ h2 {
             font-size: 14px;
             color: #333;
             line-height: 1.5;
+        }
+        
+        .chat-box::before {
+           content: '';
+           position: absolute;
+           top: 100%; /* Position below the chat box */
+           left: 20px; /* Adjust as needed to align with chat box */
+           border-width: 10px;
+           border-style: solid;
+           border-color: #fff transparent transparent transparent; /* Triangle pointing up */
         }
 
         .chat-box p {
