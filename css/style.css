@@ -196,6 +196,7 @@ h2 {
 
 .service img {
     width: 100%;
+    padding-bottom: 8px;
     height: auto;
     border-radius: 5px;
 }
