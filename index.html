@@ -12,6 +12,8 @@
 	<link href="./wp-content/themes/uniwave/style.css" rel="stylesheet" type="text/css" />
 	<link href="./wp-content/themes/uniwave/assets/css/support_fixed.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="css/style.css">
+	<!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-T6SLTQSQ9D"></script>
 	<script>
@@ -913,15 +915,46 @@
     </section>
 
     <!-- 5. Đối tác / Khách hàng tiêu biểu -->
-    <section id="partners" class="partners">
-        <h2>Đối tác tiêu biểu</h2>
-        <div class="slider">
-            <img src="image/partner/dhl-logo.png" alt="DHL">
-            <img src="image/partner/fedex-logo.png" alt="FedEx">
-            <img src="image/partner/maersk-logo.png" alt="Maersk">
-            <img src="image/partner/oocl-logo.png" alt="OOCL">
-            <img src="image/partner/sr-logo.png" alt="SR">
-            <img src="image/partner/vietnamairline-logo.png" alt="Vietnam Airlines">
+    <section class="partners">
+		<h2>Đối tác tiêu biểu</h2>
+        <div class="slide-container">
+            <div class="card-wrapper swiper">
+                <div class="swiper-wrapper">
+                    <div class="card swiper-slide">
+                        <div class="image-box">
+                            <img src="image/partner/dhl-logo.png" alt="DHL">
+                        </div>
+                    </div>
+                    <div class="card swiper-slide">
+                        <div class="image-box">
+                            <img src="image/partner/fedex-logo.png" alt="FedEx">
+                        </div>
+                    </div>
+                    <div class="card swiper-slide">
+                        <div class="image-box">
+                            <img src="image/partner/maersk-logo.png" alt="Maersk">
+                        </div>
+                    </div>
+                    <div class="card swiper-slide">
+                        <div class="image-box">
+                            <img src="image/partner/oocl-logo.png" alt="OOCL">
+                        </div>
+                    </div>
+                    <div class="card swiper-slide">
+                        <div class="image-box">
+                            <img src="image/partner/sr-logo.png" alt="SR">
+                        </div>
+                    </div>
+                    <div class="card swiper-slide">
+                        <div class="image-box">
+                            <img src="image/partner/vietnamairline-logo.png" alt="Vietnam Airlines">
+                        </div>
+                    </div>
+                </div>
+                <!-- Navigation buttons -->
+                <div class="swiper-button-prev swiper-navBtn"></div>
+                <div class="swiper-button-next swiper-navBtn"></div>
+            </div>
         </div>
     </section>
 
@@ -1335,6 +1368,36 @@
 
 	<script type="text/javascript" src="js/emoji-support.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper('.swiper', {
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            slidesPerView: 1,
+            spaceBetween: 20,
+            breakpoints: {
+                480: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 40,
+                },
+            },
+        });
+    </script>
 </body>
 <script type="speculationrules">
 {"prefetch":[{"source":"document","where":{"and":[{"href_matches":"\/*"},{"not":{"href_matches":["\/wp-*.php","\/wp-admin\/*","\/wp-content\/uploads\/*","\/wp-content\/*","\/wp-content\/plugins\/*","\/wp-content\/themes\/viettel\/*","\/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
