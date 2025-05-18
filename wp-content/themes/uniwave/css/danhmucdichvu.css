@@ -101,21 +101,54 @@
 }
 
 /* Sub-menu */
-.service-menu ul {
-    display: none;
+.sub-menu {
+    max-height: 0;
+    overflow: hidden;
+    padding-left: 20px;
+    opacity: 0; /* Thêm opacity để ẩn mượt */
+    transform: scaleY(0); /* Sử dụng transform để animation mượt hơn */
+    transform-origin: top;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.3s ease-in-out, 
+                transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.service-menu li:hover > ul {
-    display: block;
+.sub-menu.open {
+    max-height: 500px; /* Giá trị đủ lớn để chứa nội dung (có thể điều chỉnh) */
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+.sub-menu.closing {
+    max-height: 0;
+    opacity: 0;
+    transform: scaleY(0);
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.3s ease-in-out, 
+                transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sub-menu.opening {
+    max-height: 500px; /* Giá trị đủ lớn để chứa nội dung */
+    opacity: 1;
+    transform: scaleY(1);
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.3s ease-in-out, 
+                transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .service-menu ul a {
     color: #8B8B8B;
-    font-size: 18px;
-    line-height: 24px;
+    font-size: 17px;
+    line-height: 23px;
     display: block;
-    padding-bottom: 15px;
+    padding-bottom: 13px;
     text-decoration: none;
+    transition: color 0.3s ease; /* Thêm hiệu ứng khi hover */
+}
+
+.service-menu ul a:hover {
+    color: #000; /* Màu đậm hơn khi hover */
 }
 
 /* Main content styles */
