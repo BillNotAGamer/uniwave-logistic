@@ -831,17 +831,16 @@
 				<div class="banner-content">
 					<h1 class="banner-slogan">Ship Smart. Move Fast.</h1>
 					<div class="banner-buttons">
-						<a href="#quote-form" class="btn banner-btn">Nhận báo giá</a>
+						<a href="price-check.html" class="btn banner-btn">Nhận báo giá</a>
 						<a href="tracking-shipment.html" class="btn banner-btn">Theo dõi đơn hàng</a>
 					</div>
 				</div>
 			</div>
 		</div>
-	</section>
-
+	</section> 
     <!-- 2. Lý do chọn UniWave-->
-    <section id="why-univave" class="why-univave">
-        <h2>Tại sao chọn UniWave?</h2>
+    <section id="why-univave" class="why-univave hidden">
+        <h2>Vì sao nên chọn UniWave?</h2>
         <div class="features">
             <div class="feature">
                 <div class="feature-img-container">
@@ -864,36 +863,8 @@
         </div>
     </section>
 
-    <!-- 3. Form Nhận báo giá nhanh -->
-    <section id="quote-form" class="quote-form">
-        <h2>Nhận báo giá nhanh</h2>
-        <form action="mailto:sales@uniwavelogistics.com" method="post">
-            <div class="form-group">
-				<label>Tuyến vận chuyển *</label>
-                <select class="js-select" id="service">
-                    <option value="10" >Trung Quốc -> Việt Nam</option>
-                    <option value="12" selected>Việt Nam -> Hà Nội</option>
-                    <option value="11" >Việt Nam -> TP.HCM</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="goods_type">Loại hàng:</label>
-                <input type="text" id="goods_type" name="goods_type" placeholder="Nhập loại hàng">
-            </div>
-            <div class="form-group">
-                <label for="trongluong">Khối lượng (kg):</label>
-                <input type="number" id="trongluong" name="trongluong" placeholder="Nhập khối lượng">
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Nhập email của bạn">
-            </div>
-            <button type="submit" class="btn">Gửi báo giá</button>
-        </form>
-    </section>
-
-    <!--  slide-in khi tải trang, hover để nâng card lên -->
-    <section id="services" class="services">
+    <!-- 3. Dịch vụ nổi bật -->
+    <section id="services" class="services hidden">
         <h2>Dịch vụ nổi bật</h2>
         <div class="service-list">
             <div class="service">
@@ -914,8 +885,8 @@
         </div>
     </section>
 
-    <!-- 5. Đối tác / Khách hàng tiêu biểu -->
-    <section class="partners">
+    <!-- 4. Đối tác / Khách hàng tiêu biểu -->
+    <section class="partners hidden">
 		<h2>Đối tác tiêu biểu</h2>
         <div class="slide-container">
             <div class="card-wrapper swiper">
@@ -958,11 +929,13 @@
         </div>
     </section>
 
-	<!-- 6. CTA cuối trang -->
-    <section id="cta" class="cta">
+	<!-- 5. CTA cuối trang -->
+    <section id="cta" class="cta hidden">
         <h2>Sẵn sàng vận chuyển cùng UniWave?</h2>
         <p>Hotline: 19008095</p>
-        <a href="#quote-form" class="btn">Nhận báo giá ngay</a>
+		<button type="submit" class="price-check-btn">
+			<a href="price-check.html">Nhận báo giá ngay</a>
+		</button>
     </section>
 	<!--Main content end-->
 	<!--Footer start-->
@@ -981,7 +954,7 @@
 								<a style="color:#ffff"
 									href="./wp-content/uploads/2023/10/GIAY-PHEP-BUU-CHINH-2017.pdf"
 									target="_blank">
-									Giấy phép kinh doanh
+									Giấy phép FIATA
 								</a>
 							</p>
 
@@ -1029,15 +1002,15 @@
 								</p>
 							</div>
 							<div class="col-5">
-								<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d31349.021799670136!2d106.842186!3d10.839775!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317521001cf9ab09%3A0x7fd16131a048614e!2sUNIWAVE%20LOGISTICS%20COMPANY%20LIMITED!5e0!3m2!1svi!2sus!4v1747196529956!5m2!1svi!2sus" width="400" height="100" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:none;overflow:hidden;border-radius:5px;"></iframe>   							
-    							<div class="badge-container" style="padding-top: 5px;padding-bottom: 5px; display: flex; align-items: center; gap: 10px;">
+								<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d31349.021799670136!2d106.842186!3d10.839775!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317521001cf9ab09%3A0x7fd16131a048614e!2sUNIWAVE%20LOGISTICS%20COMPANY%20LIMITED!5e0!3m2!1svi!2sus!4v1747196529956!5m2!1svi!2sus" width="400" height="100" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:none;overflow:hidden;border-radius:5px;"></iframe>   							   							
+								<iframe class="fanpage" src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/Uniwavelogistics&tabs=timeline&width=400&height=200&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="400" height="100" style="border:none;overflow:hidden;border-radius:5px;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+								<div class="badge-container" style="padding-top: 5px;padding-bottom: 5px; display: flex; align-items: center; gap: 10px;">
         							<a href="https://www.dmca.com/Protection/Status.aspx?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0" title="DMCA.com Protection Status" class="dmca-badge">
 										<img src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0" alt="DMCA.com Protection Status" />
        								</a>
 								<script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"></script>
         						<img src="image/bocongthuong.jpg" alt="" style="max-width: 120px; height: auto; vertical-align: middle; border-radius: 5px;">								
     							</div>
-								<iframe class="fanpage" src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/Uniwavelogistics&tabs=timeline&width=400&height=200&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="400" height="100" style="border:none;overflow:hidden;border-radius:5px;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
 							</div>
 						</div>
 					</div>
@@ -1186,6 +1159,7 @@
 			</ul>
 		</div>
 	</div>
+	
 	<div id="ml-menu-fixed" class="hidden-xs hidden-sm active">
 		<ul>
 			<li><a href="price-check.html" target="_blank">

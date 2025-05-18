@@ -76,13 +76,13 @@ h2 {
     width: 25%;
     padding: 20px;
     text-align: center;
-    opacity: 0;
-    animation: slideUp 0.8s forwards;
+    opacity: 0; /* Ẩn ban đầu */
+    transition: opacity 0.3s ease; /* Thêm transition để ẩn mượt mà */
 }
 
-.feature:nth-child(1) { animation-delay: 0.2s; }
-.feature:nth-child(2) { animation-delay: 0.4s; }
-.feature:nth-child(3) { animation-delay: 0.6s; }
+.why-univave.visible .feature:nth-child(1) { animation: slideUp 0.8s forwards 0.2s; }
+.why-univave.visible .feature:nth-child(2) { animation: slideUp 0.8s forwards 0.4s; }
+.why-univave.visible .feature:nth-child(3) { animation: slideUp 0.8s forwards 0.6s; }
 
 .feature-img-container {
     width: 200px;
@@ -182,13 +182,13 @@ h2 {
     padding: 20px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    opacity: 0;
-    transition: transform 0.3s;
+    opacity: 0; /* Ẩn ban đầu */
+    transition: opacity 0.3s ease, transform 0.3s; /* Thêm transition để ẩn mượt mà */
 }
 
-.service:nth-child(1) { animation: slideLeft 0.8s forwards 0.2s; }
-.service:nth-child(2) { animation: slideUp 0.8s forwards 0.4s; }
-.service:nth-child(3) { animation: slideRight 0.8s forwards 0.6s; }
+.services.visible .service:nth-child(1) { animation: slideLeft 0.8s forwards 0.2s; }
+.services.visible .service:nth-child(2) { animation: slideUp 0.8s forwards 0.4s; }
+.services.visible .service:nth-child(3) { animation: slideRight 0.8s forwards 0.6s; }
 
 .service:hover {
     transform: translateY(-10px);
@@ -213,81 +213,79 @@ h2 {
 
 /* Partners */
 .partners {
-            padding: 40px 20px;
-            background-color: #f8f8f8;
-            text-align: center;
-        }
+    padding: 40px 20px;
+    background-color: #f8f8f8;
+    text-align: center;
+}
 
-        .partners h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
+.partners h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    opacity: 0; /* Ẩn ban đầu */
+    transition: opacity 0.3s ease; /* Thêm transition để ẩn mượt mà */
+}
 
-        .slide-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .card-wrapper {
-            padding: 20px 0;
-        }
-        .card {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            height: 120px;
-        }
-        .image-box {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .image-box img {
-            width: 120px; /* Fixed width */
-            height: 60px; /* Fixed height */
-            object-fit: contain; /* Maintain aspect ratio */
-        }
-        
-        .swiper-navBtn {            
-            color: #000 !important;
-            height: 40px !important;
-            width: 40px !important;
-            background: #fff;
-            border-radius: 50%;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
+.partners.visible h2 {
+    animation: fadeIn 1s forwards;
+}
 
-        .swiper-navBtn::before,
-        .swiper-navBtn::after {
-            font-size: 18px !important;
-            font-weight: 600 !important;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .card {
-                height: 100px;
-            }
-            .image-box img {
-                width: 100px; /* Smaller fixed width */
-                height: 50px; /* Smaller fixed height */
-            }
-        }
-        @media (max-width: 480px) {
-            .card {
-                height: 80px;
-            }
-            .image-box img {
-                width: 80px; /* Smallest fixed width */
-                height: 40px; /* Smallest fixed height */
-            }
-        }
+.slide-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
+.card-wrapper {
+    padding: 20px 0;
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    height: 120px;
+    opacity: 0; /* Ẩn ban đầu */
+    transition: opacity 0.3s ease; /* Thêm transition để ẩn mượt mà */
+}
+
+.partners.visible .card:nth-child(1) { animation: slideUp 0.8s forwards 0.2s; }
+.partners.visible .card:nth-child(2) { animation: slideUp 0.8s forwards 0.4s; }
+.partners.visible .card:nth-child(3) { animation: slideUp 0.8s forwards 0.6s; }
+.partners.visible .card:nth-child(4) { animation: slideUp 0.8s forwards 0.8s; }
+.partners.visible .card:nth-child(5) { animation: slideUp 0.8s forwards 1.0s; }
+.partners.visible .card:nth-child(6) { animation: slideUp 0.8s forwards 1.2s; }
+
+.image-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-box img {
+    width: 120px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.swiper-navBtn {
+    color: #000 !important;
+    height: 40px !important;
+    width: 40px !important;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.swiper-navBtn::before,
+.swiper-navBtn::after {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+}
 
 /* CTA */
 .cta {
@@ -297,25 +295,87 @@ h2 {
     color: white;
 }
 
-.cta h2 {
-    opacity: 0;
+.cta h2, .cta p {
+    opacity: 0; /* Ẩn ban đầu */
+    transition: opacity 0.3s ease; /* Thêm transition để ẩn mượt mà */
+}
+
+.cta.visible h2 {
     animation: fadeIn 1s forwards 0.5s;
 }
 
-.cta p {
-    font-size: 24px;
-    margin-bottom: 20px;
-    opacity: 0;
+.cta.visible p {
     animation: fadeIn 1s forwards 0.7s;
 }
 
-.cta .btn {
+.cta .price-check-btn {
+    transition: opacity 0.3s ease; /* Thêm transition để ẩn mượt mà */
     background: white;
     color: #183051;
+    border-radius: 5px;
+    padding: 15px 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: none;
 }
 
-.cta .btn:hover {
+.cta.visible .price-check-btn {
+    animation: fadeIn 1s forwards 0.9s;
+}
+
+.cta .price-check-btn a {
+    color: #183051;
+    text-decoration: none;
+}
+
+.cta .price-check-btn:hover {
     animation: bounce 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes bounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .features, .service-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .feature, .service {
+        width: 80%;
+    }
+
+    .card {
+        height: 100px;
+    }
+
+    .image-box img {
+        width: 100px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .feature, .service {
+        width: 90%;
+    }
+
+    .card {
+        height: 80px;
+    }
+
+    .image-box img {
+        width: 80px;
+        height: 40px;
+    }
 }
 
 @keyframes bounce {
@@ -345,6 +405,7 @@ h2 {
     .slider img { margin: 0 auto; }
     .cta p { font-size: 18px; }
 }
+
 
 /* Định kiểu cho icon-need-help */
         .icon-need-help {
@@ -569,6 +630,7 @@ h2 {
 /* Container form */
 .container-form-tracking {
     background: #192a56; /* Nền xanh */
+    animation: fadeIn 1s forwards;
     border-radius: 12px;
     padding: 25px 40px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);

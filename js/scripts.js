@@ -1,11 +1,14 @@
+// Script trang home
 document.addEventListener('DOMContentLoaded', () => {
-    // Kích hoạt animation khi scroll (nếu cần)
-    const sections = document.querySelectorAll('.banner, .why-univave, .quote-form, .services, .partners, .cta');
+    const sections = document.querySelectorAll('.why-univave, .services, .partners, .cta');
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+            }
+            else {
+                entry.target.classList.remove('visible'); // Ẩn lại khi không còn trong viewport
             }
         });
     }, { threshold: 0.1 });
@@ -35,9 +38,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Hiển thị chat-box khi click vào icon
     iconNeedHelp.querySelector('a').addEventListener('click', function(e) {
-        e.preventDefault();
-        chatBox.style.display = 'block';
-        popupForm.style.display = 'none'; // Đảm bảo popup-form ẩn khi click icon
+        e.preventDefault();      
+        popupForm.style.display = 'block';
+        if (popupForm.style.display === 'block') {
+            chatBox.style.display = 'none';
+        }
     });
 
     // Hiển thị popup-form khi click vào chat-box
@@ -45,6 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
         chatBox.style.display = 'none';
         popupForm.style.display = 'block';
     });
+
+    
 
     // Gọi hàm hiển thị chat-box khi load trang
     showChatBoxTemporarily();
