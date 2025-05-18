@@ -40,7 +40,7 @@
     border-radius: 8px;
     overflow-y: auto; /* Allow vertical scrolling if content overflows */
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-    padding-bottom: 20px; /* Add padding for better spacing */
+    padding-bottom: 10px; /* Add padding for better spacing */
 }
 
 /* Hiện sidebar khi hover vào wrapper hoặc toggle */

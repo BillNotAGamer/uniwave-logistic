@@ -1006,7 +1006,7 @@ h2 {
 
     .input-tracking {
         font-size: 12px;
-        height: 36px;
+        height: 36px;   
         padding-left: 10px;
     }
 
@@ -1104,7 +1104,7 @@ h2 {
             }
 
             .fanpage {
-                height: 150px; /* Giảm chiều cao iframe trên màn hình nhỏ */
+                height: 100px; /* Giảm chiều cao iframe trên màn hình nhỏ */
             }
 
             .badge-container {

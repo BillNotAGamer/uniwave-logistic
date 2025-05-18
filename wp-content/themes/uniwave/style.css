@@ -11402,3 +11402,18 @@ footer {
         font-size: 12px;
     }
 }
+
+@media (max-width: 535px) {
+    #bn .banner-slogan {
+        font-size: 14px;
+        padding-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #bn .banner-btn {
+        padding: 3px 9px;
+        font-size: 9px;
+        margin: 5px auto;
+        gap: 7px;
+    }
+}
