@@ -1375,16 +1375,17 @@ h2 {
 }
 
 /*Fully custom sign-up page*/
-.sign-up-area {
+.auth-area {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: auto;  
+    padding: 25px;
     background: linear-gradient(45deg, #1e3c72, #2a5298);
     overflow: hidden;
 }
 
-.reg-container {
+.auth-container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
@@ -1396,7 +1397,7 @@ h2 {
             overflow: hidden;
         }
 
-        .reg-container::before {
+        .auth-container::before {
             content: '';
             position: absolute;
             top: -50%;
@@ -1404,15 +1405,54 @@ h2 {
             width: 200%;
             height: 200%;
             background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
-            animation: reg-rotate 15s linear infinite;
+            animation: auth-rotate 15s linear infinite;
         }
 
-        @keyframes reg-rotate {
+        @keyframes auth-rotate {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        .reg-title {
+        .auth-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .auth-tab {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .auth-tab.active {
+            color: #ff8e53;
+        }
+
+        .auth-tab-slider {
+            position: absolute;
+            bottom: 0;
+            height: 3px;
+            background: #ff8e53;
+            transition: all 0.3s ease;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .auth-title {
             color: #fff;
             text-align: center;
             margin-bottom: 30px;
@@ -1421,12 +1461,12 @@ h2 {
             letter-spacing: 2px;
         }
 
-        .reg-form-group {
+        .reg-form-group, .login-form-group {
             margin-bottom: 25px;
             position: relative;
         }
 
-        .reg-form-group input {
+        .reg-form-group input, .login-form-group input {
             width: 100%;
             padding: 12px 20px;
             background: rgba(255, 255, 255, 0.2);
@@ -1438,12 +1478,12 @@ h2 {
             transition: all 0.3s ease;
         }
 
-        .reg-form-group input:focus {
+        .reg-form-group input:focus, .login-form-group input:focus {
             background: rgba(255, 255, 255, 0.3);
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
         }
 
-        .reg-form-group label {
+        .reg-form-group label, .login-form-group label {
             position: absolute;
             top: 50%;
             left: 20px;
@@ -1455,7 +1495,9 @@ h2 {
         }
 
         .reg-form-group input:focus ~ label,
-        .reg-form-group input:not(:placeholder-shown) ~ label {
+        .reg-form-group input:not(:placeholder-shown) ~ label,
+        .login-form-group input:focus ~ label,
+        .login-form-group input:not(:placeholder-shown) ~ label {
             top: -10px;
             left: 15px;
             font-size: 0.8em;
@@ -1464,7 +1506,7 @@ h2 {
             border-radius: 5px;
         }
 
-        .reg-checkbox-group {
+        .reg-checkbox-group, .login-checkbox-group {
             margin-bottom: 20px;
             display: flex;
             align-items: center;
@@ -1472,11 +1514,11 @@ h2 {
             font-size: 0.9em;
         }
 
-        .reg-checkbox-group input {
+        .reg-checkbox-group input, .login-checkbox-group input {
             margin-right: 10px;
         }
 
-        .reg-btn {
+        .reg-btn, .login-btn {
             width: 100%;
             padding: 15px;
             background: linear-gradient(45deg, #ff6b6b, #ff8e53);
@@ -1490,13 +1532,13 @@ h2 {
             transition: all 0.3s ease;
         }
 
-        .reg-btn:hover {
+        .reg-btn:hover, .login-btn:hover {
             background: linear-gradient(45deg, #ff8e53, #ff6b6b);
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(255, 107, 107, 0.5);
         }
 
-        .reg-google-btn {
+        .reg-google-btn, .login-google-btn {
             width: 100%;
             padding: 15px;
             background: #fff;
@@ -1512,65 +1554,70 @@ h2 {
             transition: all 0.3s ease;
         }
 
-        .reg-google-btn img {
+        .reg-google-btn img, .login-google-btn img {
             width: 20px;
             margin-right: 10px;
         }
 
-        .reg-google-btn:hover {
+        .reg-google-btn:hover, .login-google-btn:hover {
             background: #f1f1f1;
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .reg-login-link {
+        .reg-link, .login-link {
             text-align: center;
             margin-top: 20px;
             color: #fff;
             font-size: 0.9em;
         }
 
-        .reg-login-link a {
+        .reg-link a, .login-link a {
             color: #ff8e53;
             text-decoration: none;
             font-weight: 600;
         }
 
-        .reg-login-link a:hover {
+        .reg-link a:hover, .login-link a:hover {
             text-decoration: underline;
         }
 
-        .reg-particles {
+        .auth-particles {
             position: absolute;
             width: 100%;
             height: 100%;
             pointer-events: none;
         }
 
-        .reg-particle {
+        .auth-particle {
             position: absolute;
             width: 5px;
             height: 5px;
             background: #fff;
             border-radius: 50%;
             opacity: 0.3;
-            animation: reg-float 5s infinite;
+            animation: auth-float 5s infinite;
         }
 
-        @keyframes reg-float {
+        @keyframes auth-float {
             0% { transform: translateY(0); opacity: 0.3; }
             50% { opacity: 0.7; }
             100% { transform: translateY(-100vh); opacity: 0; }
         }
 
         @media (max-width: 500px) {
-            .reg-container {
+            .auth-container {
                 padding: 20px;
                 margin: 20px;
             }
 
-            .reg-title {
+            .auth-title {
                 font-size: 1.5em;
+            }
+
+            .auth-tab {
+                font-size: 1em;
+                padding: 8px 15px;
             }
         }
 /*Fully custom sign-up page*/

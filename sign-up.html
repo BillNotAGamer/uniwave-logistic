@@ -821,12 +821,18 @@
 
 
 	<!--Main content start-->
-	<section class="sign-up-area">
-		<div class="reg-particles" id="reg-particles"></div>
-		<div class="reg-container">
-			<h1 class="reg-title">Đăng Ký</h1>
-			<form id="reg-register-form">
-				<div class="reg-form-group">
+	<section class="auth-area">		
+		<div class="auth-particles" id="auth-particles"></div>
+		<div class="auth-container">
+			<div class="auth-tabs">
+				<button class="auth-tab active" data-form="reg-form">Đăng Ký</button>
+				<button class="auth-tab" data-form="login-form">Đăng Nhập</button>
+				<div class="auth-tab-slider"></div>
+			</div>
+			<div class="auth-form active" id="reg-form">
+				<h1 class="auth-title">Đăng Ký</h1>
+				<form id="reg-auth-form">
+					<div class="reg-form-group">
 					<input type="text" id="reg-username" placeholder=" " required>
 					<label for="reg-username">Họ và Tên</label>
 				</div>
@@ -846,22 +852,47 @@
 					<input type="password" id="reg-confirmpassword" placeholder=" " required>
 					<label for="reg-confirmpassword">Xác nhận mật khẩu</label>
 				</div>
-				<div class="reg-checkbox-group">
-					<input type="checkbox" id="reg-terms" required>
-					<label for="reg-terms">Tôi đồng ý với <a href="#" style="color: #ff8e53;">chính sách bảo mật</a> và <a href="#" style="color: #ff8e53;">điều khoản</a></label>
+					<div class="reg-checkbox-group">
+						<input type="checkbox" id="reg-terms" required>
+						<label for="reg-terms">Tôi đồng ý với <a href="#" style="color: #ff8e53;">chính sách bảo mật</a> và <a href="#" style="color: #ff8e53;">điều khoản</a></label>
+					</div>
+					<button type="submit" class="reg-btn">Đăng Ký Ngay</button>
+					<button type="button" class="reg-google-btn">
+						<img src="https://www.google.com/favicon.ico" alt="Google Icon">
+						Đăng nhập bằng Google
+					</button>
+				</form>
+				<div class="reg-link">
+					Đã có tài khoản? <a href="#" class="auth-switch" data-form="login-form">Đăng nhập</a>
 				</div>
-				<button type="submit" class="reg-btn">Đăng Ký Ngay</button>
-				<button type="button" class="reg-google-btn">
-					<img src="https://www.google.com/favicon.ico" alt="Google Icon">
-					Đăng nhập bằng Google
-				</button>
-			</form>
-			<div class="reg-login-link">
-				Đã có tài khoản? <a href="#">Đăng nhập</a>
+			</div>
+			<div class="auth-form" id="login-form">
+				<h1 class="auth-title">Đăng Nhập</h1>
+				<form id="login-auth-form">
+					<div class="login-form-group">
+						<input type="email" id="login-email" placeholder=" " required>
+						<label for="login-email">Email</label>
+					</div>
+					<div class="login-form-group">
+						<input type="password" id="login-password" placeholder=" " required>
+						<label for="login-password">Mật khẩu</label>
+					</div>
+					<div class="login-checkbox-group">
+						<input type="checkbox" id="login-remember">
+						<label for="login-remember">Ghi nhớ đăng nhập</label>
+					</div>
+					<button type="submit" class="login-btn">Đăng Nhập</button>
+					<button type="button" class="login-google-btn">
+						<img src="https://www.google.com/favicon.ico" alt="Google Icon">
+						Đăng nhập bằng Google
+					</button>
+				</form>
+				<div class="login-link">
+					Chưa có tài khoản? <a href="#" class="auth-switch" data-form="reg-form">Đăng ký</a>
+				</div>
 			</div>
 		</div>
 	</section>
-	
 	<!--Main content end-->
 	<!--Footer start-->
 	<footer>
@@ -1260,15 +1291,23 @@
 	<script type="text/javascript" src="js/scripts.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
-        // Animation GSAP
-        gsap.from(".reg-container", {
+        // Initial GSAP animations
+        gsap.from(".auth-container", {
             opacity: 0,
             y: 100,
             duration: 1,
             ease: "power3.out"
         });
 
-        gsap.from(".reg-form-group, .reg-checkbox-group", {
+        gsap.from(".auth-tabs", {
+            opacity: 0,
+            y: -20,
+            delay: 0.3,
+            duration: 0.8,
+            ease: "power2.out"
+        });
+
+        gsap.from(".reg-form-group, .reg-checkbox-group, .login-form-group, .login-checkbox-group", {
             opacity: 0,
             x: -50,
             stagger: 0.2,
@@ -1277,7 +1316,7 @@
             ease: "power2.out"
         });
 
-        gsap.from(".reg-btn, .reg-google-btn", {
+        gsap.from(".reg-btn, .reg-google-btn, .login-btn, .login-google-btn", {
             scale: 0.8,
             stagger: 0.2,
             delay: 1,
@@ -1285,7 +1324,7 @@
             ease: "elastic.out(1, 0.3)"
         });
 
-        gsap.from(".reg-login-link", {
+        gsap.from(".reg-link, .login-link", {
             opacity: 0,
             y: 20,
             delay: 1.2,
@@ -1294,37 +1333,100 @@
         });
 
         // Particles animation
-        const particlesContainer = document.getElementById('reg-particles');
+        const particlesContainer = document.getElementById('auth-particles');
         for (let i = 0; i < 50; i++) {
             const particle = document.createElement('div');
-            particle.classList.add('reg-particle');
+            particle.classList.add('auth-particle');
             particle.style.left = `${Math.random() * 100}%`;
             particle.style.animationDelay = `${Math.random() * 5}s`;
             particlesContainer.appendChild(particle);
         }
 
+        // Tab switching logic
+        const tabs = document.querySelectorAll('.auth-tab');
+        const forms = document.querySelectorAll('.auth-form');
+        const tabSlider = document.querySelector('.auth-tab-slider');
+        const switchLinks = document.querySelectorAll('.auth-switch');
+
+        function switchForm(targetFormId) {
+            forms.forEach(form => {
+                if (form.id === targetFormId) {
+                    form.classList.add('active');
+                    gsap.fromTo(form, 
+                        { opacity: 0, x: 50 }, 
+                        { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }
+                    );
+                } else {
+                    gsap.to(form, {
+                        opacity: 0,
+                        x: -50,
+                        duration: 0.5,
+                        ease: "power2.out",
+                        onComplete: () => form.classList.remove('active')
+                    });
+                }
+            });
+
+            tabs.forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.form === targetFormId);
+            });
+
+            const activeTab = document.querySelector(`.auth-tab[data-form="${targetFormId}"]`);
+            tabSlider.style.width = `${activeTab.offsetWidth}px`;
+            tabSlider.style.left = `${activeTab.offsetLeft}px`;
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => switchForm(tab.dataset.form));
+        });
+
+        switchLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchForm(link.dataset.form);
+            });
+        });
+
+        // Initial tab slider position
+        const initialTab = document.querySelector('.auth-tab.active');
+        tabSlider.style.width = `${initialTab.offsetWidth}px`;
+        tabSlider.style.left = `${initialTab.offsetLeft}px`;
+
         // Form submission
-        document.getElementById('reg-register-form').addEventListener('submit', (e) => {
+        document.getElementById('reg-auth-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const username = document.getElementById('reg-username').value;
-			const phoneNumber = document.getElementById('reg-phonenumber').value;
             const email = document.getElementById('reg-email').value;
             const password = document.getElementById('reg-password').value;
-			const confirmPassword = document.getElementById('reg-confirmpassword').value;
             const terms = document.getElementById('reg-terms').checked;
 
-            // Simple validation
             if (username && email && password && terms) {
                 alert('Đăng ký thành công!');
-                document.getElementById('reg-register-form').reset();
+                document.getElementById('reg-auth-form').reset();
             } else {
                 alert('Vui lòng điền đầy đủ thông tin và đồng ý với điều khoản!');
             }
         });
 
+        document.getElementById('login-auth-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const remember = document.getElementById('login-remember').checked;
+
+            if (email && password) {
+                alert(`Đăng nhập thành công! Ghi nhớ: ${remember ? 'Có' : 'Không'}`);
+                document.getElementById('login-auth-form').reset();
+            } else {
+                alert('Vui lòng điền đầy đủ thông tin!');
+            }
+        });
+
         // Google login button (placeholder)
-        document.querySelector('.reg-google-btn').addEventListener('click', () => {
-            alert('Tính năng đăng nhập bằng Google đang được phát triển!');
+        document.querySelectorAll('.reg-google-btn, .login-google-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert('Tính năng đăng nhập bằng Google đang được phát triển!');
+            });
         });
     </script>
 <script type="speculationrules">
