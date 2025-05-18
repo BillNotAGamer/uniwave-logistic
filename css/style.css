@@ -476,7 +476,7 @@ h2 {
             color: #333;
             line-height: 1.5;
         }
-        
+
         .chat-box::before {
            content: '';
            position: absolute;
@@ -1215,3 +1215,215 @@ h2 {
         font-size: 0.9em;
     }
 }
+
+.al-tcgckt {
+    list-style-type: none;
+    padding-left: 0; /* Xóa khoảng cách mặc định bên trái */
+}
+
+.al-tcgckt li {
+    float: left;
+    width: 33.33%;
+    padding-right: 5px;
+}
+
+/*Fully custom sign-up page*/
+.sign-up-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(45deg, #1e3c72, #2a5298);
+    overflow: hidden;
+}
+
+.reg-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reg-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+            animation: reg-rotate 15s linear infinite;
+        }
+
+        @keyframes reg-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .reg-title {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .reg-form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .reg-form-group input {
+            width: 100%;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .reg-form-group input:focus {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        .reg-form-group label {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 0.9em;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .reg-form-group input:focus ~ label,
+        .reg-form-group input:not(:placeholder-shown) ~ label {
+            top: -10px;
+            left: 15px;
+            font-size: 0.8em;
+            background: #2a5298;
+            padding: 0 5px;
+            border-radius: 5px;
+        }
+
+        .reg-checkbox-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            font-size: 0.9em;
+        }
+
+        .reg-checkbox-group input {
+            margin-right: 10px;
+        }
+
+        .reg-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 1.1em;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .reg-btn:hover {
+            background: linear-gradient(45deg, #ff8e53, #ff6b6b);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.5);
+        }
+
+        .reg-google-btn {
+            width: 100%;
+            padding: 15px;
+            background: #fff;
+            border: none;
+            border-radius: 50px;
+            color: #333;
+            font-size: 1em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .reg-google-btn img {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        .reg-google-btn:hover {
+            background: #f1f1f1;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .reg-login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #fff;
+            font-size: 0.9em;
+        }
+
+        .reg-login-link a {
+            color: #ff8e53;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .reg-login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .reg-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .reg-particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: reg-float 5s infinite;
+        }
+
+        @keyframes reg-float {
+            0% { transform: translateY(0); opacity: 0.3; }
+            50% { opacity: 0.7; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        @media (max-width: 500px) {
+            .reg-container {
+                padding: 20px;
+                margin: 20px;
+            }
+
+            .reg-title {
+                font-size: 1.5em;
+            }
+        }
+/*Fully custom sign-up page*/

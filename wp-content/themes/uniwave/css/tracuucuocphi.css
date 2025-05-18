@@ -36,10 +36,11 @@
 	margin-bottom: 15px;
 }
 .form-tracuu{
-	
+	background: #f0f0f0;
+	border-radius: 5px;
+	padding: 20px 20px 20px 20px;
 }
 .form-tracuu .form-group{
-	background-color: #f9f9f9;
 	padding: 10px 20px;
 	display: block;
 	margin-bottom: 10px;
@@ -57,14 +58,7 @@
 	height: 40px;
 	border-radius: 0px;
 }
-.form-tracuu .box1{
-	/*width: 50%;*/
-	/*display: flex;
-	justify-content: space-between;*/
-}
-.form-tracuu .box1 > div{
-	/*width: 50%;*/
-}
+
 .form-tracuu .select2-container--default .select2-selection--single .select2-selection__rendered{
 	line-height: 40px;
 }
@@ -72,6 +66,14 @@
 	height: 40px;
 }
 .form-tracuu .form-group input[type="number"] {
+	border-radius: 0px;
+	border: 1px solid #ccc;
+	height: 40px;
+	border-radius: 5px;
+	width: 100%;
+	padding-left: 10px;
+}
+.form-tracuu .form-group input[type="text"] {
 	border-radius: 0px;
 	border: 1px solid #ccc;
 	height: 40px;
@@ -90,9 +92,11 @@
     font-weight: bold;
     letter-spacing: 2px;
     cursor: pointer;
+	border-radius: 5px;
 }
 .form-tracuu button.btn-tracuu:hover{
 	opacity: 0.8;
+	transition: all 0.3s ease;
 }
 .box-results table{
 	margin-bottom: 40px;
@@ -101,7 +105,7 @@
 }
 
 .form-tracuu .form-group textarea {
-	width: 100%;
+	  width: 100%;
       padding: 5px;
       margin-top: 5px;
       border-radius: 8px;
