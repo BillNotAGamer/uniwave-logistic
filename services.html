@@ -13,6 +13,8 @@
 	<link href="./wp-content/themes/uniwave/style.css" rel="stylesheet" type="text/css" />
 	<link href="./wp-content/themes/uniwave/assets/css/support_fixed.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="css/style.css">
+	<!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-T6SLTQSQ9D"></script>
 	<script>
@@ -102,24 +104,6 @@
 	<link rel='stylesheet' id='wp-block-library-css'
 		href='https://viettelpost.com.vn/wp-includes/css/dist/block-library/style.min.css' type='text/css'
 		media='all' />
-	<style id='classic-theme-styles-inline-css' type='text/css'>
-		/*! This file is auto-generated */
-		.wp-block-button__link {
-			color: #fff;
-			background-color: #32373c;
-			border-radius: 9999px;
-			box-shadow: none;
-			text-decoration: none;
-			padding: calc(.667em + 2px) calc(1.333em + 2px);
-			font-size: 1.125em
-		}
-
-		.wp-block-file__button {
-			background: #32373c;
-			color: #fff;
-			text-decoration: none
-		}
-	</style>
 	<style id='global-styles-inline-css' type='text/css'>
 		:root {
 			--wp--preset--aspect-ratio--square: 1;
@@ -445,9 +429,6 @@
 			line-height: 1.6;
 		}
 	</style>
-	<link rel='stylesheet' id='contact-form-7-css'
-		href='./wp-content/plugins/contact-form-7/includes/css/styles.css' type='text/css'
-		media='all' />
 	<script type="text/javascript" src="https://viettelpost.com.vn/wp-includes/js/jquery/jquery.min.js"
 		id="jquery-core-js"></script>
 	<script type="text/javascript" src="https://viettelpost.com.vn/wp-includes/js/jquery/jquery-migrate.min.js"
@@ -464,27 +445,9 @@
 	<link rel="alternate" title="JSON" type="application/json"
 		href="https://viettelpost.com.vn/wp-json/wp/v2/pages/816" />
 	<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://viettelpost.com.vn/xmlrpc.php?rsd" />
-
 	<link rel='shortlink' href='https://viettelpost.com.vn/' />
-	<link rel="alternate" title="oNhúng (JSON)" type="application/json+oembed"
-		href="https://viettelpost.com.vn/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fviettelpost.com.vn%2F" />
-	<link rel="alternate" title="oNhúng (XML)" type="text/xml+oembed"
-		href="https://viettelpost.com.vn/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fviettelpost.com.vn%2F&#038;format=xml" />
 </head>
-
 <body>
-	<!-- Google Tag Manager (noscript) -->
-	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PB6MTBRX" height="0" width="0"
-			style="display:none;visibility:hidden"></iframe></noscript>
-	<!-- End Google Tag Manager (noscript) -->
-	<header>
-
-<body>
-	<!-- Google Tag Manager (noscript) -->
-	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PB6MTBRX" height="0" width="0"
-			style="display:none;visibility:hidden"></iframe></noscript>
-	<!-- End Google Tag Manager (noscript) -->
-
 	<style>
 		.main-mn {}
 
@@ -595,10 +558,6 @@
 						</a>
 					</div>
 					<div class="col-md-3 form-hd col-right">
-						<form action="/" method="get" style="display:none">
-							<input type="text" placeholder="Tìm kiếm" name="s">
-							<button type="submit" value=""><i class="fa fa-search"></i></button>
-						</form>
 						<ul class="login">
 							<li><a href="sign-up.html" target="_blank">Đăng ký / Đăng nhập</a></li>
 						</ul>
@@ -734,7 +693,7 @@
 
 	<!--Banner start-->	
 	<div class="section-banner">
-		<img src="https://viettelpost.com.vn/wp-content/themes/viettel/images/page-banner.jpg" class="w-100">
+		<img src="./image/long-banner.png" class="w-100">
 		<div class="content">
 			<div>
 				<p>UNIWAVE LOGISTICS</p>
@@ -916,9 +875,8 @@
 								<h4>Thông Tin Công Ty</h>
 								<p></p>
 								<p style="font-weight: normal;"><i class="fa fa-map-marker"></i>Trụ sở công ty: T2-26 The Manhattan – Vinhomes Grand Park, 512 Nguyễn Xiển, Long Bình, TP. Thủ Đức</p>
-								<ul><i class="fa fa-envelope"></i><a style="color:white"
-									href="mailto:sales@uniwavelogistics.com">sales@uniwavelogistics.com</a></ul>
-								<p class="hotline"><img
+								<p style="font-weight: normal;"><i class="fa fa-envelope"></i><a style="color:white" href="mailto:sales@uniwavelogistics.com">sales@uniwavelogistics.com</a></p>			
+								<p class="hotline-footer"><img
 									src="./wp-content/themes/viettel/assets/images/ic-phone.png"
 									alt="">
 								<a href="" style="color: #fff;">
@@ -926,8 +884,8 @@
 								</p>
 							</div>
 							<div class="col-5">
-								<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d31349.021799670136!2d106.842186!3d10.839775!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317521001cf9ab09%3A0x7fd16131a048614e!2sUNIWAVE%20LOGISTICS%20COMPANY%20LIMITED!5e0!3m2!1svi!2sus!4v1747196529956!5m2!1svi!2sus" width="400" height="100" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:none;overflow:hidden;border-radius:5px;"></iframe>   							   							
 								<iframe class="fanpage" src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/Uniwavelogistics&tabs=timeline&width=400&height=200&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="400" height="100" style="border:none;overflow:hidden;border-radius:5px;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+								<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d31349.021799670136!2d106.842186!3d10.839775!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317521001cf9ab09%3A0x7fd16131a048614e!2sUNIWAVE%20LOGISTICS%20COMPANY%20LIMITED!5e0!3m2!1svi!2sus!4v1747196529956!5m2!1svi!2sus" width="400" height="100" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:none;overflow:hidden;border-radius:5px;"></iframe>
 								<div class="badge-container" style="padding-top: 5px;padding-bottom: 5px; display: flex; align-items: center; gap: 10px;">
         							<a href="https://www.dmca.com/Protection/Status.aspx?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0" title="DMCA.com Protection Status" class="dmca-badge">
 										<img src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0" alt="DMCA.com Protection Status" />
@@ -950,138 +908,114 @@
 				onclick="jQuery('html,body').animate({scrollTop: 0},1000);"><img
 					src="./wp-content/themes/viettel/assets/images/back-top.png"
 					alt="bactop" /></a><span>Về đầu trang</span>
-		</div>		
+		</div>
 	</footer>
 	<!--Footer end-->
 
 	<div class="menu_mb">
-		<div class="divmm">
-			<span id="close"><img src="./wp-content/themes/uniwave/assets/images/close.png"
-					alt=""></span>
-			<div class="menu-main-menu-container">
-				<ul id="menu-main-menu-1" class="main-mn">
-					<li
-						class="menu-item">
-						<a href="index.html" aria-current="page">Trang chủ</a></li>
-					<livn
-						class="megaparent menu-item menu-item-type-taxonomy menu-item-object-danh_muc_dich_vu menu-item-has-children menu-item-12490">
-						<a href="services.html">Dịch vụ</a>
-						<ul class="sub-menu">
-							<li
-								class="menu-item menu-item-type-taxonomy menu-item-object-danh_muc_dich_vu menu-item-has-children menu-item-15898">
-								<a href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/dich-vu-trong-nuoc/">Dịch
-									vụ trong nước</a>
-								<ul class="sub-menu">
-									<li
-										class="menu-item menu-item-type-post_type menu-item-object-dich_vu menu-item-12487">
-										<a href="https://viettelpost.com.vn/dich_vu/chuyen-phat-tai-lieu/">Chuyển phát
-											nhanh hàng hóa, tài liệu</a></li>
-									<li
-										class="menu-item menu-item-type-post_type menu-item-object-dich_vu menu-item-12060">
-										<a href="https://viettelpost.com.vn/dich_vu/van-chuyen-hoa-toc/">Chuyển phát Hoả
-											tốc, hẹn giờ</a></li>
-									<li
-										class="menu-item menu-item-type-post_type menu-item-object-dich_vu menu-item-13510">
-										<a href="https://viettelpost.com.vn/dich_vu/chuyen-phat-thuong-mai-dien-tu/">Chuyển
-											phát Thương mại điện tử</a></li>
-									<li
-										class="menu-item menu-item-type-post_type menu-item-object-dich_vu menu-item-13511">
-										<a href="https://viettelpost.com.vn/dich_vu/chuyen-phat-tiet-kiem/">Chuyển phát
-											Tiết kiệm hàng hóa</a></li>
-									<li
-										class="menu-item menu-item-type-post_type menu-item-object-dich_vu menu-item-13509">
-										<a href="https://viettelpost.com.vn/dich_vu/phan-loai-hang-dac-biet/">Phân loại
-											hàng hóa đặc biệt</a></li>
-									<li
-										class="menu-item menu-item-type-post_type menu-item-object-dich_vu menu-item-12488">
-										<a href="https://viettelpost.com.vn/dich_vu/dich-vu-cong-them/">Dịch vụ cộng
-											thêm</a></li>
-									<li
-										class="menu-item menu-item-type-taxonomy menu-item-object-danh_muc_dich_vu menu-item-15979">
-										<a
-											href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/quan-ly-chat-luong-dich-vu/">Quản
-											lý chất lượng dịch vụ</a></li>
-									<li
-										class="mega_more menu-item menu-item-type-taxonomy menu-item-object-danh_muc_dich_vu menu-item-12074">
-										<a
-											href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/dich-vu-trong-nuoc/">Xem
-											thêm</a></li>
-								</ul>
-							</li>
-							<li
-								class="mega menu-item menu-item-type-taxonomy menu-item-object-danh_muc_dich_vu menu-item-has-children menu-item-12492">
-								<a href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/dich-vu-quoc-te/">Dịch vụ
-									quốc tế</a>
-								<ul class="sub-menu">
-									<li
-										class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-13966">
-										<a href="https://viettelpost.com.vn/tin-moi-nhat/">Tin mới nhất</a></li>
-									<li
-										class="menu-item menu-item-type-post_type menu-item-object-dich_vu menu-item-12957">
-										<a
-											href="https://viettelpost.com.vn/dich_vu/chuyen-phat-quoc-te-chi-dinh-hang-ups/">Chuyển
-											Phát Quốc Tế UPS</a></li>
-									<li
-										class="menu-item menu-item-type-post_type menu-item-object-dich_vu menu-item-12062">
-										<a href="https://viettelpost.com.vn/dich_vu/chuyen-phat-quoc-te-chi-dinh-hang/">Chuyển
-											phát Quốc tế DHL</a></li>
-									<li
-										class="menu-item menu-item-type-post_type menu-item-object-dich_vu menu-item-12063">
-										<a href="https://viettelpost.com.vn/dich_vu/chuyen-phat-quoc-te-nhanh/">Chuyển
-											phát Quốc tế VQN</a></li>
-									<li
-										class="menu-item menu-item-type-post_type menu-item-object-page menu-item-14730">
-										<a href="https://viettelpost.com.vn/dich-vu-thong-quan/">Dịch vụ thông quan</a>
-									</li>
-									<li
-										class="mega_more menu-item menu-item-type-taxonomy menu-item-object-danh_muc_dich_vu menu-item-12076">
-										<a href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/dich-vu-quoc-te/">Xem
-											thêm</a></li>
-								</ul>
-							</li>
-						</ul>
-					</li>
-					
-					<li
-						class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-9439">
-						<a href="https://viettelpost.com.vn/tin-tuc/">Theo dõi đơn hàng</a>
-						<ul class="sub-menu">
-							<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-9442"><a
-									href="https://viettelpost.com.vn/tin-hoat-dong/">Tin hoạt động</a></li>
-							<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-9441"><a
-									href="https://viettelpost.com.vn/tin-khuyen-mai/">Tin khuyến mãi</a></li>
-							<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-9440"><a
-									href="https://viettelpost.com.vn/tin-dau-thau/">Tin đấu thầu</a></li>
-							<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-9443"><a
-									href="https://viettelpost.com.vn/huong-dan-su-dung/">Hướng dẫn sử dụng</a></li>
-							<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-17551"><a
-									href="https://viettelpost.com.vn/tin-tuc/bi-kip-trieu-don/">Bí kíp triệu đơn</a>
-							</li>
-						</ul>
-					</li>
-					<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9452"><a
-						href="price-check.html">Báo giá</a>
-					</li>
-					<li
-						class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-9471">
-						<a href="contact.html">Liên hệ</a>					
-					</li>
-				</ul>
-			</div>
-			<div class="hotline">
-				<a href="tel:19008095">HOTLINE: 19008095</a>
-			</div>
-			<ul class="soical-mn">
-				<a href="https://www.facebook.com/viettelpost" title=""><img
-						src="./wp-content/uploads/2021/02/fb1.png" alt=""></a>
-				<a href="mailto:support@viettelpost.com.vn" title=""><img
-						src="./wp-content/uploads/2021/04/Vector-4.png" alt=""></a>
-				<a href="https://zalo.me/428184826361302827" title=""><img
-						src="./wp-content/uploads/2021/11/Group-5897.png" alt=""></a>
-				<a href="https://www.linkedin.com/company/viettel-post/" title=""><img
-						src="./wp-content/uploads/2021/02/in1.png" alt=""></a>
-			</ul>
-		</div>
+    <div class="divmm">
+        <span id="close" class="close-btn">
+            <img src="./wp-content/themes/uniwave/assets/images/close.png" alt="Close">
+        </span>
+        <div class="menu-main-menu-container">
+            <ul class="main-mn">
+                <li class="menu-item current-menu-item">
+                    <a href="index.html">Trang chủ</a>
+                </li>
+                <li class="menu-item menu-item-has-children">
+                    <a href="services.html">Dịch vụ</a>
+                    <ul class="sub-menu">
+                        <li class="menu-item menu-item-has-children">
+                            <a href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/dich-vu-trong-nuoc/">Dịch vụ trong nước</a>
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="https://viettelpost.com.vn/dich_vu/chuyen-phat-tai-lieu/">Chuyển phát nhanh hàng hóa, tài liệu</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://viettelpost.com.vn/dich_vu/van-chuyen-hoa-toc/">Chuyển phát Hoả tốc, hẹn giờ</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://viettelpost.com.vn/dich_vu/chuyen-phat-thuong-mai-dien-tu/">Chuyển phát Thương mại điện tử</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://viettelpost.com.vn/dich_vu/chuyen-phat-tiet-kiem/">Chuyển phát Tiết kiệm hàng hóa</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://viettelpost.com.vn/dich_vu/phan-loai-hang-dac-biet/">Phân loại hàng hóa đặc biệt</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://viettelpost.com.vn/dich_vu/dich-vu-cong-them/">Dịch vụ cộng thêm</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/quan-ly-chat-luong-dich-vu/">Quản lý chất lượng dịch vụ</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/dich-vu-trong-nuoc/">Xem thêm</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-item menu-item-has-children">
+                            <a href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/dich-vu-quoc-te/">Dịch vụ quốc tế</a>
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="https://viettelpost.com.vn/tin-moi-nhat/">Tin mới nhất</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://viettelpost.com.vn/dich_vu/chuyen-phat-quoc-te-chi-dinh-hang-ups/">Chuyển Phát Quốc Tế UPS</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://viettelpost.com.vn/dich_vu/chuyen-phat-quoc-te-chi-dinh-hang/">Chuyển phát Quốc tế DHL</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://viettelpost.com.vn/dich_vu/chuyen-phat-quoc-te-nhanh/">Chuyển phát Quốc tế VQN</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://viettelpost.com.vn/dich-vu-thong-quan/">Dịch vụ thông quan</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://viettelpost.com.vn/danh_muc_dich_vu/dich-vu/dich-vu-quoc-te/">Xem thêm</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="tracking-shipment.html">Theo dõi đơn hàng</a>
+                </li>
+                <li class="menu-item">
+                    <a href="price-check.html">Báo giá</a>
+                </li>
+                <li class="menu-item">
+                    <a href="contact.html">Liên hệ</a>
+                </li>
+            </ul>
+        </div>
+        <div class="hotline">
+            <a href="tel:19008095">HOTLINE: 19008095</a>
+        </div>
+        <ul class="social-mn">
+            <li>
+                <a href="https://www.facebook.com/viettelpost" title="Facebook">
+                    <img src="./wp-content/uploads/2021/02/fb1.png" alt="Facebook">
+                </a>
+            </li>
+            <li>
+                <a href="mailto:support@viettelpost.com.vn" title="Email">
+                    <img src="./wp-content/uploads/2021/04/Vector-4.png" alt="Email">
+                </a>
+            </li>
+            <li>
+                <a href="https://zalo.me/428184826361302827" title="Zalo">
+                    <img src="./wp-content/uploads/2021/11/Group-5897.png" alt="Zalo">
+                </a>
+            </li>
+            <li>
+                <a href="https://www.linkedin.com/company/viettel-post/" title="LinkedIn">
+                    <img src="./wp-content/uploads/2021/02/in1.png" alt="LinkedIn">
+                </a>
+            </li>
+        </ul>
+    </div>
 	</div>
 	
 	<div id="ml-menu-fixed" class="hidden-xs hidden-sm active">
@@ -1104,9 +1038,7 @@
 		<span>Tiện ích</span>
 	</div>
 
-	<div id="arcontactus" class="hidden-md hidden-lg">
-		<div class=""></div>
-	</div>
+
 	<!-- Phần bên trái: chứa ảnh social-block-img -->
     <div class="icon-need-help" id="icon-need-help">
         <a>
@@ -1176,58 +1108,7 @@
 
 	<script type="text/javascript"
 		src="./wp-content/themes/uniwave/assets/js/support_fixed.js"></script>
-	<script>
-	document.addEventListener("DOMContentLoaded", function () {
-		const parentLinks = document.querySelectorAll('.menu-item-has-children > a');
 
-		parentLinks.forEach(link => {
-			link.addEventListener('click', function (e) {
-				e.preventDefault();
-				const subMenu = this.nextElementSibling;
-
-				if (!subMenu || !subMenu.classList.contains('sub-menu')) return;
-
-				// Nếu đang mở -> thu lại
-				if (subMenu.classList.contains('open')) {
-					subMenu.classList.remove('open');
-					subMenu.classList.add('closing');
-					subMenu.style.maxHeight = subMenu.scrollHeight + 'px'; // Đặt chiều cao hiện tại
-
-					// Sử dụng requestAnimationFrame để đảm bảo tính đồng bộ
-					requestAnimationFrame(() => {
-						subMenu.style.maxHeight = '0';
-					});
-
-					// Reset sau khi animation kết thúc
-					subMenu.addEventListener('transitionend', function handler() {
-						subMenu.classList.remove('closing');
-						subMenu.style.maxHeight = '';
-						subMenu.removeEventListener('transitionend', handler);
-					}, { once: true }); // Sử dụng { once: true } để tránh lắng nghe nhiều lần
-
-				} else {
-					// Nếu đang đóng -> mở ra
-					subMenu.classList.add('open');
-					subMenu.classList.add('opening');
-					subMenu.style.maxHeight = '0'; // Chuẩn bị từ trạng thái đóng
-					const fullHeight = subMenu.scrollHeight + 'px';
-
-					// Đảm bảo animation bắt đầu từ frame tiếp theo
-					requestAnimationFrame(() => {
-						subMenu.style.maxHeight = fullHeight;
-					});
-
-					// Reset sau khi animation kết thúc
-					subMenu.addEventListener('transitionend', function handler() {
-						subMenu.classList.remove('opening');
-						subMenu.style.maxHeight = ''; // Xóa max-height để tự động điều chỉnh
-						subMenu.removeEventListener('transitionend', handler);
-					}, { once: true });
-				}
-			});
-		});
-	});
-	</script>
 	<script type="text/javascript">
 		var popup_vipo = localStorage.getItem('popup_vipo27');
 		var currentDay = new Date().toLocaleDateString();
@@ -1305,7 +1186,7 @@
 			}
 		}
 	</script>
-	
+
 	<script type="text/javascript" src="js/emoji-support.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -1351,8 +1232,6 @@
 <link rel='stylesheet' id='whp8372front.css-css'
 	href='./wp-content/plugins/wp-security-hardening/modules/css/front.css' type='text/css'
 	media='all' />
-<script type="text/javascript"
-	src="./wp-content/plugins/contact-form-7/includes/swv/js/index.js" id="swv-js"></script>
 
 </html>
 <script type="text/javascript" src="./wp-content/themes/uniwave/assets/js/home.js"></script>
