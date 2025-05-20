@@ -1,8 +1,9 @@
 /* General Styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 h2 {
@@ -75,7 +76,7 @@ h2 {
 /* Why UniWave Section */
 .why-univave {
   padding: 80px 20px;
-  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+  background: #ffffff;
   text-align: center;
   min-height: 600px;
   position: relative;
@@ -355,7 +356,7 @@ h2 {
 /* Services */
 .services {
   padding: 60px 0;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+  background: #ffffff;
   position: relative;
   overflow: hidden;
 }
@@ -599,7 +600,7 @@ h2 {
 /* Partners */
 .partners {
   padding: 40px 20px;
-  background-color: #f8f8f8;
+  background-color: #ffffff;
   text-align: center;
 }
 

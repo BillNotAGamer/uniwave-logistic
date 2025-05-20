@@ -34,7 +34,7 @@
     cursor: pointer;
 }
 .btn-show-lk:hover{
-    background-color: #e03;
+    background-color: #134089;
 }
 .btn-show-lk.active{
     animation-name: open_closebtn_right;
