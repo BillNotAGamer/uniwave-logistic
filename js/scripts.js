@@ -57,3 +57,102 @@ document.addEventListener('DOMContentLoaded', function() {
     showChatBoxTemporarily();
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    // Đóng/mở input tìm kiếm
+    const searchBar = document.querySelector(".search-bar");
+    const searchIcon = document.querySelector(".search-bar > img:first-child");
+    const searchInput = document.querySelector(".search-bar input");
+    const closeSearch = document.querySelector(".search-bar .close-search");
+
+    searchIcon.addEventListener("click", function () {
+        searchBar.classList.toggle("open");
+        searchInput.classList.toggle("visible");
+        closeSearch.classList.toggle("visible");
+        if (searchBar.classList.contains("open")) {
+            searchInput.focus(); // Đặt con trỏ vào input khi mở
+        } else {
+            searchInput.value = ""; // Xóa nội dung input khi đóng
+        }
+    });
+
+    closeSearch.addEventListener("click", function () {
+        searchBar.classList.remove("open");
+        searchInput.classList.remove("visible");
+        closeSearch.classList.remove("visible");
+        searchInput.value = ""; // Xóa nội dung input
+    });
+
+    // Chọn ngôn ngữ
+    const languageSwitcher = document.querySelector(".language-switcher");
+    const languageDropdown = document.querySelector(".language-dropdown");
+    const languageTitle = document.querySelector(".language-switcher .language-title");
+    const languageImg = document.querySelector(".language-switcher > img");
+    const languageOptions = document.querySelectorAll(".language-dropdown li a");
+
+    languageSwitcher.addEventListener("click", function (event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+        languageDropdown.classList.toggle("visible");
+    });
+
+    languageOptions.forEach(option => {
+        option.addEventListener("click", function (event) {
+            event.preventDefault(); // Ngăn chặn chuyển trang ngay lập tức
+            const selectedLang = this.textContent.trim();
+            const selectedImgSrc = this.querySelector("img").src;
+
+            // Cập nhật tiêu đề và hình ảnh ngôn ngữ
+            languageTitle.textContent = selectedLang;
+            languageImg.src = selectedImgSrc;
+
+            // Ẩn dropdown sau khi chọn
+            languageDropdown.classList.remove("visible");
+
+            // Chuyển trang theo href của liên kết (nếu cần)
+            window.location.href = this.href;
+        });
+    });
+
+    // Đóng dropdown ngôn ngữ khi nhấp ra ngoài
+    document.addEventListener("click", function (event) {
+        if (!languageSwitcher.contains(event.target) && !languageDropdown.contains(event.target)) {
+            languageDropdown.classList.remove("visible");
+        }
+    });
+});
+
+/*****************
+ * ADD ANIMATION *
+ *****************/
+const observer = new IntersectionObserver((entries) => {
+  // Loop over the entries
+  entries.forEach((entry) => {
+    // If the element is visible
+    if (entry.isIntersecting) {
+      // Add the animation class
+      const animationName = entry.target.getAttribute("data-animation");
+      entry.target.classList.add(animationName || "fade-in-down");
+      entry.target.style.opacity = 1;
+    }
+  });
+});
+
+// Tell the observer which elements to track
+
+document.querySelectorAll(".animation").forEach((element) => {
+  const animationDelay = element.getAttribute("data-animation-delay");
+  element.style.animationDelay = animationDelay || "0.2s";
+  element.style.opacity = 0;
+  observer.observe(element);
+});
+
+// remove animation after click header to change URL
+const navBar = document.querySelector("nav");
+navBar.addEventListener("click", (e) => {
+  navBar.querySelectorAll(".animation").forEach((navItem) => {
+    navItem.style.animation = "none";
+  });
+});
+
+/*****************
+ * END ADD ANIMATION *
+ *****************/

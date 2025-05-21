@@ -1,11 +1,21 @@
 .main-content{
 	padding: 50px 0px;
 }
+
+.main-title {
+	color: var(--color-gray-400);
+}
+
 .box-khoiluong{
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 30px;
 }
+
+.box-khoiluong p{
+	color: var(--color-gray-400);
+}
+
 .box-khoiluong > div{
 	width: 19.2%;
 	background-color: #f0f0f0;
@@ -47,6 +57,7 @@
 }
 .form-tracuu .form-group label{
 	display: block;
+	color: var(--color-gray-400);
 }
 .form-tracuu .form-group select{
 	width: 100%;

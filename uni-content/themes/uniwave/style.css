@@ -1,15 +1,10 @@
 /*
-    Theme Name: Viettel
+    Theme Name: UNIWAVE
 */
-
 /** black */
 @font-face {
     font-family: "pfb";
 	font-size:16px;
-	
-	
-	
-	
     font-weight: 900;
     src: url("fonts/pfb/FSPFBeauSansPro-Bold.ttf");
 }
@@ -333,23 +328,10 @@ html {
     width: device-width;
 }
 
-article,
-aside,
-dialog,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-main,
-nav,
-section {
-    display: block;
-}
 
 body {
     margin: 0;
-    font-family: "pfb",sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -10804,6 +10786,101 @@ footer {
     color: inherit
 }
 
+.comp-link, .comp-info, .comp-location {
+    padding: 0 15px;
+}
+
+.comp-link h4, .comp-info h4 {
+    margin-bottom: 15px;
+    font-size: 1.25rem;
+}
+
+.comp-link ul {
+    list-style: none;
+    padding: 0;
+}
+
+.comp-link ul li {
+    margin-bottom: 10px;
+}
+
+.comp-link ul li a {
+    text-decoration: none;
+    color: #fff;
+    transition: color 0.3s;
+}
+
+.comp-link ul li a:hover {
+    color: #ddd;
+}
+
+.comp-info p {
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.comp-info a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.comp-info a:hover {
+    text-decoration: underline;
+}
+
+#comp-address {
+    font-size: 16px !important;
+    line-height: 20px;
+}
+
+#comp-mail {
+    font-size: 16px !important;
+    line-height: 20px;
+}
+
+.hotline-footer a { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    color: #fff; 
+    text-decoration: none; 
+} 
+
+.hotline-footer a img { 
+    vertical-align: middle; 
+} 
+
+.hotline-footer a:hover { 
+    text-decoration: underline; 
+}
+
+.badge-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.fanpage, .comp-location iframe {
+    width: 100% !important;
+    max-width: 400px;
+}
+
+.company-map {
+    border-radius: 5px;
+    padding-top: 5px;
+}
+
+.social {
+  display: flex;
+  justify-content: space-between; /* hoặc 'space-around' / 'space-evenly' tùy mong muốn */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  max-width: 200px; /* bạn có thể điều chỉnh theo độ rộng mong muốn */
+}
+
 #copyight {
     color: #fffc;
     text-align: center;
@@ -10829,252 +10906,6 @@ footer {
 	height: 58px;
 	background-color: #fff;
 	border-radius: 50%;
-}
-
-/* Menu Responsive */
-.menu_mb {
-    position: fixed;
-    width: 300px; /* Chiều rộng cố định, phù hợp cho mobile */
-    height: 100vh; /* Chiều cao full màn hình */
-    left: 0;
-    top: 0;
-    background: linear-gradient(135deg, #1a2b49 0%, #0d1a2d 100%); /* Gradient nền hiện đại */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Shadow mềm mại */
-    z-index: 99999;
-    transform: translateX(-100%); /* Ẩn ban đầu */
-    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Slide mượt mà */
-    display: flex;
-    flex-direction: column;
-}
-
-.menu_mb.hien {
-    transform: translateX(0); /* Hiện menu */
-}
-
-.divmm {
-    padding: 40px 20px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.menu_mb ul {
-    padding: 0;
-    margin: 0;
-}
-
-.menu_mb .main-mn > li {
-    position: relative;
-    padding: 15px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.menu_mb.hien .main-mn > li {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.menu_mb .main-mn > li:nth-child(1) { transition-delay: 0.1s; }
-.menu_mb .main-mn > li:nth-child(2) { transition-delay: 0.2s; }
-.menu_mb .main-mn > li:nth-child(3) { transition-delay: 0.3s; }
-.menu_mb .main-mn > li:nth-child(4) { transition-delay: 0.4s; }
-.menu_mb .main-mn > li:nth-child(5) { transition-delay: 0.5s; }
-
-.menu_mb .main-mn > li > a {
-    font-family: 'Mulish', sans-serif;
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 28px;
-    color: #ffffff;
-    text-decoration: none;
-    display: block;
-    padding: 5px 10px;
-    position: relative;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.menu_mb .main-mn > li:hover > a {
-    color: #ff4d4f; /* Màu nổi bật khi hover */
-    transform: translateX(5px);
-}
-
-.menu_mb li.current-menu-item a {
-    color: #ff4d4f; /* Màu cho mục đang active */
-}
-
-/* Sub-menu */
-.menu_mb li.menu-item-has-children > a::after {
-    content: "\f107";
-    font-family: 'FontAwesome';
-    font-size: 18px;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: transform 0.3s ease;
-}
-
-.menu_mb li.menu-item-has-children.active > a::after {
-    transform: translateY(-50%) rotate(180deg); /* Xoay mũi tên khi sub-menu mở */
-}
-
-.menu_mb .sub-menu {
-    max-height: 0;
-    overflow: hidden;
-    background: #ffffff;
-    border-radius: 5px;
-    margin: 5px 0;
-    padding: 0;
-    transition: max-height 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.3s ease;
-    opacity: 0;
-}
-
-.menu_mb .sub-menu.active {
-    max-height: 500px; /* Giá trị đủ lớn để chứa nội dung */
-    opacity: 1;
-}
-
-.menu_mb .sub-menu li {
-    border-bottom: 1px solid #eee;
-}
-
-.menu_mb .sub-menu li a {
-    font-family: 'Mulish', sans-serif;
-    font-size: 18px;
-    line-height: 24px;
-    color: #333;
-    padding: 12px 20px;
-    display: block;
-    text-decoration: none;
-    transition: color 0.3s ease, background 0.3s ease;
-}
-
-.menu_mb .sub-menu li a:hover {
-    color: #ff4d4f;
-    background: #f5f5f5;
-}
-
-/* Nút đóng */
-.close-btn {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    cursor: pointer;
-    z-index: 22;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.3s ease;
-}
-
-.close-btn:hover {
-    transform: rotate(90deg);
-}
-
-.close-btn img {
-    width: 20px;
-    height: 20px;
-}
-
-/* Hotline */
-.hotline {
-    font-family: 'Mulish', sans-serif;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 30px;
-    color: #fff;
-    text-align: center;
-    padding: 15px 0;
-    margin: 20px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    transition: background 0.3s ease;
-}
-
-.hotline:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.hotline a {
-    color: #fff;
-    text-decoration: none;
-}
-
-/* Social Icons */
-.social-mn {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    padding: 0;
-    margin: 0;
-}
-
-.social-mn li {
-    list-style: none;
-}
-
-.social-mn a {
-    display: block;
-    width: 40px;
-    height: 40px;
-    transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.social-mn a img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.social-mn a:hover {
-    transform: scale(1.2);
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
-}
-
-/* Responsive */
-@media (max-width: 480px) {
-    .menu_mb {
-        width: 260px;
-    }
-
-    .menu_mb .main-mn > li > a {
-        font-size: 20px;
-    }
-
-    .menu_mb .sub-menu li a {
-        font-size: 16px;
-        padding: 10px 15px;
-    }
-
-    .hotline {
-        font-size: 18px;
-    }
-
-    .social-mn a {
-        width: 35px;
-        height: 35px;
-    }
-}
-
-.soical-mn a {
-    margin-right: 15px;
-}
-
-.soical-mn a img {
-    filter: brightness(2);
-    height: 30px;
-}
-
-.soical-mn a img:hover {
-    filter: brightness(1);
 }
 
 .chat-live {
