@@ -1,6 +1,6 @@
 // Script trang home
 document.addEventListener('DOMContentLoaded', () => {
-    const sections = document.querySelectorAll('.why-univave, .services, .partners, .cta, .cta-container');
+    const sections = document.querySelectorAll('.why-univave, .services, .partners, .cta, .cta-container, #fbot');
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {

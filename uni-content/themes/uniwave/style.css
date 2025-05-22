@@ -10663,7 +10663,6 @@ footer {
 
 #fbot {
     background: #212D33;
-    /*border-top: 1px solid #CACACA;*/
     border-bottom: 1px solid #CACACA;
     padding: 70px 0 40px;
     color: #fff;
@@ -10679,13 +10678,23 @@ footer {
     position: absolute;
     left: 0;
     bottom: 32%;
+    opacity: 0; /* Ẩn ban đầu */
+}
+
+#fbot.visible:before {
+    animation: slideUp 0.8s forwards 0.2s; /* Animation trượt lên với độ trễ 0.2s */
 }
 
 #fbot h3 {
     font-size: 16px;
     line-height: 22px;
     color: #fff;
-    font-family: "Sf Ui Bold",sans-serif;
+    font-family: "Sf Ui Bold", sans-serif;
+    opacity: 0; /* Ẩn ban đầu */
+}
+
+#fbot.visible h3 {
+    animation: slideUp 0.8s forwards 0.4s; /* Animation trượt lên với độ trễ 0.4s */
 }
 
 #fbot h3.second {
@@ -10694,13 +10703,23 @@ footer {
 
 #fbot h4 {
     font-size: 18px;
-    font-family: "Sf Ui Bold",sans-serif;
+    font-family: "Sf Ui Bold", sans-serif;
     margin-bottom: 15px;
     font-weight: 500;
+    opacity: 0; /* Ẩn ban đầu */
+}
+
+#fbot.visible h4 {
+    animation: slideUp 0.8s forwards 0.6s; /* Animation trượt lên với độ trễ 0.6s */
 }
 
 #fbot .col-md-5 {
     padding-right: 50px;
+    opacity: 0; /* Ẩn ban đầu */
+}
+
+#fbot.visible .col-md-5 {
+    animation: slideUp 0.8s forwards 0.8s; /* Animation trượt lên với độ trễ 0.8s */
 }
 
 #fbot .col-md-5 i {
@@ -10714,6 +10733,14 @@ footer {
     float: left;
     height: 35px;
     padding-top: 6px;
+}
+
+#fbot .col-md-7 {
+    opacity: 0; /* Ẩn ban đầu */
+}
+
+#fbot.visible .col-md-7 {
+    animation: slideUp 0.8s forwards 1s; /* Animation trượt lên với độ trễ 1s */
 }
 
 #fbot .col-md-7 i {
@@ -10749,7 +10776,7 @@ footer {
     align-items: center;
 }
 
-#fbot .col-md-7 div.l4>div ul {
+#fbot .col-md-7 div.l4 > div ul {
     width: 100%;
     display: flex;
     align-items: flex-end;
@@ -10783,11 +10810,24 @@ footer {
 
 #fbot .connect a {
     display: block;
-    color: inherit
+    color: inherit;
 }
 
 .comp-link, .comp-info, .comp-location {
     padding: 0 15px;
+    opacity: 0; /* Ẩn ban đầu */
+}
+
+#fbot.visible .comp-link {
+    animation: slideUp 0.8s forwards 1.2s; /* Animation trượt lên với độ trễ 1.2s */
+}
+
+#fbot.visible .comp-info {
+    animation: slideUp 0.8s forwards 1.4s; /* Animation trượt lên với độ trễ 1.4s */
+}
+
+#fbot.visible .comp-location {
+    animation: slideUp 0.8s forwards 1.6s; /* Animation trượt lên với độ trễ 1.6s */
 }
 
 .comp-link h4, .comp-info h4 {
@@ -10872,13 +10912,30 @@ footer {
 }
 
 .social {
-  display: flex;
-  justify-content: space-between; /* hoặc 'space-around' / 'space-evenly' tùy mong muốn */
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  align-items: center;
-  max-width: 200px; /* bạn có thể điều chỉnh theo độ rộng mong muốn */
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    max-width: 200px;
+    opacity: 0; /* Ẩn ban đầu */
+}
+
+#fbot.visible .social {
+    animation: slideUp 0.8s forwards 1.8s; /* Animation trượt lên với độ trễ 1.8s */
+}
+
+/* Keyframes */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 #copyight {
