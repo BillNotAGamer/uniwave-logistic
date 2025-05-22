@@ -1514,10 +1514,39 @@ h2 {
 }
 
 .partners h2 {
-  font-size: 36px;
-  margin-bottom: 20px;
-  opacity: 0; /* Ẩn ban đầu */
-  transition: opacity 0.3s ease; /* Thêm transition để ẩn mượt mà */
+    font-size: 36px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #1a1818;
+    padding-bottom: 10px;
+    position: relative; /* Cần để ::after định vị đúng */
+    opacity: 0; /* Hiển thị tiêu đề, bỏ opacity: 0 để tránh ẩn */
+    transition: opacity 0.3s ease; /* Giữ transition cho các hiệu ứng khác nếu cần */
+}
+
+.partners h2::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 5px;
+    background: linear-gradient(to right, #3b82f6, #10b981);
+    border-radius: 3px;
+    animation: UnderlineSlide 3s infinite ease-in-out;
+}
+
+@keyframes UnderlineSlide {
+    0% {
+    transform: translateX(-50%) translateX(-80px);
+  }
+  50% {
+    transform: translateX(-50%) translateX(80px);
+  }
+  100% {
+    transform: translateX(-50%) translateX(-80px);
+  }
 }
 
 .partners.visible h2 {
@@ -1594,182 +1623,275 @@ h2 {
   font-weight: 600 !important;
 }
 
-/* CTA */
+/* CTA start */
+/* Reset và style cơ bản */
 .cta {
-  padding: 50px 0;
-  text-align: center;
-  background: #183051;
-  color: white;
+    position: relative;
+    padding: 60px 0;
+    min-height: 400px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a3d 0%, #2a4066 100%);
 }
 
-.cta h2,
-.cta p {
-  opacity: 0; /* Ẩn ban đầu */
-  transition: opacity 0.3s ease; /* Thêm transition để ẩn mượt mà */
+/* Nền với hiệu ứng hạt */
+.cta-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.3;
+    z-index: 1;
 }
 
-.cta.visible h2 {
-  animation: fadeIn 1s forwards 0.5s;
+/* Container chính */
+.cta-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    position: relative;
+    z-index: 2;
 }
 
-.cta.visible p {
-  animation: fadeIn 1s forwards 0.7s;
+/* Nửa bên trái (hình ảnh) */
+.cta-left {
+    flex: 1;
+    clip-path: polygon(0 0, 85% 0, 100% 100%, 0 100%); /* Hình thang vuông */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    height: 400px;
+    transition: transform 0.3s ease;
+    width: 700px;
+    z-index: 9999;
 }
 
-.cta .price-check-btn {
-  transition: opacity 0.3s ease; /* Thêm transition để ẩn mượt mà */
-  background: white;
-  color: #183051;
-  border-radius: 5px;
-  padding: 15px 30px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border: none;
+.cta-left:hover {
+    transform: scale(1.02);
 }
 
-.cta.visible .price-check-btn {
-  animation: fadeIn 1s forwards 0.9s;
+.cta-image {
+    width: 100%;
+    height: 100%;
+    background: url(image/CTA.jpg) center/cover no-repeat;
+    clip-path: inherit;
+    transition: transform 0.5s ease;
 }
 
-.cta .price-check-btn a {
-  color: #183051;
-  text-decoration: none;
-}
-
-.cta .price-check-btn:hover {
-  animation: bounce 0.5s;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes bounce {
-  0% {
-    transform: scale(1);
-  }
-  50% {
+.cta-left:hover .cta-image {
     transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .features,
-  .service-list {
-    flex-direction: column;
+/* Nửa bên phải (nội dung) */
+.cta-right {
+    flex: 1;
+    height: 300px;
+    display: flex;
     align-items: center;
-  }
+    justify-content: center;
+    padding: 20px;
+    transition: transform 0.3s ease;
+}
 
-  .feature,
-  .service {
-    width: 80%;
-  }
+.cta-right:hover {
+    transform: scale(1.02);
+}
 
-  .card {
-    height: 100px;
-  }
+/* Nội dung */
+.cta-content {
+    text-align: center;
+    max-width: 80%;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease forwards 0.2s;
+}
 
-  .image-box img {
-    width: 100px;
-    height: 50px;
-  }
+/* Tiêu đề */
+.cta-title {
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.3;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    background: linear-gradient(45deg, #ffffff, #3b82f6, #10b981);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+}
+
+/* Hotline */
+.cta-hotline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.hotline-icon {
+    font-size: 24px;
+    margin-right: 10px;
+    animation: vibrate 0.5s ease infinite;
+}
+
+.hotline-badge {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    padding: 10px 25px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hotline-badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+}
+
+
+/* Nút CTA */
+.cta-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(45deg, #ff6b6b, #feca57);
+    border-radius: 50px;
+    text-decoration: none;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: gradientShift 4s linear infinite;
+}
+
+.cta-btn:hover {
+    transform: translateY(-5px) rotateX(10deg);
+    box-shadow: 0 10px 20px rgba(255, 107, 107, 0.6);
+}
+
+.cta-btn::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #3b82f6, #10b981);
+    border-radius: 50px;
+    z-index: -2;
+    filter: blur(5px);
+    animation: borderGlow 3s linear infinite;
+}
+
+/* Keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes UnderlineGlow {
+    0% {
+        transform: translateX(0);
+        opacity: 0.7;
+    }
+    50% {
+        transform: translateX(20px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 0.7;
+    }
+}
+
+@keyframes vibrate {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-2px);
+    }
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes borderGlow {
+    0% {
+        filter: blur(5px) brightness(1);
+    }
+    50% {
+        filter: blur(8px) brightness(1.2);
+    }
+    100% {
+        filter: blur(5px) brightness(1);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cta-container {
+        flex-direction: column;
+    }
+    .cta-left, .cta-right {
+        flex: none;
+        width: 100%;
+        height: 300px;
+        clip-path: polygon(0 0, 70% 0, 100% 90%, 0 100%)
+    }
+
+    .cta-title {
+        font-size: 28px;
+    }
+    .hotline-badge {
+        font-size: 18px;
+        padding: 8px 20px;
+    }
+    .cta-btn {
+        padding: 10px 25px;
+        font-size: 14px;
+    }
 }
 
 @media (max-width: 480px) {
-  .feature,
-  .service {
-    width: 90%;
-  }
-
-  .card {
-    height: 80px;
-  }
-
-  .image-box img {
-    width: 80px;
-    height: 40px;
-  }
+    .cta-title {
+        font-size: 24px;
+    }
+    .hotline-badge {
+        font-size: 16px;
+        padding: 6px 15px;
+    }
+    .cta-btn {
+        padding: 8px 20px;
+        font-size: 12px;
+    }
 }
-
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@media (max-width: 1199px) {
-  .banner-slogan {
-    font-size: 36px;
-  }
-  .features,
-  .service-list {
-    flex-wrap: wrap;
-  }
-  .feature,
-  .service {
-    width: 45%;
-  }
-  .feature-img-container {
-    width: 80px;
-    height: 80px;
-  }
-  .feature p {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 767px) {
-  .banner {
-    padding: 50px 0;
-  }
-  .banner-slogan {
-    font-size: 24px;
-  }
-  .banner-buttons .btn {
-    display: block;
-    margin: 10px auto;
-  }
-  h2 {
-    font-size: 28px;
-  }
-  .feature,
-  .service {
-    width: 100%;
-  }
-  .feature-img-container {
-    width: 60px;
-    height: 60px;
-  }
-  .feature p {
-    font-size: 12px;
-  }
-  .form-group select,
-  .form-group input {
-    font-size: 14px;
-  }
-  .slider {
-    flex-direction: column;
-    animation: none;
-  }
-  .slider img {
-    margin: 0 auto;
-  }
-  .cta p {
-    font-size: 18px;
-  }
-}
+/*CTA end*/
 
 /* Định kiểu cho icon-need-help */
 .icon-need-help {
