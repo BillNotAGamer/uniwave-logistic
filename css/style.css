@@ -1074,7 +1074,8 @@ body {
   width: 100%;
   max-width: 100%; /* Increased to accommodate 3 slides */
   margin: 0 auto;
-  height: 250px;
+  height: 250px;  
+  padding: 10px;
 }
 
 /* Feature Item (Slide) */
@@ -1089,22 +1090,6 @@ body {
   overflow: hidden;
   background-color: transparent; /* Hoàn toàn trong suốt */
   border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.why-univave.visible .swiper-slide:nth-child(1) {
-  animation: slideUp 0.8s forwards 0.2s;
-}
-.why-univave.visible .swiper-slide:nth-child(2) {
-  animation: slideUp 0.8s forwards 0.4s;
-}
-.why-univave.visible .swiper-slide:nth-child(3) {
-  animation: slideUp 0.8s forwards 0.6s;
-}
-.why-univave.visible .swiper-slide:nth-child(4) {
-  animation: slideUp 0.8s forwards 0.8s;
-}
-.why-univave.visible .swiper-slide:nth-child(5) {
-  animation: slideUp 0.8s forwards 1s;
 }
   
 .feature:hover {
@@ -1409,6 +1394,31 @@ body {
   transform: translateY(20px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   text-transform: uppercase;
+}
+
+.services h2::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 5px;
+  background: linear-gradient(to right, #3b82f6, #10b981);
+  border-radius: 3px;
+  animation: SlideBackandForth 3s infinite ease-in-out;
+}
+
+@keyframes SlideBackandForth {
+  0% {
+    transform: translateX(-50%) translateX(-80px);
+  }
+  50% {
+    transform: translateX(-50%) translateX(80px);
+  }
+  100% {
+    transform: translateX(-50%) translateX(-80px);
+  }
 }
 
 .services.visible h2 {

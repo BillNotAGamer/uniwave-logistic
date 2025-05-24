@@ -1,0 +1,135 @@
+.main-content {
+    padding: 40px 0 !important;
+}
+.container {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 16px !important;
+}
+.box-results {
+    background-color: #ffffff !important;
+    padding: 16px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    margin-bottom: 24px !important;
+    display: none !important;
+}
+.main-title {
+    font-size: 24px !important;
+    font-weight: bold !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
+    margin-bottom: 24px !important;
+    color: black;
+}
+.box-khoiluong {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 16px !important;
+    justify-content: center !important;
+    margin-bottom: 32px !important;
+}
+.box-khoiluong > div {
+    flex: 1 1 150px !important;
+    text-align: center !important;
+    padding: 16px !important;
+    background-color: #ffffff !important;
+    border: 2px solid transparent !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    cursor: pointer !important;
+    transition: border-color 0.3s ease !important;
+    color: black;
+}
+.box-khoiluong > div.active {
+    border-color: blue !important;
+}
+.box-khoiluong img {
+    height: 60px !important;
+    margin-bottom: 8px !important;
+}
+.box-khoiluong p {
+    margin: 0 !important;
+    font-size: 16px !important;
+}
+.form-tracuu {
+    background-color: #ffffff !important;
+    padding: 24px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+.form-group {
+    margin-bottom: 24px !important;
+}
+.form-group label {
+    display: block !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+    font-size: 16px !important;
+    color: black;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100% !important;
+    padding: 12px !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 6px !important;
+    font-size: 16px !important;
+    box-sizing: border-box !important;
+    color: black;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none !important;
+    border-color: #e53e3e !important;
+}
+.al-tcgckt {
+    display: flex !important;
+    gap: 16px !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.al-tcgckt li {
+    flex: 1 !important;
+}
+.btn-tracuu {
+    background-color: #033273 !important;
+    color: #ffffff !important;
+    padding: 12px 24px !important;
+    border: none !important;
+    border-radius: 6px !important;
+    width: 100% !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+}
+.btn-tracuu:hover {
+    background-color: #1c4dc0 !important;
+}
+.error {
+    color: #e53e3e !important;
+    font-size: 14px !important;
+    margin-top: 4px !important;
+    display: block !important;
+}
+.flex {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    margin-left: -12px !important;
+    margin-right: -12px !important;
+}
+.w-full {
+    width: 100% !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    box-sizing: border-box !important;
+}
+@media (min-width: 768px) {
+    .md\:w-1\/2 {
+        width: 50% !important;
+    }
+}
