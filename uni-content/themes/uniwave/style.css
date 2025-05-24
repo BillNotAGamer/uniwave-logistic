@@ -1,35 +1,64 @@
 /*
     Theme Name: UNIWAVE
 */
-/** black */
-@font-face {
-    font-family: "pfb";
-	font-size:16px;
-    font-weight: 900;
-    src: url("fonts/pfb/FSPFBeauSansPro-Bold.ttf");
+.lato-thin {
+  font-family: "Lato", sans-serif;
+  font-weight: 100;
+  font-style: normal;
 }
 
-/** Bold */
-@font-face {
-    font-family: "pfb";
-    font-weight: 600;
-    src: url("fonts/pfb/FSPFBeauSansPro-SemiBold.ttf");
+.lato-light {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-style: normal;
 }
 
-/** Medium */
-@font-face {
-    font-family: "pfb";
-	
-	
-    font-weight: 500;
-    src: url("fonts/pfb/FSPFBeauSansPro-SemiBold.ttf");
+.lato-regular {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
-/** Regular */
-@font-face {
-    font-family: "pfb";
-    font-weight: 400;
-    src: url("fonts/pfb/FSPFBeauSansPro-Bbook.ttf");
+.lato-bold {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.lato-black {
+  font-family: "Lato", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.lato-thin-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.lato-light-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.lato-regular-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.lato-bold-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.lato-black-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 900;
+  font-style: italic;
 }
 
 
@@ -305,7 +334,7 @@
     --breakpoint-md: 768px;
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
-    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --font-family-sans-serif: "Loto", sans-serif;
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -331,8 +360,7 @@ html {
 
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
-    font-size: 1rem;
+    font-family: "Loto", sans-serif;
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
@@ -10689,7 +10717,7 @@ footer {
     font-size: 16px;
     line-height: 22px;
     color: #fff;
-    font-family: "Sf Ui Bold", sans-serif;
+    font-family: "Loto", sans-serif;
     opacity: 0; /* Ẩn ban đầu */
 }
 
@@ -10703,7 +10731,7 @@ footer {
 
 #fbot h4 {
     font-size: 18px;
-    font-family: "Sf Ui Bold", sans-serif;
+    font-family: "Loto", sans-serif;
     margin-bottom: 15px;
     font-weight: 500;
     opacity: 0; /* Ẩn ban đầu */
@@ -11332,7 +11360,7 @@ footer {
 
 /* Giữ nguyên các quy tắc khác của bạn */
 #bn .banner-slogan {
-    font-family: "Sf Ui Bold", sans-serif;
+    font-family: "Loto", sans-serif;
     font-size: 36px;
     line-height: 1.2;
     margin-bottom: 20px;
@@ -11351,7 +11379,7 @@ footer {
     padding: 12px 24px;
     border-radius: 30px;
     font-size: 16px;
-    font-family: "Sf Ui Medium", sans-serif;
+    font-family: "Loto", sans-serif;
     text-transform: uppercase;
     transition: all 0.3s ease;
 }
