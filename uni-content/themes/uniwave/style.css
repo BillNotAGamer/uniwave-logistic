@@ -10717,7 +10717,7 @@ footer {
     font-size: 16px;
     line-height: 22px;
     color: #fff;
-    font-family: "Loto", sans-serif;
+    font-family: "Quicksand", sans-serif;
     opacity: 0; /* Ẩn ban đầu */
 }
 
@@ -10731,7 +10731,7 @@ footer {
 
 #fbot h4 {
     font-size: 18px;
-    font-family: "Loto", sans-serif;
+    font-family: "Quicksand", sans-serif;
     margin-bottom: 15px;
     font-weight: 500;
     opacity: 0; /* Ẩn ban đầu */
@@ -10897,12 +10897,12 @@ footer {
 }
 
 #comp-address {
-    font-size: 16px !important;
+    font-size: 14px !important;
     line-height: 20px;
 }
 
 #comp-mail {
-    font-size: 16px !important;
+    font-size: 14px !important;
     line-height: 20px;
 }
 

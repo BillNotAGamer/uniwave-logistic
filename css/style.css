@@ -1073,6 +1073,7 @@ body {
   width: 100%;
   max-width: 100%; /* Increased to accommodate 3 slides */
   margin: 0 auto;
+  height: 250px;
 }
 
 /* Feature Item (Slide) */
@@ -1081,7 +1082,6 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  padding: 20px;
   height: 100%;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   position: relative;
@@ -1134,7 +1134,7 @@ body {
 /* Feature Layout */
 .feature-text {
   flex: 1;
-  padding: 10px;
+  padding: 15px;
   text-align: left;
 }
 
@@ -1154,10 +1154,9 @@ body {
 
 /* Feature Image Container */
 .feature-img-container {
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   overflow: hidden;
-  border-radius: 15px;
   background-color: transparent; /* Hoàn toàn trong suốt */
   border: 1px solid rgba(255, 255, 255, 0.3);
   display: flex;
