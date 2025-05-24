@@ -1,65 +1,6 @@
 /*
     Theme Name: UNIWAVE
 */
-.lato-thin {
-  font-family: "Lato", sans-serif;
-  font-weight: 100;
-  font-style: normal;
-}
-
-.lato-light {
-  font-family: "Lato", sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.lato-regular {
-  font-family: "Lato", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.lato-bold {
-  font-family: "Lato", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.lato-black {
-  font-family: "Lato", sans-serif;
-  font-weight: 900;
-  font-style: normal;
-}
-
-.lato-thin-italic {
-  font-family: "Lato", sans-serif;
-  font-weight: 100;
-  font-style: italic;
-}
-
-.lato-light-italic {
-  font-family: "Lato", sans-serif;
-  font-weight: 300;
-  font-style: italic;
-}
-
-.lato-regular-italic {
-  font-family: "Lato", sans-serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.lato-bold-italic {
-  font-family: "Lato", sans-serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
-.lato-black-italic {
-  font-family: "Lato", sans-serif;
-  font-weight: 900;
-  font-style: italic;
-}
 
 
 .owl-carousel,
@@ -334,7 +275,7 @@
     --breakpoint-md: 768px;
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
-    --font-family-sans-serif: "Loto", sans-serif;
+    --font-family-sans-serif: "Quicksand", sans-serif;
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -360,7 +301,7 @@ html {
 
 body {
     margin: 0;
-    font-family: "Loto", sans-serif;
+    font-family: "Quicksand", sans-serif;
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
@@ -11360,11 +11301,13 @@ footer {
 
 /* Giữ nguyên các quy tắc khác của bạn */
 #bn .banner-slogan {
-    font-family: "Loto", sans-serif;
-    font-size: 36px;
+    font-family: "Quicksand", sans-serif;
+    font-size: 46px;
     line-height: 1.2;
     margin-bottom: 20px;
+    font-weight: 700;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
 }
 
 #bn .banner-buttons {
@@ -11379,7 +11322,7 @@ footer {
     padding: 12px 24px;
     border-radius: 20px;
     font-size: 16px;
-    font-family: "Loto", sans-serif;
+    font-family: "Quicksand", sans-serif;
     text-transform: uppercase;
     transition: all 1s ease;
 }
