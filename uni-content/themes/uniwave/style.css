@@ -11377,11 +11377,11 @@ footer {
     background: linear-gradient(104.7deg, #D63C32 2.2%, #FF4F44 97.18%);
     color: #fff;
     padding: 12px 24px;
-    border-radius: 30px;
+    border-radius: 20px;
     font-size: 16px;
     font-family: "Loto", sans-serif;
     text-transform: uppercase;
-    transition: all 0.3s ease;
+    transition: all 1s ease;
 }
 
 #bn .banner-btn:hover {
