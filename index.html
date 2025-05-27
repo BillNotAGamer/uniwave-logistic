@@ -839,33 +839,31 @@
     </script>
 	<script src="./js/support_fixed.js"></script>
   <!-- Tích hợp EmailJS SDK -->
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script>
-    // Khởi tạo EmailJS
-    (function() {
-      emailjs.init("BERY7kRlfqMVpherf"); // Thay bằng public key của bạn
-    })();
+  <!-- Cập nhật SDK mới -->
+<script type="module">
+  import emailjs from 'https://cdn.emailjs.com/dist/email.min.mjs';
 
-    document.getElementById("contact-form").addEventListener("submit", function(e) {
-      e.preventDefault();
+  emailjs.init("BERY7kRlfqMVpherf");
 
-      // Gửi mail đến sales
-      emailjs.sendForm("service_d5irvii", "template_contact_fwpo0kh", this)
-        .then(function() {
-          alert("✅ Gửi thành công! Cảm ơn bạn đã liên hệ.");
-        }, function(error) {
-          alert("❌ Có lỗi xảy ra. Vui lòng thử lại.");
-          console.log(error);
-        });
+  document.getElementById("contact-form").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-      // Gửi mail cảm ơn cho khách
-      const formData = new FormData(this);
-      emailjs.send("service_d5irvii", "template_auto_reply_7426", {
-        name: formData.get("name"),
-        email: formData.get("email"),
+    emailjs.sendForm("service_d5irvii", "template_contact_fwpo0kh", this)
+      .then(function(response) {
+        alert("✅ Gửi thành công!");
+      }, function(error) {
+        alert("❌ Gửi thất bại.");
+        console.log(error);
       });
+
+    // Gửi mail cảm ơn (nếu muốn tách)
+    const formData = new FormData(this);
+    emailjs.send("service_d5irvii", "template_auto_reply_7426", {
+      name: formData.get("name"),
+      email: formData.get("email")
     });
-  </script>
+  });
+</script>
     
 </body>
 
