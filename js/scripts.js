@@ -20,46 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     sections.forEach(section => observer.observe(section));
 });
 
-// Script cho phần chat-box và popup-form trang home
-document.addEventListener('DOMContentLoaded', function() {
-    const iconNeedHelp = document.getElementById('icon-need-help');
-    const chatBox = document.getElementById('chat-box');
-    const popupForm = document.getElementById('popup-form');
-
-    // Hàm hiển thị chat-box trong 5 giây khi load trang
-    function showChatBoxTemporarily() {
-        chatBox.style.display = 'block';
-        setTimeout(() => {
-            chatBox.style.display = 'none';
-        }, 4000);
-    }
-
-    // Hàm toggle popup-form
-    window.togglePopup = function() {
-        popupForm.style.display = popupForm.style.display === 'block' ? 'none' : 'block';
-        chatBox.style.display = 'none'; // Ẩn chat-box khi toggle popup-form
-    }
-
-    // Hiển thị chat-box khi click vào icon
-    iconNeedHelp.querySelector('a').addEventListener('click', function(e) {
-        e.preventDefault();      
-        popupForm.style.display = 'block';
-        if (popupForm.style.display === 'block') {
-            chatBox.style.display = 'none';
-        }
-    });
-
-    // Hiển thị popup-form khi click vào chat-box
-    chatBox.addEventListener('click', function() {
-        chatBox.style.display = 'none';
-        popupForm.style.display = 'block';
-    });
-
-    
-
-    // Gọi hàm hiển thị chat-box khi load trang
-    showChatBoxTemporarily();
-});
 
 document.addEventListener("DOMContentLoaded", function () {
     // Đóng/mở input tìm kiếm
@@ -166,56 +126,48 @@ navBar.addEventListener("click", (e) => {
 /********************************
  * IMPORTANT MAIL SENDING POPUP *
  ********************************/
-(function(){
-            try {
-                emailjs.init({ 
-                    publicKey: import.meta.env.EMAILJS_PUBLIC_KEY
-                });
-                console.log("EmailJS initialized successfully");
-            } catch (error) {
-                console.error("Error initializing EmailJS:", error);
-            }
-        })();
 
-        function togglePopup() {
-            document.getElementById("popup-form").classList.toggle("active");
-        }
 
-        const contactForm = document.getElementById("contact-form");
-        if (contactForm) {
-            contactForm.addEventListener("submit", function(event) {
-                event.preventDefault();
-                console.log("Form submitted, sending email...");
-
-                emailjs.sendForm(
-                    import.meta.env.EMAILJS_SERVICE_ID,
-                    import.meta.env.EMAILJS_SALES_TEMPLATE_ID,
-                    this
-                )
-                .then(function(response) {
-                    console.log("Sales email sent successfully:", response);
-                    emailjs.sendForm(
-                        import.meta.env.EMAILJS_SERVICE_ID,
-                        import.meta.env.EMAILJS_THANKYOU_TEMPLATE_ID,
-                        this
-                    )
-                    .then(function(response) {
-                        console.log("Thank you email sent successfully:", response);
-                        alert("Thông tin đã được gửi thành công! Vui lòng kiểm tra email của bạn.");
-                        document.getElementById("contact-form").reset();
-                        togglePopup();
-                    }, function(error) {
-                        console.error("Error sending thank you email:", error);
-                        alert("Đã có lỗi xảy ra khi gửi email cảm ơn, vui lòng thử lại.");
-                    });
-                }, function(error) {
-                    console.error("Error sending sales email:", error);
-                    alert("Đã có lỗi xảy ra khi gửi email đến sales, vui lòng thử lại.");
-                });
-            });
-        } else {
-            console.error("Contact form not found");
-        }
 /********************************
  * IMPORTANT MAIL SENDING POPUP *
  ********************************/
+// Script cho phần chat-box và popup-form trang home
+document.addEventListener('DOMContentLoaded', function() {
+    const iconNeedHelp = document.getElementById('icon-need-help');
+    const chatBox = document.getElementById('chat-box');
+    const popupForm = document.getElementById('popup-form');
+
+    // Hàm hiển thị chat-box trong 5 giây khi load trang
+    function showChatBoxTemporarily() {
+        chatBox.style.display = 'block';
+        setTimeout(() => {
+            chatBox.style.display = 'none';
+        }, 4000);
+    }
+
+    // Hàm toggle popup-form
+    window.togglePopup = function() {
+        popupForm.style.display = popupForm.style.display === 'block' ? 'none' : 'block';
+        chatBox.style.display = 'none'; // Ẩn chat-box khi toggle popup-form
+    }
+
+    // Hiển thị chat-box khi click vào icon
+    iconNeedHelp.querySelector('a').addEventListener('click', function(e) {
+        e.preventDefault();      
+        popupForm.style.display = 'block';
+        if (popupForm.style.display === 'block') {
+            chatBox.style.display = 'none';
+        }
+    });
+
+    // Hiển thị popup-form khi click vào chat-box
+    chatBox.addEventListener('click', function() {
+        chatBox.style.display = 'none';
+        popupForm.style.display = 'block';
+    });
+
+    
+
+    // Gọi hàm hiển thị chat-box khi load trang
+    showChatBoxTemporarily();
+});
