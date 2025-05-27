@@ -126,53 +126,7 @@ navBar.addEventListener("click", (e) => {
 /********************************
  * IMPORTANT MAIL SENDING POPUP *
  ********************************/
-// js/scripts.js
-function togglePopup() {
-    document.getElementById("popup-form").classList.toggle("active");
-}
 
-// Khởi tạo EmailJS
-(function() {
-    try {
-        emailjs.init({ publicKey: window.EMAILJS_CONFIG.PUBLIC_KEY });
-        console.log('EmailJS initialized successfully');
-    } catch (error) {
-        console.error('Error initializing EmailJS:', error);
-    }
-})();
-
-document.getElementById("contact-form").addEventListener("submit", function(event) {
-    event.preventDefault(); // Ngăn form reload trang
-    console.log('Form submitted, sending email...');
-
-    // Lấy dữ liệu từ form
-    const formData = {
-        name: this.name.value,
-        phone: this.phone.value,
-        email: this.email.value,
-        message: this.message.value
-    };
-
-    // Gửi email đến sales@uniwavelogistics.com
-    emailjs.send(window.EMAILJS_CONFIG.SERVICE_ID, window.EMAILJS_CONFIG.SALES_TEMPLATE_ID, formData)
-        .then(function(response) {
-            console.log('Sales email sent successfully:', response);
-            // Gửi email cảm ơn đến khách hàng
-            emailjs.send(window.EMAILJS_CONFIG.SERVICE_ID, window.EMAILJS_CONFIG.THANKYOU_TEMPLATE_ID, formData)
-                .then(function(response) {
-                    console.log('Thank you email sent successfully:', response);
-                    alert("Thông tin đã được gửi thành công! Vui lòng kiểm tra email của bạn.");
-                    document.getElementById("contact-form").reset(); // Xóa form
-                    togglePopup(); // Đóng popup
-                }, function(error) {
-                    console.error("Lỗi khi gửi email cảm ơn:", error);
-                    alert("Đã có lỗi xảy ra, vui lòng thử lại.");
-                });
-        }, function(error) {
-            console.error("Lỗi khi gửi email đến sales:", error);
-            alert("Đã có lỗi xảy ra, vui lòng thử lại.");
-        });
-});
 /********************************
  * IMPORTANT MAIL SENDING POPUP *
  ********************************/
@@ -210,9 +164,6 @@ document.addEventListener('DOMContentLoaded', function() {
         chatBox.style.display = 'none';
         popupForm.style.display = 'block';
     });
-
-    
-
     // Gọi hàm hiển thị chat-box khi load trang
     showChatBoxTemporarily();
 });
