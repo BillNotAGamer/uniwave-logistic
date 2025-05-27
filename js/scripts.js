@@ -126,8 +126,40 @@ navBar.addEventListener("click", (e) => {
 /********************************
  * IMPORTANT MAIL SENDING POPUP *
  ********************************/
+// Khởi tạo EmailJS
+  function togglePopup() {
+    document.getElementById("popup-form").classList.toggle("active");
+    emailjs.init({ publicKey: "EMAILJS_PUBLIC_KEY" }); 
+}
 
+document.getElementById("contact-form").addEventListener("submit", function(event) {
+    event.preventDefault(); // Ngăn form reload trang
 
+    // Lấy dữ liệu từ form
+    const formData = {
+        name: this.name.value,
+        phone: this.phone.value,
+        email: this.email.value,
+        message: this.message.value
+    };
+
+    // Gửi email đến sales@uniwavelogistics.com
+    emailjs.send("EMAILJS_SERVICE_ID", "EMAILJS_SALES_TEMPLATE_ID", formData)
+        .then(function() {
+            // Gửi email cảm ơn đến khách hàng
+            emailjs.send("EMAILJS_SERVICE_ID", "EMAILJS_THANKYOU_TEMPLATE_ID", formData)
+                .then(function() {
+                    alert("Thông tin đã được gửi thành công! Vui lòng kiểm tra email của bạn.");
+                    document.getElementById("contact-form").reset(); // Xóa form sau khi gửi
+                }, function(error) {
+                    console.error("Lỗi khi gửi email cảm ơn:", error);
+                    alert("Đã có lỗi xảy ra, vui lòng thử lại.");
+                });
+        }, function(error) {
+            console.error("Lỗi khi gửi email đến sales:", error);
+            alert("Đã có lỗi xảy ra, vui lòng thử lại.");
+        });
+});
 /********************************
  * IMPORTANT MAIL SENDING POPUP *
  ********************************/
