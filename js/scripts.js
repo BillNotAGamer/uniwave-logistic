@@ -126,14 +126,24 @@ navBar.addEventListener("click", (e) => {
 /********************************
  * IMPORTANT MAIL SENDING POPUP *
  ********************************/
-// Khởi tạo EmailJS
-  function togglePopup() {
+// js/scripts.js
+function togglePopup() {
     document.getElementById("popup-form").classList.toggle("active");
-    emailjs.init({ publicKey: "EMAILJS_PUBLIC_KEY" }); 
 }
+
+// Khởi tạo EmailJS
+(function() {
+    try {
+        emailjs.init({ publicKey: window.EMAILJS_CONFIG.PUBLIC_KEY });
+        console.log('EmailJS initialized successfully');
+    } catch (error) {
+        console.error('Error initializing EmailJS:', error);
+    }
+})();
 
 document.getElementById("contact-form").addEventListener("submit", function(event) {
     event.preventDefault(); // Ngăn form reload trang
+    console.log('Form submitted, sending email...');
 
     // Lấy dữ liệu từ form
     const formData = {
@@ -144,13 +154,16 @@ document.getElementById("contact-form").addEventListener("submit", function(even
     };
 
     // Gửi email đến sales@uniwavelogistics.com
-    emailjs.send("EMAILJS_SERVICE_ID", "EMAILJS_SALES_TEMPLATE_ID", formData)
-        .then(function() {
+    emailjs.send(window.EMAILJS_CONFIG.SERVICE_ID, window.EMAILJS_CONFIG.SALES_TEMPLATE_ID, formData)
+        .then(function(response) {
+            console.log('Sales email sent successfully:', response);
             // Gửi email cảm ơn đến khách hàng
-            emailjs.send("EMAILJS_SERVICE_ID", "EMAILJS_THANKYOU_TEMPLATE_ID", formData)
-                .then(function() {
+            emailjs.send(window.EMAILJS_CONFIG.SERVICE_ID, window.EMAILJS_CONFIG.THANKYOU_TEMPLATE_ID, formData)
+                .then(function(response) {
+                    console.log('Thank you email sent successfully:', response);
                     alert("Thông tin đã được gửi thành công! Vui lòng kiểm tra email của bạn.");
-                    document.getElementById("contact-form").reset(); // Xóa form sau khi gửi
+                    document.getElementById("contact-form").reset(); // Xóa form
+                    togglePopup(); // Đóng popup
                 }, function(error) {
                     console.error("Lỗi khi gửi email cảm ơn:", error);
                     alert("Đã có lỗi xảy ra, vui lòng thử lại.");
