@@ -172,43 +172,7 @@ const thankYouTemplateId = process.env.EMAILJS_THANKYOU_TEMPLATE_ID;
  * IMPORTANT MAIL SENDING POPUP *
  ********************************/
 
-        (function(){
-            emailjs.init({ 
-                publicKey: process.env.EMAILJS_PUBLIC_KEY
-            });
-        })();
-
-        function togglePopup() {
-            document.getElementById("popup-form").classList.toggle("active");
-        }
-
-        document.getElementById("contact-form").addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            emailjs.sendForm(
-                process.env.EMAILJS_SERVICE_ID,
-                process.env.EMAILJS_SALES_TEMPLATE_ID,
-                this
-            )
-            .then(function() {
-                emailjs.sendForm(
-                    process.env.EMAILJS_SERVICE_ID,
-                    process.env.EMAILJS_THANKYOU_TEMPLATE_ID,
-                    this
-                )
-                .then(function() {
-                    alert("Thông tin đã được gửi thành công! Vui lòng kiểm tra email của bạn.");
-                    document.getElementById("contact-form").reset();
-                    togglePopup();
-                }, function(error) {
-                    console.error("Lỗi khi gửi email cảm ơn:", error);
-                    alert("Đã có lỗi xảy ra, vui lòng thử lại.");
-                });
-            }, function(error) {
-                console.error("Lỗi khi gửi email đến sales:", error);
-                alert("Đã có lỗi xảy ra, vui lòng thử lại.");
-            });
-        });
+        
 /********************************
  * IMPORTANT MAIL SENDING POPUP *
  ********************************/
