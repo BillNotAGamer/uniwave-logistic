@@ -632,13 +632,13 @@
         <div class="popup-form" id="popup-form">
             <button class="close-btn" onclick="togglePopup()">✕</button>
             <h3>Để lại thông tin</h3>
-            <form id="contact-form" method="post">
-                <input type="text" name="name" placeholder="Họ và tên" required>
-                <input type="tel" name="phone" placeholder="Số điện thoại" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <textarea name="message" placeholder="Nội dung cần hỗ trợ" required></textarea>
-                <button type="submit">Gửi</button>
-            </form>
+            <form id="contact-form">
+              <input type="text" name="name" placeholder="Họ và tên" required>
+              <input type="tel" name="phone" placeholder="Số điện thoại" required>
+              <input type="email" name="email" placeholder="Email" required>
+              <textarea name="message" placeholder="Nội dung cần hỗ trợ" required></textarea>
+            <button type="submit">Gửi</button>
+          </form>
         </div>
   </div>
 
@@ -839,7 +839,33 @@
     </script>
 	<script src="./js/support_fixed.js"></script>
   <!-- Tích hợp EmailJS SDK -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    // Khởi tạo EmailJS
+    (function() {
+      emailjs.init("BERY7kRlfqMVpherf"); // Thay bằng public key của bạn
+    })();
+
+    document.getElementById("contact-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      // Gửi mail đến sales
+      emailjs.sendForm("service_d5irvii", "template_contact_fwpo0kh", this)
+        .then(function() {
+          alert("✅ Gửi thành công! Cảm ơn bạn đã liên hệ.");
+        }, function(error) {
+          alert("❌ Có lỗi xảy ra. Vui lòng thử lại.");
+          console.log(error);
+        });
+
+      // Gửi mail cảm ơn cho khách
+      const formData = new FormData(this);
+      emailjs.send("service_d5irvii", "template_auto_reply_7426", {
+        name: formData.get("name"),
+        email: formData.get("email"),
+      });
+    });
+  </script>
     
 </body>
 
