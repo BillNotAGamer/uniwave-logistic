@@ -1494,7 +1494,7 @@ body {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
   position: relative;
   overflow: hidden;
-  opacity: 0;
+  opacity: 1;
   transform: scale(0.95);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   display: flex;
@@ -1573,7 +1573,7 @@ body {
     rgba(0, 0, 0, 0.2),
     rgba(0, 0, 0, 0.5)
   );
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.4s ease;
 }
 
@@ -1697,7 +1697,7 @@ body {
   color: #1a1818;
   padding-bottom: 10px;
   position: relative; /* Cần để ::after định vị đúng */
-  opacity: 0; /* Hiển thị tiêu đề, bỏ opacity: 0 để tránh ẩn */
+  opacity: 1; /* Hiển thị tiêu đề, bỏ opacity: 0 để tránh ẩn */
   transition: opacity 0.3s ease; /* Giữ transition cho các hiệu ứng khác nếu cần */
   text-transform: uppercase;
 }
@@ -1749,7 +1749,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   height: 120px;
-  opacity: 0; /* Ẩn ban đầu */
+  opacity: 1; /* Ẩn ban đầu */
   transition: opacity 0.3s ease; /* Thêm transition để ẩn mượt mà */
 }
 
@@ -1846,7 +1846,7 @@ body {
   height: 400px;
   transition: transform 0.3s ease;
   width: 700px;
-  opacity: 0; /* Ẩn ban đầu */
+  opacity: 1; /* Ẩn ban đầu */
 }
 
 .cta-container.visible .cta-left {
@@ -1878,7 +1878,7 @@ body {
   justify-content: center;
   padding: 20px;
   transition: opacity 0.3s ease;
-  opacity: 0; /* Ẩn ban đầu */
+  opacity: 1; /* Ẩn ban đầu */
 }
 
 .cta-container.visible .cta-right {
@@ -1893,7 +1893,7 @@ body {
 .cta-content {
   text-align: center;
   max-width: 80%;
-  opacity: 0;
+  opacity: 1;
   transform: translateY(30px);
   animation: fadeInUp 0.8s ease forwards 0.2s;
 }
@@ -1911,7 +1911,7 @@ body {
   background-clip: text;
   color: transparent;
   position: relative;
-  opacity: 0; /* Ẩn ban đầu */
+  opacity: 1; /* Ẩn ban đầu */
 }
 
 .cta-container.visible .cta-title {
@@ -1925,7 +1925,7 @@ body {
   justify-content: center;
   margin-bottom: 20px;
   position: relative;
-  opacity: 0; /* Ẩn ban đầu */
+  opacity: 1; /* Ẩn ban đầu */
 }
 
 .cta-container.visible .cta-hotline {
@@ -1972,7 +1972,7 @@ body {
   z-index: 1;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: gradientShift 4s linear infinite;
-  opacity: 0; /* Ẩn ban đầu */
+  opacity: 1; /* Ẩn ban đầu */
 }
 
 .cta-container.visible .cta-btn {
@@ -2657,7 +2657,7 @@ body {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   margin: 20px;
   transform: translateY(20px); /* Initial position for load animation */
-  opacity: 0; /* Initial opacity for fade-in */
+  opacity: 1; /* Initial opacity for fade-in */
   animation: fadeInUp 0.6s ease-out forwards; /* Load animation */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover transition */
 }
@@ -2747,7 +2747,7 @@ body {
   font-size: 2.5em;
   color: #fff;
   margin-bottom: 40px;
-  opacity: 0;
+  opacity: 1;
   animation: fadeInUp 1s ease-out forwards;
   animation-delay: 0.2s;
 }
@@ -2758,7 +2758,7 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   gap: 40px;
-  opacity: 0;
+  opacity: 1;
   animation: fadeInUp 1s ease-out forwards;
   animation-delay: 0.4s;
 }

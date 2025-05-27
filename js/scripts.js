@@ -1,14 +1,18 @@
-// Script trang home
 document.addEventListener('DOMContentLoaded', () => {
-    const sections = document.querySelectorAll('.services, .partners, .cta, .cta-container, #fbot');
-    
+    // Immediately add 'visible' class to footer
+    const footer = document.getElementById('#fbot');
+    if (footer) {
+        footer.classList.add('visible');
+    }
+
+    // Observe other sections for animation
+    const sections = document.querySelectorAll('.services, .partners, .cta, .cta-container');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-            }
-            else {
-                entry.target.classList.remove('visible'); // Ẩn lại khi không còn trong viewport
+            } else {
+                entry.target.classList.remove('visible');
             }
         });
     }, { threshold: 0.1 });
@@ -157,16 +161,7 @@ navBar.addEventListener("click", (e) => {
  * END ADD ANIMATION *
  *****************/
 
-/*****************
- * KEY BUILD KEYBUILD*
- *****************/
-const publicKey = process.env.EMAILJS_PUBLIC_KEY;
-const serviceId = process.env.EMAILJS_SERVICE_ID;
-const salesTemplateId = process.env.EMAILJS_SALES_TEMPLATE_ID;
-const thankYouTemplateId = process.env.EMAILJS_THANKYOU_TEMPLATE_ID;
-/*****************
- * KEY BUILD END *
- *****************/
+
 
 /********************************
  * IMPORTANT MAIL SENDING POPUP *

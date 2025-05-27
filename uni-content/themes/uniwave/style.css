@@ -10598,7 +10598,6 @@ ul.login li:first-child a:before {
 }
 
 /** Footer */
-
 footer {
     background: #212D33;
     position: relative;
@@ -10608,16 +10607,6 @@ footer {
     height: 7px;
     width: 100%;
     background: #183051;
-}
-
-#ftop {
-    background: #243136;
-    text-align: center;
-    padding: 5px 0;
-}
-
-#ftop img {
-    max-width: 150px;
 }
 
 #fbot {
@@ -10637,11 +10626,7 @@ footer {
     position: absolute;
     left: 0;
     bottom: 32%;
-    opacity: 0; /* Ẩn ban đầu */
-}
-
-#fbot.visible:before {
-    animation: slideUp 0.8s forwards 0.2s; /* Animation trượt lên với độ trễ 0.2s */
+    opacity: 1; /* Ensure visible by default */
 }
 
 #fbot h3 {
@@ -10649,15 +10634,7 @@ footer {
     line-height: 22px;
     color: #fff;
     font-family: "Quicksand", sans-serif;
-    opacity: 0; /* Ẩn ban đầu */
-}
-
-#fbot.visible h3 {
-    animation: slideUp 0.8s forwards 0.4s; /* Animation trượt lên với độ trễ 0.4s */
-}
-
-#fbot h3.second {
-    margin-top: 30px;
+    opacity: 1; /* Ensure visible by default */
 }
 
 #fbot h4 {
@@ -10665,58 +10642,11 @@ footer {
     font-family: "Quicksand", sans-serif;
     margin-bottom: 15px;
     font-weight: 500;
-    opacity: 0; /* Ẩn ban đầu */
+    opacity: 1; /* Ensure visible by default */
 }
 
-#fbot.visible h4 {
-    animation: slideUp 0.8s forwards 0.6s; /* Animation trượt lên với độ trễ 0.6s */
-}
-
-#fbot .col-md-5 {
-    padding-right: 50px;
-    opacity: 0; /* Ẩn ban đầu */
-}
-
-#fbot.visible .col-md-5 {
-    animation: slideUp 0.8s forwards 0.8s; /* Animation trượt lên với độ trễ 0.8s */
-}
-
-#fbot .col-md-5 i {
-    background: #183051;
-    -webkit-background-clip: text;
-    -moz-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-right: 10px;
-    font-size: 15px;
-    float: left;
-    height: 35px;
-    padding-top: 6px;
-}
-
-#fbot .col-md-7 {
-    opacity: 0; /* Ẩn ban đầu */
-}
-
-#fbot.visible .col-md-7 {
-    animation: slideUp 0.8s forwards 1s; /* Animation trượt lên với độ trễ 1s */
-}
-
-#fbot .col-md-7 i {
-    background: #183051;
-    -webkit-background-clip: text;
-    -moz-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-right: 10px;
-    font-size: 15px;
-    float: left;
-    height: 35px;
-    padding-top: 6px;
-}
-
-#fbot .col-md-5 img {
-    margin-right: 10px;
+#fbot .col-md-4, #fbot .col-md-8 {
+    opacity: 1; /* Ensure columns are visible */
 }
 
 #fbot p {
@@ -10726,19 +10656,6 @@ footer {
 
 #fbot p.hotline-footer {
     font-size: 19px;
-}
-
-#fbot .col-md-7 div.l4 {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    align-items: center;
-}
-
-#fbot .col-md-7 div.l4 > div ul {
-    width: 100%;
-    display: flex;
-    align-items: flex-end;
 }
 
 #fbot ul {
@@ -10759,34 +10676,24 @@ footer {
     color: #004085;
 }
 
-#fbot ul.soical a {
+#fbot ul.social {
+    display: flex;
+    justify-content: space-between;
+    max-width: 200px;
+    opacity: 1; /* Ensure visible by default */
+}
+
+#fbot ul.social a {
     margin-right: 20px;
 }
 
-#fbot ul.soical a img:hover {
+#fbot ul.social a img:hover {
     filter: brightness(2);
-}
-
-#fbot .connect a {
-    display: block;
-    color: inherit;
 }
 
 .comp-link, .comp-info, .comp-location {
     padding: 0 15px;
-    opacity: 0; /* Ẩn ban đầu */
-}
-
-#fbot.visible .comp-link {
-    animation: slideUp 0.8s forwards 1.2s; /* Animation trượt lên với độ trễ 1.2s */
-}
-
-#fbot.visible .comp-info {
-    animation: slideUp 0.8s forwards 1.4s; /* Animation trượt lên với độ trễ 1.4s */
-}
-
-#fbot.visible .comp-location {
-    animation: slideUp 0.8s forwards 1.6s; /* Animation trượt lên với độ trễ 1.6s */
+    opacity: 1; /* Ensure visible by default */
 }
 
 .comp-link h4, .comp-info h4 {
@@ -10827,30 +10734,25 @@ footer {
     text-decoration: underline;
 }
 
-#comp-address {
+#comp-address, #comp-mail {
     font-size: 14px !important;
     line-height: 20px;
 }
 
-#comp-mail {
-    font-size: 14px !important;
-    line-height: 20px;
+.hotline-footer a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    text-decoration: none;
 }
 
-.hotline-footer a { 
-    display: flex; 
-    align-items: center; 
-    gap: 10px; 
-    color: #fff; 
-    text-decoration: none; 
-} 
+.hotline-footer a img {
+    vertical-align: middle;
+}
 
-.hotline-footer a img { 
-    vertical-align: middle; 
-} 
-
-.hotline-footer a:hover { 
-    text-decoration: underline; 
+.hotline-footer a:hover {
+    text-decoration: underline;
 }
 
 .badge-container {
@@ -10870,22 +10772,13 @@ footer {
     padding-top: 5px;
 }
 
-.social {
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    align-items: center;
-    max-width: 200px;
-    opacity: 0; /* Ẩn ban đầu */
+#copyright {
+    color: #fffc;
+    text-align: center;
+    padding: 12px;
+    font-size: 12px;
 }
 
-#fbot.visible .social {
-    animation: slideUp 0.8s forwards 1.8s; /* Animation trượt lên với độ trễ 1.8s */
-}
-
-/* Keyframes */
 @keyframes slideUp {
     from {
         opacity: 0;
@@ -10897,11 +10790,15 @@ footer {
     }
 }
 
-#copyight {
-    color: #fffc;
-    text-align: center;
-    padding: 12px;
-    font-size: 12px;
+/* Optional animation for when .visible is applied */
+#fbot.visible:before,
+#fbot.visible h3,
+#fbot.visible h4,
+#fbot.visible .comp-link,
+#fbot.visible .comp-info,
+#fbot.visible .comp-location,
+#fbot.visible .social {
+    animation: slideUp 0.8s forwards;
 }
 
 .go_top {
