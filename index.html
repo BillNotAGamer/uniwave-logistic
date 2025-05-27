@@ -839,15 +839,20 @@
     </script>
 	<script src="./js/support_fixed.js"></script>
   <!-- Tích hợp EmailJS SDK -->
-  <!-- Cập nhật SDK mới -->
-<script type="module">
-  import emailjs from 'https://cdn.emailjs.com/dist/email.min.mjs';
+<!-- Nhúng SDK mới đúng cách -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-  emailjs.init("BERY7kRlfqMVpherf");
+<script>
+  // Khởi tạo EmailJS
+  (function() {
+    emailjs.init("BERY7kRlfqMVpherf");
+  })();
 
+  // Bắt sự kiện gửi form
   document.getElementById("contact-form").addEventListener("submit", function(e) {
     e.preventDefault();
 
+    // Gửi email đến sales
     emailjs.sendForm("service_d5irvii", "template_contact_fwpo0kh", this)
       .then(function(response) {
         alert("✅ Gửi thành công!");
@@ -856,7 +861,7 @@
         console.log(error);
       });
 
-    // Gửi mail cảm ơn (nếu muốn tách)
+    // Gửi email cảm ơn (nếu cần)
     const formData = new FormData(this);
     emailjs.send("service_d5irvii", "template_auto_reply_7426", {
       name: formData.get("name"),
@@ -864,7 +869,6 @@
     });
   });
 </script>
-    
 </body>
 
 <link rel='stylesheet' id='whp6778font-awesome.min.css-css'
