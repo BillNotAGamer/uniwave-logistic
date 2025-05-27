@@ -685,22 +685,25 @@
 
   <!-- Phần bên trái: chứa ảnh social-block-img -->
   <div class="icon-need-help" id="icon-need-help">
-    <a>
-      <img src="/image/social-block-img.jpg" alt="Laboon Assistant">
-    </a>
-    <div class="chat-box" id="chat-box">
-      <p>Chào bạn! Mình là Laboon – trợ lý siêu tốc ngành logistics!<br>
-        📦 Bạn cần mình hỗ trợ gì trong quá trình vận chuyển, báo giá hay theo dõi đơn hàng không nè?<br>
-        👉 Cứ nói nha, Laboon luôn sẵn sàng giúp đỡ!</p>
-    </div>
-    <div class="popup-form" id="popup-form">
-      <button class="close-btn" onclick="togglePopup()">✕</button>
-      <h3>Để lại thông tin</h3>
-      <input type="text" placeholder="Họ và tên" required>
-      <input type="tel" placeholder="Số điện thoại" required>
-      <textarea placeholder="Nội dung cần hỗ trợ" required></textarea>
-      <button type="submit">Gửi</button>
-    </div>
+        <a>
+            <img src="/image/social-block-img.jpg" alt="Laboon Assistant">
+        </a>
+        <div class="chat-box" id="chat-box">
+            <p>Chào bạn! Mình là Laboon – trợ lý siêu tốc ngành logistics!<br>
+            📦 Bạn cần mình hỗ trợ gì trong quá trình vận chuyển, báo giá hay theo dõi đơn hàng không nè?<br>
+            👉 Cứ nói nha, Laboon luôn sẵn sàng giúp đỡ!</p>
+        </div>
+        <div class="popup-form" id="popup-form">
+            <button class="close-btn" onclick="togglePopup()">✕</button>
+            <h3>Để lại thông tin</h3>
+            <form id="contact-form" method="post">
+                <input type="text" name="name" placeholder="Họ và tên" required>
+                <input type="tel" name="phone" placeholder="Số điện thoại" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <textarea name="message" placeholder="Nội dung cần hỗ trợ" required></textarea>
+                <button type="submit">Gửi</button>
+            </form>
+        </div>
   </div>
 
   <!-- Phần bên phải: chứa social-box -->
@@ -726,19 +729,6 @@
             </li>
         </ul>
     </div>
-  <div class="shadow" id="popup_vipo" onclick="closeModal()">
-    <div class="wrapper">
-      <span class="close" onclick="closeModal()">
-        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M33.6668 17.0026C33.6668 26.2074 26.2049 33.6693 17.0002 33.6693C7.79542 33.6693 0.333496 26.2074 0.333496 17.0026C0.333496 7.79786 7.79542 0.335938 17.0002 0.335938C26.2049 0.335938 33.6668 7.79786 33.6668 17.0026ZM22.5981 22.6004C22.11 23.0886 21.3185 23.0886 20.8303 22.6004L17.0002 18.7703L13.17 22.6005C12.6818 23.0886 11.8904 23.0886 11.4022 22.6005C10.9141 22.1123 10.9141 21.3208 11.4022 20.8327L15.2324 17.0025L11.4023 13.1723C10.9141 12.6842 10.9141 11.8927 11.4023 11.4046C11.8904 10.9164 12.6819 10.9164 13.17 11.4046L17.0002 15.2347L20.8303 11.4046C21.3185 10.9164 22.1099 10.9164 22.5981 11.4046C23.0862 11.8927 23.0862 12.6842 22.5981 13.1724L18.7679 17.0025L22.5981 20.8327C23.0863 21.3208 23.0863 22.1123 22.5981 22.6004Z"
-            fill="#F6F6F6" />
-        </svg>
-      </span>
-      <a href="https://viettelpost.com.vn/tin-hoat-dong/giao-tron-trai-tim-cung-hang-viet-di-khap-muon-noi/"
-        target="_blank"><img src="./uni-content/uploads/2023/08/popup-mtk-3009.png" alt=""></a>
-    </div>
-  </div>
 
   <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/bootstrap.js"></script>

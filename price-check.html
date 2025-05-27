@@ -549,7 +549,7 @@
 
 
 	<!-- Phần bên trái: chứa ảnh social-block-img -->
-    <div class="icon-need-help" id="icon-need-help">
+  <div class="icon-need-help" id="icon-need-help">
         <a>
             <img src="/image/social-block-img.jpg" alt="Laboon Assistant">
         </a>
@@ -561,12 +561,15 @@
         <div class="popup-form" id="popup-form">
             <button class="close-btn" onclick="togglePopup()">✕</button>
             <h3>Để lại thông tin</h3>
-            <input type="text" placeholder="Họ và tên" required>
-            <input type="tel" placeholder="Số điện thoại" required>
-            <textarea placeholder="Nội dung cần hỗ trợ" required></textarea>
-            <button type="submit">Gửi</button>
+            <form id="contact-form" method="post">
+                <input type="text" name="name" placeholder="Họ và tên" required>
+                <input type="tel" name="phone" placeholder="Số điện thoại" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <textarea name="message" placeholder="Nội dung cần hỗ trợ" required></textarea>
+                <button type="submit">Gửi</button>
+            </form>
         </div>
-    </div>
+  </div>
 
     <!-- Phần bên phải: chứa social-box -->
     <div id="social_box" style="position:fixed;right:20px;bottom:30px;z-index:99">

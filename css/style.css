@@ -2251,33 +2251,6 @@ body {
   }
 }
 
-/* Các kiểu khác không thay đổi */
-.shadow {
-  position: fixed;
-  left: 0;
-  right: 0;
-  width: 100%;
-  top: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9991;
-}
-
-#popup_vipo {
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-
-#popup_vipo .wrapper {
-  max-width: 432px;
-  border-radius: 5px;
-  position: relative;
-}
-
-#popup_vipo img {
-  max-width: 100%;
-}
 
 /* Tracking shipment */
 /* Định kiểu chung cho section */
