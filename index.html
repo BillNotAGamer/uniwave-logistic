@@ -857,59 +857,8 @@
     </script>
 	<script src="./js/support_fixed.js"></script>
   <!-- Tích hợp EmailJS SDK -->
+  <!-- Tích hợp EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function(){
-            try {
-                emailjs.init({ 
-                    publicKey: process.env.EMAILJS_PUBLIC_KEY
-                });
-                console.log("EmailJS initialized successfully");
-            } catch (error) {
-                console.error("Error initializing EmailJS:", error);
-            }
-        })();
-
-        function togglePopup() {
-            document.getElementById("popup-form").classList.toggle("active");
-        }
-
-        const contactForm = document.getElementById("contact-form");
-        if (contactForm) {
-            contactForm.addEventListener("submit", function(event) {
-                event.preventDefault();
-                console.log("Form submitted, sending email...");
-
-                emailjs.sendForm(
-                    process.env.EMAILJS_SERVICE_ID,
-                    process.env.EMAILJS_SALES_TEMPLATE_ID,
-                    this
-                )
-                .then(function(response) {
-                    console.log("Sales email sent successfully:", response);
-                    emailjs.sendForm(
-                        process.env.EMAILJS_SERVICE_ID,
-                        process.env.EMAILJS_THANKYOU_TEMPLATE_ID,
-                        this
-                    )
-                    .then(function(response) {
-                        console.log("Thank you email sent successfully:", response);
-                        alert("Thông tin đã được gửi thành công! Vui lòng kiểm tra email của bạn.");
-                        document.getElementById("contact-form").reset();
-                        togglePopup();
-                    }, function(error) {
-                        console.error("Error sending thank you email:", error);
-                        alert("Đã có lỗi xảy ra khi gửi email cảm ơn, vui lòng thử lại.");
-                    });
-                }, function(error) {
-                    console.error("Error sending sales email:", error);
-                    alert("Đã có lỗi xảy ra khi gửi email đến sales, vui lòng thử lại.");
-                });
-            });
-        } else {
-            console.error("Contact form not found");
-        }
-    </script>
 </body>
 
 <link rel='stylesheet' id='whp6778font-awesome.min.css-css'

@@ -1,0 +1,8 @@
+.env
+node_modules/
+dist/
+*.log
+*.tmp
+.vscode/
+.idea/
+wp-config.php

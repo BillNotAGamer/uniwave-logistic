@@ -171,8 +171,56 @@ const thankYouTemplateId = process.env.EMAILJS_THANKYOU_TEMPLATE_ID;
 /********************************
  * IMPORTANT MAIL SENDING POPUP *
  ********************************/
+(function(){
+            try {
+                emailjs.init({ 
+                    publicKey: import.meta.env.EMAILJS_PUBLIC_KEY
+                });
+                console.log("EmailJS initialized successfully");
+            } catch (error) {
+                console.error("Error initializing EmailJS:", error);
+            }
+        })();
 
-        
+        function togglePopup() {
+            document.getElementById("popup-form").classList.toggle("active");
+        }
+
+        const contactForm = document.getElementById("contact-form");
+        if (contactForm) {
+            contactForm.addEventListener("submit", function(event) {
+                event.preventDefault();
+                console.log("Form submitted, sending email...");
+
+                emailjs.sendForm(
+                    import.meta.env.EMAILJS_SERVICE_ID,
+                    import.meta.env.EMAILJS_SALES_TEMPLATE_ID,
+                    this
+                )
+                .then(function(response) {
+                    console.log("Sales email sent successfully:", response);
+                    emailjs.sendForm(
+                        import.meta.env.EMAILJS_SERVICE_ID,
+                        import.meta.env.EMAILJS_THANKYOU_TEMPLATE_ID,
+                        this
+                    )
+                    .then(function(response) {
+                        console.log("Thank you email sent successfully:", response);
+                        alert("Thông tin đã được gửi thành công! Vui lòng kiểm tra email của bạn.");
+                        document.getElementById("contact-form").reset();
+                        togglePopup();
+                    }, function(error) {
+                        console.error("Error sending thank you email:", error);
+                        alert("Đã có lỗi xảy ra khi gửi email cảm ơn, vui lòng thử lại.");
+                    });
+                }, function(error) {
+                    console.error("Error sending sales email:", error);
+                    alert("Đã có lỗi xảy ra khi gửi email đến sales, vui lòng thử lại.");
+                });
+            });
+        } else {
+            console.error("Contact form not found");
+        }
 /********************************
  * IMPORTANT MAIL SENDING POPUP *
  ********************************/
