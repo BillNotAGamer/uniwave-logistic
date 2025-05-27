@@ -156,3 +156,53 @@ navBar.addEventListener("click", (e) => {
 /*****************
  * END ADD ANIMATION *
  *****************/
+
+/*****************
+ * KEY BUILD KEYBUILD*
+ *****************/
+const publicKey = process.env.EMAILJS_PUBLIC_KEY;
+const serviceId = process.env.EMAILJS_SERVICE_ID;
+const salesTemplateId = process.env.EMAILJS_SALES_TEMPLATE_ID;
+const thankYouTemplateId = process.env.EMAILJS_THANKYOU_TEMPLATE_ID;
+/*****************
+ * KEY BUILD END *
+ *****************/
+
+/********************************
+ * IMPORTANT MAIL SENDING POPUP *
+ ********************************/
+function togglePopup() {
+    document.getElementById("popup-form").classList.toggle("active");
+}
+
+document.getElementById("contact-form").addEventListener("submit", function(event) {
+    event.preventDefault(); // Ngăn form reload trang
+
+    // Lấy dữ liệu từ form
+    const formData = {
+        name: this.name.value,
+        phone: this.phone.value,
+        email: this.email.value,
+        message: this.message.value
+    };
+
+    // Gửi email đến sales@uniwavelogistics.com
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_SALES_TEMPLATE_ID", formData)
+        .then(function() {
+            // Gửi email cảm ơn đến khách hàng
+            emailjs.send("YOUR_SERVICE_ID", "YOUR_THANKYOU_TEMPLATE_ID", formData)
+                .then(function() {
+                    alert("Thông tin đã được gửi thành công! Vui lòng kiểm tra email của bạn.");
+                    document.getElementById("contact-form").reset(); // Xóa form sau khi gửi
+                }, function(error) {
+                    console.error("Lỗi khi gửi email cảm ơn:", error);
+                    alert("Đã có lỗi xảy ra, vui lòng thử lại.");
+                });
+        }, function(error) {
+            console.error("Lỗi khi gửi email đến sales:", error);
+            alert("Đã có lỗi xảy ra, vui lòng thử lại.");
+        });
+});
+/********************************
+ * IMPORTANT MAIL SENDING POPUP *
+ ********************************/

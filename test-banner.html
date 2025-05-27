@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Banner Example</title>
+  <title>Banner with Split Design and Overlay</title>
   <style>
     * {
       margin: 0;
@@ -15,143 +15,106 @@
     .banner {
       position: relative;
       height: 100vh;
-      background: linear-gradient(135deg, #1a3c5e 0%, #2a6f97 100%);
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
       overflow: hidden;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.5)); /* Hiệu ứng mờ đục trắng nhẹ */
     }
 
-    .image-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('./image/maybaytest.jpg'); /* Placeholder image */
+    .image-section {
+      flex: 1;
+      background-image: url('./image/maybaytest.jpg'); /* Thay bằng URL ảnh "UNIWAVE LOGISTIC" */
       background-size: cover;
       background-position: center;
-      -webkit-clip-path: url(#waveClip);
-      clip-path: url(#waveClip);
-      opacity: 0.8;
-      z-index: 0;
+      position: relative;
     }
 
-    .top-bar {
+    .text-section {
+      flex: 1;
       display: flex;
-      justify-content: space-between;
-      padding: 20px 40px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px;
+      color: #1a3c5e;
+      position: relative;
       z-index: 1;
     }
 
     .logo {
-      color: white;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .logo span {
+      font-size: 14px;
+      margin-bottom: 20px;
       color: #00aaff;
-    }
-
-    .menu-icon {
-      color: white;
-      font-size: 24px;
-      cursor: pointer;
-    }
-
-    .content {
-      z-index: 1;
-      padding: 0 40px;
-      max-width: 600px;
-      color: white;
     }
 
     .content h1 {
       font-size: 48px;
       margin-bottom: 20px;
       line-height: 1.2;
-      transition: opacity 0.3s ease;
+      text-transform: uppercase;
+    }
+
+    .content h1 span {
+      color: #00aaff;
     }
 
     .content p {
-      font-size: 18px;
-      margin-bottom: 30px;
-    }
-
-    .links {
-      display: flex;
-      gap: 20px;
-    }
-
-    .links a {
-      color: white;
-      text-decoration: none;
       font-size: 16px;
-      text-transform: uppercase;
-      opacity: 0.7;
-      transition: opacity 0.3s ease;
+      margin-bottom: 30px;
+      opacity: 0.8;
     }
 
-    .links a:hover {
-      opacity: 1;
-    }
-
-    .bottom-bar {
-      display: flex;
-      justify-content: space-between;
-      padding: 20px 40px;
-      z-index: 1;
+    .get-started-btn {
+      background-color: #00aaff;
       color: white;
-      font-size: 14px;
-      opacity: 0.7;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .get-started-btn:hover {
+      background-color: #0088cc;
     }
 
     @media (max-width: 768px) {
+      .banner {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .image-section, .text-section {
+        flex: none;
+        height: 50vh;
+      }
+
       .content h1 {
         font-size: 32px;
       }
 
       .content p {
-        font-size: 16px;
+        font-size: 14px;
+      }
+
+      .get-started-btn {
+        font-size: 14px;
+        padding: 10px 20px;
       }
     }
   </style>
 </head>
 <body>
   <div class="banner">
-    <div class="top-bar">
-      <div class="logo">AI<span> Group</span></div>
-      <div class="menu-icon">☰</div>
-    </div>
-    <div class="image-overlay"></div>
-    <div class="content">
-      <h1 id="banner-title">We dedicate our efforts for every client as if they were our only one.</h1>
-      <p>AI Group provides representation services for the international shipping industry. Our professional staff has extensive experience in import and export processes. Additionally, we are based on Colombian & Costa Rican regulations.</p>
-      <div class="links">
-        <a href="#">Our Services</a>
-        <a href="#">Terminals Map</a>
+    <div class="image-section"></div>
+    <div class="text-section">
+      <div class="logo">AI Group</div>
+      <div class="content">
+        <h1>We Dedicate Our Efforts For Every Client As If They Were Our <span>Only One</span>.</h1>
+        <p>AI Group provides representation services for the international shipping industry. Our professional staff has extensive experience in import and export processes.</p>
+        <button class="get-started-btn">Get Started Now</button>
       </div>
     </div>
-    <div class="bottom-bar">
-      <div>Our Offices | News | Careers</div>
-      <div>2017 AI Group Maritime Agency | Terms & Legal</div>
-    </div>
-    <svg width="0" height="0">
-      <defs>
-        <clipPath id="waveClip" clipPathUnits="objectBoundingBox">
-          <path d="M0,0.2 Q0.25,0 0.5,0.2 T1,0.2 V1 H0 Z" />
-        </clipPath>
-      </defs>
-    </svg>
   </div>
-
-  <script>
-    window.addEventListener('scroll', () => {
-      const title = document.getElementById('banner-title');
-      const scrollPosition = window.scrollY;
-      title.style.opacity = 1 - scrollPosition / 500;
-    });
-  </script>
 </body>
 </html>

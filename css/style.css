@@ -6,6 +6,11 @@ body {
   box-sizing: border-box;
 }
 
+.body input {
+  font-family: "Quicksand", sans-serif;
+  color: var(--color-gray-400);
+}
+
 /*Header style start*/
 .main-container {
   width: 100%;
@@ -2179,6 +2184,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
+  color: #000;
 }
 
 .popup-form textarea {
