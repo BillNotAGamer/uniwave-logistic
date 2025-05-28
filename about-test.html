@@ -10,6 +10,8 @@
       href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
       rel="stylesheet"
     />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/countup.js@2.8.0/dist/countUp.min.js" integrity="sha256-4i0lFzT3v0T2V1B5p9B9q0XzO1O1v0XzO1v0XzO1v0=" crossorigin="anonymous"></script>
 
     <style>
       :root {
@@ -550,6 +552,49 @@
           font-size: 0.9rem;
         }
       }
+      .about-us-section {
+      padding: 50px 20px;
+      text-align: center;
+      background-color: #fff;
+    }
+    .about-us-section h2 {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    .stats-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    .stat-box {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 10px;
+      width: 200px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+    .stat-box:hover {
+      transform: translateY(-5px);
+    }
+    .stat-box h3 {
+      font-size: 2em;
+      color: #007bff;
+      margin: 0;
+    }
+    .stat-box p {
+      font-size: 1em;
+      color: #666;
+      margin: 10px 0 0;
+    }
+    @media (max-width: 768px) {
+      .stat-box {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
     </style>
   </head>
   <body>
@@ -850,5 +895,70 @@
         </div>
       </div>
     </div>
+
+     <section class="about-us-section">
+    <h2>Về Chúng Tôi</h2>
+    <div class="stats-container">
+      <div class="stat-box">
+        <h3><span data-count="2000">0</span></h3>
+        <p>CBNV & CTV</p>
+      </div>
+      <div class="stat-box">
+        <h3><span data-count="1500">0</span></h3>
+        <p>Bưu Cục</p>
+      </div>
+      <div class="stat-box">
+        <h3><span data-count="100">0</span></h3>
+        <p>Quốc Gia</p>
+      </div>
+      <div class="stat-box">
+        <h3><span data-count="10000">0</span></h3>
+        <p>Giao Dịch</p>
+      </div>
+    </div>
+  </section>
+  
+
+  <script>
+    // Chờ jQuery và CountUp.js tải xong
+    if (typeof jQuery === 'undefined') {
+      console.error('jQuery không tải được. Vui lòng kiểm tra kết nối hoặc CDN.');
+    } else if (typeof CountUp === 'undefined') {
+      console.error('CountUp.js không tải được. Vui lòng kiểm tra kết nối hoặc CDN.');
+    } else {
+      $(document).ready(function() {
+        // Tùy chọn cho CountUp
+        const options = {
+          duration: 3, // Thời gian đếm (giây)
+          separator: '.', // Dấu phân cách hàng nghìn
+          prefix: '', // Tiền tố
+          suffix: '' // Hậu tố
+        };
+
+        // Khởi tạo các instance của CountUp
+        const staffCount = new CountUp('staff-count', 2000, options);
+        const postOfficeCount = new CountUp('post-office-count', 1500, options);
+        const countryCount = new CountUp('country-count', 100, options);
+        const transactionCount = new CountUp('transaction-count', 10000, { ...options, prefix: '+' });
+
+        // Kiểm tra và chạy hiệu ứng
+        try {
+          if (!staffCount.error) staffCount.start();
+          else console.error('Lỗi khởi tạo CountUp cho staff-count:', staffCount.error);
+          
+          if (!postOfficeCount.error) postOfficeCount.start();
+          else console.error('Lỗi khởi tạo CountUp cho post-office-count:', postOfficeCount.error);
+          
+          if (!countryCount.error) countryCount.start();
+          else console.error('Lỗi khởi tạo CountUp cho country-count:', countryCount.error);
+          
+          if (!transactionCount.error) transactionCount.start();
+          else console.error('Lỗi khởi tạo CountUp cho transaction-count:', transactionCount.error);
+        } catch (e) {
+          console.error('Lỗi khi chạy hiệu ứng CountUp:', e);
+        }
+      });
+    }
+  </script>
   </body>
 </html>
