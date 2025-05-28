@@ -33,7 +33,6 @@
     position: relative;
     overflow: hidden;
     -webkit-transform: translate3d(0, 0, 0);
-    border-radius: 10px;
 }
 
 .owl-carousel .owl-item,
@@ -11037,6 +11036,8 @@ footer {
 #bn .banner-container {
     position: relative;
     width: 100%;
+    max-width: 1573x;
+    max-height: 735px; 
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -11065,7 +11066,7 @@ footer {
 #bn .item img.lz {
     width: 100%;
     height: auto;
-    object-fit: cover;
+    object-fit: scale-down;
     display: block;
 }
 
