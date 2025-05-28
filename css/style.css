@@ -2240,14 +2240,67 @@ body {
 }
 
 /* Responsive cho mobile */
-@media (max-width: 768px) {
+@media (max-width: 770px) {
   .icon-need-help {
     bottom: 10px;
     left: 10px;
   }
   .icon-need-help a img {
-    width: 48px;
-    height: 48px;
+    width: 43px;
+    height: 43px;
+  }
+
+  .chat-box {
+    position: fixed;
+    bottom: 70px; /* Above the icon */
+    left: 10px;
+    width: 200px;
+    padding: 15px;
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  /* Pop-up form styles */
+  .popup-form {
+    bottom: 70px; /* Above the icon */
+    left: 10px;
+    width: 230px;
+    z-index: 1001; /* Above chat box */
+  }
+
+  .popup-form h3 {
+    font-size: 15px;
+  }
+
+  .popup-form input,
+  .popup-form textarea {
+    padding: 8px;
+    font-size: 11px;
+  }
+
+  .popup-form textarea {
+    min-height: 60px;
+  }
+
+  .popup-form button {
+    font-size: 11px;
+  }
+
+  .popup-form .close-btn {
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    font-size: 13px;
+  }
+
+  .social-box-list {
+    right: 5px !important;
+    bottom: 10px !important;
+  }
+
+  .social-box-list .social-chat img {
+    width: 43px !important;
+    height: 43px !important;
   }
 }
 
