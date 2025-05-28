@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
       { threshold: 0.5 } // Kích hoạt khi 50% section xuất hiện
     );
 
-    observer.observe(section);
+    observerSectionAbout.observe(section);
 /********************************
  * SECTION VỀ CHÚNG TÔI TRANG HOME *
  ********************************/
