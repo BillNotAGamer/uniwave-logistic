@@ -1075,7 +1075,7 @@ body {
             padding: 3rem 2rem;
             box-sizing: border-box;
             font-family: Arial, sans-serif;
-            color: #fff;
+            color: #ffffff;
         } 
         .uw_content_wrapper {
             display: flex;
@@ -1109,8 +1109,14 @@ body {
             min-width: 300px;
         }
         .uw_text_block h2 {
-            font-size: clamp(1.8rem, 5vw, 2.2rem);
-            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-family: 'Quicksand', sans-serif;
+
+
         }
         .uw_text_block p {
             font-size: clamp(1rem, 3vw, 1.1rem);
@@ -1129,6 +1135,18 @@ body {
             flex: 1;
             min-width: 200px;
         }
+
+        .uw_subtext_group h3 {
+          font-family: 'Quicksand', sans-serif;
+          font-weight: 600;
+          padding-bottom: 8px;
+          font-size: 23px;
+        }
+
+        .uw_intro_text {
+          padding-bottom: 60px;
+        }
+
         .uw_button_group {
             display: flex;
             gap: 1rem;

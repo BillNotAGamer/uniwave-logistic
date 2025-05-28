@@ -1,8 +1,6 @@
 /*
     Theme Name: UNIWAVE
 */
-
-
 .owl-carousel,
 .owl-carousel .owl-item {
     -webkit-tap-highlight-color: transparent;
@@ -10766,17 +10764,25 @@ footer {
     width: 100% !important;
     max-width: 400px;
 }
-
 .company-map {
     border-radius: 5px;
     padding-top: 5px;
 }
 
+.copyright-text {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 5px 5px 5px 5px;
+}
+
 #copyright {
-    color: #fffc;
+    display: flex;
+    color: #fff;
     text-align: center;
     padding: 12px;
     font-size: 12px;
+    justify-content: center;
 }
 
 @keyframes slideUp {
@@ -10799,50 +10805,6 @@ footer {
 #fbot.visible .comp-location,
 #fbot.visible .social {
     animation: slideUp 0.8s forwards;
-}
-
-.go_top {
-/*     position: absolute;
-    right: 30px;
-    top: -80px; */
-	display: none;
-	position: fixed;
-    bottom: 110px;
-    right: 27px;
-    z-index: 999;
-}
-
-.go_top img {
-    display: block;
-    margin: 0 auto 5px;
-	width: 58px;
-	height: 58px;
-	background-color: #fff;
-	border-radius: 50%;
-}
-
-.chat-live {
-    position: fixed;
-    right: 3px;
-    bottom: 15%;
-    z-index: 2222;
-    display: none;
-}
-
-.chat-live img {
-    display: block;
-    margin: 0 auto 5px;
-}
-
-.chat-live span {
-    background: #44494D;
-    box-shadow: 0px 5px 14px rgb(255 168 0 / 20%);
-    border-radius: 5px;
-    color: #fff;
-    font-size: 13px;
-    line-height: 150%;
-    display: inline-block;
-    padding: 8px 10px;
 }
 
 .arcontactus-widget .arcontactus-message-button {
@@ -10948,21 +10910,6 @@ footer {
         width: 100%;
     }
 
-    .top-hd {
-        padding: 0;
-        padding: 20px 0px;
-    }
-
-    .top-hd #mn {
-        font-size: 17px;
-        margin: 0px 0 0 6px;
-        display: inline-block;
-        border-left: 4px solid #fff;
-        padding: 4px 0 3px 7px;
-        position: absolute;
-        text-indent: -9999px;
-        z-index: 99999;
-    }
 
     ul.login {
         margin: 23px 0 0 10px;
@@ -10991,33 +10938,6 @@ footer {
 
     }
 
-    .menu {
-        display: none;
-    }
-
-    #bn .owl-dots {
-        left: 45%;
-    }
-
-    .menu_mb {
-        height: auto;
-        width: 100%;
-        top: 75px;
-    }
-
-    .divmm {
-        padding: 20px;
-    }
-
-    .menu_mb li a {
-        font-size: 25px;
-        line-height: 40px;
-    }
-
-    .menu_mb .hotline {
-        font-size: 25px;
-        line-height: 45px;
-    }
 
     .arcontactus-widget .messangers-block {
         background: center no-repeat #37474F !important;
@@ -11078,24 +10998,6 @@ footer {
         margin-bottom: 10px;
     }
 
-    .go_top {
-/*         position: absolute;
-        right: 5px;
-        top: auto;
-        z-index: 22;
-        bottom: 50px;
-        color: #fff; */
-		display: none;
-		position: fixed;
-		bottom: 103px;
-		right: 25px;
-		z-index: 22;
-    }
-
-    .chat-live {
-        bottom: 20%;
-    }
-
     #fbot .col-md-5 {
         padding-right: 15px;
     }
@@ -11129,27 +11031,6 @@ footer {
         letter-spacing: 0px;
     }
 
-    ul.login {
-        display: none;
-    }
-
-    .menu_mb li {
-        padding: 2px 0px;
-    }
-
-    .menu_mb li a {
-        font-size: 20px;
-    }
-
-    .menu_mb ul li .sub-menu li a {
-        font-size: 17px;
-        padding: 10px 20px;
-    }
-
-    .menu_mb .hotline {
-        font-size: 20px;
-        line-height: 36px;
-    }
 }
 
 /* Container bao quanh carousel và nội dung */
