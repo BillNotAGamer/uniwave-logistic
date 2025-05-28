@@ -1054,7 +1054,7 @@ body {
 /*Section về chúng tôi trang home*/
 .uw_section_container {
   width: 100%;
-  min-height: 100vh;
+  min-height: 90vh;
   background: url(/image/home/section_about_us_home_bg.png) no-repeat center/cover;
   position: relative;
   overflow: hidden;
