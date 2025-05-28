@@ -1055,6 +1055,7 @@ body {
 .uw_section_container {
   width: 100%;
   min-height: 90vh;
+  max-height: 680px;
   background: url(/image/home/section_about_us_home_bg.png) no-repeat center/cover;
   position: relative;
   overflow: hidden;
