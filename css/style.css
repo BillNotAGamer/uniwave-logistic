@@ -1063,7 +1063,7 @@ body {
   justify-content: space-between;
   padding: 3rem 2rem;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Quicksand', sans-serif;
   color: #ffffff;
 }
 
@@ -1107,9 +1107,9 @@ body {
   text-transform: uppercase;
   letter-spacing: 1.2px;
   font-family: 'Quicksand', sans-serif;
-
-
 }
+
+
 
 .uw_text_block p {
   font-size: clamp(1rem, 3vw, 1.1rem);
