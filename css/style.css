@@ -1662,7 +1662,7 @@ body {
 }
 
 .services.visible h2 {
-  opacity: 1;
+  opacity: 0;
   transform: translateY(0);
   animation: titleGlow 1.5s ease-in-out forwards;
 }
@@ -1698,7 +1698,7 @@ body {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
   position: relative;
   overflow: hidden;
-  opacity: 1;
+  opacity: 0;
   transform: scale(0.95);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   display: flex;
@@ -1900,7 +1900,7 @@ body {
   padding-bottom: 10px;
   position: relative;
   /* Cần để ::after định vị đúng */
-  opacity: 1;
+  opacity: 0;
   /* Hiển thị tiêu đề, bỏ opacity: 0 để tránh ẩn */
   transition: opacity 0.3s ease;
   /* Giữ transition cho các hiệu ứng khác nếu cần */
@@ -1956,7 +1956,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   height: 120px;
-  opacity: 1;
+  opacity: 0;
   /* Ẩn ban đầu */
   transition: opacity 0.3s ease;
   /* Thêm transition để ẩn mượt mà */
@@ -2059,7 +2059,7 @@ body {
   height: 400px;
   transition: transform 0.3s ease;
   width: 700px;
-  opacity: 1;
+  opacity: 0;
   /* Ẩn ban đầu */
 }
 
@@ -2093,7 +2093,7 @@ body {
   justify-content: center;
   padding: 20px;
   transition: opacity 0.3s ease;
-  opacity: 1;
+  opacity: 0;
   /* Ẩn ban đầu */
 }
 
@@ -2110,7 +2110,7 @@ body {
 .cta-content {
   text-align: center;
   max-width: 80%;
-  opacity: 1;
+  opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 0.8s ease forwards 0.2s;
 }
@@ -2128,7 +2128,7 @@ body {
   background-clip: text;
   color: transparent;
   position: relative;
-  opacity: 1;
+  opacity: 0;
   /* Ẩn ban đầu */
 }
 
@@ -2144,7 +2144,7 @@ body {
   justify-content: center;
   margin-bottom: 20px;
   position: relative;
-  opacity: 1;
+  opacity: 0;
   /* Ẩn ban đầu */
 }
 
@@ -2193,7 +2193,7 @@ body {
   z-index: 1;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: gradientShift 4s linear infinite;
-  opacity: 1;
+  opacity: 0;
   /* Ẩn ban đầu */
 }
 
@@ -2300,6 +2300,69 @@ body {
 
   100% {
     opacity: 0.7;
+  }
+} 
+
+@media (max-width: 760px) {
+  .cta {
+    padding: 40px 20px;
+    min-height: auto;
+  }
+
+  .cta-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-left,
+  .cta-right {
+    width: 100%;
+    height: auto;
+    clip-path: none;
+    backdrop-filter: none;
+    background: none;
+  }
+
+  .cta-left {
+    margin-bottom: 20px;
+    clip-path: polygon(0 0, 85% 0, 100% 100%, 0 100%);
+    /* Hình thang vuông */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+
+  }
+
+  
+
+  .cta-image {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background: url(/image/home/CTA.jpg) center/cover no-repeat;
+    clip-path: inherit;
+
+  }
+
+  .cta-content {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .cta-title {
+    font-size: 24px;
+    line-height: 1.4;
+    margin-bottom: 15px;
+  }
+
+  .hotline-badge {
+    font-size: 16px;
+    padding: 8px 20px;
+  }
+
+  .cta-btn {
+    font-size: 14px;
+    padding: 10px 20px;
   }
 }
 
