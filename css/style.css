@@ -1254,7 +1254,6 @@ body {
     text-align: center;
   }
 }
-
 /*Section về chúng tôi trang home*/
 
 /* Why UniWave Section */
@@ -1307,11 +1306,9 @@ body {
 
 /* Slider Container */
 .slider {
-  width: 100%;
-  max-width: 100%;
-  /* Increased to accommodate 3 slides */
+  max-width: 1500px;
   margin: 0 auto;
-  height: 250px;
+  height: 400px; /* Matches taller cards */
   padding: 10px;
 }
 
@@ -1320,14 +1317,16 @@ body {
   border-radius: 20px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   display: flex;
+  flex-direction: column; /* Stack text and image vertically */
   align-items: center;
-  height: 100%;
+  height: 400px; /* Taller than wide */
+  width: 350px; /* Width smaller than height */
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   position: relative;
   overflow: hidden;
   background-color: transparent;
-  /* Hoàn toàn trong suốt */
   border: 1px solid rgba(255, 255, 255, 0.3);
+  margin: 0 auto; /* Center card within slide */
 }
 
 .feature:hover {
@@ -1355,9 +1354,14 @@ body {
 
 /* Feature Layout */
 .feature-text {
-  flex: 1;
   padding: 15px;
   text-align: left;
+  justify-content: center;
+  align-items: center;
+  position: absolute; /* Position text at bottom */
+  bottom: 0; /* Align to bottom of card */
+  width: 100%; /* Full width for text */
+  background: #dfe6e9; /* Semi-transparent background for readability */
 }
 
 .feature-title {
@@ -1376,12 +1380,14 @@ body {
 
 /* Feature Image Container */
 .feature-img-container {
-  width: 250px;
-  height: 250px;
+  width: 100%; /* Full card width */
+  height: 100%; /* Full card height */
   overflow: hidden;
   background-color: transparent;
-  /* Hoàn toàn trong suốt */
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: none; /* Remove border to blend with card */
+  position: absolute; /* Overlay image across entire card */
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1390,16 +1396,22 @@ body {
 .feature-img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  transition: transform 0.5s ease;
+  object-fit: cover; /* Stretch to fill container */
+  opacity: 0; /* Hide image by default */
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .feature:hover .feature-img {
+  opacity: 1; /* Show image on hover */
   transform: scale(1.15);
   transform-origin: center;
 }
 
 /* Slider Pagination and Navigation */
+.swiper-wrapper {
+  padding: 0 5px; /* Reduce spacing between slides */
+}
+
 .swiper-pagination {
   position: relative;
   margin-top: 20px;
@@ -1435,15 +1447,28 @@ body {
 }
 
 /* Responsive Design */
-
 @media (max-width: 1023px) and (min-width: 768px) {
   .slider {
     max-width: 600px;
+    height: 300px;
+  }
+
+  .feature {
+    height: 280px;
+    width: 200px;
   }
 
   .feature-img-container {
-    width: 160px;
-    height: 160px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .feature-title {
+    font-size: 1.2rem;
+  }
+
+  .feature-description {
+    font-size: 0.95rem;
   }
 
   .why-univave h2 {
@@ -1454,30 +1479,36 @@ body {
 @media (max-width: 767px) {
   .why-univave {
     padding: 40px 10px;
-    min-height: 350px;
+    min-height: 400px;
   }
 
   .slider {
     max-width: 100%;
     padding: 0 5px;
+    height: 300px;
   }
 
   .feature {
-    flex-direction: column;
-    text-align: center;
+    height: 280px;
+    width: 200px;
     padding: 10px;
   }
 
   .feature-text {
-    text-align: center;
     padding: 8px;
   }
 
   .feature-img-container {
     width: 100%;
-    max-width: 160px;
-    height: 160px;
-    margin: 0 auto;
+    height: 100%;
+  }
+
+  .feature-title {
+    font-size: 1.1rem;
+  }
+
+  .feature-description {
+    font-size: 0.9rem;
   }
 
   .why-univave h2 {
@@ -1493,16 +1524,22 @@ body {
 @media (max-width: 480px) {
   .why-univave {
     padding: 30px 8px;
-    min-height: 300px;
+    min-height: 350px;
   }
 
   .slider {
     padding: 0 5px;
+    height: 260px;
+  }
+
+  .feature {
+    height: 240px;
+    width: 180px;
   }
 
   .feature-img-container {
-    max-width: 140px;
-    height: 140px;
+    width: 100%;
+    height: 100%;
   }
 
   .feature-title {
@@ -1510,7 +1547,7 @@ body {
   }
 
   .feature-description {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
   .swiper-button-prev,
@@ -1530,9 +1567,18 @@ body {
     margin-bottom: 20px;
   }
 
+  .slider {
+    height: 220px;
+  }
+
+  .feature {
+    height: 200px;
+    width: 160px;
+  }
+
   .feature-img-container {
-    max-width: 120px;
-    height: 120px;
+    width: 100%;
+    height: 100%;
   }
 
   .feature-title {
@@ -1540,7 +1586,7 @@ body {
   }
 
   .feature-description {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   .swiper-pagination {
@@ -1552,6 +1598,7 @@ body {
     height: 6px;
   }
 }
+/* Why UniWave Section */
 
 /* Quote Form */
 .quote-form {
