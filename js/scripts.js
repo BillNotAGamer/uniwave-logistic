@@ -1,24 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Immediately add 'visible' class to footer
-    const footer = document.getElementById('fbot');
-    if (footer) {
-        footer.classList.add('visible');
-    }
+      // Xóa lớp hidden khi trang tải
+      const servicesSection = document.getElementById('services');
+      if (servicesSection) {
+        servicesSection.classList.add('visible');
+      }
 
-    // Observe other sections for animation
-    const sections = document.querySelectorAll('.services, .partners, .cta, .cta-container');
-    const observer = new IntersectionObserver((entries) => {
+      // Observe sections for animation
+      const sections = document.querySelectorAll('.services, .partners, .cta, .cta-container');
+      const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            } else {
-                entry.target.classList.remove('visible');
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            // Reset animation for services
+            if (entry.target.id === 'services') {
+              const services = entry.target.querySelectorAll('.service');
+              services.forEach((service, index) => {
+                service.style.animation = 'none';
+                service.offsetHeight; // Trigger reflow
+                service.style.animation = null;
+              });
             }
+          } else {
+            entry.target.classList.remove('visible');
+          }
         });
-    }, { threshold: 0.1 });
+      }, { threshold: 0.1 });
 
-    sections.forEach(section => observer.observe(section));
-});
+      sections.forEach(section => observer.observe(section));
+    });
 
 
 document.addEventListener("DOMContentLoaded", function () {
