@@ -10806,14 +10806,6 @@ footer {
     animation: slideUp 0.8s forwards;
 }
 
-.arcontactus-widget .arcontactus-message-button {
-    background: linear-gradient(104.7deg, #D63C32 2.2%, #FF4F44 97.18%) !important;
-}
-
-.arcontactus-widget .arcontactus-message-button .icons {
-    background-color: transparent !important;
-}
-
 
 @media screen and (max-width: 1600px) {
     .menu ul li a {
@@ -10872,23 +10864,6 @@ footer {
 @media screen and (max-width: 1145px) {
     header .container {
         width: 100%;
-    }
-
-    .arcontactus-widget .messangers-block {
-        background: center no-repeat #37474F !important;
-    }
-
-    .arcontactus-widget .messanger p {
-        color: #fff !important;
-    }
-
-    .arcontactus-widget .messanger span {
-        width: 45px !important;
-        height: 45px !important;
-    }
-
-    .arcontactus-widget .messanger span img {
-        max-width: 30px !important;
     }
 
     #ftop img {
