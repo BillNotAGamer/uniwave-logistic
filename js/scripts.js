@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Immediately add 'visible' class to footer
-    const footer = document.getElementById('#fbot');
+    const footer = document.getElementById('fbot');
     if (footer) {
         footer.classList.add('visible');
     }

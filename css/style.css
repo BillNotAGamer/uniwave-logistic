@@ -1259,7 +1259,7 @@ body {
 /* Why UniWave Section */
 .why-univave {
   padding: 80px 20px;
-  background: #ffffff;
+  background: #f1f2f6;
   text-align: center;
   min-height: 600px;
   position: relative;
@@ -1305,8 +1305,8 @@ body {
 }
 
 /* Slider Container */
-.slider {
-  max-width: 1300px;
+.slider-features {
+  max-width: 1400px;
   margin: 0 auto;
   height: 400px; /* Matches taller cards */
   padding: 10px 0; /* Minimal horizontal padding */
@@ -1318,6 +1318,10 @@ body {
   margin-right: 2px; /* Minimal spacing */
 }
 
+.swiper-wrapper {
+  padding: 0 2px; /* Minimal padding */
+}
+
 /* Feature Item (Slide) */
 .feature {
   border-radius: 20px;
@@ -1325,12 +1329,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 380px; /* Unchanged */
-  width: 320px; /* Unchanged */
+  height: 380px; 
+  width: 320px; 
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   position: relative;
   overflow: hidden;
-  background-color: transparent;
+  background: #fff;
   border: 1px solid rgba(255, 255, 255, 0.3);
   margin: 0 auto;
 }
@@ -1415,11 +1419,6 @@ body {
   transform-origin: center;
 }
 
-/* Slider Pagination and Navigation */
-.swiper-wrapper {
-  padding: 0 2px; /* Minimal padding */
-}
-
 .swiper-pagination {
   position: relative;
   margin-top: 20px;
@@ -1454,6 +1453,75 @@ body {
   font-weight: 600 !important;
 }
 
+
+/* Custom Swiper Pagination */
+    .swiper-pagination {
+      position: relative;
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 10px;
+    }
+
+    .swiper-pagination-bullet {
+      width: 12px;
+      height: 12px;
+      background: transparent;
+      border: 2px solid #3b82f6;
+      opacity: 0.6;
+      border-radius: 50%;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .swiper-pagination-bullet::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 6px;
+      background: #3b82f6;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.3s ease;
+    }
+
+    .swiper-pagination-bullet-active {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+
+    .swiper-pagination-bullet-active::before {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .swiper-pagination-bullet:hover {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+
+    .swiper-pagination-bullet:hover::before {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* Swiper Navigation Buttons */
+    .swiper-button-prev,
+    .swiper-button-next {
+      color: #00266e;
+      height: 40px;
+      width: 40px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .swiper-button-prev::after,
+    .swiper-button-next::after {
+      font-size: 18px;
+      font-weight: 600;
+    }
 /* Responsive Design */
 
 
