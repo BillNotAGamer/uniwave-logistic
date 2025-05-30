@@ -12,6 +12,8 @@
     />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/countup.js@2.8.0/dist/countUp.min.js" integrity="sha256-4i0lFzT3v0T2V1B5p9B9q0XzO1O1v0XzO1v0XzO1v0=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <style>
       :root {
@@ -596,6 +598,278 @@
       }
     }
     </style>
+    <style>
+      /* Why UniWave Section */
+.why-univave {
+  padding: 5rem 1rem;
+  background: #ffffff;
+  text-align: center;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Heading */
+.why-univave h2 {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-weight: 700;
+  color: #1a2a44;
+  margin-bottom: 3rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.why-univave h2::after {
+  content: "";
+  position: absolute;
+  bottom: -0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(100px, 20vw, 200px);
+  height: 5px;
+  background: linear-gradient(to right, #3b82f6, #10b981);
+  border-radius: 3px;
+  animation: slideBackAndForth 3s infinite ease-in-out;
+}
+
+@keyframes slideBackAndForth {
+  0% { transform: translateX(-50%) translateX(-40%); }
+  50% { transform: translateX(-50%) translateX(40%); }
+  100% { transform: translateX(-50%) translateX(-40%); }
+}
+
+/* Slider Container */
+.slider {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0.5rem;
+}
+
+/* Swiper Slide */
+.swiper-slide {
+  width: 320px;
+  margin-right: 0.5rem;
+}
+
+/* Feature Item (Slide) */
+.feature {
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 380px;
+  width: 100%;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.feature:hover {
+  transform: translateY(-0.75rem);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+}
+
+.feature::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.feature:hover::before {
+  left: 100%;
+}
+
+/* Feature Layout */
+.feature-text {
+  padding: 1rem;
+  text-align: left;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50%;
+  border-radius: 0 0 1.25rem 1.25rem;
+  background: #dfe6e9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.feature-title {
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  font-weight: 600;
+  color: #1a2a44;
+  margin-bottom: 0.5rem;
+}
+
+.feature-description {
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  font-weight: 400;
+  color: #2d3748;
+  line-height: 1.5;
+}
+
+/* Feature Image Container */
+.feature-img-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.feature:hover .feature-img {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Slider Pagination and Navigation */
+.swiper-pagination {
+  position: relative;
+  margin-top: 1.5rem;
+}
+
+.swiper-pagination-bullet {
+  background: #3b82f6;
+  opacity: 0.4;
+  width: 8px;
+  height: 8px;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: #00266e;
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s ease;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+  .slider {
+    max-width: 720px;
+  }
+
+  .swiper-slide {
+    width: 240px;
+  }
+
+  .feature {
+    height: 320px;
+  }
+
+  .feature-text {
+    height: 55%;
+  }
+}
+
+@media (max-width: 768px) {
+  .why-univave {
+    padding: 3rem 0.5rem;
+  }
+
+  .slider {
+    max-width: 90%;
+  }
+
+  .swiper-slide {
+    width: 200px;
+  }
+
+  .feature {
+    height: 280px;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .why-univave {
+    padding: 2rem 0.5rem;
+  }
+
+  .slider {
+    max-width: 100%;
+  }
+
+  .swiper-slide {
+    width: 180px;
+  }
+
+  .feature {
+    height: 240px;
+  }
+
+  .feature-text {
+    padding: 0.5rem;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 28px;
+    height: 28px;
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .why-univave h2 {
+    font-size: 1.5rem;
+  }
+
+  .swiper-slide {
+    width: 160px;
+  }
+
+  .feature {
+    height: 220px;
+  }
+
+  .swiper-pagination-bullet {
+    width: 6px;
+    height: 6px;
+  }
+}
+    </style>
   </head>
   <body>
     <!-- Giới thiệu chung -->
@@ -917,7 +1191,130 @@
       </div>
     </div>
   </section>
-  
+  <section id="why-univave" class="why-univave" aria-labelledby="why-univave-title">
+  <h2 id="why-univave-title">Vì sao nên chọn UniWave?</h2>
+  <div class="slider">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <div class="feature" role="group" aria-label="Tính năng: Giá cả cạnh tranh">
+          <div class="feature-img-container">
+            <img
+              class="feature-img"
+              src="./image/home/competitve-price.png"
+              srcset="./image/home/competitve-price-320w.png 320w, ./image/home/competitve-price-480w.png 480w, ./image/home/competitve-price.png 800w"
+              sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
+              alt="Giá cả cạnh tranh - minh bạch"
+              loading="lazy"
+            />
+          </div>
+          <div class="feature-text">
+            <div class="feature-title">
+              <p>Giá cả cạnh tranh - minh bạch</p>
+            </div>
+            <div class="feature-description">
+              <p>Chi phí rõ ràng, không phát sinh, tối ưu ngân sách cho doanh nghiệp.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="feature" role="group" aria-label="Tính năng: Hỗ trợ thanh toán 3 bên">
+          <div class="feature-img-container">
+            <img
+              class="feature-img"
+              src="./image/home/support-3-party-payment.png"
+              srcset="./image/home/support-3-party-payment-320w.png 320w, ./image/home/support-3-party-payment-480w.png 480w, ./image/home/support-3-party-payment.png 800w"
+              sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
+              alt="Hỗ trợ thanh toán 3 bên"
+              loading="lazy"
+            />
+          </div>
+          <div class="feature-text">
+            <div class="feature-title">
+              <p>Hỗ trợ thanh toán 3 bên</p>
+            </div>
+            <div class="feature-description">
+              <p>Dễ dàng giao dịch giữa các bên với quy trình thanh toán đơn giản, nhanh chóng.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="feature" role="group" aria-label="Tính năng: Hệ thống theo dõi vận đơn">
+          <div class="feature-img-container">
+            <img
+              class="feature-img"
+              src="./image/home/tracking-system.png"
+              srcset="./image/home/tracking-system-320w.png 320w, ./image/home/tracking-system-480w.png 480w, ./image/home/tracking-system.png  `
+
+System: 800w"
+              sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
+              alt="Hệ thống theo dõi vận đơn"
+              loading="lazy"
+            />
+          </div>
+          <div class="feature-text">
+            <div class="feature-title">
+              <p>Hệ thống theo dõi vận đơn</p>
+            </div>
+            <div class="feature-description">
+              <p>Theo dõi đơn hàng mọi lúc, đảm bảo minh bạch và kiểm soát tiến độ vận chuyển.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="feature" role="group" aria-label="Tính năng: Đa dạng đối tác vận chuyển">
+          <div class="feature-img-container">
+            <img
+              class="feature-img"
+              src="./image/home/partners.png"
+              srcset="./image/home/partners-320w.png 320w, ./image/home/partners-480w.png 480w, ./image/home/partners.png 800w"
+              sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
+              alt="Đa dạng đối tác vận chuyển"
+              loading="lazy"
+            />
+          </div>
+          <div class="feature-text">
+            <div class="feature-title">
+              <p>Đa dạng đối tác vận chuyển</p>
+            </div>
+            <div class="feature-description">
+              <p>Mạng lưới rộng khắp với các hãng lớn như DHL, FedEx, Maersk, OOCL,...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="feature" role="group" aria-label="Tính năng: Đội ngũ nhân sự chuyên nghiệp">
+          <div class="feature-img-container">
+            <img
+              class="feature-img"
+              src="./image/home/professional-staff-team.jpg"
+              srcset="./image/home/professional-staff-team-320w.jpg 320w, ./image/home/professional-staff-team-480w.jpg 480w, ./image/home/professional-staff-team.jpg 800w"
+              sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
+              alt="Đội ngũ nhân sự chuyên nghiệp"
+              loading="lazy"
+            />
+          </div>
+          <div class="feature-text">
+            <div class="feature-title">
+              <p>Đội ngũ nhân sự chuyên nghiệp</p>
+            </div>
+            <div class="feature-description">
+              <p>Giàu kinh nghiệm, sẵn sàng hỗ trợ và thích ứng với mọi tình huống phát sinh.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Pagination -->
+    <div class="swiper-pagination" role="tablist"></div>
+    <!-- Navigation Buttons -->
+    <div class="swiper-button-prev slider-navBtn" role="button" aria-label="Slide trước"></div>
+    <div class="swiper-button-next slider-navBtn" role="button" aria-label="Slide tiếp theo"></div>
+  </div>
+</section>
 
   <script>
     // Chờ jQuery và CountUp.js tải xong
@@ -959,6 +1356,49 @@
         }
       });
     }
+  </script>
+  <script>
+    const swiperSlider = new Swiper(".slider", {
+  loop: true,
+  autoplay: {
+    delay: 3000,
+    disableOnInteraction: false,
+    pauseOnMouseEnter: true,
+  },
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+  slidesPerView: 1,
+  spaceBetween: 10,
+  speed: 800,
+  breakpoints: {
+    360: {
+      slidesPerView: 1,
+      spaceBetween: 10,
+    },
+    480: {
+      slidesPerView: 2,
+      spaceBetween: 15,
+    },
+    768: {
+      slidesPerView: 3,
+      spaceBetween: 20,
+    },
+    1024: {
+      slidesPerView: 4,
+      spaceBetween: 30,
+    },
+    1280: {
+      slidesPerView: 4,
+      spaceBetween: 40,
+    },
+  },
+});
   </script>
   </body>
 </html>
