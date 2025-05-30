@@ -1306,10 +1306,16 @@ body {
 
 /* Slider Container */
 .slider {
-  max-width: 1500px;
+  max-width: 1300px;
   margin: 0 auto;
   height: 400px; /* Matches taller cards */
-  padding: 10px;
+  padding: 10px 0; /* Minimal horizontal padding */
+}
+
+/* Swiper Slide */
+.swiper-slide {
+  width: 320px; /* Match card width for 4 cards per view */
+  margin-right: 2px; /* Minimal spacing */
 }
 
 /* Feature Item (Slide) */
@@ -1317,16 +1323,16 @@ body {
   border-radius: 20px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-direction: column; /* Stack text and image vertically */
+  flex-direction: column;
   align-items: center;
-  height: 400px; /* Taller than wide */
-  width: 350px; /* Width smaller than height */
+  height: 380px; /* Unchanged */
+  width: 320px; /* Unchanged */
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   position: relative;
   overflow: hidden;
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  margin: 0 auto; /* Center card within slide */
+  margin: 0 auto;
 }
 
 .feature:hover {
@@ -1358,21 +1364,23 @@ body {
   text-align: left;
   justify-content: center;
   align-items: center;
-  position: absolute; /* Position text at bottom */
-  bottom: 0; /* Align to bottom of card */
-  width: 100%; /* Full width for text */
-  background: #dfe6e9; /* Semi-transparent background for readability */
+  position: absolute;
+  bottom: 3%;
+  width: 90%;
+  height: 180px;
+  border-radius: 20px;
+  background: #dfe6e9;
 }
 
 .feature-title {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: #1a2a44;
   margin-bottom: 10px;
 }
 
 .feature-description {
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: 400;
   color: #2d3748;
   line-height: 1.6;
@@ -1380,12 +1388,12 @@ body {
 
 /* Feature Image Container */
 .feature-img-container {
-  width: 100%; /* Full card width */
-  height: 100%; /* Full card height */
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   background-color: transparent;
-  border: none; /* Remove border to blend with card */
-  position: absolute; /* Overlay image across entire card */
+  border: none;
+  position: absolute;
   top: 0;
   left: 0;
   display: flex;
@@ -1396,20 +1404,20 @@ body {
 .feature-img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Stretch to fill container */
-  opacity: 0; /* Hide image by default */
+  object-fit: cover;
+  opacity: 0;
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .feature:hover .feature-img {
-  opacity: 1; /* Show image on hover */
-  transform: scale(1.15);
+  opacity: 1;
+  transform: scale(1.12);
   transform-origin: center;
 }
 
 /* Slider Pagination and Navigation */
 .swiper-wrapper {
-  padding: 0 5px; /* Reduce spacing between slides */
+  padding: 0 2px; /* Minimal padding */
 }
 
 .swiper-pagination {
@@ -1453,6 +1461,11 @@ body {
     height: 300px;
   }
 
+  .swiper-slide {
+    width: 200px; /* Match card width */
+    margin-right: 2px;
+  }
+
   .feature {
     height: 280px;
     width: 200px;
@@ -1484,8 +1497,13 @@ body {
 
   .slider {
     max-width: 100%;
-    padding: 0 5px;
+    padding: 0 2px;
     height: 300px;
+  }
+
+  .swiper-slide {
+    width: 200px;
+    margin-right: 2px;
   }
 
   .feature {
@@ -1528,8 +1546,13 @@ body {
   }
 
   .slider {
-    padding: 0 5px;
+    padding: 0 2px;
     height: 260px;
+  }
+
+  .swiper-slide {
+    width: 180px;
+    margin-right: 2px;
   }
 
   .feature {
@@ -1569,6 +1592,12 @@ body {
 
   .slider {
     height: 220px;
+    padding: 0 2px;
+  }
+
+  .swiper-slide {
+    width: 160px;
+    margin-right: 2px;
   }
 
   .feature {
