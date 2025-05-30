@@ -1,33 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
-      // Xóa lớp hidden khi trang tải
-      const servicesSection = document.getElementById('services');
-      if (servicesSection) {
-        servicesSection.classList.add('visible');
+  // Xóa lớp hidden khi trang tải (giữ nguyên cho services)
+  const servicesSection = document.getElementById('services');
+  if (servicesSection) {
+    servicesSection.classList.add('visible');
+  }
+
+  // Observe sections and footer for animation
+  const sections = document.querySelectorAll('.services, .partners, .cta, .cta-container, #fbot');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Reset animation for services
+        if (entry.target.id === 'services') {
+          const services = entry.target.querySelectorAll('.service');
+          services.forEach((service, index) => {
+            service.style.animation = 'none';
+            service.offsetHeight; // Trigger reflow
+            service.style.animation = null;
+          });
+        }
+      } else {
+        entry.target.classList.remove('visible');
       }
-
-      // Observe sections for animation
-      const sections = document.querySelectorAll('.services, .partners, .cta, .cta-container');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            // Reset animation for services
-            if (entry.target.id === 'services') {
-              const services = entry.target.querySelectorAll('.service');
-              services.forEach((service, index) => {
-                service.style.animation = 'none';
-                service.offsetHeight; // Trigger reflow
-                service.style.animation = null;
-              });
-            }
-          } else {
-            entry.target.classList.remove('visible');
-          }
-        });
-      }, { threshold: 0.1 });
-
-      sections.forEach(section => observer.observe(section));
     });
+  }, { threshold: 0.1 });
+
+  sections.forEach(section => observer.observe(section));
+});
 
 
 document.addEventListener("DOMContentLoaded", function () {

@@ -10835,41 +10835,6 @@ footer {
 }
 
 @media screen and (max-width: 1368px) {
-    ul.login li a {
-        padding: 0 0 0 30px !important;
-    }
-
-    .top-hd .form-hd form input {
-        max-width: 140px;
-    }
-
-
-
-    ul.login li:last-child:before {
-        left: 15px;
-    }
-
-    .menu ul li a {
-        padding: 0 18px;
-        font-size: 16px;
-    }
-
-    .menu ul li.menu-item-has-children a {
-        padding: 0 25px 0 10px;
-    }
-
-    .menu ul li.menu-item-has-children a:before {
-        right: 7px;
-    }
-
-    .menu_mb {
-        height: 700px;
-    }
-
-    .menu_mb li {
-        padding: 5px 0;
-    }
-
     #s4 .ct-kh {
         padding: 20px;
     }
@@ -10908,35 +10873,6 @@ footer {
     header .container {
         width: 100%;
     }
-
-
-    ul.login {
-        margin: 23px 0 0 10px;
-    }
-
-    .top-hd #mn:before {
-        width: 8px;
-        left: -14px;
-        top: -6px;
-    }
-
-    .top-hd .form-hd form {
-        display: none;
-    }
-
-    ul.login li:nth-child(2) {
-        display: none;
-    }
-
-    ul.login li a {
-        text-indent: -9999px;
-    }
-
-    .form-hd {
-        position: absolute;
-
-    }
-
 
     .arcontactus-widget .messangers-block {
         background: center no-repeat #37474F !important;
