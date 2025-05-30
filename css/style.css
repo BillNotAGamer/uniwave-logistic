@@ -1431,10 +1431,23 @@ body {
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
+.feature-img img:hover {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
 .feature:hover .feature-img {
   opacity: 1;
   transform: scale(1.12);
   transform-origin: center;
+}
+
+.feature-logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .swiper-pagination {
@@ -1696,228 +1709,258 @@ body {
 }
 
 /* Services */
-    .services {
-      padding: 60px 0;
-      background: #ffffff;
-      position: relative;
-      overflow: hidden;
-    }
+.services {
+  padding: 60px 0;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
 
-    .services h2 {
-      text-align: center;
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #1a2b49;
-      margin-bottom: 40px;
-      position: relative;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-      text-transform: uppercase;
-    }
+.services h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a2b49;
+  margin-bottom: 40px;
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  text-transform: uppercase;
+}
 
-    .services h2::after {
-      content: "";
-      position: absolute;
-      bottom: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 200px;
-      height: 5px;
-      background: linear-gradient(to right, #3b82f6, #10b981);
-      border-radius: 3px;
-      animation: SlideBackandForth 3s infinite ease-in-out;
-    }
+.services h2::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 5px;
+  background: linear-gradient(to right, #3b82f6, #10b981);
+  border-radius: 3px;
+  animation: SlideBackandForth 3s infinite ease-in-out;
+}
 
-    @keyframes SlideBackandForth {
-      0% { transform: translateX(-50%) translateX(-80px); }
-      50% { transform: translateX(-50%) translateX(80px); }
-      100% { transform: translateX(-50%) translateX(-80px); }
-    }
+@keyframes SlideBackandForth {
+  0% { transform: translateX(-50%) translateX(-80px); }
+  50% { transform: translateX(-50%) translateX(80px); }
+  100% { transform: translateX(-50%) translateX(-80px); }
+}
 
-    .services.visible h2 {
-      opacity: 1;
-      transform: translateY(0);
-      animation: titleGlow 1.5s ease-in-out forwards 0.1s;
-    }
+.services.visible h2 {
+  opacity: 1;
+  transform: translateY(0);
+  animation: titleGlow 1.5s ease-in-out forwards 0.1s;
+}
 
-    @keyframes titleGlow {
-      0% {
-        opacity: 0;
-        text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-      }
-      50% {
-        opacity: 1;
-        text-shadow: 0 0 15px rgba(26, 43, 73, 0.4), 0 0 25px rgba(26, 43, 73, 0.2);
-      }
-      100% {
-        opacity: 1;
-        text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-      }
-    }
+@keyframes titleGlow {
+  0% {
+    opacity: 0;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 15px rgba(26, 43, 73, 0.4), 0 0 25px rgba(26, 43, 73, 0.2);
+  }
+  100% {
+    opacity: 1;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+}
 
-    .service-list {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-    }
+.service-list {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
 
-    .service {
-      width: 30%;
-      min-width: 280px;
-      background: #fff;
-      border-radius: 15px;
-      padding: 25px;
-      text-align: center;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-      position: relative;
-      overflow: hidden;
-      opacity: 0;
-      transform: scale(0.95);
-      transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+.service {
+  width: 20%;
+  height: 400px;
+  min-width: 280px;
+  background: #fff;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Đẩy nội dung xuống dưới */
+  align-items: center;
+}
 
-    .services.visible .service:nth-child(1) {
-      transition-delay: 0.2s;
-      opacity: 1;
-      transform: scale(1);
-    }
+.services.visible .service:nth-child(1) {
+  transition-delay: 0.2s;
+  opacity: 1;
+  transform: scale(1);
+}
 
-    .services.visible .service:nth-child(2) {
-      transition-delay: 0.4s;
-      opacity: 1;
-      transform: scale(1);
-    }
+.services.visible .service:nth-child(2) {
+  transition-delay: 0.4s;
+  opacity: 1;
+  transform: scale(1);
+}
 
-    .services.visible .service:nth-child(3) {
-      transition-delay: 0.6s;
-      opacity: 1;
-      transform: scale(1);
-    }
+.services.visible .service:nth-child(3) {
+  transition-delay: 0.6s;
+  opacity: 1;
+  transform: scale(1);
+}
 
-    .service:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
+.service:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
 
-    .service::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-      transition: left 0.6s ease;
-    }
+.service::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.6s ease;
+}
 
-    .service:hover::before {
-      left: 100%;
-    }
+.service:hover::before {
+  left: 100%;
+}
 
-    .service-img-container {
-      position: relative;
-      width: 100%;
-      height: 200px;
-      margin-bottom: 15px;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+.service-img-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    .service-img-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease, filter 0.5s ease;
-    }
+.service-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
 
-    .service-img-container::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
+.service-img-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
 
-    .service:hover .service-img-container::after {
-      opacity: 1;
-    }
+.service:hover .service-img-container::after {
+  opacity: 1;
+}
 
-    .service:hover .service-img-container img {
-      transform: scale(1.1);
-      filter: brightness(1.15) contrast(1.05);
-    }
+.service:hover .service-img-container img {
+  transform: scale(1.1);
+  filter: brightness(1.15) contrast(1.05);
+}
 
-    .service h3 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #1a2b49;
-      margin: 10px 0;
-      transition: color 0.3s ease;
-    }
+.service h3,
+.service p {
+  position: relative;
+  z-index: 1;
+  opacity: 0; /* Ẩn chữ ban đầu */
+  transform: translateY(20px); /* Dịch chuyển xuống để tạo hiệu ứng slide */
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  padding: 0 15px;
+}
 
-    .service:hover h3 {
-      color: #007bff;
-    }
+.service h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff; /* Đổi màu chữ để nổi bật trên overlay */
+  margin: 10px 0;
+  padding-bottom: 15px;
+}
 
-    .service p {
-      font-size: 1rem;
-      color: #666;
-      line-height: 1.5;
-      margin: 0;
-    }
+.service p {
+  font-size: 1rem;
+  color: #ddd; /* Màu chữ nhạt hơn cho nội dung phụ */
+  line-height: 1.5;
+  margin: 0;
+  padding-bottom: 15px;
+}
 
-    @media (max-width: 1024px) {
-      .service {
-        width: 45%;
-      }
+.service:hover h3,
+.service:hover p {
+  opacity: 1; /* Hiển thị chữ khi hover */
+  transform: translateY(0); /* Slide lên vị trí gốc */
+}
 
-      .service-img-container {
-        height: 180px;
-      }
-    }
+.service-link {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  opacity: 0; /* Ẩn mũi tên ban đầu */
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  text-decoration: none;
+}
 
-    @media (max-width: 768px) {
-      .service {
-        width: 80%;
-        margin: 0 auto;
-      }
+.service-link img {
+  font-size: 2rem;
+  color: #fff;
+  background: #f7f1e3;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
 
-      .services h2 {
-        font-size: 2rem;
-      }
+.service:hover .service-link {
+  opacity: 1; /* Hiển thị mũi tên khi hover */
+  transform: translate(-50%, -50%) scale(1.1); /* Hiệu ứng phóng to nhẹ */
+}
 
-      .service-img-container {
-        height: 160px;
-      }
-    }
+@media (max-width: 1024px) {
+  .service {
+    width: 45%;
+  }
+}
 
-    @media (max-width: 480px) {
-      .service {
-        width: 90%;
-      }
+@media (max-width: 768px) {
+  .service {
+    width: 80%;
+    margin: 0 auto;
+  }
 
-      .services h2 {
-        font-size: 1.8rem;
-      }
+  .services h2 {
+    font-size: 2rem;
+  }
+}
 
-      .service-img-container {
-        height: 140px;
-      }
-    }
+@media (max-width: 480px) {
+  .service {
+    width: 90%;
+  }
+
+  .services h2 {
+    font-size: 1.8rem;
+  }
+}
 
 /* Partners */
 .partners {
