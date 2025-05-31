@@ -1744,7 +1744,7 @@ body {
   bottom: -12px;
   left: 50%;
   transform: translateX(-50%);
-  width: 200px;
+  width: 150px;
   height: 5px;
   background: linear-gradient(to right, #3b82f6, #10b981);
   border-radius: 3px;
