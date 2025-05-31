@@ -1220,6 +1220,10 @@ body {
     object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
     border-radius: 20px; /* Giữ góc bo tròn */
   }
+
+  .uw_button_group {
+    padding-bottom: 20px;
+  }
 }
 
 
