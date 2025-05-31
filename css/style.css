@@ -608,7 +608,7 @@ body {
 
   .secondary-nav-item:hover .secondary-nav-link {
     font-weight: 500;
-    color: var(--color-red-500);
+    color: var(--ttm-skincolor);
   }
 
   .secondary-nav-item:hover .secondary-nav-link>div {
@@ -639,7 +639,7 @@ body {
   }
 
   .tertiary-nav a:hover {
-    color: var(--color-red-500);
+    color: var(--ttm-skincolor);
   }
 
   .profile-menu>img:nth-child(2),
