@@ -1271,9 +1271,14 @@ body {
     padding: 1.5rem 0.5rem;
   }
 
+  .uw_button_group {
+    justify-content: center;
+  }
+
   .uw_action_btn {
-    width: 100%;
+    width: 70%;
     text-align: center;
+    justify-content: center;
   }
 }
 /*Section về chúng tôi trang home*/
