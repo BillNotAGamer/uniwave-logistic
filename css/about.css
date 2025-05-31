@@ -513,9 +513,24 @@
   }
 }
 
+@media (max-width: 959px) {
+  .container-about:has(.mission-container) {
+    height: auto; /* Bỏ chiều cao cố định */
+    padding-bottom: var(--spacing-lg); /* Thêm padding để tránh đè */
+  }
+
+  .mission__background {
+    top: 40%; /* Điều chỉnh vị trí hình nền */
+    height: 200px; /* Giảm chiều cao hình nền để tránh tràn */
+  }
+
+  .mission-content {
+    padding: var(--spacing-sm);
+  }
+}
 
 @media (max-width: 768px) {
-  .container {
+  .container-about {
     padding: var(--spacing-sm);
   }
 
@@ -524,7 +539,7 @@
   }
 
   .mission__background {
-    display: none;
+    display: none; /* Ẩn hình nền trên màn hình nhỏ */
   }
 
   .mission__values {
@@ -544,4 +559,36 @@
   .card__description {
     font-size: 0.9rem;
   }
+
+  /* Điều chỉnh gạch dưới cho responsive */
+  .core-value-title .title--main::after,
+  .reasons__container .title--main::after {
+    width: 50%; /* Tăng chiều rộng tương đối cho màn hình nhỏ */
+    max-width: 100px; /* Giới hạn tối đa để tránh quá dài */
+  }
+
+   .mission-content .title--main::after {
+    width: 40%; /* Tăng chiều rộng tương đối cho màn hình nhỏ */
+    max-width: 90px;
+  }
 }
+
+@media (max-width: 714px) {
+  .mission-content .title--main::after {
+     width: 30%; /* Tăng chiều rộng tương đối cho màn hình nhỏ */
+    max-width: 80px;
+  }
+}
+
+@media (max-width: 607px) {
+  .mission-content .title--main::after {
+    width: 15%; /* Tăng chiều rộng tương đối cho màn hình nhỏ */
+    max-width: 70px;
+  }
+
+  .core-value-title .title--main::after {
+    width: 30%;
+    max-width: 80px;
+  }
+}
+
