@@ -1,34 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Xóa lớp hidden khi trang tải (giữ nguyên cho services)
+  // Existing code for services section
   const servicesSection = document.getElementById('services');
   if (servicesSection) {
     servicesSection.classList.add('visible');
   }
 
-  // Observe sections and footer for animation
-  const sections = document.querySelectorAll('.services, .partners, .cta, .cta-container, #fbot');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        // Reset animation for services
-        if (entry.target.id === 'services') {
-          const services = entry.target.querySelectorAll('.service');
-          services.forEach((service, index) => {
-            service.style.animation = 'none';
-            service.offsetHeight; // Trigger reflow
-            service.style.animation = null;
-          });
+  // Observe sections for animation
+  const sections = document.querySelectorAll(
+    '.services, .partners, .cta, .cta-container, #fbot, .container-about, .reasons__container, .mission__background'
+  );
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Reset animation for services (keeping your existing logic)
+          if (entry.target.id === 'services') {
+            const services = entry.target.querySelectorAll('.service');
+            services.forEach((service) => {
+              service.style.animation = 'none';
+              service.offsetHeight; // Trigger reflow
+              service.style.animation = null;
+            });
+          }
+        } else {
+          entry.target.classList.remove('visible'); // Optional: Remove visible class when out of view
         }
-      } else {
-        entry.target.classList.remove('visible');
-      }
-    });
-  }, { threshold: 0.1 });
+      });
+    },
+    { threshold: 0.1 } // Trigger when 10% of the section is visible
+  );
 
-  sections.forEach(section => observer.observe(section));
+  sections.forEach((section) => observer.observe(section));
 });
-
 
 document.addEventListener("DOMContentLoaded", function () {
     // Đóng/mở input tìm kiếm

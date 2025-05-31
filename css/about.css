@@ -592,3 +592,43 @@
   }
 }
 
+/*Animation*/
+/* Add slide-up animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Apply animation to sections when visible */
+.container-about,
+.reasons__container {
+  opacity: 0; /* Initially hidden */
+  transform: translateY(50px); /* Start position for animation */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Smooth transition */
+}
+
+.container-about.visible,
+.reasons__container.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: slideUp 0.6s ease-out forwards; /* Apply slide-up animation */
+}
+
+/* Ensure mission__background has its own animation */
+.mission__background {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.mission__background.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: slideUp 0.6s ease-out forwards;
+}
