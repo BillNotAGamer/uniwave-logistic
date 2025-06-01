@@ -2721,7 +2721,7 @@ body {
   width: 50%;
   margin-left: auto;
   margin-right: auto;
-  z-index: 99;
+  z-index: 1;
   padding-bottom: 10px;
   font-family: "Mulish", sans-serif;
 }
