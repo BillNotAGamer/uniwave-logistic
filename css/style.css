@@ -1408,14 +1408,14 @@ body {
 
 .feature-title {
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #1a2a44;
   margin-bottom: 10px;
 }
 
 .feature-description {
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
   color: #2d3748;
   line-height: 1.6;
 }
