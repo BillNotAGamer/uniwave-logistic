@@ -1000,6 +1000,7 @@ body {
   animation-duration: 1s;
   animation-fill-mode: both;
 }
+
 /*Header style end*/
 .btn {
   background: #183051;
@@ -1209,15 +1210,20 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 300px; /* Đặt kích thước tối đa của container */
+    max-width: 300px;
+    /* Đặt kích thước tối đa của container */
     height: 300px;
-    margin: 0 auto; /* Căn giữa container */
+    margin: 0 auto;
+    /* Căn giữa container */
   }
+
   .uw_image_holder img {
     width: 300px;
     height: 300px;
-    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
-    border-radius: 20px; /* Giữ góc bo tròn */
+    object-fit: cover;
+    /* Đảm bảo hình ảnh không bị méo */
+    border-radius: 20px;
+    /* Giữ góc bo tròn */
   }
 
   .uw_button_group {
@@ -1280,6 +1286,7 @@ body {
     justify-content: center;
   }
 }
+
 /*Section về chúng tôi trang home*/
 
 /* Why UniWave Section */
@@ -1334,18 +1341,23 @@ body {
 .slider-features {
   max-width: 1400px;
   margin: 0 auto;
-  height: 400px; /* Matches taller cards */
-  padding: 10px 0; /* Minimal horizontal padding */
+  height: 400px;
+  /* Matches taller cards */
+  padding: 10px 0;
+  /* Minimal horizontal padding */
 }
 
 /* Swiper Slide */
 .swiper-slide {
-  width: 320px; /* Match card width for 4 cards per view */
-  margin-right: 2px; /* Minimal spacing */
+  width: 320px;
+  /* Match card width for 4 cards per view */
+  margin-right: 2px;
+  /* Minimal spacing */
 }
 
 .swiper-wrapper {
-  padding: 0 2px; /* Minimal padding */
+  padding: 0 2px;
+  /* Minimal padding */
 }
 
 /* Feature Item (Slide) */
@@ -1355,8 +1367,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 380px; 
-  width: 320px; 
+  height: 380px;
+  width: 320px;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   position: relative;
   overflow: hidden;
@@ -1498,73 +1510,74 @@ body {
 
 
 /* Custom Swiper Pagination */
-    .swiper-pagination {
-      position: relative;
-      margin-top: 25px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding-bottom: 10px;
-    }
+.swiper-pagination {
+  position: relative;
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
+}
 
-    .swiper-pagination-bullet {
-      width: 12px;
-      height: 12px;
-      background: transparent;
-      border: 2px solid #3b82f6;
-      opacity: 0.6;
-      border-radius: 50%;
-      position: relative;
-      transition: all 0.3s ease;
-    }
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: transparent;
+  border: 2px solid #3b82f6;
+  opacity: 0.6;
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.3s ease;
+}
 
-    .swiper-pagination-bullet::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 6px;
-      height: 6px;
-      background: #3b82f6;
-      border-radius: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      transition: transform 0.3s ease;
-    }
+.swiper-pagination-bullet::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: #3b82f6;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.3s ease;
+}
 
-    .swiper-pagination-bullet-active {
-      opacity: 1;
-      transform: scale(1.2);
-    }
+.swiper-pagination-bullet-active {
+  opacity: 1;
+  transform: scale(1.2);
+}
 
-    .swiper-pagination-bullet-active::before {
-      transform: translate(-50%, -50%) scale(1);
-    }
+.swiper-pagination-bullet-active::before {
+  transform: translate(-50%, -50%) scale(1);
+}
 
-    .swiper-pagination-bullet:hover {
-      opacity: 1;
-      transform: scale(1.2);
-    }
+.swiper-pagination-bullet:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
 
-    .swiper-pagination-bullet:hover::before {
-      transform: translate(-50%, -50%) scale(1);
-    }
+.swiper-pagination-bullet:hover::before {
+  transform: translate(-50%, -50%) scale(1);
+}
 
-    /* Swiper Navigation Buttons */
-    .swiper-button-prev,
-    .swiper-button-next {
-      color: #00266e;
-      height: 40px;
-      width: 40px;
-      background: #fff;
-      border-radius: 50%;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
+/* Swiper Navigation Buttons */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #00266e;
+  height: 40px;
+  width: 40px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 
-    .swiper-button-prev::after,
-    .swiper-button-next::after {
-      font-size: 18px;
-      font-weight: 600;
-    }
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 18px;
+  font-weight: 600;
+}
+
 /* Responsive Design */
 
 
@@ -1658,6 +1671,7 @@ body {
     height: 6px;
   }
 }
+
 /* Why UniWave Section */
 
 /* Quote Form */
@@ -1755,9 +1769,17 @@ body {
 }
 
 @keyframes SlideBackandForth {
-  0% { transform: translateX(-50%) translateX(-80px); }
-  50% { transform: translateX(-50%) translateX(80px); }
-  100% { transform: translateX(-50%) translateX(-80px); }
+  0% {
+    transform: translateX(-50%) translateX(-80px);
+  }
+
+  50% {
+    transform: translateX(-50%) translateX(80px);
+  }
+
+  100% {
+    transform: translateX(-50%) translateX(-80px);
+  }
 }
 
 .services.visible h2 {
@@ -1771,10 +1793,12 @@ body {
     opacity: 0;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   }
+
   50% {
     opacity: 1;
     text-shadow: 0 0 15px rgba(26, 43, 73, 0.4), 0 0 25px rgba(26, 43, 73, 0.2);
   }
+
   100% {
     opacity: 1;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -1803,7 +1827,8 @@ body {
   transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* Đẩy nội dung xuống dưới */
+  justify-content: flex-end;
+  /* Đẩy nội dung xuống dưới */
   align-items: center;
 }
 
@@ -1890,8 +1915,10 @@ body {
 .service p {
   position: relative;
   z-index: 1;
-  opacity: 0; /* Ẩn chữ ban đầu */
-  transform: translateY(20px); /* Dịch chuyển xuống để tạo hiệu ứng slide */
+  opacity: 0;
+  /* Ẩn chữ ban đầu */
+  transform: translateY(20px);
+  /* Dịch chuyển xuống để tạo hiệu ứng slide */
   transition: opacity 0.4s ease, transform 0.4s ease;
   padding: 0 15px;
 }
@@ -1899,14 +1926,16 @@ body {
 .service h3 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #fff; /* Đổi màu chữ để nổi bật trên overlay */
+  color: #fff;
+  /* Đổi màu chữ để nổi bật trên overlay */
   margin: 10px 0;
   padding-bottom: 15px;
 }
 
 .service p {
   font-size: 1rem;
-  color: #ddd; /* Màu chữ nhạt hơn cho nội dung phụ */
+  color: #ddd;
+  /* Màu chữ nhạt hơn cho nội dung phụ */
   line-height: 1.5;
   margin: 0;
   padding-bottom: 15px;
@@ -1914,8 +1943,10 @@ body {
 
 .service:hover h3,
 .service:hover p {
-  opacity: 1; /* Hiển thị chữ khi hover */
-  transform: translateY(0); /* Slide lên vị trí gốc */
+  opacity: 1;
+  /* Hiển thị chữ khi hover */
+  transform: translateY(0);
+  /* Slide lên vị trí gốc */
 }
 
 .service-link {
@@ -1924,7 +1955,8 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  opacity: 0; /* Ẩn mũi tên ban đầu */
+  opacity: 0;
+  /* Ẩn mũi tên ban đầu */
   transition: opacity 0.4s ease, transform 0.4s ease;
   text-decoration: none;
 }
@@ -1943,8 +1975,10 @@ body {
 }
 
 .service:hover .service-link {
-  opacity: 1; /* Hiển thị mũi tên khi hover */
-  transform: translate(-50%, -50%) scale(1.1); /* Hiệu ứng phóng to nhẹ */
+  opacity: 1;
+  /* Hiển thị mũi tên khi hover */
+  transform: translate(-50%, -50%) scale(1.1);
+  /* Hiệu ứng phóng to nhẹ */
 }
 
 @media (max-width: 1024px) {
@@ -2390,7 +2424,7 @@ body {
   100% {
     opacity: 0.7;
   }
-} 
+}
 
 @media (max-width: 760px) {
   .cta {
@@ -2421,7 +2455,7 @@ body {
 
   }
 
-  
+
 
   .cta-image {
     width: 100%;
@@ -3210,73 +3244,85 @@ body {
   }
 }
 
-/* Contact page style */
+/* Contact Section */
 .contact-section {
   padding: 60px 20px;
-  background: linear-gradient(135deg, #183051, #ffffff);
+  background: linear-gradient(145deg, rgba(24, 39, 81, 1) 0%, rgba(41, 55, 105, 1) 60%, rgba(74, 107, 199, 1) 100%);
   color: #333;
   position: relative;
   overflow: hidden;
 }
 
-.contact-title {
-  text-align: center;
-  font-size: 2.5em;
-  color: #fff;
-  margin-bottom: 40px;
-  opacity: 0;
-  animation: fadeInUp 1s ease-out forwards;
-  animation-delay: 0.2s;
-}
-
-.contact-content {
-  display: flex;
-  justify-content: space-between;
+.container-contact {
   max-width: 1200px;
   margin: 0 auto;
-  gap: 40px;
-  opacity: 0;
-  animation: fadeInUp 1s ease-out forwards;
-  animation-delay: 0.4s;
 }
 
-.contact-info {
+.company-info {
   flex: 1;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.info-item {
+.company-info h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #fff;
+}
+
+.info-box {
   display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.info-box p {
+  font-size: 1rem;
+  line-height: 1.5;
+  display: flex;
+  font-weight: 500;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  text-align: center;
+  max-width: 200px;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.info-item i {
-  font-size: 1.5em;
-  color: #183051;
-  margin-right: 15px;
+.info-box i {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.3rem;
+  width: 45px;
+  height: 45px;
+  line-height: 40px;
+  background-color: #1e3a8a;
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.info-item p {
-  margin: 0;
-  font-size: 1em;
-  color: #555;
+
+
+.contact-container {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
-.info-item a {
-  color: #183051;
-  text-decoration: none;
+.contact-form,
+.contact-map {
+  width: 50%;
 }
 
-.info-item a:hover {
-  color: #2a4b7c;
+.contact-form h2,
+.contact-map h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
 }
 
-.contact-form {
-  flex: 1;
+.contact-form-input {
   background: rgba(255, 255, 255, 0.9);
   padding: 30px;
   border-radius: 15px;
@@ -3288,47 +3334,43 @@ body {
 
 .contact-form input,
 .contact-form textarea {
-  padding: 10px;
-  border: 1px solid #ddd;
+  padding: 0.8rem;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 1em;
+  font-size: 1rem;
   width: 100%;
-  transition: border-color 0.3s ease;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-  border-color: #183051;
   outline: none;
-}
-
-.contact-form textarea {
-  height: 150px;
-  resize: vertical;
+  border-color: #1e3a8a;
+  box-shadow: 0 0 5px rgba(30, 58, 138, 0.3);
 }
 
 .contact-form button {
-  padding: 10px 20px;
-  background: #183051;
-  color: #fff;
+  padding: 0.8rem 2rem;
+  background-color: #1e3a8a;
+  color: white;
   border: none;
   border-radius: 5px;
-  font-size: 1em;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .contact-form button:hover {
-  background: #2a4b7c;
-  transform: translateY(-2px);
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
+/* Animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: ContactfadeIn 1s ease-out forwards;
+}
 
+@keyframes ContactfadeIn {
   to {
     opacity: 1;
     transform: translateY(0);
@@ -3337,31 +3379,33 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .contact-section {
-    padding: 40px 10px;
-  }
-
-  .contact-title {
-    font-size: 2em;
-  }
-
-  .contact-content {
+  .company-info-container {
     flex-direction: column;
-    gap: 20px;
+    align-items: center;
   }
 
-  .contact-info,
-  .contact-form {
-    padding: 20px;
+  .info-box {
+    flex-direction: column;
+    align-items: center;
   }
 
-  .contact-form input,
-  .contact-form textarea {
-    font-size: 0.9em;
+  .info-box p {
+    max-width: 100%;
   }
 
-  .contact-form button {
-    font-size: 0.9em;
+  .symbol-image {
+    max-width: 150px;
+    height: 80px;
+    margin: 1.5rem auto;
+  }
+
+  .contact-container {
+    flex-direction: column;
+  }
+
+  .contact-form,
+  .contact-map {
+    width: 100%;
   }
 }
 
