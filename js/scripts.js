@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function () {
         chatBox.style.display = 'block';
         setTimeout(() => {
             chatBox.style.display = 'none';
-        }, 4000);
+        }, 7000);
     }
 
     // Hàm toggle popup-form
