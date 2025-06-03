@@ -1,3 +1,57 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // Danh sách các liên kết và trang tương ứng
+    const navItems = [
+        { href: 'index.html', selector: '.primary-nav-item:nth-child(1)' },
+        { href: 'about.html', selector: '.primary-nav-item:nth-child(2)' },
+        { href: 'services.html', selector: '.primary-nav-item:nth-child(3)' }, // Mục "Dịch vụ"
+        { href: 'tracking-shipment.html', selector: '.primary-nav-item:nth-child(4)' },
+        { href: 'price-check.html', selector: '.primary-nav-item:nth-child(5)' },
+        { href: 'contact.html', selector: '.primary-nav-item:nth-child(6)' }
+    ];
+
+    // Hàm xóa lớp selected khỏi tất cả các mục
+    function clearSelectedClasses() {
+        document.querySelectorAll('.primary-nav-item').forEach(item => {
+            item.classList.remove('selected-desktop', 'selected-mobile');
+        });
+    }
+
+    // Hàm thêm lớp selected cho mục tương ứng
+    function setSelectedClass(path) {
+        const currentItem = navItems.find(item => path.endsWith(item.href));
+        if (currentItem) {
+            const navItem = document.querySelector(currentItem.selector);
+            if (navItem) {
+                navItem.classList.add('selected-desktop', 'selected-mobile');
+            }
+        }
+    }
+
+    // Lấy tên file từ URL hiện tại
+    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+
+    // Xóa và gán lớp selected dựa trên trang hiện tại
+    clearSelectedClasses();
+    setSelectedClass(currentPath);
+
+    // Xử lý sự kiện nhấp chuột
+    const navLinks = document.querySelectorAll('.primary-nav-item > .primary-nav-link:not(.clickable), .secondary-nav-item > .secondary-nav-link[href="services.html"]');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            // Ngăn hành vi mặc định để xử lý thủ công
+            event.preventDefault();
+            const href = this.getAttribute('href');
+            
+            // Xóa và gán lớp selected
+            clearSelectedClasses();
+            setSelectedClass(href);
+
+            // Chuyển hướng tới trang
+            window.location.href = href;
+        });
+    });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   // Existing code for services section
   const servicesSection = document.getElementById('services');
@@ -32,6 +86,28 @@ document.addEventListener('DOMContentLoaded', () => {
   );
 
   sections.forEach((section) => observer.observe(section));
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Select all primary navigation links
+    const navLinks = document.querySelectorAll('.primary-nav-item > .primary-nav-link');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            // Prevent default behavior for expandable items to avoid conflicts
+            if (this.parentElement.classList.contains('expandable')) {
+                return;
+            }
+
+            // Remove selected classes from all primary nav items
+            document.querySelectorAll('.primary-nav-item').forEach(item => {
+                item.classList.remove('selected-desktop', 'selected-mobile');
+            });
+
+            // Add selected classes to the clicked link's parent
+            this.parentElement.classList.add('selected-desktop', 'selected-mobile');
+        });
+    });
 });
 
 document.addEventListener("DOMContentLoaded", function () {
