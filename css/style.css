@@ -1252,6 +1252,10 @@ body {
     height: 300px;
   }
 
+  .uw_text_block h2 {
+    font-size: 1.8rem;
+  }
+
   .uw_text_block {
     min-width: 100%;
   }
@@ -2138,6 +2142,13 @@ body {
   font-weight: 600 !important;
 }
 
+@media (max-width: 768px) {
+  .partners h2 {
+    font-size: 1.8rem;
+  }
+  
+}
+
 /* CTA start */
 /* Reset và style cơ bản */
 .cta {
@@ -2472,8 +2483,8 @@ body {
     padding: 0 10px;
   }
 
-  .cta-title {
-    font-size: 24px;
+  #cta-main-title {
+    font-size: 1.8rem;
     line-height: 1.4;
     margin-bottom: 15px;
   }
