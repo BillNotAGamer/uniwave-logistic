@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="css/support_fixed.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/theme.css">
-  <link rel="stylesheet" href="uni-content/themes/uniwave/css/danhmucdichvu.css">
+  <link rel="stylesheet" href="./uni-content/themes/uniwave/css/danhmucdichvu.css">
 	<!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
@@ -193,81 +193,55 @@
 	<!--Breadcrumb end-->
 	<div class="container">
 		<div class="sidebar-wrapper">
-			<div class="sidebar-toggle">☰</div>
-			<div class="sidebar-service">
-			<div class="sidebar-header">Danh mục dịch vụ</div>
-			<div class="menu-menu-dich-vu-container">
-				<ul class="service-menu ml-0 pl-0">
-				<li class="menu-item menu-item-has-children">
-					<a href="#">
-					<img src="https://viettelpost.com.vn/wp-content/uploads/2021/11/trongnuoc.png" alt="Dịch vụ trong nước">
-					Dịch vụ trong nước
-					</a>
-					<ul class="sub-menu">
-						<li class="menu-item">
-							<div class="menu-item-has-children">
-								<a href="">
-									Chuyển phát nhanh hàng hóa, tài liệu
-								</a>
-							</div>
-						</li>
-						<li class="menu-item">
-							<div class="menu-item-has-children">
-								<a href="">
-									Chuyển phát Hoả tốc (VHT)
-								</a>
-							</div>
-						</li>
-						<li class="menu-item">
-							<div class="menu-item-has-children">
-								<a href="">
-									Dịch vụ cộng thêm
-								</a>
-							</div>
-						</li>
-					</ul>
-				</li>
-
-				<li class="menu-item menu-item-has-children">
-					<a href="#">
-					<img src="https://viettelpost.com.vn/wp-content/uploads/2021/11/quocte.png" alt="Dịch vụ quốc tế">
-					Dịch vụ quốc tế
-					</a>
-					<ul class="sub-menu">
-						<li class="menu-item">
-							<div class="menu-item-has-children">
-								<a href="">
-									Dịch vụ quốc tế
-								</a>
-							</div>
-						</li>
-						<li class="menu-item">
-							<div class="menu-item-has-children">
-								<a href="">
-									Chuyển phát Quốc tế DHL
-								</a>
-							</div>
-						</li>
-						<li class="menu-item">
-							<div class="menu-item-has-children">
-								<a href="">
-									Chuyển phát quốc tế nhanh (VQN)
-								</a>
-							</div>
-						</li>
-						<li class="menu-item">
-							<div class="menu-item-has-children">
-								<a href="">
-									Dịch vụ thông quan quốc tế chiều về
-								</a>
-							</div>
-						</li>
-					</ul>
-				</li>
-				</ul>
-			</div>
-			</div>
-		</div>
+        <div class="sidebar-toggle">☰</div>
+        <div class="sidebar-service">
+            <div class="sidebar-header">
+                Danh mục dịch vụ
+                <span class="sidebar-close">×</span>
+            </div>
+            <div class="menu-menu-dich-vu-container">
+                <ul class="service-menu ml-0 pl-0">
+                    <li class="menu-item menu-item-has-children">
+                        <a href="#">
+                            <img src="https://viettelpost.com.vn/wp-content/uploads/2021/11/trongnuoc.png" alt="Dịch vụ trong nước">
+                            Dịch vụ trong nước
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="menu-item">
+                                <a href="">Chuyển phát nhanh hàng hóa, tài liệu</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="">Chuyển phát Hoả tốc (VHT)</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="">Dịch vụ cộng thêm</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item menu-item-has-children">
+                        <a href="#">
+                            <img src="https://viettelpost.com.vn/wp-content/uploads/2021/11/quocte.png" alt="Dịch vụ quốc tế">
+                            Dịch vụ quốc tế
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="menu-item">
+                                <a href="">Dịch vụ quốc tế</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="">Chuyển phát Quốc tế DHL</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="">Chuyển phát quốc tế nhanh (VQN)</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="">Dịch vụ thông quan quốc tế chiều về</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 	</div>
 		<div class="card-container">
 			<div class="service-card">
@@ -557,8 +531,6 @@
 			}
 		}
 	</script>
-
-	<script type="text/javascript" src="js/emoji-support.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
@@ -634,6 +606,37 @@
     });
   });
 </script>
+<script>
+        // Toggle sidebar trên di động
+        document.querySelector('.sidebar-toggle').addEventListener('click', () => {
+            document.querySelector('.sidebar-service').classList.toggle('active');
+        });
+
+        // Đóng sidebar khi click nút "x"
+        document.querySelector('.sidebar-close').addEventListener('click', () => {
+            document.querySelector('.sidebar-service').classList.remove('active');
+            // Đóng tất cả submenu khi đóng sidebar
+            document.querySelectorAll('.menu-item-has-children').forEach(item => {
+                item.classList.remove('active');
+            });
+        });
+
+        // Toggle submenu khi click trên cả desktop và di động
+        document.querySelectorAll('.menu-item-has-children > a').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault(); // Ngăn chuyển hướng
+                const parent = item.parentElement;
+                // Đóng các submenu khác
+                document.querySelectorAll('.menu-item-has-children').forEach(sibling => {
+                    if (sibling !== parent) {
+                        sibling.classList.remove('active');
+                    }
+                });
+                // Toggle submenu hiện tại
+                parent.classList.toggle('active');
+            });
+        });
+    </script>
 </body>
 
 <link rel='stylesheet' id='whp6778font-awesome.min.css-css'
