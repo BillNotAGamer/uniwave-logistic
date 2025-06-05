@@ -1138,6 +1138,10 @@ body {
   font-size: 23px;
 }
 
+.uw_subtext_group p {
+  font-size: 16px;
+}
+
 .uw_intro_text {
   padding-bottom: 60px;
 }

@@ -206,7 +206,7 @@ navBar.addEventListener("click", (e) => {
     });
 });
 /*****************
- * END ADD ANIMATION *
+ * ADD ANIMATION *
  *****************/
 
 
@@ -254,9 +254,9 @@ document.addEventListener('DOMContentLoaded', function () {
  * IMPORTANT MAIL SENDING POPUP *
  ********************************/
 
-/********************************
+/***********************************
  * SECTION VỀ CHÚNG TÔI TRANG HOME *
- ********************************/
+ ***********************************/
  // Văn bản cần đánh chữ
     const textToType = "UniWave chuyên cung cấp các dịch vụ logistics tối ưu, linh hoạt theo nhu cầu thực tế của doanh nghiệp, được triển khai bởi đội ngũ chuyên gia giàu kinh nghiệm.";
     
@@ -326,6 +326,6 @@ document.addEventListener('DOMContentLoaded', function () {
     );
 
     observerSectionAbout.observe(section);
-/********************************
+/***********************************
  * SECTION VỀ CHÚNG TÔI TRANG HOME *
- ********************************/
+ ***********************************/
