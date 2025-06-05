@@ -200,7 +200,6 @@
       <div class="sidebar-service">
         <div class="sidebar-header">
           Danh mục dịch vụ
-          <span class="sidebar-close">×</span>
         </div>
         <div class="menu-menu-dich-vu-container">
           <ul class="service-menu ml-0 pl-0">
@@ -613,22 +612,6 @@
           parent.classList.toggle('active');
         });
       });
-
-      // Mở sidebar khi bấm nút toggle
-      const toggleButton = document.querySelector('.sidebar-toggle');
-      const sidebar = document.querySelector('.sidebar-service');
-      const closeButton = document.querySelector('.sidebar-close');
-
-      if (toggleButton && sidebar && closeButton) {
-        toggleButton.addEventListener('click', () => {
-          sidebar.classList.add('active');
-        });
-
-        // Đóng sidebar khi bấm dấu ×
-        closeButton.addEventListener('click', () => {
-          sidebar.classList.remove('active');
-        });
-      }
     });
   </script>
 

@@ -62,16 +62,6 @@
     margin-bottom: 25px;
 }
 
-/* Nút đóng sidebar */
-.sidebar-close {
-    display: none;
-    /* Ẩn mặc định trên desktop */
-    font-size: 24px;
-    cursor: pointer;
-    color: #fff;
-    transition: color 0.3s ease;
-}
-
 .sidebar-close:hover {
     color: #ccc;
 }
@@ -158,8 +148,5 @@
         display: flex;
     }
 
-    /* Hiển thị nút đóng trên di động */
-    .sidebar-close {
-        display: block;
-    }
+
 }
