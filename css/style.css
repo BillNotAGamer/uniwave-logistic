@@ -1186,7 +1186,7 @@ body {
   text-align: center;
   backdrop-filter: blur(10px);
   flex: 1;
-  min-width: 200px;
+  min-width: 180px;
 }
 
 .uw_stat_item .uw_stat_icon {
@@ -1292,7 +1292,6 @@ body {
 
   .uw_stats_item {
     max-width: 90%;
-    min-width: 150px;
   }
 
   .uw_stat_item h3 {
