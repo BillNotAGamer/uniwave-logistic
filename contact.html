@@ -557,33 +557,7 @@
       });
     });
   </script>
-  <script>
-    // Khởi tạo EmailJS
-    (function () {
-      emailjs.init("BERY7kRlfqMVpherf");
-    })();
 
-    // Bắt sự kiện gửi form
-    document.getElementById("contact-form-input").addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      // Gửi email đến sales
-      emailjs.sendForm("service_d5irvii", "template_contact_fwpo0kh", this)
-        .then(function (response) {
-          alert("✅ Gửi thành công!");
-        }, function (error) {
-          alert("❌ Gửi thất bại.");
-          console.log(error);
-        });
-
-      // Gửi email cảm ơn
-      const formData = new FormData(this);
-      emailjs.send("service_d5irvii", "template_auto_reply_7426", {
-        name: formData.get("name"),
-        email: formData.get("email")
-      });
-    });
-  </script>
 </body>
 
 <link rel='stylesheet' id='whp6778font-awesome.min.css-css'
