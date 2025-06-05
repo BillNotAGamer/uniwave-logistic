@@ -198,13 +198,12 @@
     <div class="container-contact fade-in" style="animation-delay: 0.4s;">
       <!-- Thông tin công ty -->
       <div class="company-info">
-
         <div class="info-box fade-in" style="animation-delay: 0.6s;">
           <p><i class="fas fa-map-marker-alt"></i>Địa chỉ: T2-26 The Manhattan – Vinhomes Grand Park, 512 Nguyễn Xiển,
             Long Bình, TP. Thủ Đức</p>
-          <p><i class="fas fa-envelope"></i>Email: sales@uniwave-logistics.com</p>
-          <p><i class="fas fa-phone"></i>Phone: 0775 764 586</p>
-          <p><i class="fas fa-globe"></i>Website: www.uniwave-logistics.com</p>
+          <p><i class="fas fa-envelope"></i>Email:<a href="mailto:sales@uniwave-logistics.com">sales@uniwave-logistics.com</a></p>
+          <p><i class="fas fa-phone"></i>Phone:<a href="tel:+84775764586">0775 764 586</a></p>
+          <p><i class="fas fa-globe"></i>Website:<a href="uniwave-logistic.com">www.uniwave-logistics.com</a></p>
         </div>
       </div>
       <!-- Form và Map -->
@@ -212,10 +211,10 @@
         <!-- Form liên hệ -->
         <div class="contact-form fade-in" style="animation-delay: 1s;">
           <h2>Liên hệ với chúng tôi</h2>
-          <form class="contact-form-input">
-            <input type="text" id="name" name="name" required placeholder="Họ và Tên">
+          <form class="contact-form-input" method="post">
+            <input type="text" id="name" name="name" required placeholder="Họ và Tên">           
+            <input type="tel" name="phone" id="phone" required placeholder="Số điện thoại">
             <input type="email" id="email" name="email" required placeholder="Email">
-            <input type="tel" name="phone" id="phone" required pattern="[0-9]{10}" placeholder="Số điện thoại">
             <textarea id="message" name="message" rows="5" required placeholder="Tin nhắn"></textarea>
             <button type="submit">Gửi</button>
           </form>
@@ -285,7 +284,7 @@
                   <p id="comp-address"><i class="fa fa-map-marker"></i> Trụ sở công ty: T2-26 The Manhattan – Vinhomes
                     Grand Park, 512 Nguyễn Xiển, Long Bình, TP. Thủ Đức</p>
                   <p id="comp-mail"><i class="fa fa-envelope"></i> <a style="color:white"
-                      href="mailto:sales@uniwavelogistics.com">sales@uniwavelogistics.com</a></p>
+                      href="mailto:sales@uniwave-logistics.com">sales@uniwave-logistics.com</a></p>
                   <p class="hotline-footer">
                     <a href="tel:+84775764586" style="color: #fff;">
                       <img width="20" height="20" src="https://img.icons8.com/ios-filled/50/FFFFFF/phone.png"
@@ -550,7 +549,34 @@
           console.log(error);
         });
 
-      // Gửi email cảm ơn (nếu cần)
+      // Gửi email cảm ơn
+      const formData = new FormData(this);
+      emailjs.send("service_d5irvii", "template_auto_reply_7426", {
+        name: formData.get("name"),
+        email: formData.get("email")
+      });
+    });
+  </script>
+  <script>
+    // Khởi tạo EmailJS
+    (function () {
+      emailjs.init("BERY7kRlfqMVpherf");
+    })();
+
+    // Bắt sự kiện gửi form
+    document.getElementById("contact-form-input").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      // Gửi email đến sales
+      emailjs.sendForm("service_d5irvii", "template_contact_fwpo0kh", this)
+        .then(function (response) {
+          alert("✅ Gửi thành công!");
+        }, function (error) {
+          alert("❌ Gửi thất bại.");
+          console.log(error);
+        });
+
+      // Gửi email cảm ơn
       const formData = new FormData(this);
       emailjs.send("service_d5irvii", "template_auto_reply_7426", {
         name: formData.get("name"),
