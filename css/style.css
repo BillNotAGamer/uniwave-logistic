@@ -1181,7 +1181,7 @@ body {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   padding: 1.5rem;
-  width: 100%;
+  width: 200px;
   max-width: 280px;
   text-align: center;
   backdrop-filter: blur(10px);
@@ -1291,7 +1291,7 @@ body {
   }
 
   .uw_stats_item {
-    max-width: 90%;
+    width: 180px;
   }
 
   .uw_stat_item h3 {
