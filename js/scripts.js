@@ -1,3 +1,6 @@
+/*****************************************
+ * TỔNG HỢP SCRIPTS CHO PHẦN MENU HEADER *
+ *****************************************/
 document.addEventListener('DOMContentLoaded', function() {
     // Danh sách các liên kết và trang tương ứng
     const navItems = [
@@ -52,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+//Script scroll hiện section
 document.addEventListener('DOMContentLoaded', () => {
   // Existing code for services section
   const servicesSection = document.getElementById('services');
@@ -172,6 +176,47 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+//Script cho mở rộng sub-menu trên mobile
+document.addEventListener('DOMContentLoaded', () => {
+  const clickableItems = document.querySelectorAll('.primary-nav-link.clickable, .secondary-nav-link.clickable');
+
+  clickableItems.forEach((item) => {
+    item.addEventListener('click', (e) => {
+      // Chỉ xử lý trên mobile (max-width: 991px)
+      if (window.innerWidth <= 991) {
+        e.preventDefault(); // Ngăn hành vi mặc định của link
+        const parent = item.parentElement; // primary-nav-item hoặc secondary-nav-item
+        const isPrimary = item.classList.contains('primary-nav-link');
+        const isSecondary = item.classList.contains('secondary-nav-link');
+
+        // Đóng tất cả menu con khác (accordion style)
+        document.querySelectorAll('.primary-nav-item.toggle-mobile, .secondary-nav-item.toggle-mobile').forEach((otherParent) => {
+          if (otherParent !== parent) {
+            otherParent.classList.remove('toggle-mobile');
+          }
+        });
+
+        // Toggle menu hiện tại
+        if (isPrimary) {
+          parent.classList.toggle('toggle-mobile'); // Toggle secondary-nav
+        } else if (isSecondary) {
+          parent.classList.toggle('toggle-mobile'); // Toggle tertiary-nav
+        }
+
+        // Debug: Log để kiểm tra
+        if (!parent.querySelector('.secondary-nav, .tertiary-nav')) {
+          console.warn('Submenu not found for:', item);
+        }
+      }
+    });
+  });
+});
+//Script cho mở rộng sub-menu trên mobile
+/*****************************************
+ * TỔNG HỢP SCRIPTS CHO PHẦN MENU HEADER *
+ *****************************************/
+
 
 /*****************
  * ADD ANIMATION *
