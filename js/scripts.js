@@ -255,10 +255,8 @@ document.addEventListener('DOMContentLoaded', function () {
  ********************************/
 
 /***********************************
- * SECTION VỀ CHÚNG TÔI TRANG HOME *
+ * SHARED FUNCTIONS *
  ***********************************/
-const textToType = "UniWave chuyên cung cấp các dịch vụ logistics tối ưu, linh hoạt theo nhu cầu thực tế của doanh nghiệp, được triển khai bởi đội ngũ chuyên gia giàu kinh nghiệm.";
-
 function formatNumber(number, prefix = '') {
   return prefix + Math.floor(number).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
@@ -306,24 +304,33 @@ if (!('IntersectionObserver' in window)) {
   document.head.appendChild(polyfill);
 }
 
-const section = document.querySelector('.uw_section_container');
-const counters = document.querySelectorAll('.uw_stat_item h3');
-const introText = document.querySelector('#intro-text');
-let hasStarted = false;
+/***********************************
+ * SECTION VỀ CHÚNG TÔI TRANG HOME *
+ ***********************************/
+const textToType = "UniWave chuyên cung cấp các dịch vụ logistics tối ưu, linh hoạt theo nhu cầu thực tế của doanh nghiệp, được triển khai bởi đội ngũ chuyên gia giàu kinh nghiệm.";
 
-if (section && getComputedStyle(section).display !== 'none') {
+const aboutSection = document.querySelector('.uw_section_container');
+const aboutCounters = document.querySelectorAll('.uw_stat_item h3');
+const introText = document.querySelector('#intro-text');
+let aboutHasStarted = false;
+
+if (aboutSection && getComputedStyle(aboutSection).display !== 'none') {
   const observerSectionAbout = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && !hasStarted) {
-          console.log('IntersectionObserver triggered');
-          hasStarted = true;
+        if (entry.isIntersecting && !aboutHasStarted) {
+          console.log('About section observer triggered');
+          aboutHasStarted = true;
           if (introText) {
             startTyping(introText, textToType);
           }
-          counters.forEach((counter) => {
+          aboutCounters.forEach((counter) => {
             const target = parseInt(counter.dataset.target);
-            startCounter(counter, target);
+            if (!isNaN(target)) {
+              startCounter(counter, target);
+            } else {
+              console.warn('Invalid target value for counter:', counter);
+            }
           });
           observerSectionAbout.disconnect();
         }
@@ -331,10 +338,40 @@ if (section && getComputedStyle(section).display !== 'none') {
     },
     { threshold: 0.1 }
   );
-  observerSectionAbout.observe(section);
+  observerSectionAbout.observe(aboutSection);
 } else {
-  console.warn('Section container is not visible or not found.');
+  console.warn('About section container is not visible or not found.');
 }
-/***********************************
- * SECTION VỀ CHÚNG TÔI TRANG HOME *
- ***********************************/
+
+/************************************
+ * SECTION MISSION STATS TRANG ABOUT *
+ ************************************/
+const missionStatsSection = document.querySelector('.mission__stats');
+const missionCounters = document.querySelectorAll('.mission__stat-number');
+let missionHasStarted = false;
+
+if (missionStatsSection && getComputedStyle(missionStatsSection).display !== 'none') {
+  const observerMissionStats = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !missionHasStarted) {
+          console.log('Mission stats observer triggered');
+          missionHasStarted = true;
+          missionCounters.forEach((counter) => {
+            const target = parseInt(counter.dataset.target);
+            if (!isNaN(target)) {
+              startCounter(counter, target);
+            } else {
+              console.warn('Invalid target value for mission counter:', counter);
+            }
+          });
+          observerMissionStats.disconnect();
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+  observerMissionStats.observe(missionStatsSection);
+} else {
+  console.warn('Mission stats section is not visible or not found.');
+}
