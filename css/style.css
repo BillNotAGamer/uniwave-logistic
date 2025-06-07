@@ -362,6 +362,7 @@ body {
 
 .tertiary-nav {
   display: none;
+  transition: all 0.3s ease;
 }
 
 .primary-nav-link {
@@ -723,7 +724,7 @@ body {
     margin-right: auto;
     height: 0.25rem;
     width: 0;
-    border-radius: 0;
+    border-radius: 3px;
     background-color: var(--color-white);
     height: 5px;
     content: "";
@@ -785,7 +786,7 @@ body {
   }
 
   .secondary-nav-item.toggle-mobile .tertiary-nav {
-    display: block;
+    display: block !important;
   }
 
   .tertiary-nav {
@@ -1606,7 +1607,6 @@ body {
   font-size: 18px;
   font-weight: 600;
 }
-
 /* Responsive Design */
 
 
@@ -2171,7 +2171,6 @@ body {
   .partners h2 {
     font-size: 1.8rem;
   }
-  
 }
 
 /* CTA start */

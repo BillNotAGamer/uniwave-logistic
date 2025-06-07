@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const navItems = [
         { href: 'index.html', selector: '.primary-nav-item:nth-child(1)' },
         { href: 'about.html', selector: '.primary-nav-item:nth-child(2)' },
-        { href: 'services.html', selector: '.primary-nav-item:nth-child(3)' }, // Mục "Dịch vụ"
+        { href: 'services.html', selector: '.primary-nav-item:nth-child(3)' },
         { href: 'tracking-shipment.html', selector: '.primary-nav-item:nth-child(4)' },
         { href: 'price-check.html', selector: '.primary-nav-item:nth-child(5)' },
         { href: 'contact.html', selector: '.primary-nav-item:nth-child(6)' }
@@ -183,31 +183,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
   clickableItems.forEach((item) => {
     item.addEventListener('click', (e) => {
-      // Chỉ xử lý trên mobile (max-width: 991px)
       if (window.innerWidth <= 991) {
-        e.preventDefault(); // Ngăn hành vi mặc định của link
-        const parent = item.parentElement; // primary-nav-item hoặc secondary-nav-item
+        e.preventDefault();
+        e.stopPropagation(); // Ngăn sự kiện nổi bọt
+        
+        const parent = item.parentElement;
         const isPrimary = item.classList.contains('primary-nav-link');
         const isSecondary = item.classList.contains('secondary-nav-link');
 
-        // Đóng tất cả menu con khác (accordion style)
-        document.querySelectorAll('.primary-nav-item.toggle-mobile, .secondary-nav-item.toggle-mobile').forEach((otherParent) => {
-          if (otherParent !== parent) {
-            otherParent.classList.remove('toggle-mobile');
+        // Đóng tất cả menu cùng cấp trước khi mở menu mới
+        if (isPrimary) {
+          document.querySelectorAll('.primary-nav-item.toggle-mobile').forEach((otherParent) => {
+            if (otherParent !== parent) {
+              otherParent.classList.remove('toggle-mobile');
+            }
+          });
+        } else if (isSecondary) {
+          // Đóng tất cả secondary-nav-item khác cùng cấp
+          const primaryParent = parent.closest('.primary-nav-item');
+          if (primaryParent) {
+            primaryParent.querySelectorAll('.secondary-nav-item.toggle-mobile').forEach((otherParent) => {
+              if (otherParent !== parent) {
+                otherParent.classList.remove('toggle-mobile');
+              }
+            });
           }
-        });
+        }
 
         // Toggle menu hiện tại
-        if (isPrimary) {
-          parent.classList.toggle('toggle-mobile'); // Toggle secondary-nav
-        } else if (isSecondary) {
-          parent.classList.toggle('toggle-mobile'); // Toggle tertiary-nav
-        }
-
-        // Debug: Log để kiểm tra
-        if (!parent.querySelector('.secondary-nav, .tertiary-nav')) {
-          console.warn('Submenu not found for:', item);
-        }
+        parent.classList.toggle('toggle-mobile');
       }
     });
   });
