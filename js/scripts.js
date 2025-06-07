@@ -257,75 +257,84 @@ document.addEventListener('DOMContentLoaded', function () {
 /***********************************
  * SECTION VỀ CHÚNG TÔI TRANG HOME *
  ***********************************/
- // Văn bản cần đánh chữ
-    const textToType = "UniWave chuyên cung cấp các dịch vụ logistics tối ưu, linh hoạt theo nhu cầu thực tế của doanh nghiệp, được triển khai bởi đội ngũ chuyên gia giàu kinh nghiệm.";
-    
-    // Hàm định dạng số với dấu phân cách hàng nghìn
-    function formatNumber(number, prefix = '') {
-      return prefix + Math.floor(number).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+const textToType = "UniWave chuyên cung cấp các dịch vụ logistics tối ưu, linh hoạt theo nhu cầu thực tế của doanh nghiệp, được triển khai bởi đội ngũ chuyên gia giàu kinh nghiệm.";
+
+function formatNumber(number, prefix = '') {
+  return prefix + Math.floor(number).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+function startCounter(element, target, duration = 3000) {
+  let start = 0;
+  const increment = target / (duration / 16);
+  const prefix = element.dataset.prefix || '';
+  
+  const interval = setInterval(() => {
+    start += increment;
+    if (start >= target) {
+      element.textContent = formatNumber(target, prefix);
+      clearInterval(interval);
+      return;
     }
+    element.textContent = formatNumber(start, prefix);
+  }, 16);
+}
 
-    // Hàm tạo hiệu ứng đếm số
-    function startCounter(element, target, duration = 3000) {
-      let start = 0;
-      const increment = target / (duration / 16); // Tính bước tăng dựa trên 60fps (~16ms mỗi frame)
-      const prefix = element.dataset.prefix || '';
-      
-      function update() {
-        start += increment;
-        if (start >= target) {
-          element.textContent = formatNumber(target, prefix);
-          return;
-        }
-        element.textContent = formatNumber(start, prefix);
-        requestAnimationFrame(update);
-      }
-      requestAnimationFrame(update);
+function startTyping(element, text, speed = 50) {
+  if (!element) {
+    console.warn('Intro text element not found.');
+    return;
+  }
+  let index = 0;
+  element.classList.add('uw_typing_effect');
+
+  function type() {
+    if (index < text.length) {
+      element.textContent = text.slice(0, index + 1);
+      index++;
+      setTimeout(type, speed);
+    } else {
+      element.classList.remove('uw_typing_effect');
     }
+  }
+  type();
+}
 
-    // Hàm tạo hiệu ứng đánh chữ
-    function startTyping(element, text, speed = 50) {
-      let index = 0;
-      element.classList.add('uw_typing_effect');
+// Kiểm tra IntersectionObserver
+if (!('IntersectionObserver' in window)) {
+  const polyfill = document.createElement('script');
+  polyfill.src = 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver';
+  document.head.appendChild(polyfill);
+}
 
-      function type() {
-        if (index < text.length) {
-          element.textContent = text.slice(0, index + 1);
-          index++;
-          setTimeout(type, speed);
-        } else {
-          element.classList.remove('uw_typing_effect'); // Xóa con trỏ khi hoàn tất
-        }
-      }
-      type();
-    }
+const section = document.querySelector('.uw_section_container');
+const counters = document.querySelectorAll('.uw_stat_item h3');
+const introText = document.querySelector('#intro-text');
+let hasStarted = false;
 
-    // Sử dụng IntersectionObserver để phát hiện khi section xuất hiện
-    const section = document.querySelector('.uw_section_container');
-    const counters = document.querySelectorAll('.uw_stat_item h3');
-    const introText = document.querySelector('#intro-text');
-    let hasStarted = false; // Đảm bảo chỉ chạy một lần
-
-    const observerSectionAbout = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasStarted) {
-            hasStarted = true; // Đánh dấu đã chạy
-            // Kích hoạt hiệu ứng đánh chữ
+if (section && getComputedStyle(section).display !== 'none') {
+  const observerSectionAbout = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !hasStarted) {
+          console.log('IntersectionObserver triggered');
+          hasStarted = true;
+          if (introText) {
             startTyping(introText, textToType);
-            // Kích hoạt hiệu ứng đếm số
-            counters.forEach((counter) => {
-              const target = parseInt(counter.dataset.target);
-              startCounter(counter, target);
-            });
-            observerSectionAbout.disconnect(); // Ngắt observer sau khi chạy
           }
-        });
-      },
-      { threshold: 0.5 } // Kích hoạt khi 50% section xuất hiện
-    );
-
-    observerSectionAbout.observe(section);
+          counters.forEach((counter) => {
+            const target = parseInt(counter.dataset.target);
+            startCounter(counter, target);
+          });
+          observerSectionAbout.disconnect();
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+  observerSectionAbout.observe(section);
+} else {
+  console.warn('Section container is not visible or not found.');
+}
 /***********************************
  * SECTION VỀ CHÚNG TÔI TRANG HOME *
  ***********************************/
