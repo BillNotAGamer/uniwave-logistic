@@ -1102,14 +1102,22 @@ body {
 
 .uw_text_block h2 {
   font-size: 2.5rem;
-  margin-bottom: 40px;
+  margin-bottom: 35px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.2px;
   font-family: 'Quicksand', sans-serif;
 }
 
-
+.uw_text_block h2::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background-color: #f1f2f6;
+  margin-top: 10px;
+  border-radius: 2px;
+}
 
 .uw_text_block p {
   font-size: clamp(1rem, 3vw, 1.1rem);

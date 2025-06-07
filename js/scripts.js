@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
  ********************************/
 
 /***********************************
- * SHARED FUNCTIONS *
+ * ĐẾM SỐ VÀ CHẠY CHỮ FUNCTIONS *
  ***********************************/
 function formatNumber(number, prefix = '') {
   return prefix + Math.floor(number).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -375,3 +375,6 @@ if (missionStatsSection && getComputedStyle(missionStatsSection).display !== 'no
 } else {
   console.warn('Mission stats section is not visible or not found.');
 }
+/***********************************
+ * ĐẾM SỐ VÀ CHẠY CHỮ FUNCTIONS *
+ ***********************************/
