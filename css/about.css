@@ -515,13 +515,17 @@
 
 @media (max-width: 959px) {
   .container-about:has(.mission-container) {
-    height: auto; /* Bỏ chiều cao cố định */
-    padding-bottom: var(--spacing-lg); /* Thêm padding để tránh đè */
+    height: auto;
+    /* Bỏ chiều cao cố định */
+    padding-bottom: var(--spacing-lg);
+    /* Thêm padding để tránh đè */
   }
 
   .mission__background {
-    top: 40%; /* Điều chỉnh vị trí hình nền */
-    height: 200px; /* Giảm chiều cao hình nền để tránh tràn */
+    top: 40%;
+    /* Điều chỉnh vị trí hình nền */
+    height: 200px;
+    /* Giảm chiều cao hình nền để tránh tràn */
   }
 
   .mission-content {
@@ -539,7 +543,8 @@
   }
 
   .mission__background {
-    display: none; /* Ẩn hình nền trên màn hình nhỏ */
+    display: none;
+    /* Ẩn hình nền trên màn hình nhỏ */
   }
 
   .mission__values {
@@ -563,26 +568,31 @@
   /* Điều chỉnh gạch dưới cho responsive */
   .core-value-title .title--main::after,
   .reasons__container .title--main::after {
-    width: 50%; /* Tăng chiều rộng tương đối cho màn hình nhỏ */
-    max-width: 100px; /* Giới hạn tối đa để tránh quá dài */
+    width: 50%;
+    /* Tăng chiều rộng tương đối cho màn hình nhỏ */
+    max-width: 100px;
+    /* Giới hạn tối đa để tránh quá dài */
   }
 
-   .mission-content .title--main::after {
-    width: 40%; /* Tăng chiều rộng tương đối cho màn hình nhỏ */
+  .mission-content .title--main::after {
+    width: 40%;
+    /* Tăng chiều rộng tương đối cho màn hình nhỏ */
     max-width: 90px;
   }
 }
 
 @media (max-width: 714px) {
   .mission-content .title--main::after {
-     width: 30%; /* Tăng chiều rộng tương đối cho màn hình nhỏ */
+    width: 30%;
+    /* Tăng chiều rộng tương đối cho màn hình nhỏ */
     max-width: 80px;
   }
 }
 
 @media (max-width: 607px) {
   .mission-content .title--main::after {
-    width: 15%; /* Tăng chiều rộng tương đối cho màn hình nhỏ */
+    width: 15%;
+    /* Tăng chiều rộng tương đối cho màn hình nhỏ */
     max-width: 70px;
   }
 
@@ -599,6 +609,7 @@
     transform: translateY(50px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -608,16 +619,20 @@
 /* Apply animation to sections when visible */
 .container-about,
 .reasons__container {
-  opacity: 0; /* Initially hidden */
-  transform: translateY(50px); /* Start position for animation */
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Smooth transition */
+  opacity: 0;
+  /* Initially hidden */
+  transform: translateY(50px);
+  /* Start position for animation */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  /* Smooth transition */
 }
 
 .container-about.visible,
 .reasons__container.visible {
   opacity: 1;
   transform: translateY(0);
-  animation: slideUp 0.6s ease-out forwards; /* Apply slide-up animation */
+  animation: slideUp 0.6s ease-out forwards;
+  /* Apply slide-up animation */
 }
 
 /* Ensure mission__background has its own animation */

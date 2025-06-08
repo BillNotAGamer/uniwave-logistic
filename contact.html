@@ -155,14 +155,13 @@
                 </li>
               </ul>
             </div>
-            <div class="profile-menu" title="Unavailable">        
+            <div class="profile-menu" title="Unavailable">
               <a href="authentication.html">
                 <img id="profile-icon-black" alt="profile" loading="lazy" width="30" height="30" decoding="async"
-                data-nimg="1" style="color: transparent" src="./image/icon/profile_light.79437222.png" />
-                <img
-                id="profile-icon-white" alt="profile" loading="lazy" width="30" height="30" decoding="async"
-                data-nimg="1" style="color: transparent" src="./image/icon/profile_light.79437222.png" />
-              </a>     
+                  data-nimg="1" style="color: transparent" src="./image/icon/profile_light.79437222.png" />
+                <img id="profile-icon-white" alt="profile" loading="lazy" width="30" height="30" decoding="async"
+                  data-nimg="1" style="color: transparent" src="./image/icon/profile_light.79437222.png" />
+              </a>
             </div>
           </div>
         </div>
@@ -201,7 +200,8 @@
         <div class="info-box fade-in" style="animation-delay: 0.6s;">
           <p><i class="fas fa-map-marker-alt"></i>Địa chỉ: T2-26 The Manhattan – Vinhomes Grand Park, 512 Nguyễn Xiển,
             Long Bình, TP. Thủ Đức</p>
-          <p><i class="fas fa-envelope"></i>Email:<a href="mailto:sales@uniwave-logistics.com">sales@uniwave-logistics.com</a></p>
+          <p><i class="fas fa-envelope"></i>Email:<a
+              href="mailto:sales@uniwave-logistics.com">sales@uniwave-logistics.com</a></p>
           <p><i class="fas fa-phone"></i>Phone:<a href="tel:+84775764586">0775 764 586</a></p>
           <p><i class="fas fa-globe"></i>Website: www.uniwave-logistics.com</p>
         </div>
@@ -210,15 +210,16 @@
       <div class="contact-container">
         <!-- Form liên hệ -->
         <div class="contact-form fade-in" style="animation-delay: 1s;">
-          <h2>Liên hệ với chúng tôi</h2>
-          <form class="contact-form-input" method="post" action="https://formsubmit.co/sales@uniwave-logistics.com">
-            <input type="text" id="name" name="name" required placeholder="Họ và Tên">
-            <input type="tel" name="phone" id="phone" required placeholder="Số điện thoại">
-            <input type="email" id="email" name="email" required placeholder="Email">
-            <textarea id="message" name="message" rows="5" required placeholder="Tin nhắn"></textarea>
-            <button type="submit">Gửi</button>
-          </form>
-        </div>
+    <h2>Liên hệ với chúng tôi</h2>
+    <form class="contact-form-input" id="contactForm">
+      <input type="text" id="name" name="name" required placeholder="Họ và Tên">
+      <input type="tel" name="phone" id="phone" required placeholder="Số điện thoại">
+      <input type="email" id="email" name="email" required placeholder="Email">
+      <textarea id="message" name="message" rows="5" required placeholder="Tin nhắn"></textarea>
+      <button type="submit">Gửi</button>
+    </form>
+    <p id="formMessage"></p>
+  </div>
         <!-- Map -->
         <div class="contact-map fade-in" style="animation-delay: 1.2s;">
           <h2>Vị trí của chúng tôi</h2>
@@ -405,6 +406,37 @@
   <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/main.js"></script>
 
   <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/support_fixed.js"></script>
+
+  <!--Script để gửi mail cho trang contact-->
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+
+      try {
+        const response = await fetch('https://uniwave-email-sender.vercel.app/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          document.getElementById('formMessage').textContent = 'Gửi thông tin thành công! Cảm ơn bạn đã liên hệ.';
+          form.reset();
+        } else {
+          document.getElementById('formMessage').textContent = result.error || 'Có lỗi xảy ra, vui lòng thử lại.';
+        }
+      } catch (error) {
+        document.getElementById('formMessage').textContent = 'Có lỗi xảy ra, vui lòng thử lại.';
+      }
+    });
+  </script>
 
   <script type="text/javascript">
     var popup_vipo = localStorage.getItem('popup_vipo27');
