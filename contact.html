@@ -220,7 +220,8 @@
         <!-- Form liên hệ -->
         <div class="contact-form fade-in" style="animation-delay: 1s">
           <h2>Liên hệ với chúng tôi</h2>
-          <form class="contact-form-input" action="https://getform.io/f/bxoyzxea" method="POST">
+          <form id="contact-form" class="contact-form-input" method="post" action="https://api.web3forms.com/submit">
+            <input type="hidden" name="access_key" value="7d794a08-b00c-4cbf-9ea5-4ebda2b9cc79">
             <input type="text" id="name" name="name" required placeholder="Họ và Tên" />
             <input type="tel" name="phone" id="phone" required placeholder="Số điện thoại" />
             <input type="email" id="email" name="email" required placeholder="Email" />
@@ -448,7 +449,33 @@
 
   <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/support_fixed.js"></script>
 
-  
+  <!--Script để gửi mail cho trang contact-->
+  <script>
+  document.getElementById('contact-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const messageElement = document.getElementById('form-message');
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        messageElement.style.color = 'green';
+        messageElement.textContent = 'Gửi thông tin thành công!';
+        messageElement.style.display = 'block';
+        form.reset();
+      } else {
+        throw new Error('Gửi thông tin thất bại.');
+      }
+    } catch (error) {
+      messageElement.style.color = 'red';
+      messageElement.textContent = error.message || 'Đã có lỗi xảy ra. Vui lòng thử lại.';
+      messageElement.style.display = 'block';
+    }
+  });
+</script>
 
   <script type="text/javascript">
     var popup_vipo = localStorage.getItem("popup_vipo27");
