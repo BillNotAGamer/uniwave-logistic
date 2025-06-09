@@ -451,50 +451,37 @@
 
   <!--Script để gửi mail cho trang contact-->
   <script>
-  emailjs.init("8tRtdG1FUPVQQJNbt");
+    emailjs.init("8tRtdG1FUPVQQJNbt"); // Thay YOUR_PUBLIC_KEY bằng Public Key từ EmailJS
 
-  document.getElementById("contactForm").addEventListener("submit", function (event) {
-    event.preventDefault();
-    // Lấy dữ liệu từ form
-    const formData = {
-      name: document.getElementById("name").value,
-      email: document.getElementById("email").value,
-      phone: document.getElementById("phone").value,
-      message: document.getElementById("message").value,
-    };
+document.getElementById("contactForm").addEventListener("submit", function (event) {
+  event.preventDefault(); // Ngăn form submit mặc định
 
-    // Gửi email tới sales team
-    emailjs
-      .send("service_d5irvii", "template_1wkh216", {
-        ...formData,
-        to_email: "sales@uniwave-logistics.com",
-        cc_email: "rachel.ho@uniwave-logistics.com",
-      })
-      .then(
-        () => {
-          // Gửi email cảm ơn tới khách hàng
-          emailjs
-            .send("service_d5irvii", "template_khrdxee", {
-              ...formData,
-              to_email: formData.email,
-            })
-            .then(
-              () => {
-                alert("Your message has been sent successfully! A thank you email has been sent to your inbox.");
-                document.getElementById("contactForm").reset(); // Reset form
-              },
-              (error) => {
-                console.error("Failed to send thank you email:", error);
-                alert("Message sent, but failed to send thank you email.");
-              }
-            );
-        },
-        (error) => {
-          console.error("Failed to send message:", error);
-          alert("Failed to send your message. Please try again.");
-        }
-      );
-  });
+  // Lấy dữ liệu từ form
+  const formData = {
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    phone: document.getElementById("phone").value,
+    message: document.getElementById("message").value,
+  };
+
+  // Gửi email tới sales team
+  emailjs
+    .send("service_ngv1h6g", "template_1wkh216", {
+      ...formData,
+      to_email: "sales@uniwave-logistics.com",
+      cc_email: "rachel.ho@uniwave-logistics.com",
+    })
+    .then(
+      () => {
+        alert("Your message has been sent successfully!");
+        document.getElementById("contactForm").reset(); // Reset form
+      },
+      (error) => {
+        console.error("Failed to send message:", error);
+        alert("Failed to send your message. Please try again.");
+      }
+    );
+});
 </script> 
 
   <script type="text/javascript">
