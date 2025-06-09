@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/theme.css" />
   <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 
 <body>
@@ -216,10 +216,10 @@
         <div class="contact-form fade-in" style="animation-delay: 1s">
           <h2>Liên hệ với chúng tôi</h2>
           <form id="contactForm" class="contact-form-input" method="post">
-            <input type="text" id="name" name="name" required placeholder="Họ và Tên" />
-            <input type="tel" name="phone" id="phone" required placeholder="Số điện thoại" />
-            <input type="email" id="email" name="email" required placeholder="Email" />
-            <textarea id="message" name="message" rows="5" required placeholder="Tin nhắn"></textarea>
+            <input type="text" name="cusPhone" id="cusName" required placeholder="Họ và Tên" />
+            <input type="tel" name="cusPhone" id="cusPhone" required placeholder="Số điện thoại" />
+            <input type="email" id="cusEmail" name="cusEmail" required placeholder="Email" />
+            <textarea name="cusMessage" id="cusMessage" rows="5" required placeholder="Tin nhắn"></textarea>
             <button type="submit">Gửi</button>
           </form>
         </div>
@@ -400,7 +400,17 @@
         👉 Cứ nói nha, Laboon luôn sẵn sàng giúp đỡ!
       </p>
     </div>
-    
+    <div class="popup-form" id="popup-form">
+      <button class="close-btn" onclick="togglePopup()">✕</button>
+      <h3>Để lại thông tin</h3>
+      <form id="contact-form" method="post">
+        <input type="text" name="name" placeholder="Họ và tên" required />
+        <input type="tel" name="phone" placeholder="Số điện thoại" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <textarea name="message" placeholder="Nội dung cần hỗ trợ" required></textarea>
+        <button type="submit">Gửi</button>
+      </form>
+    </div>
   </div>
 
   <!-- Phần bên phải: chứa social-box -->
@@ -432,41 +442,42 @@
   <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/main.js"></script>
 
   <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/support_fixed.js"></script>
+
+  <!-- Tích hợp EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <!--Script để gửi mail cho trang contact-->
   <script>
     emailjs.init("8tRtdG1FUPVQQJNbt"); // Thay YOUR_PUBLIC_KEY bằng Public Key từ EmailJS
+    document.getElementById("contactForm").addEventListener("submit", function (event) {
+      event.preventDefault(); // Ngăn form submit mặc định
 
-document.getElementById("contactForm").addEventListener("submit", function (event) {
-  event.preventDefault(); // Ngăn form submit mặc định
+      // Lấy dữ liệu từ form
+      const formData = {
+        name: document.getElementById("cusName").value,
+        email: document.getElementById("cusEmail").value,
+        phone: document.getElementById("cusPhone").value,
+        message: document.getElementById("cusMessage").value,
+      };
 
-  // Lấy dữ liệu từ form
-  const formData = {
-    name: document.getElementById("name").value,
-    email: document.getElementById("email").value,
-    phone: document.getElementById("phone").value,
-    message: document.getElementById("message").value,
-  };
-
-  // Gửi email tới sales team
-  emailjs
-    .send("service_ngv1h6g", "template_1wkh216", {
-      ...formData,
-      to_email: "sales@uniwave-logistics.com",
-      cc_email: "rachel.ho@uniwave-logistics.com",
-    })
-    .then(
-      () => {
-        alert("Your message has been sent successfully!");
-        document.getElementById("contactForm").reset(); // Reset form
-      },
-      (error) => {
-        console.error("Failed to send message:", error);
-        alert("Failed to send your message. Please try again.");
-      }
-    );
-});
-</script> 
+      // Gửi email tới sales team
+      emailjs
+        .send("service_ngv1h6g", "template_1wkh216", {
+          ...formData,
+          to_email: "sales@uniwave-logistics.com",
+          cc_email: "rachel.ho@uniwave-logistics.com",
+        })
+        .then(
+          () => {
+            alert("Your message has been sent successfully!");
+            document.getElementById("contactForm").reset(); // Reset form
+          },
+          (error) => {
+            console.error("Failed to send message:", error);
+            alert("Failed to send your message. Please try again.");
+          }
+        );
+    });
+  </script>
 
   <script type="text/javascript">
     var popup_vipo = localStorage.getItem("popup_vipo27");
@@ -600,9 +611,40 @@ document.getElementById("contactForm").addEventListener("submit", function (even
       });
     });
   </script>
-  <!-- Tích hợp EmailJS SDK -->
-  
-  
+
+  <script>
+    // Khởi tạo EmailJS
+    (function () {
+      emailjs.init("BERY7kRlfqMVpherf");
+    })();
+
+    // Bắt sự kiện gửi form
+    document
+      .getElementById("contact-form")
+      .addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Gửi email đến sales
+        emailjs
+          .sendForm("service_d5irvii", "template_contact_fwpo0kh", this)
+          .then(
+            function (response) {
+              alert("✅ Gửi thành công!");
+            },
+            function (error) {
+              alert("❌ Gửi thất bại.");
+              console.log(error);
+            }
+          );
+
+        // Gửi email cảm ơn
+        const formData = new FormData(this);
+        emailjs.send("service_d5irvii", "template_auto_reply_7426", {
+          name: formData.get("name"),
+          email: formData.get("email"),
+        });
+      });
+  </script>
 </body>
 
 <link rel="stylesheet" id="whp6778font-awesome.min.css-css"
