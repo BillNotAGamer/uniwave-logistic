@@ -16,12 +16,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/theme.css" />
   <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
-  <script type="text/javascript" src="https://viettelpost.com.vn/wp-includes/js/jquery/jquery.min.js"
-    id="jquery-core-js"></script>
-  <script type="text/javascript" src="https://viettelpost.com.vn/wp-includes/js/jquery/jquery-migrate.min.js"
-    id="jquery-migrate-js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 </head>
 
 <body>
@@ -221,7 +216,6 @@
         <div class="contact-form fade-in" style="animation-delay: 1s">
           <h2>Liên hệ với chúng tôi</h2>
           <form id="contactForm" class="contact-form-input" method="post">
-            <input type="hidden" name="access_key" value="7d794a08-b00c-4cbf-9ea5-4ebda2b9cc79">
             <input type="text" id="name" name="name" required placeholder="Họ và Tên" />
             <input type="tel" name="phone" id="phone" required placeholder="Số điện thoại" />
             <input type="email" id="email" name="email" required placeholder="Email" />
@@ -618,39 +612,7 @@ document.getElementById("contactForm").addEventListener("submit", function (even
   </script>
   <!-- Tích hợp EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script>
-    // Khởi tạo EmailJS
-    (function () {
-      emailjs.init("BERY7kRlfqMVpherf");
-    })();
-
-    // Bắt sự kiện gửi form
-    document
-      .getElementById("contact-form")
-      .addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        // Gửi email đến sales
-        emailjs
-          .sendForm("service_d5irvii", "template_contact_fwpo0kh", this)
-          .then(
-            function (response) {
-              alert("✅ Gửi thành công!");
-            },
-            function (error) {
-              alert("❌ Gửi thất bại.");
-              console.log(error);
-            }
-          );
-
-        // Gửi email cảm ơn
-        const formData = new FormData(this);
-        emailjs.send("service_d5irvii", "template_auto_reply_7426", {
-          name: formData.get("name"),
-          email: formData.get("email"),
-        });
-      });
-  </script>
+  
 </body>
 
 <link rel="stylesheet" id="whp6778font-awesome.min.css-css"
