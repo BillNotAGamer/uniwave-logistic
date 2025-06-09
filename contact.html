@@ -215,8 +215,8 @@
         <!-- Form liên hệ -->
         <div class="contact-form fade-in" style="animation-delay: 1s">
           <h2>Liên hệ với chúng tôi</h2>
-          <form id="contactForm" class="contact-form-input" method="post">
-            <input type="text" name="cusPhone" id="cusName" required placeholder="Họ và Tên" />
+          <form id="contactForm" class="contact-form-input">
+            <input type="text" name="cusName" id="cusName" required placeholder="Họ và Tên" />
             <input type="tel" name="cusPhone" id="cusPhone" required placeholder="Số điện thoại" />
             <input type="email" id="cusEmail" name="cusEmail" required placeholder="Email" />
             <textarea name="cusMessage" id="cusMessage" rows="5" required placeholder="Tin nhắn"></textarea>
@@ -403,7 +403,7 @@
     <div class="popup-form" id="popup-form">
       <button class="close-btn" onclick="togglePopup()">✕</button>
       <h3>Để lại thông tin</h3>
-      <form id="contact-form" method="post">
+      <form id="contact-form">
         <input type="text" name="name" placeholder="Họ và tên" required />
         <input type="tel" name="phone" placeholder="Số điện thoại" required />
         <input type="email" name="email" placeholder="Email" required />
@@ -444,39 +444,56 @@
   <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/support_fixed.js"></script>
 
   <!-- Tích hợp EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <!--Script để gửi mail cho trang contact-->
   <script>
-    emailjs.init("8tRtdG1FUPVQQJNbt"); // Thay YOUR_PUBLIC_KEY bằng Public Key từ EmailJS
-    document.getElementById("contactForm").addEventListener("submit", function (event) {
-      event.preventDefault(); // Ngăn form submit mặc định
+    emailjs.init("8tRtdG1FUPVQQJNbt");
 
-      // Lấy dữ liệu từ form
-      const formData = {
-        name: document.getElementById("cusName").value,
-        email: document.getElementById("cusEmail").value,
-        phone: document.getElementById("cusPhone").value,
-        message: document.getElementById("cusMessage").value,
-      };
+  document.getElementById("contactForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    console.log("Main form submission intercepted");
 
-      // Gửi email tới sales team
-      emailjs
-        .send("service_ngv1h6g", "template_1wkh216", {
-          ...formData,
-          to_email: "sales@uniwave-logistics.com",
-          cc_email: "rachel.ho@uniwave-logistics.com",
-        })
-        .then(
-          () => {
-            alert("Your message has been sent successfully!");
-            document.getElementById("contactForm").reset(); // Reset form
-          },
-          (error) => {
-            console.error("Failed to send message:", error);
-            alert("Failed to send your message. Please try again.");
-          }
-        );
-    });
+    const formData = {
+      cusName: document.getElementById("cusName").value,
+      cusEmail: document.getElementById("cusEmail").value,
+      cusPhone: document.getElementById("cusPhone").value,
+      cusMessage: document.getElementById("cusMessage").value,
+    };
+
+    emailjs
+      .send("service_ngv1h6g", "template_1wkh216", {
+        ...formData,
+        to_email: "sales@uniwave-logistics.com",
+        cc_email: "rachel.ho@uniwave-logistics.com",
+      }, "8tRtdG1FUPVQQJNbt")
+      .then(
+        () => {
+          alert("Tin nhắn của bạn đã được gửi thành công!");
+          this.reset();
+        },
+        (error) => {
+          console.error("Lỗi gửi tin nhắn (form chính):", error);
+          alert("Gửi tin nhắn thất bại. Vui lòng thử lại.");
+        }
+      );
+  });
+
+  document.getElementById("contact-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    console.log("Popup form submission intercepted");
+
+    emailjs.sendForm("service_d5irvii", "template_contact_fwpo0kh", this, "BERY7kRlfqMVpherf")
+      .then(
+        () => {
+          alert("✅ Gửi thành công!");
+          this.reset();
+        },
+        (error) => {
+          console.error("Lỗi gửi tin nhắn (form popup):", error);
+          alert("❌ Gửi thất bại.");
+        }
+      );
+  });
   </script>
 
   <script type="text/javascript">
@@ -610,40 +627,6 @@
         navbarCollapse.classList.remove("visible");
       });
     });
-  </script>
-
-  <script>
-    // Khởi tạo EmailJS
-    (function () {
-      emailjs.init("BERY7kRlfqMVpherf");
-    })();
-
-    // Bắt sự kiện gửi form
-    document
-      .getElementById("contact-form")
-      .addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        // Gửi email đến sales
-        emailjs
-          .sendForm("service_d5irvii", "template_contact_fwpo0kh", this)
-          .then(
-            function (response) {
-              alert("✅ Gửi thành công!");
-            },
-            function (error) {
-              alert("❌ Gửi thất bại.");
-              console.log(error);
-            }
-          );
-
-        // Gửi email cảm ơn
-        const formData = new FormData(this);
-        emailjs.send("service_d5irvii", "template_auto_reply_7426", {
-          name: formData.get("name"),
-          email: formData.get("email"),
-        });
-      });
   </script>
 </body>
 
