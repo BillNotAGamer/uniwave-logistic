@@ -400,17 +400,7 @@
         👉 Cứ nói nha, Laboon luôn sẵn sàng giúp đỡ!
       </p>
     </div>
-    <div class="popup-form" id="popup-form">
-      <button class="close-btn" onclick="togglePopup()">✕</button>
-      <h3>Để lại thông tin</h3>
-      <form id="contact-form" method="post">
-        <input type="text" name="name" placeholder="Họ và tên" required />
-        <input type="tel" name="phone" placeholder="Số điện thoại" required />
-        <input type="email" name="email" placeholder="Email" required />
-        <textarea name="message" placeholder="Nội dung cần hỗ trợ" required></textarea>
-        <button type="submit">Gửi</button>
-      </form>
-    </div>
+    
   </div>
 
   <!-- Phần bên phải: chứa social-box -->
@@ -442,7 +432,7 @@
   <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/main.js"></script>
 
   <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/support_fixed.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <!--Script để gửi mail cho trang contact-->
   <script>
     emailjs.init("8tRtdG1FUPVQQJNbt"); // Thay YOUR_PUBLIC_KEY bằng Public Key từ EmailJS
@@ -611,7 +601,7 @@ document.getElementById("contactForm").addEventListener("submit", function (even
     });
   </script>
   <!-- Tích hợp EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  
   
 </body>
 
