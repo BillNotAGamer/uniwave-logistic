@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     { href: 'services.html', selector: '.primary-nav-item:nth-child(3)' },
     { href: 'tracking-shipment.html', selector: '.primary-nav-item:nth-child(4)' },
     { href: 'price-check.html', selector: '.primary-nav-item:nth-child(5)' },
-    { href: 'contact.html', selector: '.primary-nav-item:nth-child(6)' }
+    { href: 'guidance.html', selector: '.primary-nav-item:nth-child(6)' },
+    { href: 'contact.html', selector: '.primary-nav-item:nth-child(7)' }
   ];
 
   // Hàm xóa lớp selected khỏi tất cả các mục

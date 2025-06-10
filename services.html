@@ -26,7 +26,7 @@
     <button class="menu-toggle animated slide-down"
       style="animation-delay: 0.2s; opacity: 1; background-color: transparent">
       <img alt="menu" loading="lazy" width="22" height="18" decoding="async" data-nimg="1"
-        style="background-color: transparent;" src="./image/icon/menu.3f1ed974.png" />
+        style="background-color: transparent" src="./image/icon/menu.3f1ed974.png" />
     </button>
     <div class="main-container center-align">
       <nav class="navigation-bar">
@@ -34,8 +34,8 @@
               animation: auto ease 0.2s 1 normal none running none;
               opacity: 1;
             ">
-          <img class="logo-desktop" src="./image/Uniwave-Logo-on-Cream.png" alt="Uniwave Logistics Logo">
-          <img class="logo-mobile" src="./image/Uniwave-Logo-on-Cream.png" alt="Uniwave Logistics Mobile Logo">
+          <img class="logo-desktop" src="./image/Uniwave-Logo-on-Cream.png" alt="Uniwave Logistics Logo" />
+          <img class="logo-mobile" src="./image/Uniwave-Logo-on-Cream.png" alt="Uniwave Logistics Mobile Logo" />
         </a>
         <div class="menu-collapse">
           <ul class="nav-list animated slide-down" style="
@@ -47,54 +47,55 @@
                   animation: auto ease 0.2s 1 normal none running none;
                   opacity: 1;
                 ">
-              <a class="primary-nav-link" href="index.html">Trang chủ</a>
+              <a class="primary-nav-link" href="index.html" data-key="nav-home">Trang chủ</a>
             </li>
             <li class="primary-nav-item animated slide-down" data-animtion-delay="0.7s" style="
                   animation: auto ease 0.2s 1 normal none running none;
                   opacity: 1;
                 ">
-              <a class="primary-nav-link" href="about.html">Giới thiệu</a>
+              <a class="primary-nav-link" href="about.html" data-key="nav-about">Giới thiệu</a>
             </li>
             <li class="primary-nav-item animated expandable slide-down" data-animtion-delay="0.5s" style="
                   animation: auto ease 0.2s 1 normal none running none;
                   opacity: 1;
                 ">
-              <div class="primary-nav-link clickable">
+              <div class="primary-nav-link clickable" data-key="nav_services">
                 Dịch vụ<!-- -->
                 <div></div>
               </div>
               <ul class="secondary-nav">
                 <li class="secondary-nav-item">
-                  <a class="secondary-nav-link" href="services.html">Dịch vụ chung</a>
+                  <a class="secondary-nav-link" href="services.html" data-key="nav_services_general">Dịch vụ chung</a>
                 </li>
                 <li class="secondary-nav-item">
-                  <a class="secondary-nav-link" href="services.html">Dịch vụ trong nước</a>
+                  <a class="secondary-nav-link" href="services.html" data-key="nav_services_domestic">Dịch vụ trong
+                    nước</a>
                 </li>
                 <li class="secondary-nav-item expandable">
-                  <div class="secondary-nav-link clickable">
+                  <div class="secondary-nav-link clickable" data-key="nav_services_international">
                     Dịch vụ quốc tế<!-- -->
-                    <div></div>
+                  <div></div>
                   </div>
                   <ul class="tertiary-nav">
                     <li>
-                      <a class="text-gray medium-weight" href="/vi/service/transportation/trucking">Vận chuyển Việt -
-                        Trung</a>
+                      <a class="text-gray medium-weight" href="/vi/service/transportation/trucking"
+                        data-key="nav_service_viet_china">Vận chuyển Việt - Trung</a>
                     </li>
                     <li>
-                      <a class="text-gray medium-weight" href="/vi/service/transportation/rail-transportation">Vận
-                        chuyển Đông Nam Á</a>
+                      <a class="text-gray medium-weight" href="/vi/service/transportation/rail-transportation"
+                        data-key="nav_service_sea">Vận chuyển Đông Nam Á</a>
                     </li>
                     <li>
-                      <a class="text-gray medium-weight" href="/vi/service/transportation/sea-transport">Vận chuyển Châu
-                        Âu</a>
+                      <a class="text-gray medium-weight" href="/vi/service/transportation/sea-transport"
+                        data-key="nav_service_europe">Vận chuyển Châu Âu</a>
                     </li>
                     <li>
-                      <a class="text-gray medium-weight" href="/vi/service/transportation/air-transport">Xuất khẩu sang
-                        Mỹ</a>
+                      <a class="text-gray medium-weight" href="/vi/service/transportation/air-transport"
+                        data-key="nav_service_usa">Xuất khẩu sang Mỹ</a>
                     </li>
                     <li>
-                      <a class="text-gray medium-weight" href="/vi/service/transportation/air-transport">Xuất khẩu sang
-                        Úc</a>
+                      <a class="text-gray medium-weight" href="/vi/service/transportation/air-transport"
+                        data-key="nav_service_australia">Xuất khẩu sang Úc</a>
                     </li>
                   </ul>
                 </li>
@@ -104,19 +105,42 @@
                   animation: auto ease 0.2s 1 normal none running none;
                   opacity: 1;
                 ">
-              <a class="primary-nav-link" href="tracking-shipment.html">Theo dõi đơn hàng</a>
+              <a class="primary-nav-link" href="tracking-shipment.html" data-key="nav_tracking">Theo dõi đơn hàng</a>
             </li>
             <li class="primary-nav-item animated slide-down" data-animtion-delay="0.7s" style="
                   animation: auto ease 0.2s 1 normal none running none;
                   opacity: 1;
                 ">
-              <a class="primary-nav-link" href="price-check.html">Báo giá</a>
+              <a class="primary-nav-link" href="price-check.html" data-key="nav_pricing">Báo giá</a>
+            </li>
+            <li class="primary-nav-item animated expandable slide-down" data-animtion-delay="0.5s" style="
+                  animation: auto ease 0.2s 1 normal none running none;
+                  opacity: 1;
+                ">
+              <div class="primary-nav-link clickable" data-key="nav_customer_support">
+                Hỗ trợ khách hàng<!-- -->
+                <div></div>
+              </div>
+              <ul class="secondary-nav">
+                <li class="secondary-nav-item">
+                  <a class="secondary-nav-link" href="" data-key="nav_instructions">Hướng dẫn sử dụng</a>
+                </li>
+                <li class="secondary-nav-item">
+                  <a class="secondary-nav-link" href="" data-key="nav_complaints">Gửi thông tin khiếu lại</a>
+                </li>
+                <li class="secondary-nav-item">
+                  <a class="secondary-nav-link" href="" data-key="nav_feedback">Góp ý sản phẩm dịch vụ</a>
+                </li>
+                <li class="secondary-nav-item">
+                  <a class="secondary-nav-link" href="" data-key="nav_fqa">FQA</a>
+                </li>
+              </ul>
             </li>
             <li class="primary-nav-item animated slide-down" data-animtion-delay="0.8s" style="
                   animation: auto ease 0.2s 1 normal none running none;
                   opacity: 1;
                 ">
-              <a class="primary-nav-link" href="contact.html">Liên hệ</a>
+              <a class="primary-nav-link" href="contact.html" data-key="nav_contact">Liên hệ</a>
             </li>
           </ul>
           <div class="animated action-panel slide-down" data-animation-delay="0.8s" style="
@@ -144,18 +168,20 @@
                       style="color: transparent" src="./image/icon/vn.38e19a45.png" />
                     <!-- -->Viet Nam</a>
                 </li>
-                <li class="">
-                  <a hreflang="en" href="/en"><img alt="" loading="lazy" width="285" height="207" decoding="async"
+                <li class="visible">
+                  <a hreflang="en" href=""><img alt="" loading="lazy" width="285" height="207" decoding="async"
                       data-nimg="1" style="color: transparent" src="./image/icon/en.5a569d53.png" />
                     <!-- -->English</a>
                 </li>
               </ul>
             </div>
             <div class="profile-menu" title="Unavailable">
-              <img id="profile-icon-black" alt="profile" loading="lazy" width="30" height="30" decoding="async"
-                data-nimg="1" style="color: transparent" src="./image/icon/profile_light.79437222.png" /><img
-                id="profile-icon-white" alt="profile" loading="lazy" width="30" height="30" decoding="async"
-                data-nimg="1" style="color: transparent" src="./image/icon/profile_light.79437222.pngse" />
+              <a href="authentication.html">
+                <img id="profile-icon-black" alt="profile" loading="lazy" width="30" height="30" decoding="async"
+                  data-nimg="1" style="color: transparent" src="./image/icon/profile_light.79437222.png" />
+                <img id="profile-icon-white" alt="profile" loading="lazy" width="30" height="30" decoding="async"
+                  data-nimg="1" style="color: transparent" src="./image/icon/profile_light.79437222.png" />
+              </a>
             </div>
           </div>
         </div>
