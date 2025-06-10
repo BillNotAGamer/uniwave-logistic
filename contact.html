@@ -72,7 +72,7 @@
                 <li class="secondary-nav-item expandable">
                   <div class="secondary-nav-link clickable" data-key="nav_services_international">
                     Dịch vụ quốc tế<!-- -->
-                  <div></div>
+                    <div></div>
                   </div>
                   <ul class="tertiary-nav">
                     <li>
@@ -312,9 +312,7 @@
                     <li><a href="index.html">Trang chủ</a></li>
                     <li><a href="about.html">Giới thiệu</a></li>
                     <li><a href="services.html">Dịch vụ</a></li>
-                    <li>
-                      <a href="tracking-shipment.html">Theo dõi đơn hàng</a>
-                    </li>
+                    <li><a href="tracking-shipment.html">Theo dõi đơn hàng</a></li>
                     <li><a href="price-check.html">Báo giá</a></li>
                     <li><a href="contact.html">Liên hệ</a></li>
                   </ul>
@@ -470,53 +468,96 @@
   <!-- Tích hợp EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <!--Script để gửi mail cho trang contact-->
-  <script>
+  <!-- <script>
     emailjs.init("8tRtdG1FUPVQQJNbt");
 
-  document.getElementById("contactForm").addEventListener("submit", function (event) {
-    event.preventDefault();
-    console.log("Main form submission intercepted");
+    document
+      .getElementById("contactForm")
+      .addEventListener("submit", function (event) {
+        event.preventDefault();
+        console.log("Main form submission intercepted");
 
+        const formData = {
+          cusName: document.getElementById("cusName").value,
+          cusEmail: document.getElementById("cusEmail").value,
+          cusPhone: document.getElementById("cusPhone").value,
+          cusMessage: document.getElementById("cusMessage").value,
+        };
+
+        emailjs
+          .send(
+            "service_ngv1h6g",
+            "template_1wkh216",
+            {
+              ...formData,
+              to_email: "sales@uniwave-logistics.com",
+              cc_email: "rachel.ho@uniwave-logistics.com",
+            },
+            "8tRtdG1FUPVQQJNbt"
+          )
+          .then(
+            () => {
+              alert("Tin nhắn của bạn đã được gửi thành công!");
+              this.reset();
+            },
+            (error) => {
+              console.error("Lỗi gửi tin nhắn (form chính):", error);
+              alert("Gửi tin nhắn thất bại. Vui lòng thử lại.");
+            }
+          );
+      });
+
+    document
+      .getElementById("contact-form")
+      .addEventListener("submit", function (event) {
+        event.preventDefault();
+        console.log("Popup form submission intercepted");
+
+        emailjs
+          .sendForm(
+            "service_d5irvii",
+            "template_contact_fwpo0kh",
+            this,
+            "BERY7kRlfqMVpherf"
+          )
+          .then(
+            () => {
+              alert("✅ Gửi thành công!");
+              this.reset();
+            },
+            (error) => {
+              console.error("Lỗi gửi tin nhắn (form popup):", error);
+              alert("❌ Gửi thất bại.");
+            }
+          );
+      });
+  </script> -->
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
     const formData = {
-      cusName: document.getElementById("cusName").value,
-      cusEmail: document.getElementById("cusEmail").value,
-      cusPhone: document.getElementById("cusPhone").value,
-      cusMessage: document.getElementById("cusMessage").value,
+      name: document.getElementById('cusName').value,
+      email: document.getElementById('cusEmail').value,
+      phone: document.getElementById('cusPhone').value,
+      message: document.getElementById('cusMessage').value,
     };
-
-    emailjs
-      .send("service_ngv1h6g", "template_1wkh216", {
-        ...formData,
-        to_email: "sales@uniwave-logistics.com",
-        cc_email: "rachel.ho@uniwave-logistics.com",
-      }, "8tRtdG1FUPVQQJNbt")
-      .then(
-        () => {
-          alert("Tin nhắn của bạn đã được gửi thành công!");
-          this.reset();
-        },
-        (error) => {
-          console.error("Lỗi gửi tin nhắn (form chính):", error);
-          alert("Gửi tin nhắn thất bại. Vui lòng thử lại.");
-        }
-      );
-  });
-
-  document.getElementById("contact-form").addEventListener("submit", function (event) {
-    event.preventDefault();
-    console.log("Popup form submission intercepted");
-
-    emailjs.sendForm("service_d5irvii", "template_contact_fwpo0kh", this, "BERY7kRlfqMVpherf")
-      .then(
-        () => {
-          alert("✅ Gửi thành công!");
-          this.reset();
-        },
-        (error) => {
-          console.error("Lỗi gửi tin nhắn (form popup):", error);
-          alert("❌ Gửi thất bại.");
-        }
-      );
+    try {
+      const response = await fetch('http://localhost:3000/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        alert(result.message || 'Thông tin đã được gửi thành công!');
+        document.getElementById('contactForm').reset();
+      } else {
+        alert(result.message || 'Đã có lỗi xảy ra, vui lòng thử lại.');
+      }
+    } catch (error) {
+      console.error('Lỗi gửi yêu cầu:', error);
+      alert('Không thể kết nối đến server, vui lòng thử lại sau.');
+    }
   });
   </script>
 
