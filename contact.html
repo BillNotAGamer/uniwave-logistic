@@ -242,7 +242,7 @@
           <form id="contactForm" class="contact-form-input">
             <input type="text" name="cusName" id="cusName" required placeholder="Họ và Tên" />
             <input type="tel" name="cusPhone" id="cusPhone" required placeholder="Số điện thoại" />
-            <input type="email" id="cusEmail" name="cusEmail" required placeholder="Email" />
+            <input type="email" name="cusEmail" id="cusEmail" required placeholder="Email" />
             <textarea name="cusMessage" id="cusMessage" rows="5" required placeholder="Tin nhắn"></textarea>
             <button type="submit">Gửi</button>
           </form>
@@ -424,13 +424,13 @@
     </div>
     <div class="popup-form" id="popup-form">
       <button class="close-btn" onclick="togglePopup()">✕</button>
-      <h3>Để lại thông tin</h3>
+      <h3 data-key="chat_form_title">Để lại thông tin</h3>
       <form id="contact-form">
-        <input type="text" name="cusName" placeholder="Họ và tên"/>
-        <input type="tel" name="cusPhone" placeholder="Số điện thoại"/>
-        <input type="email" name="cusEmail" placeholder="Email"/>
-        <textarea name="cusMessage" placeholder="Nội dung cần hỗ trợ" required></textarea>
-        <button type="submit">Gửi</button>
+        <input type="text" name="name" data-key="chat_form_name" placeholder="Họ và tên" required />
+        <input type="tel" name="phone" data-key="chat_form_phone" placeholder="Số điện thoại" required />
+        <input type="email" name="email" data-key="chat_form_email" placeholder="Email" required />
+        <textarea name="message" data-key="chat_form_message" placeholder="Nội dung cần hỗ trợ" required></textarea>
+        <button type="submit" data-key="chat_form_submit">Gửi</button>
       </form>
     </div>
   </div>
@@ -465,73 +465,43 @@
 
   <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/support_fixed.js"></script>
 
+   <!--Script gửi thông tin trong popup-->
   <!-- Tích hợp EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <!--Script để gửi mail cho trang contact-->
-  <!-- <script>
-    emailjs.init("8tRtdG1FUPVQQJNbt");
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    // Khởi tạo EmailJS
+    (function () {
+      emailjs.init("BERY7kRlfqMVpherf");
+    })();
 
-    document
-      .getElementById("contactForm")
-      .addEventListener("submit", function (event) {
-        event.preventDefault();
-        console.log("Main form submission intercepted");
-
-        const formData = {
-          cusName: document.getElementById("cusName").value,
-          cusEmail: document.getElementById("cusEmail").value,
-          cusPhone: document.getElementById("cusPhone").value,
-          cusMessage: document.getElementById("cusMessage").value,
-        };
-
-        emailjs
-          .send(
-            "service_ngv1h6g",
-            "template_1wkh216",
-            {
-              ...formData,
-              to_email: "sales@uniwave-logistics.com",
-              cc_email: "rachel.ho@uniwave-logistics.com",
-            },
-            "8tRtdG1FUPVQQJNbt"
-          )
-          .then(
-            () => {
-              alert("Tin nhắn của bạn đã được gửi thành công!");
-              this.reset();
-            },
-            (error) => {
-              console.error("Lỗi gửi tin nhắn (form chính):", error);
-              alert("Gửi tin nhắn thất bại. Vui lòng thử lại.");
-            }
-          );
-      });
-
+    // Bắt sự kiện gửi form
     document
       .getElementById("contact-form")
-      .addEventListener("submit", function (event) {
-        event.preventDefault();
-        console.log("Popup form submission intercepted");
+      .addEventListener("submit", function (e) {
+        e.preventDefault();
 
+        // Gửi email đến sales
         emailjs
-          .sendForm(
-            "service_d5irvii",
-            "template_contact_fwpo0kh",
-            this,
-            "BERY7kRlfqMVpherf"
-          )
+          .sendForm("service_d5irvii", "template_contact_fwpo0kh", this)
           .then(
-            () => {
+            function (response) {
               alert("✅ Gửi thành công!");
-              this.reset();
             },
-            (error) => {
-              console.error("Lỗi gửi tin nhắn (form popup):", error);
+            function (error) {
               alert("❌ Gửi thất bại.");
+              console.log(error);
             }
           );
+
+        // Gửi email cảm ơn (nếu cần)
+        const formData = new FormData(this);
+        emailjs.send("service_d5irvii", "template_auto_reply_7426", {
+          name: formData.get("name"),
+          email: formData.get("email"),
+        });
       });
-  </script> -->
+  </script>
+  <!--Script gửi thông tin trong popup-->
   <script>
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
   e.preventDefault();
