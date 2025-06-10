@@ -427,7 +427,7 @@
       <h3>Để lại thông tin</h3>
       <form id="contact-form">
         <input type="text" name="name" placeholder="Họ và tên" required />
-        <input type="tel" name="phone" placeholder="Số điện thoại" required />
+        <input type="tel" name="phone" placeholder="Số điện thoại"/>
         <input type="email" name="email" placeholder="Email" required />
         <textarea name="message" placeholder="Nội dung cần hỗ trợ" required></textarea>
         <button type="submit">Gửi</button>
@@ -534,31 +534,46 @@
   </script> -->
   <script>
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = {
-      name: document.getElementById('cusName').value,
-      email: document.getElementById('cusEmail').value,
-      phone: document.getElementById('cusPhone').value,
-      message: document.getElementById('cusMessage').value,
-    };
-    try {
-      const response = await fetch('http://localhost:3000/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const result = await response.json();
-      if (response.ok) {
-        alert(result.message || 'Thông tin đã được gửi thành công!');
-        document.getElementById('contactForm').reset();
-      } else {
-        alert(result.message || 'Đã có lỗi xảy ra, vui lòng thử lại.');
-      }
-    } catch (error) {
-      console.error('Lỗi gửi yêu cầu:', error);
-      alert('Không thể kết nối đến server, vui lòng thử lại sau.');
+  e.preventDefault();
+
+  const formData = {
+    name: document.getElementById('cusName').value.trim(),
+    email: document.getElementById('cusEmail').value.trim(),
+    phone: document.getElementById('cusPhone').value.trim(),
+    message: document.getElementById('cusMessage').value.trim(),
+  };
+
+  // Kiểm tra dữ liệu trước khi gửi
+  if (!formData.name || !formData.email || !formData.message) {
+    alert('Vui lòng điền đầy đủ các trường bắt buộc!');
+    return;
+  }
+  if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    alert('Email không hợp lệ!');
+    return;
+  }
+
+  console.log('Dữ liệu gửi đi:', formData); // Debug
+
+  try {
+    const response = await fetch('http://localhost:3000/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+    const result = await response.json();
+    if (response.ok) {
+      alert(result.message || 'Thông tin đã được gửi thành công!');
+      document.getElementById('contactForm').reset();
+    } else {
+      console.log('Lỗi từ server:', result); // In lỗi
+      alert(result.errors ? result.errors.map(err => err.msg).join(', ') : 'Đã có lỗi xảy ra, vui lòng thử lại.');
     }
-  });
+  } catch (error) {
+    console.error('Lỗi gửi yêu cầu:', error);
+    alert('Không thể kết nối đến server, vui lòng thử lại sau.');
+  }
+});
   </script>
 
   <script type="text/javascript">
