@@ -428,3 +428,72 @@ if (missionStatsSection && getComputedStyle(missionStatsSection).display !== 'no
 /***********************************
  * ĐẾM SỐ VÀ CHẠY CHỮ FUNCTIONS *
  ***********************************/
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('priceCheckForm');
+    const resultBox = document.querySelector('.box-results');
+    const weightOptions = document.querySelectorAll('.box-khoiluong > div');
+    const weightInput = document.getElementById('trongluong');
+
+    // Xử lý chọn khối lượng
+    weightOptions.forEach(option => {
+        option.addEventListener('click', function () {
+            weightOptions.forEach(opt => opt.classList.remove('active'));
+            this.classList.add('active');
+            weightInput.value = this.getAttribute('data-value') / 1000; // Chuyển gram sang kg
+        });
+    });
+
+    // Xử lý submit form
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Lấy dữ liệu form
+        const from = document.getElementById('from').value;
+        const to = document.getElementById('to').value;
+        const weight = document.getElementById('trongluong').value;
+        const length = document.querySelector('input[name="length"]').value;
+        const width = document.querySelector('input[name="width"]').value;
+        const height = document.querySelector('input[name="height"]').value;
+        const goodsType = document.getElementById('goodsType').value;
+        const quantity = document.getElementById('quantity').value;
+
+        // Cập nhật nội dung card kết quả
+        document.getElementById('result-from').textContent = from;
+        document.getElementById('result-to').textContent = to;
+        document.getElementById('result-weight').textContent = weight;
+        document.getElementById('result-dimensions').textContent = `${length}x${width}x${height}`;
+        document.getElementById('result-goodsType').textContent = goodsType;
+        document.getElementById('result-quantity').textContent = quantity;
+
+        // Hiển thị card, ẩn form và các phần tử khác
+        resultBox.style.display = 'block';
+        form.style.display = 'none';
+        document.querySelector('.box-khoiluong').style.display = 'none';
+        document.querySelectorAll('.main-title').forEach(title => {
+            title.style.display = 'none';
+        });
+
+        // Xử lý nút "Ước tính cước phí khác"
+        document.getElementById('estimateAnother').addEventListener('click', function () {
+            // Reset form
+            form.reset();
+            weightOptions.forEach(opt => opt.classList.remove('active'));
+
+            // Ẩn card, hiện form và các phần tử khác
+            resultBox.style.display = 'none';
+            form.style.display = 'block';
+            document.querySelector('.box-khoiluong').style.display = 'flex';
+            document.querySelectorAll('.main-title').forEach(title => {
+                title.style.display = 'block';
+            });
+
+            // Xóa nội dung card
+            document.getElementById('result-from').textContent = '';
+            document.getElementById('result-to').textContent = '';
+            document.getElementById('result-weight').textContent = '';
+            document.getElementById('result-dimensions').textContent = '';
+            document.getElementById('result-goodsType').textContent = '';
+            document.getElementById('result-quantity').textContent = '';
+        });
+    });
+});

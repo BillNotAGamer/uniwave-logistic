@@ -18,6 +18,7 @@
 	<link rel="stylesheet" href="css/style.css" />
 	<!-- Swiper CSS -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 <body>
@@ -216,10 +217,9 @@
 							và <a href="#" style="color: #ff8e53;">điều khoản</a></label>
 					</div>
 					<button type="submit" class="reg-btn">Đăng Ký Ngay</button>
-					<button type="button" class="reg-google-btn">
-						<img src="https://www.google.com/favicon.ico" alt="Google Icon">
-						Đăng nhập bằng Google
-					</button>
+					<div id="reg-google-login" class="reg-google-btn"><img src="https://www.google.com/favicon.ico" alt="Google Icon">
+						Tiếp tục với Google</div>
+
 				</form>
 				<div class="reg-link">
 					Đã có tài khoản? <a href="#" class="auth-switch" data-form="login-form">Đăng nhập</a>
@@ -241,10 +241,8 @@
 						<label for="login-remember">Ghi nhớ đăng nhập</label>
 					</div>
 					<button type="submit" class="login-btn">Đăng Nhập</button>
-					<button type="button" class="login-google-btn">
-						<img src="https://www.google.com/favicon.ico" alt="Google Icon">
-						Đăng nhập bằng Google
-					</button>
+					<div id="reg-google-login" class="reg-google-btn"><img src="https://www.google.com/favicon.ico" alt="Google Icon">
+						Đăng nhập bằng Google</div>
 				</form>
 				<div class="login-link">
 					Chưa có tài khoản? <a href="#" class="auth-switch" data-form="reg-form">Đăng ký</a>
@@ -430,7 +428,7 @@
 	<script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/main.js"></script>
 
 	<script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/support_fixed.js"></script>
-
+	<script src="js/authentication.js"></script>
 	<script type="text/javascript">
 		var popup_vipo = localStorage.getItem('popup_vipo27');
 		var currentDay = new Date().toLocaleDateString();
@@ -715,12 +713,46 @@
 			}
 		});
 
-		// Google login button (placeholder)
-		document.querySelectorAll('.reg-google-btn, .login-google-btn').forEach(btn => {
-			btn.addEventListener('click', () => {
-				alert('Tính năng đăng nhập bằng Google đang được phát triển!');
+		// Đăng nhập bằng Google cho cả đăng ký và đăng nhập
+	window.onload = function () {
+		const handleGoogleResponse = (response) => {
+			console.log("Google token:", response.credential);
+
+			fetch("https://your-api.com/api/auth/google", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ token: response.credential }),
+			})
+			.then(res => res.json())
+			.then(data => {
+				if (data.token) {
+					localStorage.setItem("token", data.token);
+					alert("Đăng nhập Google thành công!");
+					// Có thể redirect nếu cần: window.location.href = "/dashboard";
+				} else {
+					alert("Đăng nhập Google thất bại!");
+				}
+			})
+			.catch(err => {
+				console.error("Lỗi gọi API:", err);
+				alert("Lỗi đăng nhập bằng Google!");
 			});
+		};
+
+		// Khởi tạo Google Login cho cả 2 nút
+		google.accounts.id.initialize({
+			client_id: "914225695260-55e0tgrlg8ptp7kjml6f95fbumaqctak.apps.googleusercontent.com",
+			callback: handleGoogleResponse
 		});
+
+		// Render Google button
+		google.accounts.id.renderButton(
+			document.getElementById("reg-google-login"),
+		);
+		google.accounts.id.renderButton(
+			document.getElementById("login-google-login"),
+		);
+	};
 	</script>
 
 </body>
