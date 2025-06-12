@@ -227,6 +227,29 @@
                 <button id="estimateAnother" style="margin-top: 24px; background-color: #033273; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: 600; width: 100%;">Ước tính cước phí khác</button>
             </div>
         </div>
+        <p class="main-title">Khối lượng ước tính</p>
+        <div class="box-khoiluong">
+            <div data-value="250">
+                <img src="./image/price-check/icon/icon-order-weight-paper-roll.png" alt="0-500gr">
+                <p>0 - 500gr</p>
+            </div>
+            <div data-value="750">
+                <img src="./image/price-check/icon/icon-order-weight-water-bottle.png" alt="500-1000gr">
+                <p>500 - 1000gr</p>
+            </div>
+            <div data-value="1500">
+                <img src="./image/price-check/icon/icon-order-weight-blender.png" alt="1000-2000gr">
+                <p>1000 - 2000gr</p>
+            </div>
+            <div data-value="3000">
+                <img src="./image/price-check/icon/icon-order-weight-microwave.png" alt="2000-4000gr">
+                <p>2000 - 4000gr</p>
+            </div>
+            <div data-value="6000">
+                <img src="./image/price-check/icon/icon-order-weight-washer.png" alt=">4000gr">
+                <p>> 4000gr</p>
+            </div>
+        </div>
         <p class="main-title">Ước tính cước phí</p>
         <form id="priceCheckForm" class="form-tracuu">
             <div class="flex">
@@ -289,8 +312,27 @@
                     </div>
                 </div>
             </div>
-            
-            <button type="submit" class="btn-tracuu">Ước tính cước phí</button>
+            <div class="form-group">
+                <label for="goodsType">Loại hàng hóa *</label>
+                <input type="text" id="goodsType" name="goodsType" placeholder="Nhập loại hàng hóa, ví dụ: quần áo, điện tử, thực phẩm khô..." required>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Số kiện *</label>
+                <input type="number" id="quantity" name="quantity" placeholder="Nhập số kiện..." min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="notes">Yêu cầu đặc biệt</label>
+                <textarea id="notes" name="notes" placeholder="Nhập yêu cầu..." rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" placeholder="Ví dụ: example@email.com" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Số điện thoại *</label>
+                <input type="text" id="phone" name="phone" placeholder="Số điện thoại của bạn..." required>
+            </div>
+            <button type="submit" class="btn-tracuu">Gửi yêu cầu báo giá</button>
         </div>
     </div>
 
