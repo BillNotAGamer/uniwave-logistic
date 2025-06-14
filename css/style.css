@@ -460,6 +460,7 @@ body {
 
 .search-bar input.visible {
   display: block;
+  color: #000;
 }
 
 .search-bar .close-search {
@@ -802,6 +803,7 @@ body {
     justify-content: center;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    font-size: 11px;
   }
 
   .tertiary-nav a:before {
@@ -839,6 +841,10 @@ body {
     width: 100%;
     padding: 5px;
     background: #fff;
+  }
+
+  .search-bar input {
+    color: #000;
   }
 
   .search-bar>img {

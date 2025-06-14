@@ -128,8 +128,10 @@ document.addEventListener("DOMContentLoaded", function () {
     closeSearch.classList.toggle("visible");
     if (searchBar.classList.contains("open")) {
       searchInput.focus(); // Đặt con trỏ vào input khi mở
+      searchIcon.src = "./image/icon/search.2d8135fd.svg";
     } else {
       searchInput.value = ""; // Xóa nội dung input khi đóng
+      searchIcon.src = "./image/icon/search_light.71eaeab0.png";
     }
   });
 
@@ -138,6 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
     searchInput.classList.remove("visible");
     closeSearch.classList.remove("visible");
     searchInput.value = ""; // Xóa nội dung input
+    searchIcon.src = "./image/icon/search_light.71eaeab0.png"; // Đặt lại src khi đóng
   });
 
   // Chọn ngôn ngữ
