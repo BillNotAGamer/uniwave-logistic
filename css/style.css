@@ -756,6 +756,7 @@ body {
     width: auto;
     align-items: center;
     justify-content: center;
+    font-size: 11px;
   }
 
   .secondary-nav-link:before {
@@ -919,6 +920,44 @@ body {
   
 }
 
+/*Responsive for header*/
+@media (max-width: 1536px) {
+  .primary-nav-link {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 1281px) {
+  .brand-logo img.logo-desktop {
+  height: 33px;
+  }
+
+  .primary-nav-link {
+    padding-left: 12px;
+    padding-right: 12px;
+    font-size: 11px;
+  }
+
+  .search-bar>img {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  }
+
+  .language-switcher>img {
+  width: 20px;
+  height: 20px;
+  }
+
+  #profile-icon-black {
+    height: 25px;
+    width: 25px;
+  }
+}
+
 @media only screen and (min-width: 991px) and (max-width: 1199px) {
 
   .primary-nav-item.selected-desktop .primary-nav-link:before,
@@ -927,7 +966,7 @@ body {
   }
 
   .action-panel {
-    gap: 0.75rem;
+    gap: 1rem;
   }
 
   .search-bar {
@@ -965,6 +1004,7 @@ body {
     right: 0;
   }
 }
+
 
 @media only screen and (max-width: 767px) {
   .menu-collapse {
@@ -1608,8 +1648,6 @@ body {
   font-weight: 600;
 }
 /* Responsive Design */
-
-
 @media (max-width: 767px) {
   .why-univave {
     padding: 40px 10px;
