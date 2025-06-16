@@ -3219,7 +3219,7 @@ body {
 .content-wrapper {
   flex: 1;
   padding: 0 24px;
-  max-width: 1800px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -3275,7 +3275,7 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
   gap: 32px;
   padding: 0 16px;
-  max-width: 1800px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
