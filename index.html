@@ -816,53 +816,91 @@
     });
   </script>
   <script>
-    $(document).ready(function () {
-      // Xóa lớp hidden khi trang tải
+        document.addEventListener('DOMContentLoaded', function () {
+            if (document.querySelector('.swiper')) {
+                const swiperSlider = new Swiper('.swiper', {
+                    loop: true,
+                    autoplay: {
+                        delay: 4000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                        dynamicBullets: true,
+                    },
+                    touchRatio: 2, // Tăng độ nhạy khi vuốt
+                    touchAngle: 45, // Cho phép vuốt chéo
+                    grabCursor: true, // Hiển thị con trỏ kéo
+                    simulateTouch: true, // Đảm bảo tương tác chạm trên mọi thiết bị
+                    slidesPerView: 4,
+                    spaceBetween: 20,
+                    speed: 500, // Giảm thời gian chuyển slide để mượt hơn
+                    slidesPerGroup: 1,
+                    watchSlidesProgress: true,
+                    breakpoints: {
+                        360: {
+                            slidesPerView: 1,
+                            spaceBetween: 10,
+                            centeredSlides: true,
+                        },
+                        736: {
+                            slidesPerView: 2,
+                            spaceBetween: 15,
+                            centeredSlides: false,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 20,
+                        },
+                        1310: {
+                            slidesPerView: 4,
+                            spaceBetween: 20,
+                        }
+                    },
+                    preloadImages: true,
+                    updateOnImagesReady: true,
+                    resistanceRatio: 0.8, // Giảm lực cản khi vuốt
+                    slideToClickedSlide: true,
+                    effect: 'slide', // Sử dụng hiệu ứng slide mặc định
+                    on: {
+                        init: function () {
+                            document.querySelectorAll('.feature-img').forEach(img => {
+                                if (img.complete) {
+                                    img.style.opacity = '1';
+                                } else {
+                                    img.addEventListener('load', () => {
+                                        img.style.opacity = '1';
+                                    });
+                                }
+                            });
+                        },
+                        slideChange: function () {
+                            this.slides.forEach(slide => {
+                                slide.style.transitionTimingFunction = 'ease-in-out';
+                            });
+                        }
+                    }
+                });
 
-      // Kiểm tra container tồn tại trước khi khởi tạo
-      if ($(".swiper").length) {
-        const swiperSlider = new Swiper(".swiper", {
-          loop: true,
-          autoplay: {
-            delay: 3000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          },
-          pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-          },
-          navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-          },
-          slidesPerView: 4,
-          spaceBetween: 10,
-          speed: 800,
-          breakpoints: {
-            360: {
-              slidesPerView: 1,
-              spaceBetween: 10,
-            },
-            736: {
-              slidesPerView: 2,
-              spaceBetween: 10,
-            },
-            1024: {
-              slidesPerView: 3,
-              spaceBetween: 10,
-            },
-            1310: {
-              slidesPerView: 4,
-              spaceBetween: 10,
-            },
-          },
+                // Xử lý resize để cập nhật slider
+                let resizeTimer;
+                window.addEventListener('resize', function () {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(() => {
+                        swiperSlider.update();
+                    }, 150);
+                });
+
+                // Cập nhật slider khi tải trang
+                window.addEventListener('load', function () {
+                    swiperSlider.update();
+                });
+            } else {
+                console.error('Không tìm thấy container Swiper!');
+            }
         });
-      } else {
-        console.error("Swiper container not found!");
-      }
-    });
-  </script>
+    </script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const navbarToggler = document.querySelector(".menu-toggle");
