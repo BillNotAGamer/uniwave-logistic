@@ -3231,6 +3231,34 @@ body {
     z-index: 1;
   }
 
+  .inline-block {
+    display: inline-block;
+    padding-top: 15px;
+  }
+
+  .btn-white-outline {
+    position: relative;
+    border-radius: 9999px;
+    border-width: 2px;
+    border-color: var(--ttm-secondarycolor) !important;
+    background-color: transparent;
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 500;
+    color: var(--ttm-secondarycolor) !important;
+    box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+    height: 60px;
+    transition: all .5s
+}
+
+.btn-white-outline img {
+    display: inline!important;
+    margin-left: 1rem;
+    margin-bottom: 2px
+}
+
   /* Card container styles */
   .card-container {
     display: grid;
