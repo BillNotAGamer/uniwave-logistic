@@ -208,24 +208,6 @@
   <!--Breadcrumb end-->
   <div class="main-content">
     <div class="container-price-check">
-        <div class="box-results" style="display: none;">
-            <div class="result-card" style="padding: 24px; background-color: #f8f9fa; border-radius: 8px;">
-                <h3 style="font-size: 20px; font-weight: bold; margin-bottom: 16px; color: black;">Kết quả ước tính cước phí</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                    <div>
-                        <p><strong>Nơi đi:</strong> <span id="result-from"></span></p>
-                        <p><strong>Nơi đến:</strong> <span id="result-to"></span></p>
-                        <p><strong>Trọng lượng:</strong> <span id="result-weight"></span> kg</p>
-                    </div>
-                    <div>
-                        <p><strong>Kích thước:</strong> <span id="result-dimensions"></span> cm</p>
-                        <p><strong>Loại hàng hóa:</strong> <span id="result-goodsType"></span></p>
-                        <p><strong>Số kiện:</strong> <span id="result-quantity"></span></p>
-                    </div>
-                </div>
-                <button id="estimateAnother" style="margin-top: 24px; background-color: #033273; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: 600; width: 100%;">Ước tính cước phí khác</button>
-            </div>
-        </div>
         <p class="main-title">Ước tính cước phí</p>
         <form id="priceCheckForm" class="form-tracuu">
             <div class="flex">
@@ -233,7 +215,7 @@
                     <div class="form-group">
                         <label for="from">Nơi đi *</label>
                         <select id="from" name="from" class="js-select" required>
-                            <option value="TP.HCM" selected>TP.HCM</option>
+                            <option value="TP.HCM" selected>Hồ Chí Minh</option>
                             <option value="Nha Trang">Nha Trang</option>
                             <option value="Đà Lạt">Đà Lạt</option>
                             <option value="Pleiku">Pleiku</option>
@@ -250,7 +232,7 @@
                     <div class="form-group">
                         <label for="to">Nơi đến *</label>
                         <select id="to" name="to" class="js-select" required>
-                            <option value="TP.HCM">TP.HCM</option>
+                            <option value="TP.HCM">Hồ Chí Minh</option>
                             <option value="Nha Trang">Nha Trang</option>
                             <option value="Đà Lạt">Đà Lạt</option>
                             <option value="Pleiku">Pleiku</option>
@@ -459,6 +441,12 @@
       </li>
     </ul>
   </div>
+
+  <!-- Scripts fetch báo giá -->
+  <script>
+    
+  </script>
+
   <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/bootstrap.js"></script>
 
 

@@ -4709,15 +4709,6 @@ tbody.collapse.show {
     color: #fff;
 }
 
-.section-banner .content>div p:nth-child(2) {
-    color: #fff;
-    text-align: center;
-    width: 100%;
-    font-size: 20px;
-    letter-spacing: 5px;
-    margin-bottom: 0px;
-}
-
 #breadcrumbs a {
     color: #000;
 }
