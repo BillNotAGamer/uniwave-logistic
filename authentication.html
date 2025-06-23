@@ -769,6 +769,54 @@
 		};
 	</script>
 
+	<script>
+		// Registration form submission
+document.getElementById('reg-auth-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById('reg-username').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const password = document.getElementById('reg-password').value.trim();
+    const terms = document.getElementById('reg-terms').checked;
+
+    // Validate inputs
+    if (!username || !email || !password || !terms) {
+        alert('Vui lòng điền đầy đủ thông tin và đồng ý với điều khoản!');
+        return;
+    }
+
+    // Prepare data for API
+    const data = {
+        username: username,
+        password: password
+    };
+
+    try {
+        const response = await fetch('http://billytran1208-001-site1.anytempurl.com/api/User/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            alert('Đăng ký thành công!');
+            document.getElementById('reg-auth-form').reset();
+            // Optionally redirect to login form or another page
+            switchForm('login-form'); // Switch to login form after successful registration
+        } else {
+            const error = await response.json();
+            alert(`Đăng ký thất bại: ${error.message || 'Vui lòng thử lại!'}`);
+        }
+    } catch (error) {
+        console.error('Lỗi gọi API:', error);
+        alert('Lỗi kết nối đến server. Vui lòng thử lại sau!');
+    }
+});
+	</script>
+
 </body>
 
 <link rel='stylesheet' id='whp6778font-awesome.min.css-css'
