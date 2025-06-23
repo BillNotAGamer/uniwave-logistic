@@ -775,15 +775,15 @@ document.getElementById('reg-auth-form').addEventListener('submit', async (e) =>
     e.preventDefault();
 
     const username = document.getElementById('reg-username').value.trim();
-    const email = document.getElementById('reg-email').value.trim();
+    // const email = document.getElementById('reg-email').value.trim();
     const password = document.getElementById('reg-password').value.trim();
     const terms = document.getElementById('reg-terms').checked;
 
     // Validate inputs
-    if (!username || !email || !password || !terms) {
-        alert('Vui lòng điền đầy đủ thông tin và đồng ý với điều khoản!');
-        return;
-    }
+    // if (!username || !email || !password || !terms) {
+    //     alert('Vui lòng điền đầy đủ thông tin và đồng ý với điều khoản!');
+    //     return;
+    // }
 
     // Prepare data for API
     const data = {
