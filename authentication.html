@@ -830,69 +830,77 @@
 	<!--Script fetch vào đăng nhập-->
 	<script>
 		document.getElementById("login-auth-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
+			e.preventDefault();
 
-    const identifier = document.getElementById("login-email").value.trim();
-    const password = document.getElementById("login-password").value.trim();
-    const remember = document.getElementById("login-remember").checked;
+			const identifier = document.getElementById("login-email").value.trim();
+			const password = document.getElementById("login-password").value.trim();
+			const remember = document.getElementById("login-remember").checked;
 
-    // Kiểm tra dữ liệu phía client
-    if (!identifier || !password) {
-        alert("Vui lòng điền đầy đủ thông tin đăng nhập và mật khẩu!");
-        return;
-    }
+			// Client-side validation
+			if (!identifier || !password) {
+				alert("Vui lòng điền đầy đủ thông tin!");
+				return;
+			}
 
-    // Kiểm tra độ dài mật khẩu (tối thiểu 6 ký tự)
-    if (password.length < 6) {
-        alert("Mật khẩu phải có ít nhất 6 ký tự!");
-        return;
-    }
+			// Check password length (minimum 6 characters)
+			if (password.length < 6) {
+				alert("Mật khẩu phải có ít nhất 6 ký tự!");
+				return;
+			}
 
-    // Kiểm tra độ dài identifier (tối đa 100 ký tự cho email hoặc 50 ký tự cho username)
-    if (identifier.length > 100) {
-        alert("Thông tin đăng nhập không được vượt quá 100 ký tự!");
-        return;
-    }
+			// Check if identifier is a valid email or username
+			const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+			if (!isEmail && identifier.length > 50) {
+				alert("Tên người dùng không được vượt quá 50 ký tự!");
+				return;
+			}
+			if (isEmail && identifier.length > 100) {
+				alert("Email không được vượt quá 100 ký tự!");
+				return;
+			}
 
-    // Kiểm tra định dạng email
-    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
-    
-    // Chuẩn bị dữ liệu gửi lên API
-    const data = isEmail ? { email: identifier, password: password } : { username: identifier, password: password };
+			const data = {
+				[isEmail ? "email" : "username"]: identifier,
+				password: password
+			};
 
-    try {
-        const response = await fetch(
-            "https://cool-dhawan.103-28-36-58.plesk.page/api/User/login",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            }
-        );
+			try {
+				const response = await fetch(
+					"https://cool-dhawan.103-28-36-58.plesk.page/api/User/login",
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(data),
+					}
+				);
 
-        if (response.ok) {
-            const result = await response.json();
-            // Lưu token hoặc thông tin đăng nhập nếu cần
-            if (remember) {
-                localStorage.setItem("authToken", result.token); // Giả sử API trả về token
-            } else {
-                sessionStorage.setItem("authToken", result.token); // Lưu tạm thời nếu không ghi nhớ
-            }
-            alert("Đăng nhập thành công!");
-            document.getElementById("login-auth-form").reset();
-            // Chuyển hướng đến trang chính hoặc dashboard
-            window.location.href = "index.html";
-        } else {
-            const error = await response.text(); // Backend trả về lỗi dạng text
-            alert(`Đăng nhập thất bại: ${error || "Thông tin đăng nhập hoặc mật khẩu không đúng!"}`);
-        }
-    } catch (error) {
-        console.error("Lỗi gọi API:", error);
-        alert("Lỗi kết nối đến server. Vui lòng thử lại sau!");
-    }
-});
+				if (response.ok) {
+					const result = await response.json();
+					// Assuming the API returns a token or user data
+					if (result.token) {
+						// Store token in localStorage or sessionStorage based on remember me
+						if (remember) {
+							localStorage.setItem("authToken", result.token);
+						} else {
+							sessionStorage.setItem("authToken", result.token);
+						}
+						alert("Đăng nhập thành công!");
+						// Redirect to homepage or dashboard
+						window.location.href = "index.html";
+					} else {
+						alert("Đăng nhập thành công nhưng không nhận được token!");
+					}
+				} else {
+					const error = await response.text();
+					alert(`Đăng nhập thất bại: ${error || "Thông tin đăng nhập không đúng!"}`);
+				}
+			} catch (error) {
+				console.error("Lỗi gọi API:", error);
+				alert("Lỗi kết nối đến server. Vui lòng thử lại sau!");
+			}
+		});
 	</script>
 </body>
 
