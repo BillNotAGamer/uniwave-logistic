@@ -19,6 +19,7 @@
 	<!-- Swiper CSS -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 	<script src="https://accounts.google.com/gsi/client" async defer></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -252,15 +253,15 @@
 				<h1 class="auth-title">Đăng Nhập</h1>
 				<form id="login-auth-form">
 					<div class="login-form-group">
-						<input type="email" id="login-email" placeholder=" " required />
-						<label for="login-email">Email or Username</label>
+						<input type="text" id="login-email" placeholder=" " required />
+						<label for="login-email">Email hoặc Tên người dùng</label>
 					</div>
 					<div class="login-form-group">
 						<input type="password" id="login-password" placeholder=" " required />
 						<label for="login-password">Mật khẩu</label>
 					</div>
 					<div class="login-checkbox-group">
-						<input type="checkbox" id="login-remember"/>
+						<input type="checkbox" id="login-remember" />
 						<label for="login-remember">Ghi nhớ đăng nhập</label>
 					</div>
 					<button type="submit" class="login-btn">Đăng Nhập</button>
@@ -483,9 +484,7 @@
 
 	<script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/bootstrap.js"></script>
-
 	<script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/main.js"></script>
-
 	<script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/support_fixed.js"></script>
 	<script type="text/javascript">
 		var popup_vipo = localStorage.getItem("popup_vipo27");
@@ -506,12 +505,10 @@
 				$("#close-lk").click(function () {
 					$("#ml-menu-fixed").toggleClass("active");
 					$(".btn-show-lk").toggleClass("active");
-					// $('.chat-live').slideToggle();
 				});
 				$(".btn-show-lk").click(function () {
 					$(this).toggleClass("active");
 					$("#ml-menu-fixed").toggleClass("active");
-					// $('.chat-live').slideToggle();
 				});
 
 				$("ul#service-menu").toggleClass("ccodon");
@@ -907,7 +904,6 @@
 <link rel="stylesheet" id="whp6778font-awesome.min.css-css"
 	href="./uni-content/plugins/wp-security-hardening/modules/inc/fa/css/font-awesome.min.css" type="text/css"
 	media="all" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
 
 </html>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
