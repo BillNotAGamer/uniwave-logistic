@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-//Song ngữ start
+
 document.addEventListener("DOMContentLoaded", function () {
   // Đóng/mở input tìm kiếm
   const searchBar = document.querySelector(".search-bar");
@@ -143,7 +143,8 @@ document.addEventListener("DOMContentLoaded", function () {
     searchInput.value = "";
     searchIcon.src = "./image/icon/search_light.71eaeab0.png";
   });
-
+  
+//Song ngữ start
   // Xử lý ngôn ngữ
 const languageSwitcher = document.querySelector(".language-switcher");
 const languageDropdown = document.querySelector(".language-dropdown");
@@ -154,10 +155,16 @@ const languageOptions = document.querySelectorAll(".language-dropdown li a");
 // Load ngôn ngữ từ localStorage hoặc mặc định là 'vi'
 let currentLang = localStorage.getItem("language") || "vi";
 
+// Đặt mặc định tiếng Việt nếu localStorage trống
+if (!localStorage.getItem("language")) {
+  localStorage.setItem("language", "vi");
+}
+
 // Hàm tải file JSON ngôn ngữ
 async function loadLanguage(lang) {
   try {
     const response = await fetch(`languages/${lang}.json`);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const translations = await response.json();
     applyTranslations(translations);
     currentLang = lang;
@@ -172,7 +179,7 @@ async function loadLanguage(lang) {
       li.classList.toggle("visible", li.getAttribute("data-lang") === lang);
     });
 
-    // Cập nhật URL
+    // Chỉ cập nhật URL nếu người dùng chọn ngôn ngữ từ dropdown
     let newUrl = window.location.pathname;
     if (lang === "en" && !newUrl.startsWith("/en")) {
       newUrl = "/en" + newUrl;
@@ -243,7 +250,7 @@ languageSwitcher.addEventListener("click", function (event) {
 
 // Khởi tạo ngôn ngữ
 const urlParams = new URLSearchParams(window.location.search);
-const urlLang = urlParams.get("lang") || localStorage.getItem("language") || (navigator.language.split("-")[0] === "en" ? "en" : "vi");
+let urlLang = urlParams.get("lang") || localStorage.getItem("language") || "vi";
 loadLanguage(urlLang);
 });
 //Song ngữ end
