@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+//Song ngữ start
 document.addEventListener("DOMContentLoaded", function () {
   // Đóng/mở input tìm kiếm
   const searchBar = document.querySelector(".search-bar");
@@ -143,103 +144,109 @@ document.addEventListener("DOMContentLoaded", function () {
     searchIcon.src = "./image/icon/search_light.71eaeab0.png";
   });
 
-  // Chọn ngôn ngữ
-  const languageSwitcher = document.querySelector(".language-switcher");
-  const languageDropdown = document.querySelector(".language-dropdown");
-  const languageTitle = document.querySelector(".language-switcher .language-title");
-  const languageImg = document.querySelector("#current-flag");
-  const languageOptions = document.querySelectorAll(".language-dropdown li a");
+  // Xử lý ngôn ngữ
+const languageSwitcher = document.querySelector(".language-switcher");
+const languageDropdown = document.querySelector(".language-dropdown");
+const languageTitle = document.querySelector(".language-switcher .language-title");
+const languageImg = document.querySelector("#current-flag");
+const languageOptions = document.querySelectorAll(".language-dropdown li a");
 
-  // Mở/đóng dropdown khi click
-  languageSwitcher.addEventListener("click", function (event) {
-    event.preventDefault();
-    languageDropdown.classList.toggle("visible");
-  });
+// Load ngôn ngữ từ localStorage hoặc mặc định là 'vi'
+let currentLang = localStorage.getItem("language") || "vi";
 
-  // Xử lý chọn ngôn ngữ
-  languageOptions.forEach(option => {
-    option.addEventListener("click", function (event) {
-      event.preventDefault();
-      const selectedLang = this.getAttribute("data-lang");
-      const selectedImgSrc = this.querySelector("img").src;
+// Hàm tải file JSON ngôn ngữ
+async function loadLanguage(lang) {
+  try {
+    const response = await fetch(`languages/${lang}.json`);
+    const translations = await response.json();
+    applyTranslations(translations);
+    currentLang = lang;
+    localStorage.setItem("language", lang);
 
-      // Cập nhật cờ và văn bản
-      languageTitle.textContent = selectedLang === "vi" ? "Viet Nam" : "English";
-      languageImg.src = selectedImgSrc;
+    // Cập nhật tiêu đề và cờ
+    languageTitle.textContent = translations[languageTitle.getAttribute("data-key")];
+    languageImg.src = lang === "vi" ? "./image/icon/vn.38e19a45.png" : "./image/icon/en.5a569d53.png";
 
-      // Cập nhật lớp visible
-      document.querySelectorAll(".language-dropdown li").forEach(li => {
-        li.classList.toggle("visible", li.getAttribute("data-lang") === selectedLang);
-      });
-
-      // Kích hoạt Google Translate
-      const main = document.querySelector("main") || document.body; // Fallback to body if no main tag
-      main.classList.add("language-loading");
-      const selectField = document.querySelector("#google_translate_element select");
-      if (selectField) {
-        selectField.value = selectedLang;
-        selectField.dispatchEvent(new Event("change"));
-      }
-
-      // Lưu ngôn ngữ vào localStorage
-      localStorage.setItem("language", selectedLang);
-
-      // Cập nhật URL
-      const newUrl = selectedLang === "vi" ? window.location.pathname : "/en";
-      window.history.pushState({}, "", newUrl);
-
-      // Cập nhật thẻ hreflang
-      updateHreflang(selectedLang);
-
-      // Ẩn dropdown
-      languageDropdown.classList.remove("visible");
-
-      // Xóa hiệu ứng loading
-      setTimeout(() => {
-        main.classList.remove("language-loading");
-      }, 300);
+    // Cập nhật lớp visible cho dropdown
+    document.querySelectorAll(".language-dropdown li").forEach(li => {
+      li.classList.toggle("visible", li.getAttribute("data-lang") === lang);
     });
-  });
 
-  // Đóng dropdown khi nhấp ra ngoài
-  document.addEventListener("click", function (event) {
-    if (!languageSwitcher.contains(event.target) && !languageDropdown.contains(event.target)) {
-      languageDropdown.classList.remove("visible");
+    // Cập nhật URL
+    let newUrl = window.location.pathname;
+    if (lang === "en" && !newUrl.startsWith("/en")) {
+      newUrl = "/en" + newUrl;
+    } else if (lang === "vi" && newUrl.startsWith("/en")) {
+      newUrl = newUrl.replace("/en", "");
+    }
+    window.history.pushState({}, "", newUrl);
+
+    // Cập nhật thẻ hreflang
+    updateHreflang(lang);
+  } catch (error) {
+    console.error("Error loading language:", error);
+    if (lang !== "vi") loadLanguage("vi"); // Fallback về tiếng Việt
+  }
+}
+
+// Hàm áp dụng bản dịch
+function applyTranslations(translations) {
+  document.querySelectorAll("[data-key]").forEach(element => {
+    const key = element.getAttribute("data-key");
+    if (translations[key]) {
+      if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+        element.placeholder = translations[key];
+      } else {
+        element.textContent = translations[key];
+      }
     }
   });
+  // Cập nhật thẻ title
+  document.title = translations.title || "UNIWAVE LOGISTICS";
+}
 
-  // Khởi tạo ngôn ngữ
-  const urlParams = new URLSearchParams(window.location.search);
-  const urlLang = urlParams.get("lang") || localStorage.getItem("language") || (navigator.language.split("-")[0] === "en" ? "en" : "vi");
-  languageTitle.textContent = urlLang === "vi" ? "Viet Nam" : "English";
-  languageImg.src = `./image/icon/${urlLang}.png`;
-  document.querySelectorAll(".language-dropdown li").forEach(li => {
-    li.classList.toggle("visible", li.getAttribute("data-lang") === urlLang);
+// Hàm cập nhật hreflang
+function updateHreflang(lang) {
+  let hreflang = document.querySelector('link[hreflang="x-default"]');
+  if (!hreflang) {
+    hreflang = document.createElement("link");
+    hreflang.rel = "alternate";
+    hreflang.hreflang = "x-default";
+    document.head.appendChild(hreflang);
+  }
+  hreflang.href = lang === "vi" ? window.location.pathname : "/en";
+}
+
+// Xử lý chọn ngôn ngữ
+languageOptions.forEach(option => {
+  option.addEventListener("click", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const selectedLang = this.getAttribute("data-lang");
+    loadLanguage(selectedLang);
+    languageDropdown.classList.remove("visible");
   });
+});
 
-  // Kích hoạt Google Translate
-  const selectField = document.querySelector("#google_translate_element select");
-  if (selectField) {
-    selectField.value = urlLang;
-    selectField.dispatchEvent(new Event("change"));
+// Đóng dropdown khi nhấp ra ngoài
+document.addEventListener("click", function (event) {
+  if (!languageSwitcher.contains(event.target) && !languageDropdown.contains(event.target)) {
+    languageDropdown.classList.remove("visible");
   }
 });
 
-// Hàm cập nhật thẻ hreflang
-function updateHreflang(lang) {
-  const head = document.head;
-  const existingLinks = head.querySelectorAll("link[hreflang]");
-  existingLinks.forEach(link => link.remove());
+// Mở/đóng dropdown khi click
+languageSwitcher.addEventListener("click", function (event) {
+  event.preventDefault();
+  languageDropdown.classList.toggle("visible");
+});
 
-  const languages = ["vi", "en"];
-  languages.forEach(l => {
-    const link = document.createElement("link");
-    link.rel = "alternate";
-    link.hreflang = l;
-    link.href = l === "vi" ? window.location.origin : `${window.location.origin}/en`;
-    head.appendChild(link);
-  });
-}
+// Khởi tạo ngôn ngữ
+const urlParams = new URLSearchParams(window.location.search);
+const urlLang = urlParams.get("lang") || localStorage.getItem("language") || (navigator.language.split("-")[0] === "en" ? "en" : "vi");
+loadLanguage(urlLang);
+});
+//Song ngữ end
 
 //Script cho mở rộng sub-menu trên mobile
 document.addEventListener('DOMContentLoaded', () => {
