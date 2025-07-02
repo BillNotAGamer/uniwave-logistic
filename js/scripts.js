@@ -127,10 +127,10 @@ document.addEventListener("DOMContentLoaded", function () {
     searchInput.classList.toggle("visible");
     closeSearch.classList.toggle("visible");
     if (searchBar.classList.contains("open")) {
-      searchInput.focus(); // Đặt con trỏ vào input khi mở
+      searchInput.focus();
       searchIcon.src = "./image/icon/search.2d8135fd.svg";
     } else {
-      searchInput.value = ""; // Xóa nội dung input khi đóng
+      searchInput.value = "";
       searchIcon.src = "./image/icon/search_light.71eaeab0.png";
     }
   });
@@ -139,47 +139,107 @@ document.addEventListener("DOMContentLoaded", function () {
     searchBar.classList.remove("open");
     searchInput.classList.remove("visible");
     closeSearch.classList.remove("visible");
-    searchInput.value = ""; // Xóa nội dung input
-    searchIcon.src = "./image/icon/search_light.71eaeab0.png"; // Đặt lại src khi đóng
+    searchInput.value = "";
+    searchIcon.src = "./image/icon/search_light.71eaeab0.png";
   });
 
   // Chọn ngôn ngữ
   const languageSwitcher = document.querySelector(".language-switcher");
   const languageDropdown = document.querySelector(".language-dropdown");
   const languageTitle = document.querySelector(".language-switcher .language-title");
-  const languageImg = document.querySelector(".language-switcher > img");
+  const languageImg = document.querySelector("#current-flag");
   const languageOptions = document.querySelectorAll(".language-dropdown li a");
 
+  // Mở/đóng dropdown khi click
   languageSwitcher.addEventListener("click", function (event) {
-    event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+    event.preventDefault();
     languageDropdown.classList.toggle("visible");
   });
 
+  // Xử lý chọn ngôn ngữ
   languageOptions.forEach(option => {
     option.addEventListener("click", function (event) {
-      event.preventDefault(); // Ngăn chặn chuyển trang ngay lập tức
-      const selectedLang = this.textContent.trim();
+      event.preventDefault();
+      const selectedLang = this.getAttribute("data-lang");
       const selectedImgSrc = this.querySelector("img").src;
 
-      // Cập nhật tiêu đề và hình ảnh ngôn ngữ
-      languageTitle.textContent = selectedLang;
+      // Cập nhật cờ và văn bản
+      languageTitle.textContent = selectedLang === "vi" ? "Viet Nam" : "English";
       languageImg.src = selectedImgSrc;
 
-      // Ẩn dropdown sau khi chọn
+      // Cập nhật lớp visible
+      document.querySelectorAll(".language-dropdown li").forEach(li => {
+        li.classList.toggle("visible", li.getAttribute("data-lang") === selectedLang);
+      });
+
+      // Kích hoạt Google Translate
+      const main = document.querySelector("main") || document.body; // Fallback to body if no main tag
+      main.classList.add("language-loading");
+      const selectField = document.querySelector("#google_translate_element select");
+      if (selectField) {
+        selectField.value = selectedLang;
+        selectField.dispatchEvent(new Event("change"));
+      }
+
+      // Lưu ngôn ngữ vào localStorage
+      localStorage.setItem("language", selectedLang);
+
+      // Cập nhật URL
+      const newUrl = selectedLang === "vi" ? window.location.pathname : "/en";
+      window.history.pushState({}, "", newUrl);
+
+      // Cập nhật thẻ hreflang
+      updateHreflang(selectedLang);
+
+      // Ẩn dropdown
       languageDropdown.classList.remove("visible");
 
-      // Chuyển trang theo href của liên kết (nếu cần)
-      window.location.href = this.href;
+      // Xóa hiệu ứng loading
+      setTimeout(() => {
+        main.classList.remove("language-loading");
+      }, 300);
     });
   });
 
-  // Đóng dropdown ngôn ngữ khi nhấp ra ngoài
+  // Đóng dropdown khi nhấp ra ngoài
   document.addEventListener("click", function (event) {
     if (!languageSwitcher.contains(event.target) && !languageDropdown.contains(event.target)) {
       languageDropdown.classList.remove("visible");
     }
   });
+
+  // Khởi tạo ngôn ngữ
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlLang = urlParams.get("lang") || localStorage.getItem("language") || (navigator.language.split("-")[0] === "en" ? "en" : "vi");
+  languageTitle.textContent = urlLang === "vi" ? "Viet Nam" : "English";
+  languageImg.src = `./image/icon/${urlLang}.png`;
+  document.querySelectorAll(".language-dropdown li").forEach(li => {
+    li.classList.toggle("visible", li.getAttribute("data-lang") === urlLang);
+  });
+
+  // Kích hoạt Google Translate
+  const selectField = document.querySelector("#google_translate_element select");
+  if (selectField) {
+    selectField.value = urlLang;
+    selectField.dispatchEvent(new Event("change"));
+  }
 });
+
+// Hàm cập nhật thẻ hreflang
+function updateHreflang(lang) {
+  const head = document.head;
+  const existingLinks = head.querySelectorAll("link[hreflang]");
+  existingLinks.forEach(link => link.remove());
+
+  const languages = ["vi", "en"];
+  languages.forEach(l => {
+    const link = document.createElement("link");
+    link.rel = "alternate";
+    link.hreflang = l;
+    link.href = l === "vi" ? window.location.origin : `${window.location.origin}/en`;
+    head.appendChild(link);
+  });
+}
 
 //Script cho mở rộng sub-menu trên mobile
 document.addEventListener('DOMContentLoaded', () => {
