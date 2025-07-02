@@ -1844,7 +1844,7 @@ body {
 }
 
 .service {
-  width: 25%;
+  width: 400px;
   height: 400px;
   min-width: 280px;
   background: #fff;
