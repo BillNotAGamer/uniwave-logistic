@@ -31,8 +31,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Lấy tên file từ URL hiện tại
-  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  // Lấy tên file từ URL hiện tại, loại bỏ tiền tố /en/
+  let currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  if (currentPath.startsWith('en/')) {
+    currentPath = currentPath.replace('en/', '');
+  }
 
   // Xóa và gán lớp selected dựa trên trang hiện tại
   clearSelectedClasses();
@@ -42,16 +45,25 @@ document.addEventListener('DOMContentLoaded', function () {
   const navLinks = document.querySelectorAll('.primary-nav-item > .primary-nav-link:not(.clickable), .secondary-nav-item > .secondary-nav-link[href="services.html"]');
   navLinks.forEach(link => {
     link.addEventListener('click', function (event) {
-      // Ngăn hành vi mặc định để xử lý thủ công
       event.preventDefault();
-      const href = this.getAttribute('href');
+      let href = this.getAttribute('href');
+
+      // Điều chỉnh href dựa trên ngôn ngữ hiện tại và môi trường
+      if (currentLang === 'en' && window.location.protocol !== 'file:') {
+        if (!href.startsWith('/en/')) {
+          href = '/en/' + href;
+        }
+      } else {
+        href = href.replace('/en/', '');
+      }
 
       // Xóa và gán lớp selected
       clearSelectedClasses();
       setSelectedClass(href);
 
-      // Chuyển hướng tới trang
-      window.location.href = href;
+      // Thêm cache-busting và chuyển hướng
+      const timestamp = new Date().getTime();
+      window.location.href = href + `?t=${timestamp}`;
     });
   });
 });
@@ -253,7 +265,9 @@ if (!localStorage.getItem("language")) {
 // Hàm tải file JSON ngôn ngữ
 async function loadLanguage(lang, isUserTriggered = false) {
   try {
-    const response = await fetch(`/languages/${lang}.json`);
+    // Thêm cache-busting vào URL file JSON
+    const timestamp = new Date().getTime();
+    const response = await fetch(`/languages/${lang}.json?t=${timestamp}`);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const translations = await response.json();
     applyTranslations(translations);
@@ -269,15 +283,16 @@ async function loadLanguage(lang, isUserTriggered = false) {
       li.classList.toggle("visible", li.getAttribute("data-lang") === lang);
     });
 
-    // Chỉ cập nhật URL nếu người dùng chọn ngôn ngữ từ dropdown
-    if (isUserTriggered) {
+    // Chỉ reload trang nếu chạy trên server và ngôn ngữ thay đổi
+    if (isUserTriggered && window.location.protocol !== "file:") {
       let newUrl = window.location.pathname;
       if (lang === "en" && !newUrl.startsWith("/en")) {
         newUrl = "/en" + newUrl;
       } else if (lang === "vi" && newUrl.startsWith("/en")) {
         newUrl = newUrl.replace("/en", "");
       }
-      window.history.pushState({}, "", newUrl);
+      newUrl += `?t=${timestamp}`;
+      window.location.href = newUrl; // Reload trang
     }
 
     // Cập nhật hiệu ứng đánh chữ khi ngôn ngữ thay đổi
@@ -336,8 +351,10 @@ languageOptions.forEach(option => {
     event.preventDefault();
     event.stopPropagation();
     const selectedLang = this.getAttribute("data-lang");
-    loadLanguage(selectedLang, true);
-    languageDropdown.classList.remove("visible");
+    if (selectedLang !== currentLang) { // Chỉ reload nếu ngôn ngữ thay đổi
+      loadLanguage(selectedLang, true);
+      languageDropdown.classList.remove("visible");
+    }
   });
 });
 
