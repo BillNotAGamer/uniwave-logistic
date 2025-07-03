@@ -2,15 +2,15 @@
  * TỔNG HỢP SCRIPTS CHO PHẦN MENU HEADER *
  *****************************************/
 document.addEventListener('DOMContentLoaded', function () {
-  // Danh sách các liên kết và trang tương ứng
+  // Danh sách các liên kết và route tương ứng
   const navItems = [
-    { href: 'index.html', selector: '.primary-nav-item:nth-child(1)' },
-    { href: 'about.html', selector: '.primary-nav-item:nth-child(2)' },
-    { href: 'services.html', selector: '.primary-nav-item:nth-child(3)' },
-    { href: 'tracking-shipment.html', selector: '.primary-nav-item:nth-child(4)' },
-    { href: 'price-check.html', selector: '.primary-nav-item:nth-child(5)' },
-    { href: 'guidance.html', selector: '.primary-nav-item:nth-child(6)' },
-    { href: 'contact.html', selector: '.primary-nav-item:nth-child(7)' }
+    { route: '', selector: '.primary-nav-item:nth-child(1)' }, // Trang chủ
+    { route: 'about', selector: '.primary-nav-item:nth-child(2)' }, // About Us
+    { route: 'services', selector: '.primary-nav-item:nth-child(3)' },
+    { route: 'tracking-shipment', selector: '.primary-nav-item:nth-child(4)' },
+    { route: 'price-check', selector: '.primary-nav-item:nth-child(5)' },
+    { route: 'guidance', selector: '.primary-nav-item:nth-child(6)' },
+    { route: 'contact', selector: '.primary-nav-item:nth-child(7)' }
   ];
 
   // Hàm xóa lớp selected khỏi tất cả các mục
@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Hàm thêm lớp selected cho mục tương ứng
-  function setSelectedClass(path) {
-    const currentItem = navItems.find(item => path.endsWith(item.href));
+  function setSelectedClass(currentRoute) {
+    const currentItem = navItems.find(item => currentRoute === item.route || (currentRoute === '' && item.route === ''));
     if (currentItem) {
       const navItem = document.querySelector(currentItem.selector);
       if (navItem) {
@@ -31,27 +31,33 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Lấy tên file từ URL hiện tại
-  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  // Lấy route từ URL hiện tại, loại bỏ tiền tố /vi/ hoặc /en/
+  let currentPath = window.location.pathname;
+  let currentRoute = currentPath.replace(/^\/(vi|en)\/?/, '') || '';
+  if (currentRoute === 'index') currentRoute = ''; // Trang chủ
 
-  // Xóa và gán lớp selected dựa trên trang hiện tại
+  // Xóa và gán lớp selected dựa trên route hiện tại
   clearSelectedClasses();
-  setSelectedClass(currentPath);
+  setSelectedClass(currentRoute);
 
   // Xử lý sự kiện nhấp chuột
-  const navLinks = document.querySelectorAll('.primary-nav-item > .primary-nav-link:not(.clickable), .secondary-nav-item > .secondary-nav-link[href="services.html"]');
+  const navLinks = document.querySelectorAll('.primary-nav-item > .primary-nav-link:not(.clickable), .secondary-nav-item > .secondary-nav-link[href="/services"]');
   navLinks.forEach(link => {
     link.addEventListener('click', function (event) {
-      // Ngăn hành vi mặc định để xử lý thủ công
       event.preventDefault();
-      const href = this.getAttribute('href');
+      let route = this.getAttribute('href').replace(/^\/(vi|en)\/?/, '') || '';
+      if (route === 'index') route = ''; // Trang chủ
+
+      // Xây dựng URL dựa trên ngôn ngữ hiện tại
+      let href = `/${currentLang}${route ? '/' + route : ''}`;
 
       // Xóa và gán lớp selected
       clearSelectedClasses();
-      setSelectedClass(href);
+      setSelectedClass(route);
 
-      // Chuyển hướng tới trang
-      window.location.href = href;
+      // Thêm cache-busting và chuyển hướng
+      const timestamp = new Date().getTime();
+      window.location.href = href + `?t=${timestamp}`;
     });
   });
 });
@@ -100,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           });
         } else if (isSecondary) {
-          // Đóng tất cả secondary-nav-item khác cùng cấp
           const primaryParent = parent.closest('.primary-nav-item');
           if (primaryParent) {
             primaryParent.querySelectorAll('.secondary-nav-item.toggle-mobile').forEach((otherParent) => {
@@ -123,13 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Script scroll hiện section
 document.addEventListener('DOMContentLoaded', () => {
-  // Existing code for services section
   const servicesSection = document.getElementById('services');
   if (servicesSection) {
     servicesSection.classList.add('visible');
   }
 
-  // Observe sections for animation
   const sections = document.querySelectorAll(
     '.services, .partners, .cta, .cta-container, #fbot, .container-about, .reasons__container, .mission__background'
   );
@@ -138,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          // Reset animation for services (keeping your existing logic)
           if (entry.target.id === 'services') {
             const services = entry.target.querySelectorAll('.service');
             services.forEach((service) => {
@@ -148,11 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
           }
         } else {
-          entry.target.classList.remove('visible'); // Optional: Remove visible class when out of view
+          entry.target.classList.remove('visible');
         }
       });
     },
-    { threshold: 0.1 } // Trigger when 10% of the section is visible
+    { threshold: 0.1 }
   );
 
   sections.forEach((section) => observer.observe(section));
@@ -178,7 +180,6 @@ document.querySelectorAll(".animation").forEach((element) => {
   observer.observe(element);
 });
 
-// Remove animation after click header to change URL
 const navBar = document.querySelector("nav");
 navBar.addEventListener("click", (e) => {
   navBar.querySelectorAll(".animation").forEach((navItem) => {
@@ -197,7 +198,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const chatBox = document.getElementById('chat-box');
   const popupForm = document.getElementById('popup-form');
 
-  // Hàm hiển thị chat-box trong 7 giây khi load trang
   function showChatBoxTemporarily() {
     chatBox.style.display = 'block';
     setTimeout(() => {
@@ -205,13 +205,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 7000);
   }
 
-  // Hàm toggle popup-form
   window.togglePopup = function () {
     popupForm.style.display = popupForm.style.display === 'block' ? 'none' : 'block';
-    chatBox.style.display = 'none'; // Ẩn chat-box khi toggle popup-form
+    chatBox.style.display = 'none';
   }
 
-  // Hiển thị chat-box khi click vào icon
   iconNeedHelp.querySelector('a').addEventListener('click', function (e) {
     e.preventDefault();
     popupForm.style.display = 'block';
@@ -220,13 +218,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Hiển thị popup-form khi click vào chat-box
   chatBox.addEventListener('click', function () {
     chatBox.style.display = 'none';
     popupForm.style.display = 'block';
   });
 
-  // Gọi hàm hiển thị chat-box khi load trang
   showChatBoxTemporarily();
 });
 /********************************
@@ -244,8 +240,6 @@ const languageOptions = document.querySelectorAll(".language-dropdown li a");
 
 // Load ngôn ngữ từ localStorage hoặc mặc định là 'vi'
 let currentLang = localStorage.getItem("language") || "vi";
-
-// Đặt mặc định tiếng Việt nếu localStorage trống
 if (!localStorage.getItem("language")) {
   localStorage.setItem("language", "vi");
 }
@@ -253,7 +247,8 @@ if (!localStorage.getItem("language")) {
 // Hàm tải file JSON ngôn ngữ
 async function loadLanguage(lang, isUserTriggered = false) {
   try {
-    const response = await fetch(`/languages/${lang}.json`);
+    const timestamp = new Date().getTime();
+    const response = await fetch(`/languages/${lang}.json?t=${timestamp}`);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const translations = await response.json();
     applyTranslations(translations);
@@ -269,18 +264,15 @@ async function loadLanguage(lang, isUserTriggered = false) {
       li.classList.toggle("visible", li.getAttribute("data-lang") === lang);
     });
 
-    // Chỉ cập nhật URL nếu người dùng chọn ngôn ngữ từ dropdown
-    if (isUserTriggered) {
-      let newUrl = window.location.pathname;
-      if (lang === "en" && !newUrl.startsWith("/en")) {
-        newUrl = "/en" + newUrl;
-      } else if (lang === "vi" && newUrl.startsWith("/en")) {
-        newUrl = newUrl.replace("/en", "");
-      }
-      window.history.pushState({}, "", newUrl);
+    // Cập nhật URL nếu người dùng chọn ngôn ngữ
+    if (isUserTriggered && window.location.protocol !== "file:") {
+      let currentRoute = window.location.pathname.replace(/^\/(vi|en)\/?/, '') || '';
+      if (currentRoute === 'index') currentRoute = '';
+      const newUrl = `/${lang}${currentRoute ? '/' + currentRoute : ''}?t=${timestamp}`;
+      window.location.href = newUrl;
     }
 
-    // Cập nhật hiệu ứng đánh chữ khi ngôn ngữ thay đổi
+    // Cập nhật hiệu ứng đánh chữ
     const introText = document.querySelector("#intro-text");
     const aboutSection = document.querySelector(".uw_section_container");
     if (introText && aboutSection && getComputedStyle(aboutSection).display !== 'none') {
@@ -302,7 +294,7 @@ function applyTranslations(translations) {
     if (translations[key]) {
       if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
         element.placeholder = translations[key];
-      } else if (element.id !== "intro-text") { // Bỏ qua intro-text để xử lý riêng
+      } else if (element.id !== "intro-text") {
         element.textContent = translations[key];
       }
     }
@@ -313,20 +305,25 @@ function applyTranslations(translations) {
 // Hàm cập nhật hreflang
 function updateHreflang(lang) {
   document.querySelectorAll('link[hreflang]').forEach(link => link.remove());
+  let currentRoute = window.location.pathname.replace(/^\/(vi|en)\/?/, '') || '';
+  if (currentRoute === 'index') currentRoute = '';
+
   let hreflangDefault = document.createElement("link");
   hreflangDefault.rel = "alternate";
   hreflangDefault.hreflang = "x-default";
-  hreflangDefault.href = lang === "vi" ? window.location.pathname.replace("/en", "") : "/en" + window.location.pathname.replace("/en", "");
+  hreflangDefault.href = `/vi${currentRoute ? '/' + currentRoute : ''}`;
   document.head.appendChild(hreflangDefault);
+
   let hreflangVi = document.createElement("link");
   hreflangVi.rel = "alternate";
   hreflangVi.hreflang = "vi";
-  hreflangVi.href = window.location.pathname.replace("/en", "");
+  hreflangVi.href = `/vi${currentRoute ? '/' + currentRoute : ''}`;
   document.head.appendChild(hreflangVi);
+
   let hreflangEn = document.createElement("link");
   hreflangEn.rel = "alternate";
   hreflangEn.hreflang = "en";
-  hreflangEn.href = window.location.pathname.startsWith("/en") ? window.location.pathname : "/en" + window.location.pathname;
+  hreflangEn.href = `/en${currentRoute ? '/' + currentRoute : ''}`;
   document.head.appendChild(hreflangEn);
 }
 
@@ -336,8 +333,10 @@ languageOptions.forEach(option => {
     event.preventDefault();
     event.stopPropagation();
     const selectedLang = this.getAttribute("data-lang");
-    loadLanguage(selectedLang, true);
-    languageDropdown.classList.remove("visible");
+    if (selectedLang !== currentLang) {
+      loadLanguage(selectedLang, true);
+      languageDropdown.classList.remove("visible");
+    }
   });
 });
 
@@ -505,4 +504,8 @@ if (missionStatsSection && getComputedStyle(missionStatsSection).display !== 'no
  ***********************************/
 const urlParams = new URLSearchParams(window.location.search);
 let urlLang = urlParams.get("lang") || localStorage.getItem("language") || (window.location.pathname.startsWith("/en") ? "en" : "vi");
-loadLanguage(urlLang);
+if (!window.location.pathname.startsWith("/vi") && !window.location.pathname.startsWith("/en")) {
+  window.location.href = `/vi?t=${new Date().getTime()}`; // Chuyển hướng mặc định sang /vi
+} else {
+  loadLanguage(urlLang);
+}
