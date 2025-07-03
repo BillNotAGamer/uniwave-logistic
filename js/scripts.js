@@ -2,27 +2,27 @@
  * TỔNG HỢP SCRIPTS CHO PHẦN MENU HEADER *
  *****************************************/
 document.addEventListener('DOMContentLoaded', function () {
-  // Danh sách các liên kết và route
+  // Danh sách các liên kết và trang tương ứng
   const navItems = [
-    { route: '', selector: '.primary-nav-item:nth-child(1)' },
-    { route: 'introduce', selector: '.primary-nav-item:nth-child(2)' },
-    { route: 'services', selector: '.primary-nav-item:nth-child(3)' },
-    { route: 'tracking-shipment', selector: '.primary-nav-item:nth-child(4)' },
-    { route: 'price-check', selector: '.primary-nav-item:nth-child(5)' },
-    { route: 'guidance', selector: '.primary-nav-item:nth-child(6)' },
-    { route: 'contact', selector: '.primary-nav-item:nth-child(7)' }
+    { href: 'index.html', selector: '.primary-nav-item:nth-child(1)' },
+    { href: 'about.html', selector: '.primary-nav-item:nth-child(2)' },
+    { href: 'services.html', selector: '.primary-nav-item:nth-child(3)' },
+    { href: 'tracking-shipment.html', selector: '.primary-nav-item:nth-child(4)' },
+    { href: 'price-check.html', selector: '.primary-nav-item:nth-child(5)' },
+    { href: 'guidance.html', selector: '.primary-nav-item:nth-child(6)' },
+    { href: 'contact.html', selector: '.primary-nav-item:nth-child(7)' }
   ];
 
-  // Hàm xóa lớp selected
+  // Hàm xóa lớp selected khỏi tất cả các mục
   function clearSelectedClasses() {
     document.querySelectorAll('.primary-nav-item').forEach(item => {
       item.classList.remove('selected-desktop', 'selected-mobile');
     });
   }
 
-  // Hàm thêm lớp selected
-  function setSelectedClass(currentRoute) {
-    const currentItem = navItems.find(item => currentRoute === item.route || (currentRoute === '' && item.route === ''));
+  // Hàm thêm lớp selected cho mục tương ứng
+  function setSelectedClass(path) {
+    const currentItem = navItems.find(item => path.endsWith(item.href));
     if (currentItem) {
       const navItem = document.querySelector(currentItem.selector);
       if (navItem) {
@@ -31,42 +31,48 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Lấy route từ URL
-  let currentPath = window.location.pathname;
-  let currentRoute = currentPath.replace(/^\/(vi|en)\/?/, '') || '';
-  if (currentRoute === 'index') currentRoute = '';
+  // Lấy tên file từ URL hiện tại
+  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
 
+  // Xóa và gán lớp selected dựa trên trang hiện tại
   clearSelectedClasses();
-  setSelectedClass(currentRoute);
+  setSelectedClass(currentPath);
 
   // Xử lý sự kiện nhấp chuột
-  const navLinks = document.querySelectorAll('.primary-nav-item > .primary-nav-link:not(.clickable), .secondary-nav-item > .secondary-nav-link[href="/services"]');
+  const navLinks = document.querySelectorAll('.primary-nav-item > .primary-nav-link:not(.clickable), .secondary-nav-item > .secondary-nav-link[href="services.html"]');
   navLinks.forEach(link => {
     link.addEventListener('click', function (event) {
+      // Ngăn hành vi mặc định để xử lý thủ công
       event.preventDefault();
-      let route = this.getAttribute('href').replace(/^\/(vi|en)\/?/, '') || '';
-      if (route === 'index') route = '';
+      const href = this.getAttribute('href');
 
-      let href = `/${currentLang}${route ? '/' + route : ''}`;
+      // Xóa và gán lớp selected
       clearSelectedClasses();
-      setSelectedClass(route);
+      setSelectedClass(href);
 
-      const timestamp = new Date().getTime();
-      window.location.href = href + `?t=${timestamp}`;
+      // Chuyển hướng tới trang
+      window.location.href = href;
     });
   });
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+  // Select all primary navigation links
   const navLinks = document.querySelectorAll('.primary-nav-link');
+
   navLinks.forEach(link => {
     link.addEventListener('click', function (event) {
+      // Prevent default behavior for expandable items to avoid conflicts
       if (this.parentElement.classList.contains('expandable')) {
         return;
       }
+
+      // Remove selected classes from all primary nav items
       document.querySelectorAll('.primary-nav-item').forEach(item => {
         item.classList.remove('selected-desktop', 'selected-mobile');
       });
+
+      // Add selected classes to the clicked link's parent
       this.parentElement.classList.add('selected-desktop', 'selected-mobile');
     });
   });
@@ -75,15 +81,18 @@ document.addEventListener('DOMContentLoaded', function () {
 // Script cho mở rộng sub-menu trên mobile
 document.addEventListener('DOMContentLoaded', () => {
   const clickableItems = document.querySelectorAll('.primary-nav-link.clickable, .secondary-nav-link.clickable');
+
   clickableItems.forEach((item) => {
     item.addEventListener('click', (e) => {
       if (window.innerWidth <= 991) {
         e.preventDefault();
-        e.stopPropagation();
+        e.stopPropagation(); // Ngăn sự kiện nổi bọt
+
         const parent = item.parentElement;
         const isPrimary = item.classList.contains('primary-nav-link');
         const isSecondary = item.classList.contains('secondary-nav-link');
 
+        // Đóng tất cả menu cùng cấp trước khi mở menu mới
         if (isPrimary) {
           document.querySelectorAll('.primary-nav-item.toggle-mobile').forEach((otherParent) => {
             if (otherParent !== parent) {
@@ -91,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           });
         } else if (isSecondary) {
+          // Đóng tất cả secondary-nav-item khác cùng cấp
           const primaryParent = parent.closest('.primary-nav-item');
           if (primaryParent) {
             primaryParent.querySelectorAll('.secondary-nav-item.toggle-mobile').forEach((otherParent) => {
@@ -100,6 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
           }
         }
+
+        // Toggle menu hiện tại
         parent.classList.toggle('toggle-mobile');
       }
     });
@@ -111,11 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Script scroll hiện section
 document.addEventListener('DOMContentLoaded', () => {
+  // Existing code for services section
   const servicesSection = document.getElementById('services');
   if (servicesSection) {
     servicesSection.classList.add('visible');
   }
 
+  // Observe sections for animation
   const sections = document.querySelectorAll(
     '.services, .partners, .cta, .cta-container, #fbot, .container-about, .reasons__container, .mission__background'
   );
@@ -124,20 +138,21 @@ document.addEventListener('DOMContentLoaded', () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
+          // Reset animation for services (keeping your existing logic)
           if (entry.target.id === 'services') {
             const services = entry.target.querySelectorAll('.service');
             services.forEach((service) => {
               service.style.animation = 'none';
-              service.offsetHeight;
+              service.offsetHeight; // Trigger reflow
               service.style.animation = null;
             });
           }
         } else {
-          entry.target.classList.remove('visible');
+          entry.target.classList.remove('visible'); // Optional: Remove visible class when out of view
         }
       });
     },
-    { threshold: 0.1 }
+    { threshold: 0.1 } // Trigger when 10% of the section is visible
   );
 
   sections.forEach((section) => observer.observe(section));
@@ -163,6 +178,7 @@ document.querySelectorAll(".animation").forEach((element) => {
   observer.observe(element);
 });
 
+// Remove animation after click header to change URL
 const navBar = document.querySelector("nav");
 navBar.addEventListener("click", (e) => {
   navBar.querySelectorAll(".animation").forEach((navItem) => {
@@ -181,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const chatBox = document.getElementById('chat-box');
   const popupForm = document.getElementById('popup-form');
 
+  // Hàm hiển thị chat-box trong 7 giây khi load trang
   function showChatBoxTemporarily() {
     chatBox.style.display = 'block';
     setTimeout(() => {
@@ -188,11 +205,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 7000);
   }
 
+  // Hàm toggle popup-form
   window.togglePopup = function () {
     popupForm.style.display = popupForm.style.display === 'block' ? 'none' : 'block';
-    chatBox.style.display = 'none';
+    chatBox.style.display = 'none'; // Ẩn chat-box khi toggle popup-form
   }
 
+  // Hiển thị chat-box khi click vào icon
   iconNeedHelp.querySelector('a').addEventListener('click', function (e) {
     e.preventDefault();
     popupForm.style.display = 'block';
@@ -201,11 +220,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // Hiển thị popup-form khi click vào chat-box
   chatBox.addEventListener('click', function () {
     chatBox.style.display = 'none';
     popupForm.style.display = 'block';
   });
 
+  // Gọi hàm hiển thị chat-box khi load trang
   showChatBoxTemporarily();
 });
 /********************************
@@ -221,41 +242,52 @@ const languageTitle = document.querySelector(".language-switcher .language-title
 const languageImg = document.querySelector("#current-flag");
 const languageOptions = document.querySelectorAll(".language-dropdown li a");
 
+// Load ngôn ngữ từ localStorage hoặc mặc định là 'vi'
 let currentLang = localStorage.getItem("language") || "vi";
+
+// Đặt mặc định tiếng Việt nếu localStorage trống
 if (!localStorage.getItem("language")) {
   localStorage.setItem("language", "vi");
 }
 
+// Hàm tải file JSON ngôn ngữ
 async function loadLanguage(lang, isUserTriggered = false) {
   try {
-    const timestamp = new Date().getTime();
-    const response = await fetch(`/languages/${lang}.json?t=${timestamp}`);
+    const response = await fetch(`/languages/${lang}.json`);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const translations = await response.json();
     applyTranslations(translations);
     currentLang = lang;
     localStorage.setItem("language", lang);
 
+    // Cập nhật tiêu đề và cờ
     languageTitle.textContent = translations[languageTitle.getAttribute("data-key")];
     languageImg.src = translations[`flag_${lang}`] || (lang === "vi" ? "/image/icon/vn.38e19a45.png" : "/image/icon/en.5a569d53.png");
 
+    // Cập nhật lớp visible cho dropdown
     document.querySelectorAll(".language-dropdown li").forEach(li => {
       li.classList.toggle("visible", li.getAttribute("data-lang") === lang);
     });
 
+    // Chỉ cập nhật URL nếu người dùng chọn ngôn ngữ từ dropdown
     if (isUserTriggered) {
-      let currentRoute = window.location.pathname.replace(/^\/(vi|en)\/?/, '') || '';
-      if (currentRoute === 'index') currentRoute = '';
-      const newUrl = `/${lang}${currentRoute ? '/' + currentRoute : ''}?t=${timestamp}`;
-      window.location.href = newUrl;
+      let newUrl = window.location.pathname;
+      if (lang === "en" && !newUrl.startsWith("/en")) {
+        newUrl = "/en" + newUrl;
+      } else if (lang === "vi" && newUrl.startsWith("/en")) {
+        newUrl = newUrl.replace("/en", "");
+      }
+      window.history.pushState({}, "", newUrl);
     }
 
+    // Cập nhật hiệu ứng đánh chữ khi ngôn ngữ thay đổi
     const introText = document.querySelector("#intro-text");
     const aboutSection = document.querySelector(".uw_section_container");
     if (introText && aboutSection && getComputedStyle(aboutSection).display !== 'none') {
       startTypingEffect(introText, translations["about_intro_text"] || "");
     }
 
+    // Cập nhật thẻ hreflang
     updateHreflang(lang);
   } catch (error) {
     console.error("Error loading language:", error);
@@ -263,13 +295,14 @@ async function loadLanguage(lang, isUserTriggered = false) {
   }
 }
 
+// Hàm áp dụng bản dịch
 function applyTranslations(translations) {
   document.querySelectorAll("[data-key]").forEach(element => {
     const key = element.getAttribute("data-key");
     if (translations[key]) {
       if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
         element.placeholder = translations[key];
-      } else if (element.id !== "intro-text") {
+      } else if (element.id !== "intro-text") { // Bỏ qua intro-text để xử lý riêng
         element.textContent = translations[key];
       }
     }
@@ -277,48 +310,45 @@ function applyTranslations(translations) {
   document.title = translations.title || "UNIWAVE LOGISTICS";
 }
 
+// Hàm cập nhật hreflang
 function updateHreflang(lang) {
   document.querySelectorAll('link[hreflang]').forEach(link => link.remove());
-  let currentRoute = window.location.pathname.replace(/^\/(vi|en)\/?/, '') || '';
-  if (currentRoute === 'index') currentRoute = '';
-
   let hreflangDefault = document.createElement("link");
   hreflangDefault.rel = "alternate";
   hreflangDefault.hreflang = "x-default";
-  hreflangDefault.href = `/vi${currentRoute ? '/' + currentRoute : ''}`;
+  hreflangDefault.href = lang === "vi" ? window.location.pathname.replace("/en", "") : "/en" + window.location.pathname.replace("/en", "");
   document.head.appendChild(hreflangDefault);
-
   let hreflangVi = document.createElement("link");
   hreflangVi.rel = "alternate";
   hreflangVi.hreflang = "vi";
-  hreflangVi.href = `/vi${currentRoute ? '/' + currentRoute : ''}`;
+  hreflangVi.href = window.location.pathname.replace("/en", "");
   document.head.appendChild(hreflangVi);
-
   let hreflangEn = document.createElement("link");
   hreflangEn.rel = "alternate";
   hreflangEn.hreflang = "en";
-  hreflangEn.href = `/en${currentRoute ? '/' + currentRoute : ''}`;
+  hreflangEn.href = window.location.pathname.startsWith("/en") ? window.location.pathname : "/en" + window.location.pathname;
   document.head.appendChild(hreflangEn);
 }
 
+// Xử lý chọn ngôn ngữ
 languageOptions.forEach(option => {
   option.addEventListener("click", function (event) {
     event.preventDefault();
     event.stopPropagation();
     const selectedLang = this.getAttribute("data-lang");
-    if (selectedLang !== currentLang) {
-      loadLanguage(selectedLang, true);
-      languageDropdown.classList.remove("visible");
-    }
+    loadLanguage(selectedLang, true);
+    languageDropdown.classList.remove("visible");
   });
 });
 
+// Đóng dropdown khi nhấp ra ngoài
 document.addEventListener("click", function (event) {
   if (!languageSwitcher.contains(event.target) && !languageDropdown.contains(event.target)) {
     languageDropdown.classList.remove("visible");
   }
 });
 
+// Mở/đóng dropdown khi click
 languageSwitcher.addEventListener("click", function (event) {
   event.preventDefault();
   languageDropdown.classList.toggle("visible");
@@ -371,6 +401,7 @@ function startTypingEffect(element, text, speed = 50) {
   type();
 }
 
+// Kiểm tra IntersectionObserver
 if (!('IntersectionObserver' in window)) {
   const polyfill = document.createElement('script');
   polyfill.src = 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver';
@@ -473,9 +504,5 @@ if (missionStatsSection && getComputedStyle(missionStatsSection).display !== 'no
  * KHỞI TẠO NGÔN NGỮ *
  ***********************************/
 const urlParams = new URLSearchParams(window.location.search);
-let urlLang = urlParams.get("lang") || localStorage.getItem("language") || "vi";
-if (!window.location.pathname.startsWith("/vi") && !window.location.pathname.startsWith("/en")) {
-  window.location.href = `/vi?t=${new Date().getTime()}`;
-} else {
-  loadLanguage(urlLang);
-}
+let urlLang = urlParams.get("lang") || localStorage.getItem("language") || (window.location.pathname.startsWith("/en") ? "en" : "vi");
+loadLanguage(urlLang);
