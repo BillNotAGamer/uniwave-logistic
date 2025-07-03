@@ -56,46 +56,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-//Script scroll hiện section
-document.addEventListener('DOMContentLoaded', () => {
-  // Existing code for services section
-  const servicesSection = document.getElementById('services');
-  if (servicesSection) {
-    servicesSection.classList.add('visible');
-  }
-
-  // Observe sections for animation
-  const sections = document.querySelectorAll(
-    '.services, .partners, .cta, .cta-container, #fbot, .container-about, .reasons__container, .mission__background'
-  );
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          // Reset animation for services (keeping your existing logic)
-          if (entry.target.id === 'services') {
-            const services = entry.target.querySelectorAll('.service');
-            services.forEach((service) => {
-              service.style.animation = 'none';
-              service.offsetHeight; // Trigger reflow
-              service.style.animation = null;
-            });
-          }
-        } else {
-          entry.target.classList.remove('visible'); // Optional: Remove visible class when out of view
-        }
-      });
-    },
-    { threshold: 0.1 } // Trigger when 10% of the section is visible
-  );
-
-  sections.forEach((section) => observer.observe(section));
-});
-
 document.addEventListener('DOMContentLoaded', function () {
   // Select all primary navigation links
-  const navLinks = document.querySelectorAll('.primary-nav-item > .primary-nav-link');
+  const navLinks = document.querySelectorAll('.primary-nav-link');
 
   navLinks.forEach(link => {
     link.addEventListener('click', function (event) {
@@ -115,162 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-
-document.addEventListener("DOMContentLoaded", function () {
-  // Đóng/mở input tìm kiếm
-  const searchBar = document.querySelector(".search-bar");
-  const searchIcon = document.querySelector(".search-bar > img:first-child");
-  const searchInput = document.querySelector(".search-bar input");
-  const closeSearch = document.querySelector(".search-bar .close-search");
-
-  searchIcon.addEventListener("click", function () {
-    searchBar.classList.toggle("open");
-    searchInput.classList.toggle("visible");
-    closeSearch.classList.toggle("visible");
-    if (searchBar.classList.contains("open")) {
-      searchInput.focus();
-      searchIcon.src = "./image/icon/search.2d8135fd.svg";
-    } else {
-      searchInput.value = "";
-      searchIcon.src = "./image/icon/search_light.71eaeab0.png";
-    }
-  });
-
-  closeSearch.addEventListener("click", function () {
-    searchBar.classList.remove("open");
-    searchInput.classList.remove("visible");
-    closeSearch.classList.remove("visible");
-    searchInput.value = "";
-    searchIcon.src = "./image/icon/search_light.71eaeab0.png";
-  });
-
-//Song ngữ start
-// Xử lý ngôn ngữ
-const languageSwitcher = document.querySelector(".language-switcher");
-const languageDropdown = document.querySelector(".language-dropdown");
-const languageTitle = document.querySelector(".language-switcher .language-title");
-const languageImg = document.querySelector("#current-flag");
-const languageOptions = document.querySelectorAll(".language-dropdown li a");
-
-// Load ngôn ngữ từ localStorage hoặc mặc định là 'vi'
-let currentLang = localStorage.getItem("language") || "vi";
-
-// Đặt mặc định tiếng Việt nếu localStorage trống
-if (!localStorage.getItem("language")) {
-  localStorage.setItem("language", "vi");
-}
-
-// Hàm tải file JSON ngôn ngữ
-async function loadLanguage(lang, isUserTriggered = false) {
-  try {
-    // Sử dụng đường dẫn tuyệt đối
-    const response = await fetch(`/languages/${lang}.json`);
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    const translations = await response.json();
-    applyTranslations(translations);
-    currentLang = lang;
-    localStorage.setItem("language", lang);
-
-    // Cập nhật tiêu đề và cờ
-    languageTitle.textContent = translations[languageTitle.getAttribute("data-key")];
-    languageImg.src = translations[`flag_${lang}`] || (lang === "vi" ? "/image/icon/vn.38e19a45.png" : "/image/icon/en.5a569d53.png");
-
-    // Cập nhật lớp visible cho dropdown
-    document.querySelectorAll(".language-dropdown li").forEach(li => {
-      li.classList.toggle("visible", li.getAttribute("data-lang") === lang);
-    });
-
-    // Chỉ cập nhật URL nếu người dùng chọn ngôn ngữ từ dropdown
-    if (isUserTriggered) {
-      let newUrl = window.location.pathname;
-      if (lang === "en" && !newUrl.startsWith("/en")) {
-        newUrl = "/en" + newUrl;
-      } else if (lang === "vi" && newUrl.startsWith("/en")) {
-        newUrl = newUrl.replace("/en", "");
-      }
-      window.history.pushState({}, "", newUrl);
-    }
-
-    // Cập nhật thẻ hreflang
-    updateHreflang(lang);
-  } catch (error) {
-    console.error("Error loading language:", error);
-    if (lang !== "vi") loadLanguage("vi"); // Fallback về tiếng Việt
-  }
-}
-
-// Hàm áp dụng bản dịch
-function applyTranslations(translations) {
-  document.querySelectorAll("[data-key]").forEach(element => {
-    const key = element.getAttribute("data-key");
-    if (translations[key]) {
-      if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-        element.placeholder = translations[key];
-      } else {
-        element.textContent = translations[key];
-      }
-    }
-  });
-  // Cập nhật thẻ title
-  document.title = translations.title || "UNIWAVE LOGISTICS";
-}
-
-// Hàm cập nhật hreflang
-function updateHreflang(lang) {
-  // Xóa thẻ hreflang cũ
-  document.querySelectorAll('link[hreflang]').forEach(link => link.remove());
-  // Thêm thẻ hreflang cho x-default
-  let hreflangDefault = document.createElement("link");
-  hreflangDefault.rel = "alternate";
-  hreflangDefault.hreflang = "x-default";
-  hreflangDefault.href = lang === "vi" ? window.location.pathname.replace("/en", "") : "/en" + window.location.pathname.replace("/en", "");
-  document.head.appendChild(hreflangDefault);
-  // Thêm thẻ hreflang cho vi
-  let hreflangVi = document.createElement("link");
-  hreflangVi.rel = "alternate";
-  hreflangVi.hreflang = "vi";
-  hreflangVi.href = window.location.pathname.replace("/en", "");
-  document.head.appendChild(hreflangVi);
-  // Thêm thẻ hreflang cho en
-  let hreflangEn = document.createElement("link");
-  hreflangEn.rel = "alternate";
-  hreflangEn.hreflang = "en";
-  hreflangEn.href = window.location.pathname.startsWith("/en") ? window.location.pathname : "/en" + window.location.pathname;
-  document.head.appendChild(hreflangEn);
-}
-
-// Xử lý chọn ngôn ngữ
-languageOptions.forEach(option => {
-  option.addEventListener("click", function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    const selectedLang = this.getAttribute("data-lang");
-    loadLanguage(selectedLang, true); // isUserTriggered = true
-    languageDropdown.classList.remove("visible");
-  });
-});
-
-// Đóng dropdown khi nhấp ra ngoài
-document.addEventListener("click", function (event) {
-  if (!languageSwitcher.contains(event.target) && !languageDropdown.contains(event.target)) {
-    languageDropdown.classList.remove("visible");
-  }
-});
-
-// Mở/đóng dropdown khi click
-languageSwitcher.addEventListener("click", function (event) {
-  event.preventDefault();
-  languageDropdown.classList.toggle("visible");
-});
-
-// Khởi tạo ngôn ngữ
-const urlParams = new URLSearchParams(window.location.search);
-let urlLang = urlParams.get("lang") || localStorage.getItem("language") || (window.location.pathname.startsWith("/en") ? "en" : "vi");
-loadLanguage(urlLang);
-//Song ngữ end
-});
-
-//Script cho mở rộng sub-menu trên mobile
+// Script cho mở rộng sub-menu trên mobile
 document.addEventListener('DOMContentLoaded', () => {
   const clickableItems = document.querySelectorAll('.primary-nav-link.clickable, .secondary-nav-link.clickable');
 
@@ -309,29 +117,59 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
-//Script cho mở rộng sub-menu trên mobile
 /*****************************************
  * TỔNG HỢP SCRIPTS CHO PHẦN MENU HEADER *
  *****************************************/
 
+// Script scroll hiện section
+document.addEventListener('DOMContentLoaded', () => {
+  // Existing code for services section
+  const servicesSection = document.getElementById('services');
+  if (servicesSection) {
+    servicesSection.classList.add('visible');
+  }
+
+  // Observe sections for animation
+  const sections = document.querySelectorAll(
+    '.services, .partners, .cta, .cta-container, #fbot, .container-about, .reasons__container, .mission__background'
+  );
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Reset animation for services (keeping your existing logic)
+          if (entry.target.id === 'services') {
+            const services = entry.target.querySelectorAll('.service');
+            services.forEach((service) => {
+              service.style.animation = 'none';
+              service.offsetHeight; // Trigger reflow
+              service.style.animation = null;
+            });
+          }
+        } else {
+          entry.target.classList.remove('visible'); // Optional: Remove visible class when out of view
+        }
+      });
+    },
+    { threshold: 0.1 } // Trigger when 10% of the section is visible
+  );
+
+  sections.forEach((section) => observer.observe(section));
+});
 
 /*****************
  * ADD ANIMATION *
  *****************/
 const observer = new IntersectionObserver((entries) => {
-  // Loop over the entries
   entries.forEach((entry) => {
-    // If the element is visible
     if (entry.isIntersecting) {
-      // Add the animation class
       const animationName = entry.target.getAttribute("data-animation");
       entry.target.classList.add(animationName || "fade-in-down");
       entry.target.style.opacity = 1;
     }
   });
 });
-
-// Tell the observer which elements to track
 
 document.querySelectorAll(".animation").forEach((element) => {
   const animationDelay = element.getAttribute("data-animation-delay");
@@ -340,7 +178,7 @@ document.querySelectorAll(".animation").forEach((element) => {
   observer.observe(element);
 });
 
-// remove animation after click header to change URL
+// Remove animation after click header to change URL
 const navBar = document.querySelector("nav");
 navBar.addEventListener("click", (e) => {
   navBar.querySelectorAll(".animation").forEach((navItem) => {
@@ -351,17 +189,15 @@ navBar.addEventListener("click", (e) => {
  * ADD ANIMATION *
  *****************/
 
-
 /********************************
  * IMPORTANT MAIL SENDING POPUP *
  ********************************/
-// Script cho phần chat-box và popup-form trang home
 document.addEventListener('DOMContentLoaded', function () {
   const iconNeedHelp = document.getElementById('icon-need-help');
   const chatBox = document.getElementById('chat-box');
   const popupForm = document.getElementById('popup-form');
 
-  // Hàm hiển thị chat-box trong 5 giây khi load trang
+  // Hàm hiển thị chat-box trong 7 giây khi load trang
   function showChatBoxTemporarily() {
     chatBox.style.display = 'block';
     setTimeout(() => {
@@ -389,12 +225,137 @@ document.addEventListener('DOMContentLoaded', function () {
     chatBox.style.display = 'none';
     popupForm.style.display = 'block';
   });
+
   // Gọi hàm hiển thị chat-box khi load trang
   showChatBoxTemporarily();
 });
 /********************************
  * IMPORTANT MAIL SENDING POPUP *
  ********************************/
+
+/***********************************
+ * SONG NGỮ *
+ ***********************************/
+const languageSwitcher = document.querySelector(".language-switcher");
+const languageDropdown = document.querySelector(".language-dropdown");
+const languageTitle = document.querySelector(".language-switcher .language-title");
+const languageImg = document.querySelector("#current-flag");
+const languageOptions = document.querySelectorAll(".language-dropdown li a");
+
+// Load ngôn ngữ từ localStorage hoặc mặc định là 'vi'
+let currentLang = localStorage.getItem("language") || "vi";
+
+// Đặt mặc định tiếng Việt nếu localStorage trống
+if (!localStorage.getItem("language")) {
+  localStorage.setItem("language", "vi");
+}
+
+// Hàm tải file JSON ngôn ngữ
+async function loadLanguage(lang, isUserTriggered = false) {
+  try {
+    const response = await fetch(`/languages/${lang}.json`);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const translations = await response.json();
+    applyTranslations(translations);
+    currentLang = lang;
+    localStorage.setItem("language", lang);
+
+    // Cập nhật tiêu đề và cờ
+    languageTitle.textContent = translations[languageTitle.getAttribute("data-key")];
+    languageImg.src = translations[`flag_${lang}`] || (lang === "vi" ? "/image/icon/vn.38e19a45.png" : "/image/icon/en.5a569d53.png");
+
+    // Cập nhật lớp visible cho dropdown
+    document.querySelectorAll(".language-dropdown li").forEach(li => {
+      li.classList.toggle("visible", li.getAttribute("data-lang") === lang);
+    });
+
+    // Chỉ cập nhật URL nếu người dùng chọn ngôn ngữ từ dropdown
+    if (isUserTriggered) {
+      let newUrl = window.location.pathname;
+      if (lang === "en" && !newUrl.startsWith("/en")) {
+        newUrl = "/en" + newUrl;
+      } else if (lang === "vi" && newUrl.startsWith("/en")) {
+        newUrl = newUrl.replace("/en", "");
+      }
+      window.history.pushState({}, "", newUrl);
+    }
+
+    // Cập nhật hiệu ứng đánh chữ khi ngôn ngữ thay đổi
+    const introText = document.querySelector("#intro-text");
+    const aboutSection = document.querySelector(".uw_section_container");
+    if (introText && aboutSection && getComputedStyle(aboutSection).display !== 'none') {
+      startTypingEffect(introText, translations["about_intro_text"] || "");
+    }
+
+    // Cập nhật thẻ hreflang
+    updateHreflang(lang);
+  } catch (error) {
+    console.error("Error loading language:", error);
+    if (lang !== "vi") loadLanguage("vi");
+  }
+}
+
+// Hàm áp dụng bản dịch
+function applyTranslations(translations) {
+  document.querySelectorAll("[data-key]").forEach(element => {
+    const key = element.getAttribute("data-key");
+    if (translations[key]) {
+      if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+        element.placeholder = translations[key];
+      } else if (element.id !== "intro-text") { // Bỏ qua intro-text để xử lý riêng
+        element.textContent = translations[key];
+      }
+    }
+  });
+  document.title = translations.title || "UNIWAVE LOGISTICS";
+}
+
+// Hàm cập nhật hreflang
+function updateHreflang(lang) {
+  document.querySelectorAll('link[hreflang]').forEach(link => link.remove());
+  let hreflangDefault = document.createElement("link");
+  hreflangDefault.rel = "alternate";
+  hreflangDefault.hreflang = "x-default";
+  hreflangDefault.href = lang === "vi" ? window.location.pathname.replace("/en", "") : "/en" + window.location.pathname.replace("/en", "");
+  document.head.appendChild(hreflangDefault);
+  let hreflangVi = document.createElement("link");
+  hreflangVi.rel = "alternate";
+  hreflangVi.hreflang = "vi";
+  hreflangVi.href = window.location.pathname.replace("/en", "");
+  document.head.appendChild(hreflangVi);
+  let hreflangEn = document.createElement("link");
+  hreflangEn.rel = "alternate";
+  hreflangEn.hreflang = "en";
+  hreflangEn.href = window.location.pathname.startsWith("/en") ? window.location.pathname : "/en" + window.location.pathname;
+  document.head.appendChild(hreflangEn);
+}
+
+// Xử lý chọn ngôn ngữ
+languageOptions.forEach(option => {
+  option.addEventListener("click", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const selectedLang = this.getAttribute("data-lang");
+    loadLanguage(selectedLang, true);
+    languageDropdown.classList.remove("visible");
+  });
+});
+
+// Đóng dropdown khi nhấp ra ngoài
+document.addEventListener("click", function (event) {
+  if (!languageSwitcher.contains(event.target) && !languageDropdown.contains(event.target)) {
+    languageDropdown.classList.remove("visible");
+  }
+});
+
+// Mở/đóng dropdown khi click
+languageSwitcher.addEventListener("click", function (event) {
+  event.preventDefault();
+  languageDropdown.classList.toggle("visible");
+});
+/***********************************
+ * SONG NGỮ *
+ ***********************************/
 
 /***********************************
  * ĐẾM SỐ VÀ CHẠY CHỮ FUNCTIONS *
@@ -419,13 +380,14 @@ function startCounter(element, target, duration = 3000) {
   }, 16);
 }
 
-function startTyping(element, text, speed = 50) {
+function startTypingEffect(element, text, speed = 50) {
   if (!element) {
     console.warn('Intro text element not found.');
     return;
   }
-  let index = 0;
+  element.textContent = "";
   element.classList.add('uw_typing_effect');
+  let index = 0;
 
   function type() {
     if (index < text.length) {
@@ -447,25 +409,45 @@ if (!('IntersectionObserver' in window)) {
 }
 
 /***********************************
- * SECTION VỀ CHÚNG TÔI TRANG HOME *
+ * MODULE HIỆU ỨNG ĐÁNH CHỮ *
  ***********************************/
-const textToType = "UniWave chuyên cung cấp các dịch vụ logistics tối ưu, linh hoạt theo nhu cầu thực tế của doanh nghiệp, được triển khai bởi đội ngũ chuyên gia giàu kinh nghiệm.";
-
-const aboutSection = document.querySelector('.uw_section_container');
-const aboutCounters = document.querySelectorAll('.uw_stat_item h3');
 const introText = document.querySelector('#intro-text');
-let aboutHasStarted = false;
+const aboutSection = document.querySelector('.uw_section_container');
+let typingHasStarted = false;
 
-if (aboutSection && getComputedStyle(aboutSection).display !== 'none') {
-  const observerSectionAbout = new IntersectionObserver(
+if (aboutSection && introText && getComputedStyle(aboutSection).display !== 'none') {
+  const observerTyping = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && !aboutHasStarted) {
-          console.log('About section observer triggered');
-          aboutHasStarted = true;
-          if (introText) {
-            startTyping(introText, textToType);
-          }
+        if (entry.isIntersecting && !typingHasStarted) {
+          console.log('Typing effect observer triggered');
+          typingHasStarted = true;
+          const textToType = introText.getAttribute("data-key") ? document.querySelector("[data-key='about_intro_text']").textContent : "";
+          startTypingEffect(introText, textToType);
+          observerTyping.disconnect();
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+  observerTyping.observe(aboutSection);
+} else {
+  console.warn('About section or intro-text not found or not visible.');
+}
+
+/***********************************
+ * MODULE ĐẾM SỐ TRANG HOME *
+ ***********************************/
+const aboutCounters = document.querySelectorAll('.uw_stat_item h3');
+let counterHasStarted = false;
+
+if (aboutSection && aboutCounters.length > 0 && getComputedStyle(aboutSection).display !== 'none') {
+  const observerCounter = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !counterHasStarted) {
+          console.log('Counter effect observer triggered');
+          counterHasStarted = true;
           aboutCounters.forEach((counter) => {
             const target = parseInt(counter.dataset.target);
             if (!isNaN(target)) {
@@ -474,15 +456,15 @@ if (aboutSection && getComputedStyle(aboutSection).display !== 'none') {
               console.warn('Invalid target value for counter:', counter);
             }
           });
-          observerSectionAbout.disconnect();
+          observerCounter.disconnect();
         }
       });
     },
     { threshold: 0.1 }
   );
-  observerSectionAbout.observe(aboutSection);
+  observerCounter.observe(aboutSection);
 } else {
-  console.warn('About section container is not visible or not found.');
+  console.warn('About section or counters not found or not visible.');
 }
 
 /************************************
@@ -517,6 +499,10 @@ if (missionStatsSection && getComputedStyle(missionStatsSection).display !== 'no
 } else {
   console.warn('Mission stats section is not visible or not found.');
 }
+
 /***********************************
- * ĐẾM SỐ VÀ CHẠY CHỮ FUNCTIONS *
+ * KHỞI TẠO NGÔN NGỮ *
  ***********************************/
+const urlParams = new URLSearchParams(window.location.search);
+let urlLang = urlParams.get("lang") || localStorage.getItem("language") || (window.location.pathname.startsWith("/en") ? "en" : "vi");
+loadLanguage(urlLang);
