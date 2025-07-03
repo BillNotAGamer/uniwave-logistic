@@ -236,6 +236,9 @@ document.addEventListener('DOMContentLoaded', function () {
 /***********************************
  * SONG NGỮ *
  ***********************************/
+/***********************************
+ * SONG NGỮ *
+ ***********************************/
 const languageSwitcher = document.querySelector(".language-switcher");
 const languageDropdown = document.querySelector(".language-dropdown");
 const languageTitle = document.querySelector(".language-switcher .language-title");
@@ -253,7 +256,9 @@ if (!localStorage.getItem("language")) {
 // Hàm tải file JSON ngôn ngữ
 async function loadLanguage(lang, isUserTriggered = false) {
   try {
-    const response = await fetch(`/languages/${lang}.json`);
+    // Thêm cache-busting vào URL file JSON
+    const timestamp = new Date().getTime();
+    const response = await fetch(`/languages/${lang}.json?t=${timestamp}`);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const translations = await response.json();
     applyTranslations(translations);
@@ -269,7 +274,7 @@ async function loadLanguage(lang, isUserTriggered = false) {
       li.classList.toggle("visible", li.getAttribute("data-lang") === lang);
     });
 
-    // Chỉ cập nhật URL nếu người dùng chọn ngôn ngữ từ dropdown
+    // Reload trang với URL mới nếu người dùng chọn ngôn ngữ
     if (isUserTriggered) {
       let newUrl = window.location.pathname;
       if (lang === "en" && !newUrl.startsWith("/en")) {
@@ -277,7 +282,9 @@ async function loadLanguage(lang, isUserTriggered = false) {
       } else if (lang === "vi" && newUrl.startsWith("/en")) {
         newUrl = newUrl.replace("/en", "");
       }
-      window.history.pushState({}, "", newUrl);
+      // Thêm cache-busting vào URL khi reload
+      newUrl += `?t=${timestamp}`;
+      window.location.href = newUrl; // Reload trang
     }
 
     // Cập nhật hiệu ứng đánh chữ khi ngôn ngữ thay đổi
@@ -336,8 +343,10 @@ languageOptions.forEach(option => {
     event.preventDefault();
     event.stopPropagation();
     const selectedLang = this.getAttribute("data-lang");
-    loadLanguage(selectedLang, true);
-    languageDropdown.classList.remove("visible");
+    if (selectedLang !== currentLang) { // Chỉ reload nếu ngôn ngữ thay đổi
+      loadLanguage(selectedLang, true);
+      languageDropdown.classList.remove("visible");
+    }
   });
 });
 
@@ -353,6 +362,11 @@ languageSwitcher.addEventListener("click", function (event) {
   event.preventDefault();
   languageDropdown.classList.toggle("visible");
 });
+
+// Khởi tạo ngôn ngữ
+const urlParams = new URLSearchParams(window.location.search);
+let urlLang = urlParams.get("lang") || localStorage.getItem("language") || (window.location.pathname.startsWith("/en") ? "en" : "vi");
+loadLanguage(urlLang);
 /***********************************
  * SONG NGỮ *
  ***********************************/
@@ -499,10 +513,3 @@ if (missionStatsSection && getComputedStyle(missionStatsSection).display !== 'no
 } else {
   console.warn('Mission stats section is not visible or not found.');
 }
-
-/***********************************
- * KHỞI TẠO NGÔN NGỮ *
- ***********************************/
-const urlParams = new URLSearchParams(window.location.search);
-let urlLang = urlParams.get("lang") || localStorage.getItem("language") || (window.location.pathname.startsWith("/en") ? "en" : "vi");
-loadLanguage(urlLang);
