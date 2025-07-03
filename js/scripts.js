@@ -520,4 +520,3 @@ if (missionStatsSection && getComputedStyle(missionStatsSection).display !== 'no
 /***********************************
  * ĐẾM SỐ VÀ CHẠY CHỮ FUNCTIONS *
  ***********************************/
-// 
