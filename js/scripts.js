@@ -2,10 +2,10 @@
  * TỔNG HỢP SCRIPTS CHO PHẦN MENU HEADER *
  *****************************************/
 document.addEventListener('DOMContentLoaded', function () {
-  // Danh sách các liên kết và route tương ứng
+  // Danh sách các liên kết và route
   const navItems = [
-    { route: '', selector: '.primary-nav-item:nth-child(1)' }, // Trang chủ
-    { route: 'about', selector: '.primary-nav-item:nth-child(2)' }, // About Us
+    { route: '', selector: '.primary-nav-item:nth-child(1)' },
+    { route: 'introduce', selector: '.primary-nav-item:nth-child(2)' },
     { route: 'services', selector: '.primary-nav-item:nth-child(3)' },
     { route: 'tracking-shipment', selector: '.primary-nav-item:nth-child(4)' },
     { route: 'price-check', selector: '.primary-nav-item:nth-child(5)' },
@@ -13,14 +13,14 @@ document.addEventListener('DOMContentLoaded', function () {
     { route: 'contact', selector: '.primary-nav-item:nth-child(7)' }
   ];
 
-  // Hàm xóa lớp selected khỏi tất cả các mục
+  // Hàm xóa lớp selected
   function clearSelectedClasses() {
     document.querySelectorAll('.primary-nav-item').forEach(item => {
       item.classList.remove('selected-desktop', 'selected-mobile');
     });
   }
 
-  // Hàm thêm lớp selected cho mục tương ứng
+  // Hàm thêm lớp selected
   function setSelectedClass(currentRoute) {
     const currentItem = navItems.find(item => currentRoute === item.route || (currentRoute === '' && item.route === ''));
     if (currentItem) {
@@ -31,12 +31,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Lấy route từ URL hiện tại, loại bỏ tiền tố /vi/ hoặc /en/
+  // Lấy route từ URL
   let currentPath = window.location.pathname;
   let currentRoute = currentPath.replace(/^\/(vi|en)\/?/, '') || '';
-  if (currentRoute === 'index') currentRoute = ''; // Trang chủ
+  if (currentRoute === 'index') currentRoute = '';
 
-  // Xóa và gán lớp selected dựa trên route hiện tại
   clearSelectedClasses();
   setSelectedClass(currentRoute);
 
@@ -46,16 +45,12 @@ document.addEventListener('DOMContentLoaded', function () {
     link.addEventListener('click', function (event) {
       event.preventDefault();
       let route = this.getAttribute('href').replace(/^\/(vi|en)\/?/, '') || '';
-      if (route === 'index') route = ''; // Trang chủ
+      if (route === 'index') route = '';
 
-      // Xây dựng URL dựa trên ngôn ngữ hiện tại
       let href = `/${currentLang}${route ? '/' + route : ''}`;
-
-      // Xóa và gán lớp selected
       clearSelectedClasses();
       setSelectedClass(route);
 
-      // Thêm cache-busting và chuyển hướng
       const timestamp = new Date().getTime();
       window.location.href = href + `?t=${timestamp}`;
     });
@@ -63,22 +58,15 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  // Select all primary navigation links
   const navLinks = document.querySelectorAll('.primary-nav-link');
-
   navLinks.forEach(link => {
     link.addEventListener('click', function (event) {
-      // Prevent default behavior for expandable items to avoid conflicts
       if (this.parentElement.classList.contains('expandable')) {
         return;
       }
-
-      // Remove selected classes from all primary nav items
       document.querySelectorAll('.primary-nav-item').forEach(item => {
         item.classList.remove('selected-desktop', 'selected-mobile');
       });
-
-      // Add selected classes to the clicked link's parent
       this.parentElement.classList.add('selected-desktop', 'selected-mobile');
     });
   });
@@ -87,18 +75,15 @@ document.addEventListener('DOMContentLoaded', function () {
 // Script cho mở rộng sub-menu trên mobile
 document.addEventListener('DOMContentLoaded', () => {
   const clickableItems = document.querySelectorAll('.primary-nav-link.clickable, .secondary-nav-link.clickable');
-
   clickableItems.forEach((item) => {
     item.addEventListener('click', (e) => {
       if (window.innerWidth <= 991) {
         e.preventDefault();
-        e.stopPropagation(); // Ngăn sự kiện nổi bọt
-
+        e.stopPropagation();
         const parent = item.parentElement;
         const isPrimary = item.classList.contains('primary-nav-link');
         const isSecondary = item.classList.contains('secondary-nav-link');
 
-        // Đóng tất cả menu cùng cấp trước khi mở menu mới
         if (isPrimary) {
           document.querySelectorAll('.primary-nav-item.toggle-mobile').forEach((otherParent) => {
             if (otherParent !== parent) {
@@ -115,8 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
           }
         }
-
-        // Toggle menu hiện tại
         parent.classList.toggle('toggle-mobile');
       }
     });
@@ -145,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const services = entry.target.querySelectorAll('.service');
             services.forEach((service) => {
               service.style.animation = 'none';
-              service.offsetHeight; // Trigger reflow
+              service.offsetHeight;
               service.style.animation = null;
             });
           }
@@ -238,13 +221,11 @@ const languageTitle = document.querySelector(".language-switcher .language-title
 const languageImg = document.querySelector("#current-flag");
 const languageOptions = document.querySelectorAll(".language-dropdown li a");
 
-// Load ngôn ngữ từ localStorage hoặc mặc định là 'vi'
 let currentLang = localStorage.getItem("language") || "vi";
 if (!localStorage.getItem("language")) {
   localStorage.setItem("language", "vi");
 }
 
-// Hàm tải file JSON ngôn ngữ
 async function loadLanguage(lang, isUserTriggered = false) {
   try {
     const timestamp = new Date().getTime();
@@ -255,31 +236,26 @@ async function loadLanguage(lang, isUserTriggered = false) {
     currentLang = lang;
     localStorage.setItem("language", lang);
 
-    // Cập nhật tiêu đề và cờ
     languageTitle.textContent = translations[languageTitle.getAttribute("data-key")];
     languageImg.src = translations[`flag_${lang}`] || (lang === "vi" ? "/image/icon/vn.38e19a45.png" : "/image/icon/en.5a569d53.png");
 
-    // Cập nhật lớp visible cho dropdown
     document.querySelectorAll(".language-dropdown li").forEach(li => {
       li.classList.toggle("visible", li.getAttribute("data-lang") === lang);
     });
 
-    // Cập nhật URL nếu người dùng chọn ngôn ngữ
-    if (isUserTriggered && window.location.protocol !== "file:") {
+    if (isUserTriggered) {
       let currentRoute = window.location.pathname.replace(/^\/(vi|en)\/?/, '') || '';
       if (currentRoute === 'index') currentRoute = '';
       const newUrl = `/${lang}${currentRoute ? '/' + currentRoute : ''}?t=${timestamp}`;
       window.location.href = newUrl;
     }
 
-    // Cập nhật hiệu ứng đánh chữ
     const introText = document.querySelector("#intro-text");
     const aboutSection = document.querySelector(".uw_section_container");
     if (introText && aboutSection && getComputedStyle(aboutSection).display !== 'none') {
       startTypingEffect(introText, translations["about_intro_text"] || "");
     }
 
-    // Cập nhật thẻ hreflang
     updateHreflang(lang);
   } catch (error) {
     console.error("Error loading language:", error);
@@ -287,7 +263,6 @@ async function loadLanguage(lang, isUserTriggered = false) {
   }
 }
 
-// Hàm áp dụng bản dịch
 function applyTranslations(translations) {
   document.querySelectorAll("[data-key]").forEach(element => {
     const key = element.getAttribute("data-key");
@@ -302,7 +277,6 @@ function applyTranslations(translations) {
   document.title = translations.title || "UNIWAVE LOGISTICS";
 }
 
-// Hàm cập nhật hreflang
 function updateHreflang(lang) {
   document.querySelectorAll('link[hreflang]').forEach(link => link.remove());
   let currentRoute = window.location.pathname.replace(/^\/(vi|en)\/?/, '') || '';
@@ -327,7 +301,6 @@ function updateHreflang(lang) {
   document.head.appendChild(hreflangEn);
 }
 
-// Xử lý chọn ngôn ngữ
 languageOptions.forEach(option => {
   option.addEventListener("click", function (event) {
     event.preventDefault();
@@ -340,14 +313,12 @@ languageOptions.forEach(option => {
   });
 });
 
-// Đóng dropdown khi nhấp ra ngoài
 document.addEventListener("click", function (event) {
   if (!languageSwitcher.contains(event.target) && !languageDropdown.contains(event.target)) {
     languageDropdown.classList.remove("visible");
   }
 });
 
-// Mở/đóng dropdown khi click
 languageSwitcher.addEventListener("click", function (event) {
   event.preventDefault();
   languageDropdown.classList.toggle("visible");
@@ -400,7 +371,6 @@ function startTypingEffect(element, text, speed = 50) {
   type();
 }
 
-// Kiểm tra IntersectionObserver
 if (!('IntersectionObserver' in window)) {
   const polyfill = document.createElement('script');
   polyfill.src = 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver';
@@ -503,9 +473,9 @@ if (missionStatsSection && getComputedStyle(missionStatsSection).display !== 'no
  * KHỞI TẠO NGÔN NGỮ *
  ***********************************/
 const urlParams = new URLSearchParams(window.location.search);
-let urlLang = urlParams.get("lang") || localStorage.getItem("language") || (window.location.pathname.startsWith("/en") ? "en" : "vi");
+let urlLang = urlParams.get("lang") || localStorage.getItem("language") || "vi";
 if (!window.location.pathname.startsWith("/vi") && !window.location.pathname.startsWith("/en")) {
-  window.location.href = `/vi?t=${new Date().getTime()}`; // Chuyển hướng mặc định sang /vi
+  window.location.href = `/vi?t=${new Date().getTime()}`;
 } else {
   loadLanguage(urlLang);
 }
