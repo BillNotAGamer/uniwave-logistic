@@ -239,30 +239,41 @@ document.addEventListener('DOMContentLoaded', function () {
 function getCurrentLanguageFromURL() {
   const path = window.location.pathname;
   if (path.startsWith('/en')) return 'en';
-  if (path.startsWith('/vi')) return 'vi';
-  return localStorage.getItem('language') || 'vi'; // Mặc định tiếng Việt
+  if (path.startsWith('/vi') || path === '/') return 'vi';
+  return 'vi'; // Mặc định tiếng Việt
 }
 
 function updateURLForLanguage(lang) {
   let newPath = window.location.pathname;
   if (lang === 'en' && !newPath.startsWith('/en')) {
-    newPath = `/en${newPath === '/' ? '' : newPath}`;
+    newPath = newPath === '/' ? '/en' : `/en${newPath}`;
   } else if (lang === 'vi') {
-    newPath = newPath.replace(/^\/en/, '') || '/';
+    newPath = newPath.replace(/^\/en/, '') || '/vi';
   }
   if (newPath !== window.location.pathname) {
-    window.history.pushState({}, '', newPath);
+    window.location.assign(newPath); // Chuyển hướng cứng cho MPA
   }
 }
 
-// Khởi tạo ngôn ngữ từ URL hoặc localStorage
-const urlParams = new URLSearchParams(window.location.search);
-let initialLang = urlParams.get('lang') || getCurrentLanguageFromURL();
-localStorage.setItem('language', initialLang);
-
+// Cập nhật các liên kết trong header để giữ ngôn ngữ hiện tại
+function updateHeaderLinks(lang) {
+  document.querySelectorAll('.nav-list a, .profile-menu a').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href && !href.startsWith('javascript:') && !href.startsWith('http')) {
+      if (lang === 'en' && !href.startsWith('/en')) {
+        link.setAttribute('href', `/en${href.startsWith('/') ? href : '/' + href}`);
+      } else if (lang === 'vi' && href.startsWith('/en')) {
+        link.setAttribute('href', href.replace(/^\/en/, '/vi'));
+      } else if (lang === 'vi' && !href.startsWith('/vi')) {
+        link.setAttribute('href', `/vi${href.startsWith('/') ? href : '/' + href}`);
+      }
+    }
+  });
+}
 /***********************************
  * SONG NGỮ *
  ***********************************/
+
 /***********************************
  * CHUYỂN ĐỔI NGÔN NGỮ *
  ***********************************/
@@ -283,15 +294,17 @@ async function loadLanguage(lang, isUserTriggered = false) {
     localStorage.setItem('language', lang);
 
     // Cập nhật tiêu đề và cờ
-    languageTitle.textContent = translations[languageTitle.getAttribute('data-key')];
-    languageImg.src = translations[`flag_${lang}`] || (lang === 'vi' ? '/image/icon/vn.38e19a45.png' : '/image/icon/en.5a569d53.png');
+    if (languageTitle && languageImg) {
+      languageTitle.textContent = translations[languageTitle.getAttribute('data-key')];
+      languageImg.src = translations[`flag_${lang}`] || (lang === 'vi' ? '/image/icon/vn.38e19a45.png' : '/image/icon/en.5a569d53.png');
+    }
 
     // Cập nhật dropdown
     document.querySelectorAll('.language-dropdown li').forEach(li => {
       li.classList.toggle('visible', li.getAttribute('data-lang') === lang);
     });
 
-    // Cập nhật URL nếu người dùng chọn ngôn ngữ
+    // Cập nhật URL nếu người dùng chọn language
     if (isUserTriggered) {
       updateURLForLanguage(lang);
     }
@@ -306,10 +319,10 @@ async function loadLanguage(lang, isUserTriggered = false) {
     // Cập nhật thẻ hreflang
     updateHreflang(lang);
   } catch (error) {
-    console.error(`Error loading language ${lang}:`, error);
+    console.error(`Lỗi khi tải ngôn ngữ ${lang}:`, error);
     if (lang !== 'vi') {
-      console.warn('Falling back to Vietnamese');
-      loadLanguage('vi');
+      console.warn('Quay về ngôn ngữ mặc định: Tiếng Việt');
+      updateURLForLanguage('vi'); // Chuyển hướng về /vi nếu lỗi
     }
   }
 }
@@ -331,24 +344,24 @@ function applyTranslations(translations) {
 function updateHreflang(lang) {
   document.querySelectorAll('link[hreflang]').forEach(link => link.remove());
   
-  const basePath = lang === 'vi' ? window.location.pathname.replace(/^\/en/, '') || '/' : `/en${window.location.pathname.replace(/^\/en/, '') || '/'}`;
+  const basePath = window.location.pathname.replace(/^\/en/, '') || '/vi';
   
   const hreflangDefault = document.createElement('link');
   hreflangDefault.rel = 'alternate';
   hreflangDefault.hreflang = 'x-default';
-  hreflangDefault.href = lang === 'vi' ? basePath : `/en${basePath}`;
+  hreflangDefault.href = basePath.startsWith('/vi') ? basePath : `/vi${basePath === '/' ? '' : basePath}`;
   document.head.appendChild(hreflangDefault);
 
   const hreflangVi = document.createElement('link');
   hreflangVi.rel = 'alternate';
   hreflangVi.hreflang = 'vi';
-  hreflangVi.href = basePath;
+  hreflangVi.href = basePath.startsWith('/vi') ? basePath : `/vi${basePath === '/' ? '' : basePath}`;
   document.head.appendChild(hreflangVi);
 
   const hreflangEn = document.createElement('link');
   hreflangEn.rel = 'alternate';
   hreflangEn.hreflang = 'en';
-  hreflangEn.href = `/en${basePath}`;
+  hreflangEn.href = basePath.startsWith('/en') ? basePath : `/en${basePath === '/' ? '' : basePath}`;
   document.head.appendChild(hreflangEn);
 }
 

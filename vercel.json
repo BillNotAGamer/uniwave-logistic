@@ -1,20 +1,49 @@
 {
   "rewrites": [
     {
-      "source": "/vi/:path*",
+      "source": "/vi/:path",
+      "destination": "/:path.html"
+    },
+    {
+      "source": "/en/:path",
+      "destination": "/:path.html"
+    },
+    {
+      "source": "/vi",
       "destination": "/index.html"
     },
     {
-      "source": "/en/:path*",
+      "source": "/en",
       "destination": "/index.html"
+    },
+    {
+      "source": "/(vi|en)/international/:subpath",
+      "destination": "/international-:subpath.html"
+    },
+    {
+      "source": "/(vi|en)/support/:subpath",
+      "destination": "/support-:subpath.html"
     },
     {
       "source": "/(vi|en)/(languages|image|js|css)/:path*",
       "destination": "/:1/:path*"
     },
     {
+      "source": "/:path",
+      "destination": "/:path.html"
+    }
+  ],
+  "redirects": [
+    {
       "source": "/",
-      "destination": "/index.html"
+      "destination": "/vi",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "uniwave-logistics.com" }],
+      "destination": "https://www.uniwave-logistics.com/:path*",
+      "permanent": true
     }
   ],
   "headers": [
@@ -28,13 +57,5 @@
     }
   ],
   "cleanUrls": false,
-  "trailingSlash": false,
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "uniwave-logistics.com" }],
-      "destination": "https://www.uniwave-logistics.com/:path*",
-      "permanent": true
-    }
-  ]
+  "trailingSlash": false
 }
