@@ -239,19 +239,23 @@ document.addEventListener('DOMContentLoaded', function () {
 function getCurrentLanguageFromURL() {
   const path = window.location.pathname;
   if (path.startsWith('/en')) return 'en';
-  if (path.startsWith('/vi') || path === '/') return 'vi';
-  return 'vi'; // Mặc định tiếng Việt
+  return 'vi'; // Default
 }
 
 function updateURLForLanguage(lang) {
-  let newPath = window.location.pathname;
-  if (lang === 'en' && !newPath.startsWith('/en')) {
-    newPath = newPath === '/' ? '/en' : `/en${newPath}`;
+  let currentPath = window.location.pathname;
+  let newPath = currentPath;
+
+  if (lang === 'en') {
+    if (!currentPath.startsWith('/en')) {
+      newPath = currentPath === '/vi' ? '/en' : `/en${currentPath.replace(/^\/vi/, '')}`;
+    }
   } else if (lang === 'vi') {
-    newPath = newPath.replace(/^\/en/, '') || '/vi';
+    newPath = currentPath.replace(/^\/en/, '') || '/vi';
   }
-  if (newPath !== window.location.pathname) {
-    window.location.assign(newPath); // Chuyển hướng cứng cho MPA
+
+  if (newPath !== currentPath) {
+    window.location.assign(newPath); // Hard redirect
   }
 }
 
@@ -259,14 +263,11 @@ function updateURLForLanguage(lang) {
 function updateHeaderLinks(lang) {
   document.querySelectorAll('.nav-list a, .profile-menu a').forEach(link => {
     const href = link.getAttribute('href');
+
     if (href && !href.startsWith('javascript:') && !href.startsWith('http')) {
-      if (lang === 'en' && !href.startsWith('/en')) {
-        link.setAttribute('href', `/en${href.startsWith('/') ? href : '/' + href}`);
-      } else if (lang === 'vi' && href.startsWith('/en')) {
-        link.setAttribute('href', href.replace(/^\/en/, '/vi'));
-      } else if (lang === 'vi' && !href.startsWith('/vi')) {
-        link.setAttribute('href', `/vi${href.startsWith('/') ? href : '/' + href}`);
-      }
+      const cleanHref = href.replace(/^\/(vi|en)/, '');
+      const newHref = `/${lang}${cleanHref.startsWith('/') ? cleanHref : '/' + cleanHref}`;
+      link.setAttribute('href', newHref);
     }
   });
 }
@@ -285,13 +286,10 @@ const languageOptions = document.querySelectorAll('.language-dropdown li a');
 
 async function loadLanguage(lang, isUserTriggered = false) {
   try {
-    const baseLangPath = window.location.pathname.startsWith('/en') ? '/en' :
-                     window.location.pathname.startsWith('/vi') ? '/vi' : '';
-const response = await fetch(`${baseLangPath}/languages/${lang}.json`);
-
+    const response = await fetch(`/languages/${lang}.json`);
     if (!response.ok) throw new Error(`Failed to load ${lang}.json: ${response.status}`);
     const translations = await response.json();
-    
+
     // Áp dụng bản dịch
     applyTranslations(translations);
     localStorage.setItem('language', lang);
@@ -349,26 +347,24 @@ function applyTranslations(translations) {
 
 function updateHreflang(lang) {
   document.querySelectorAll('link[hreflang]').forEach(link => link.remove());
-  
-  const basePath = window.location.pathname.replace(/^\/en/, '') || '/vi';
-  
-  const hreflangDefault = document.createElement('link');
-  hreflangDefault.rel = 'alternate';
-  hreflangDefault.hreflang = 'x-default';
-  hreflangDefault.href = basePath.startsWith('/vi') ? basePath : `/vi${basePath === '/' ? '' : basePath}`;
-  document.head.appendChild(hreflangDefault);
 
-  const hreflangVi = document.createElement('link');
-  hreflangVi.rel = 'alternate';
-  hreflangVi.hreflang = 'vi';
-  hreflangVi.href = basePath.startsWith('/vi') ? basePath : `/vi${basePath === '/' ? '' : basePath}`;
-  document.head.appendChild(hreflangVi);
+  const currentPath = window.location.pathname.replace(/^\/(vi|en)/, '');
+  const hrefVi = `/vi${currentPath}`;
+  const hrefEn = `/en${currentPath}`;
 
-  const hreflangEn = document.createElement('link');
-  hreflangEn.rel = 'alternate';
-  hreflangEn.hreflang = 'en';
-  hreflangEn.href = basePath.startsWith('/en') ? basePath : `/en${basePath === '/' ? '' : basePath}`;
-  document.head.appendChild(hreflangEn);
+  const hreflangTags = [
+    { lang: 'x-default', href: hrefVi },
+    { lang: 'vi', href: hrefVi },
+    { lang: 'en', href: hrefEn }
+  ];
+
+  hreflangTags.forEach(item => {
+    const link = document.createElement('link');
+    link.rel = 'alternate';
+    link.hreflang = item.lang;
+    link.href = item.href;
+    document.head.appendChild(link);
+  });
 }
 
 // Xử lý sự kiện chọn ngôn ngữ
@@ -395,10 +391,9 @@ languageSwitcher.addEventListener('click', (event) => {
   languageDropdown.classList.toggle('visible');
 });
 
-// Khởi tạo ngôn ngữ
-const initialLang = getCurrentLanguageFromURL();  
+// Khởi tạo ngôn ngữ khi trang load
+const initialLang = getCurrentLanguageFromURL();
 loadLanguage(initialLang);
-
 /***********************************
  * SONG NGỮ *
  ***********************************/
