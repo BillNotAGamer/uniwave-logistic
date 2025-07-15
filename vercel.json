@@ -17,13 +17,13 @@
       "destination": "/index.html"
     },
     {
-      "source": "/(vi|en)/international/:subpath",
-      "destination": "/international-:subpath.html"
-    },
-    {
-      "source": "/(vi|en)/support/:subpath",
-      "destination": "/support-:subpath.html"
-    },
+  "source": "/(vi|en)/international/:subpath",
+  "destination": "/international.html"
+},
+{
+  "source": "/(vi|en)/support/:subpath",
+  "destination": "/support.html"
+},
     {
       "source": "/(vi|en)/(languages|image|js|css)/:path*",
       "destination": "/:1/:path*"
@@ -43,21 +43,15 @@
     }
   ],
   "headers": [
-  {
-    "source": "/languages/vi.json",
-    "headers": [
-      { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
-      { "key": "Pragma", "value": "no-cache" },
-      { "key": "Expires", "value": "0" }
-    ]
-  },
-  {
-    "source": "/languages/en.json",
-    "headers": [
-      { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
-      { "key": "Pragma", "value": "no-cache" },
-      { "key": "Expires", "value": "0" }
-    ]
-  }
-]
+    {
+      "source": "/languages/(.*)\\.json",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
+        { "key": "Pragma", "value": "no-cache" },
+        { "key": "Expires", "value": "0" }
+      ]
+    }
+  ],
+  "cleanUrls": false,
+  "trailingSlash": false
 }
