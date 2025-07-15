@@ -9,12 +9,12 @@
       "destination": "/index.html"
     },
     {
-      "source": "/vi/about",
-      "destination": "/about.html"
+      "source": "/vi/introduce",
+      "destination": "/introduce.html"
     },
     {
-      "source": "/en/about",
-      "destination": "/about.html"
+      "source": "/en/introduce",
+      "destination": "/introduce.html"
     },
     {
       "source": "/vi/support",
