@@ -17,11 +17,11 @@
       "destination": "/index.html"
     },
     {
-      "source": "/(vi|en)/international/:subpath",
+      "source": "/(vi|en)/international",
       "destination": "/international.html"
     },
     {
-      "source": "/(vi|en)/support/:subpath",
+      "source": "/(vi|en)/support",
       "destination": "/support.html"
     },
     {
