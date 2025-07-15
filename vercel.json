@@ -17,13 +17,13 @@
       "destination": "/index.html"
     },
     {
-  "source": "/(vi|en)/international/:subpath",
-  "destination": "/international.html"
-},
-{
-  "source": "/(vi|en)/support/:subpath",
-  "destination": "/support.html"
-},
+      "source": "/(vi|en)/international/:subpath",
+      "destination": "/international.html"
+    },
+    {
+      "source": "/(vi|en)/support/:subpath",
+      "destination": "/support.html"
+    },
     {
       "source": "/(vi|en)/(languages|image|js|css)/:path*",
       "destination": "/:1/:path*"
@@ -32,7 +32,7 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/vi",
+      "destination": "/vi/",
       "permanent": true
     },
     {
@@ -44,11 +44,20 @@
   ],
   "headers": [
     {
-      "source": "/languages/(.*)\\.json",
+      "source": "/(vi|en)/languages/(.*)\\.json",
       "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
-        { "key": "Pragma", "value": "no-cache" },
-        { "key": "Expires", "value": "0" }
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Pragma",
+          "value": "no-cache"
+        },
+        {
+          "key": "Expires",
+          "value": "0"
+        }
       ]
     }
   ],

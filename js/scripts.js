@@ -285,7 +285,10 @@ const languageOptions = document.querySelectorAll('.language-dropdown li a');
 
 async function loadLanguage(lang, isUserTriggered = false) {
   try {
-    const response = await fetch(`/languages/${lang}.json`);
+    const baseLangPath = window.location.pathname.startsWith('/en') ? '/en' :
+                     window.location.pathname.startsWith('/vi') ? '/vi' : '';
+const response = await fetch(`${baseLangPath}/languages/${lang}.json`);
+
     if (!response.ok) throw new Error(`Failed to load ${lang}.json: ${response.status}`);
     const translations = await response.json();
     
@@ -393,7 +396,9 @@ languageSwitcher.addEventListener('click', (event) => {
 });
 
 // Khởi tạo ngôn ngữ
+const initialLang = getCurrentLanguageFromURL();  
 loadLanguage(initialLang);
+
 /***********************************
  * SONG NGỮ *
  ***********************************/
