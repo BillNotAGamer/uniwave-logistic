@@ -234,125 +234,150 @@ document.addEventListener('DOMContentLoaded', function () {
  ********************************/
 
 /***********************************
- * SONG NGỮ *
+ * XỬ LÝ ROUTE *
  ***********************************/
-const languageSwitcher = document.querySelector(".language-switcher");
-const languageDropdown = document.querySelector(".language-dropdown");
-const languageTitle = document.querySelector(".language-switcher .language-title");
-const languageImg = document.querySelector("#current-flag");
-const languageOptions = document.querySelectorAll(".language-dropdown li a");
-
-// Load ngôn ngữ từ localStorage hoặc mặc định là 'vi'
-let currentLang = localStorage.getItem("language") || "vi";
-
-// Đặt mặc định tiếng Việt nếu localStorage trống
-if (!localStorage.getItem("language")) {
-  localStorage.setItem("language", "vi");
+function getCurrentLanguageFromURL() {
+  const path = window.location.pathname;
+  if (path.startsWith('/en')) return 'en';
+  if (path.startsWith('/vi')) return 'vi';
+  return localStorage.getItem('language') || 'vi'; // Mặc định tiếng Việt
 }
 
-// Hàm tải file JSON ngôn ngữ
+function updateURLForLanguage(lang) {
+  let newPath = window.location.pathname;
+  if (lang === 'en' && !newPath.startsWith('/en')) {
+    newPath = `/en${newPath === '/' ? '' : newPath}`;
+  } else if (lang === 'vi') {
+    newPath = newPath.replace(/^\/en/, '') || '/';
+  }
+  if (newPath !== window.location.pathname) {
+    window.history.pushState({}, '', newPath);
+  }
+}
+
+// Khởi tạo ngôn ngữ từ URL hoặc localStorage
+const urlParams = new URLSearchParams(window.location.search);
+let initialLang = urlParams.get('lang') || getCurrentLanguageFromURL();
+localStorage.setItem('language', initialLang);
+
+/***********************************
+ * SONG NGỮ *
+ ***********************************/
+/***********************************
+ * CHUYỂN ĐỔI NGÔN NGỮ *
+ ***********************************/
+const languageSwitcher = document.querySelector('.language-switcher');
+const languageDropdown = document.querySelector('.language-dropdown');
+const languageTitle = document.querySelector('.language-switcher .language-title');
+const languageImg = document.querySelector('#current-flag');
+const languageOptions = document.querySelectorAll('.language-dropdown li a');
+
 async function loadLanguage(lang, isUserTriggered = false) {
   try {
     const response = await fetch(`/languages/${lang}.json`);
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    if (!response.ok) throw new Error(`Failed to load ${lang}.json: ${response.status}`);
     const translations = await response.json();
+    
+    // Áp dụng bản dịch
     applyTranslations(translations);
-    currentLang = lang;
-    localStorage.setItem("language", lang);
+    localStorage.setItem('language', lang);
 
     // Cập nhật tiêu đề và cờ
-    languageTitle.textContent = translations[languageTitle.getAttribute("data-key")];
-    languageImg.src = translations[`flag_${lang}`] || (lang === "vi" ? "/image/icon/vn.38e19a45.png" : "/image/icon/en.5a569d53.png");
+    languageTitle.textContent = translations[languageTitle.getAttribute('data-key')];
+    languageImg.src = translations[`flag_${lang}`] || (lang === 'vi' ? '/image/icon/vn.38e19a45.png' : '/image/icon/en.5a569d53.png');
 
-    // Cập nhật lớp visible cho dropdown
-    document.querySelectorAll(".language-dropdown li").forEach(li => {
-      li.classList.toggle("visible", li.getAttribute("data-lang") === lang);
+    // Cập nhật dropdown
+    document.querySelectorAll('.language-dropdown li').forEach(li => {
+      li.classList.toggle('visible', li.getAttribute('data-lang') === lang);
     });
 
-    // Chỉ cập nhật URL nếu người dùng chọn ngôn ngữ từ dropdown
+    // Cập nhật URL nếu người dùng chọn ngôn ngữ
     if (isUserTriggered) {
-      let newUrl = window.location.pathname;
-      if (lang === "en" && !newUrl.startsWith("/en")) {
-        newUrl = "/en" + newUrl;
-      } else if (lang === "vi" && newUrl.startsWith("/en")) {
-        newUrl = newUrl.replace("/en", "");
-      }
-      window.history.pushState({}, "", newUrl);
+      updateURLForLanguage(lang);
     }
 
-    // Cập nhật hiệu ứng đánh chữ khi ngôn ngữ thay đổi
-    const introText = document.querySelector("#intro-text");
-    const aboutSection = document.querySelector(".uw_section_container");
+    // Cập nhật hiệu ứng đánh chữ (nếu có)
+    const introText = document.querySelector('#intro-text');
+    const aboutSection = document.querySelector('.uw_section_container');
     if (introText && aboutSection && getComputedStyle(aboutSection).display !== 'none') {
-      startTypingEffect(introText, translations["about_intro_text"] || "");
+      startTypingEffect(introText, translations['about_intro_text'] || '');
     }
 
     // Cập nhật thẻ hreflang
     updateHreflang(lang);
   } catch (error) {
-    console.error("Error loading language:", error);
-    if (lang !== "vi") loadLanguage("vi");
+    console.error(`Error loading language ${lang}:`, error);
+    if (lang !== 'vi') {
+      console.warn('Falling back to Vietnamese');
+      loadLanguage('vi');
+    }
   }
 }
 
-// Hàm áp dụng bản dịch
 function applyTranslations(translations) {
-  document.querySelectorAll("[data-key]").forEach(element => {
-    const key = element.getAttribute("data-key");
+  document.querySelectorAll('[data-key]').forEach(element => {
+    const key = element.getAttribute('data-key');
     if (translations[key]) {
-      if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+      if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
         element.placeholder = translations[key];
-      } else if (element.id !== "intro-text") { // Bỏ qua intro-text để xử lý riêng
+      } else if (element.id !== 'intro-text') {
         element.textContent = translations[key];
       }
     }
   });
-  document.title = translations.title || "UNIWAVE LOGISTICS";
+  document.title = translations.title || 'UNIWAVE LOGISTICS';
 }
 
-// Hàm cập nhật hreflang
 function updateHreflang(lang) {
   document.querySelectorAll('link[hreflang]').forEach(link => link.remove());
-  let hreflangDefault = document.createElement("link");
-  hreflangDefault.rel = "alternate";
-  hreflangDefault.hreflang = "x-default";
-  hreflangDefault.href = lang === "vi" ? window.location.pathname.replace("/en", "") : "/en" + window.location.pathname.replace("/en", "");
+  
+  const basePath = lang === 'vi' ? window.location.pathname.replace(/^\/en/, '') || '/' : `/en${window.location.pathname.replace(/^\/en/, '') || '/'}`;
+  
+  const hreflangDefault = document.createElement('link');
+  hreflangDefault.rel = 'alternate';
+  hreflangDefault.hreflang = 'x-default';
+  hreflangDefault.href = lang === 'vi' ? basePath : `/en${basePath}`;
   document.head.appendChild(hreflangDefault);
-  let hreflangVi = document.createElement("link");
-  hreflangVi.rel = "alternate";
-  hreflangVi.hreflang = "vi";
-  hreflangVi.href = window.location.pathname.replace("/en", "");
+
+  const hreflangVi = document.createElement('link');
+  hreflangVi.rel = 'alternate';
+  hreflangVi.hreflang = 'vi';
+  hreflangVi.href = basePath;
   document.head.appendChild(hreflangVi);
-  let hreflangEn = document.createElement("link");
-  hreflangEn.rel = "alternate";
-  hreflangEn.hreflang = "en";
-  hreflangEn.href = window.location.pathname.startsWith("/en") ? window.location.pathname : "/en" + window.location.pathname;
+
+  const hreflangEn = document.createElement('link');
+  hreflangEn.rel = 'alternate';
+  hreflangEn.hreflang = 'en';
+  hreflangEn.href = `/en${basePath}`;
   document.head.appendChild(hreflangEn);
 }
 
-// Xử lý chọn ngôn ngữ
+// Xử lý sự kiện chọn ngôn ngữ
 languageOptions.forEach(option => {
-  option.addEventListener("click", function (event) {
+  option.addEventListener('click', (event) => {
     event.preventDefault();
     event.stopPropagation();
-    const selectedLang = this.getAttribute("data-lang");
+    const selectedLang = option.getAttribute('data-lang');
     loadLanguage(selectedLang, true);
-    languageDropdown.classList.remove("visible");
+    languageDropdown.classList.remove('visible');
   });
 });
 
 // Đóng dropdown khi nhấp ra ngoài
-document.addEventListener("click", function (event) {
+document.addEventListener('click', (event) => {
   if (!languageSwitcher.contains(event.target) && !languageDropdown.contains(event.target)) {
-    languageDropdown.classList.remove("visible");
+    languageDropdown.classList.remove('visible');
   }
 });
 
 // Mở/đóng dropdown khi click
-languageSwitcher.addEventListener("click", function (event) {
+languageSwitcher.addEventListener('click', (event) => {
   event.preventDefault();
-  languageDropdown.classList.toggle("visible");
+  languageDropdown.classList.toggle('visible');
 });
+
+// Khởi tạo ngôn ngữ
+loadLanguage(initialLang);
 /***********************************
  * SONG NGỮ *
  ***********************************/
@@ -500,9 +525,3 @@ if (missionStatsSection && getComputedStyle(missionStatsSection).display !== 'no
   console.warn('Mission stats section is not visible or not found.');
 }
 
-/***********************************
- * KHỞI TẠO NGÔN NGỮ *
- ***********************************/
-const urlParams = new URLSearchParams(window.location.search);
-let urlLang = urlParams.get("lang") || localStorage.getItem("language") || (window.location.pathname.startsWith("/en") ? "en" : "vi");
-loadLanguage(urlLang);
