@@ -1,14 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/vi/:path*",
-      "destination": "/:path.html"
-    },
-    {
-      "source": "/en/:path*",
-      "destination": "/:path.html"
-    },
-    {
       "source": "/vi",
       "destination": "/index.html"
     },
@@ -17,39 +9,72 @@
       "destination": "/index.html"
     },
     {
-      "source": "/(vi|en)/international",
-      "destination": "/international.html"
+      "source": "/vi/about",
+      "destination": "/about.html"
     },
     {
-      "source": "/(vi|en)/support",
+      "source": "/en/about",
+      "destination": "/about.html"
+    },
+    {
+      "source": "/vi/support",
       "destination": "/support.html"
     },
     {
-      "source": "/(vi|en)/(languages|image|js|css)/:path*",
-      "destination": "/:1/:path*"
+      "source": "/en/support",
+      "destination": "/support.html"
+    },
+    {
+      "source": "/vi/international",
+      "destination": "/international.html"
+    },
+    {
+      "source": "/en/international",
+      "destination": "/international.html"
+    },
+    {
+      "source": "/vi/languages/:path*",
+      "destination": "/languages/:path*"
+    },
+    {
+      "source": "/en/languages/:path*",
+      "destination": "/languages/:path*"
+    },
+    {
+      "source": "/vi/image/:path*",
+      "destination": "/image/:path*"
+    },
+    {
+      "source": "/en/image/:path*",
+      "destination": "/image/:path*"
+    },
+    {
+      "source": "/vi/js/:path*",
+      "destination": "/js/:path*"
+    },
+    {
+      "source": "/en/js/:path*",
+      "destination": "/js/:path*"
+    },
+    {
+      "source": "/vi/css/:path*",
+      "destination": "/css/:path*"
+    },
+    {
+      "source": "/en/css/:path*",
+      "destination": "/css/:path*"
     }
   ],
   "redirects": [
     {
       "source": "/",
-      "destination": "/vi/",
-      "permanent": true
-    },
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "uniwave-logistics.com"
-        }
-      ],
-      "destination": "https://www.uniwave-logistics.com/:path*",
+      "destination": "/vi",
       "permanent": true
     }
   ],
   "headers": [
     {
-      "source": "/(vi|en)/languages/(.*)\\.json",
+      "source": "/languages/(.*)\\.json",
       "headers": [
         {
           "key": "Cache-Control",
