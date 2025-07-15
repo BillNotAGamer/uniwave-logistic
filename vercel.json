@@ -17,6 +17,14 @@
       "destination": "/index.html"
     },
     {
+      "source": "/(vi|en)/international/:subpath",
+      "destination": "/international-:subpath.html"
+    },
+    {
+      "source": "/(vi|en)/support/:subpath",
+      "destination": "/support-:subpath.html"
+    },
+    {
       "source": "/(vi|en)/(languages|image|js|css)/:path*",
       "destination": "/:1/:path*"
     }

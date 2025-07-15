@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Danh sách các liên kết và trang tương ứng
   const navItems = [
     { href: 'index.html', selector: '.primary-nav-item:nth-child(1)' },
-    { href: 'about.html', selector: '.primary-nav-item:nth-child(2)' },
+    { href: 'introduce.html', selector: '.primary-nav-item:nth-child(2)' },
     { href: 'services.html', selector: '.primary-nav-item:nth-child(3)' },
     { href: 'tracking-shipment.html', selector: '.primary-nav-item:nth-child(4)' },
     { href: 'price-check.html', selector: '.primary-nav-item:nth-child(5)' },
