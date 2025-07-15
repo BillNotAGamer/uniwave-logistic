@@ -304,7 +304,10 @@ async function loadLanguage(lang, isUserTriggered = false) {
       li.classList.toggle('visible', li.getAttribute('data-lang') === lang);
     });
 
-    // Cập nhật URL nếu người dùng chọn language
+    // Cập nhật liên kết trong header
+    updateHeaderLinks(lang);
+
+    // Cập nhật URL nếu người dùng chọn ngôn ngữ
     if (isUserTriggered) {
       updateURLForLanguage(lang);
     }
@@ -322,7 +325,7 @@ async function loadLanguage(lang, isUserTriggered = false) {
     console.error(`Lỗi khi tải ngôn ngữ ${lang}:`, error);
     if (lang !== 'vi') {
       console.warn('Quay về ngôn ngữ mặc định: Tiếng Việt');
-      updateURLForLanguage('vi'); // Chuyển hướng về /vi nếu lỗi
+      updateURLForLanguage('vi');
     }
   }
 }
