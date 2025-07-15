@@ -130,7 +130,79 @@
   <div class="header-space"></div>
 
 	<!--Main content start-->
-	
+	<div class="auth-area">
+		<div class="stars"></div>
+		<div class="shooting-star"></div>
+		<div class="shooting-star"></div>
+		<div class="shooting-star"></div>
+		<div class="shooting-star"></div>
+		<div class="shooting-star"></div>
+		<div class="auth-container">
+			<div class="auth-tabs">
+				<button class="auth-tab active" data-form="reg-form">Đăng Ký</button>
+				<button class="auth-tab" data-form="login-form">Đăng Nhập</button>
+				<div class="auth-tab-slider"></div>
+			</div>
+			<div class="auth-form active" id="reg-form">
+				<h1 class="auth-title">Đăng Ký</h1>
+				<form id="reg-auth-form">
+					<div class="reg-form-group">
+						<input type="text" id="reg-username" placeholder=" " required />
+						<label for="reg-username">Tên người dùng</label>
+					</div>
+					<div class="reg-form-group">
+						<input type="email" id="reg-email" placeholder=" " required />
+						<label for="reg-email">Email</label>
+					</div>
+					<div class="reg-form-group">
+						<input type="password" id="reg-password" placeholder=" " required />
+						<label for="reg-password">Mật khẩu</label>
+					</div>
+					<div class="reg-checkbox-group">
+						<input type="checkbox" id="reg-terms" required />
+						<label for="reg-terms">Tôi đồng ý với
+							<a href="#" style="color: #ff8e53">chính sách bảo mật</a> và
+							<a href="#" style="color: #ff8e53">điều khoản</a></label>
+					</div>
+					<button type="submit" class="reg-btn">Đăng Ký Ngay</button>
+					<div id="reg-google-login" class="reg-google-btn">
+						<img src="https://www.google.com/favicon.ico" alt="Google Icon" />
+						Tiếp tục với Google
+					</div>
+				</form>
+				<div class="reg-link">
+					Đã có tài khoản?
+					<a href="#" class="auth-switch" data-form="login-form">Đăng nhập</a>
+				</div>
+			</div>
+			<div class="auth-form" id="login-form">
+				<h1 class="auth-title">Đăng Nhập</h1>
+				<form id="login-auth-form">
+					<div class="login-form-group">
+						<input type="text" id="login-email" placeholder=" " required />
+						<label for="login-email">Email hoặc Tên người dùng</label>
+					</div>
+					<div class="login-form-group">
+						<input type="password" id="login-password" placeholder=" " required />
+						<label for="login-password">Mật khẩu</label>
+					</div>
+					<div class="login-checkbox-group">
+						<input type="checkbox" id="login-remember" />
+						<label for="login-remember">Ghi nhớ đăng nhập</label>
+					</div>
+					<button type="submit" class="login-btn">Đăng Nhập</button>
+					<div id="login-google-login" class="login-google-btn">
+						<img src="https://www.google.com/favicon.ico" alt="Google Icon" />
+						Đăng nhập bằng Google
+					</div>
+				</form>
+				<div class="login-link">
+					Chưa có tài khoản?
+					<a href="#" class="auth-switch" data-form="reg-form">Đăng ký</a>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!--Main content end-->
 
 	<!--Footer start-->
