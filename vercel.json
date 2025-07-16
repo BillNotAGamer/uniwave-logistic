@@ -17,12 +17,44 @@
       "destination": "/introduce.html"
     },
     {
+      "source": "/vi/services",
+      "destination": "/services.html"
+    },
+    {
+      "source": "/en/services",
+      "destination": "/services.html"
+    },
+    {
       "source": "/vi/support",
       "destination": "/support.html"
     },
     {
       "source": "/en/support",
       "destination": "/support.html"
+    },
+    {
+      "source": "/vi/price-check",
+      "destination": "/price-check.html"
+    },
+    {
+      "source": "/en/price-check",
+      "destination": "/price-check.html"
+    },
+    {
+      "source": "/vi/tracking-shipment",
+      "destination": "/tracking-shipment.html"
+    },
+    {
+      "source": "/en/tracking-shipment",
+      "destination": "/tracking-shipment.html"
+    },
+    {
+      "source": "/vi/contact",
+      "destination": "/contact.html"
+    },
+    {
+      "source": "/en/contact",
+      "destination": "/contact.html"
     },
     {
       "source": "/vi/international",
