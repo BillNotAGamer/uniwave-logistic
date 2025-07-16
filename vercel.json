@@ -47,6 +47,22 @@
     {
       "source": "/en/image/:path*",
       "destination": "/image/:path*"
+    },
+    {
+      "source": "/vi/js/:path*",
+      "destination": "js/:path*"
+    },
+    {
+      "source": "/en/js/:path*",
+      "destination": "js/:path*"
+    },
+    {
+      "source": "/vi/css/:path*",
+      "destination": "css/:path*"
+    },
+    {
+      "source": "/en/css/:path*",
+      "destination": "css/:path*"
     }
   ],
   "redirects": [
