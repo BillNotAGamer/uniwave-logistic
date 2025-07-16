@@ -63,6 +63,22 @@
     {
       "source": "/en/css/:path*",
       "destination": "css/:path*"
+    },
+    {
+      "source": "/vi/css/:path*",
+      "destination": "uni-content/css/:path*"
+    },
+    {
+      "source": "/en/css/:path*",
+      "destination": "uni-content/css/:path*"
+    },
+    {
+      "source": "/vi/uni-content/:path*",
+      "destination": "uni-content/:path*"
+    },
+    {
+      "source": "/en/uni-content/:path*",
+      "destination": "uni-content/:path*"
     }
   ],
   "redirects": [
