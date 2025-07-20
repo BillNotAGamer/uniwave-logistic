@@ -4,13 +4,12 @@
 document.addEventListener('DOMContentLoaded', function () {
   // Danh sách các liên kết và trang tương ứng
   const navItems = [
-  { href: '/vi', selector: '.primary-nav-item:nth-child(1)', enHref: '/en' },
-  { href: '/vi/introduce', selector: '.primary-nav-item:nth-child(2)', enHref: '/en/introduce' },
-  { href: '/vi/services', selector: '.primary-nav-item:nth-child(3)', enHref: '/en/services' },
-  { href: '/vi/tracking-shipment', selector: '.primary-nav-item:nth-child(4)', enHref: '/en/tracking-shipment' },
-  { href: '/vi/price-check', selector: '.primary-nav-item:nth-child(5)', enHref: '/en/price-check' },
-  { href: '/vi/support/guide', selector: '.primary-nav-item:nth-child(6)', enHref: '/en/support/guide' },
-  { href: '/vi/contact', selector: '.primary-nav-item:nth-child(7)', enHref: '/en/contact' }
+  { href: 'vi', selector: '.primary-nav-item:nth-child(1)', enHref: 'en' },
+  { href: 'vi/introduce', selector: '.primary-nav-item:nth-child(2)', enHref: 'en/introduce' },
+  { href: 'vi/services', selector: '.primary-nav-item:nth-child(3)', enHref: 'en/services' },
+  { href: 'vi/tracking-shipment', selector: '.primary-nav-item:nth-child(4)', enHref: 'en/tracking-shipment' },
+  { href: 'vi/price-check', selector: '.primary-nav-item:nth-child(5)', enHref: 'en/price-check' },
+  { href: 'vi/contact', selector: '.primary-nav-item:nth-child(6)', enHref: 'en/contact' }
 ];
 
   // Hàm xóa lớp selected khỏi tất cả các mục
