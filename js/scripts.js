@@ -4,14 +4,14 @@
 document.addEventListener('DOMContentLoaded', function () {
   // Danh sách các liên kết và trang tương ứng
   const navItems = [
-    { href: 'index.html', selector: '.primary-nav-item:nth-child(1)' },
-    { href: 'introduce.html', selector: '.primary-nav-item:nth-child(2)' },
-    { href: 'services.html', selector: '.primary-nav-item:nth-child(3)' },
-    { href: 'tracking-shipment.html', selector: '.primary-nav-item:nth-child(4)' },
-    { href: 'price-check.html', selector: '.primary-nav-item:nth-child(5)' },
-    { href: 'guidance.html', selector: '.primary-nav-item:nth-child(6)' },
-    { href: 'contact.html', selector: '.primary-nav-item:nth-child(7)' }
-  ];
+  { href: '/vi', selector: '.primary-nav-item:nth-child(1)', enHref: '/en' },
+  { href: '/vi/introduce', selector: '.primary-nav-item:nth-child(2)', enHref: '/en/introduce' },
+  { href: '/vi/services', selector: '.primary-nav-item:nth-child(3)', enHref: '/en/services' },
+  { href: '/vi/tracking-shipment', selector: '.primary-nav-item:nth-child(4)', enHref: '/en/tracking-shipment' },
+  { href: '/vi/price-check', selector: '.primary-nav-item:nth-child(5)', enHref: '/en/price-check' },
+  { href: '/vi/support/guide', selector: '.primary-nav-item:nth-child(6)', enHref: '/en/support/guide' },
+  { href: '/vi/contact', selector: '.primary-nav-item:nth-child(7)', enHref: '/en/contact' }
+];
 
   // Hàm xóa lớp selected khỏi tất cả các mục
   function clearSelectedClasses() {
@@ -22,14 +22,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Hàm thêm lớp selected cho mục tương ứng
   function setSelectedClass(path) {
-    const currentItem = navItems.find(item => path.endsWith(item.href));
-    if (currentItem) {
-      const navItem = document.querySelector(currentItem.selector);
-      if (navItem) {
-        navItem.classList.add('selected-desktop', 'selected-mobile');
-      }
+  const currentItem = navItems.find(item => path === item.href || path === item.enHref);
+  if (currentItem) {
+    const navItem = document.querySelector(currentItem.selector);
+    if (navItem) {
+      navItem.classList.add('selected-desktop', 'selected-mobile');
     }
   }
+}
 
   // Lấy tên file từ URL hiện tại
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
