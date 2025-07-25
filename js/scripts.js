@@ -238,7 +238,6 @@ document.addEventListener('DOMContentLoaded', function () {
 function getCurrentLanguageFromURL() {
   const path = window.location.pathname;
   if (path.startsWith('/en')) return 'en';
-  if (path.startsWith('/vi')) return 'vi';
   return 'vi'; // Default
 }
 
@@ -248,17 +247,14 @@ function updateURLForLanguage(lang) {
 
   if (lang === 'en') {
     if (!currentPath.startsWith('/en')) {
-      newPath = currentPath === '/vi' || currentPath === '/' ? '/en' : `/en${currentPath.replace(/^\/vi/, '')}`;
+      newPath = currentPath === '/vi' ? '/en' : `/en${currentPath.replace(/^\/vi/, '')}`;
     }
   } else if (lang === 'vi') {
-    if (!currentPath.startsWith('/vi')) {
-      newPath = currentPath === '/en' || currentPath === '/' ? '/vi' : `/vi${currentPath.replace(/^\/en/, '')}`;
-    }
+    newPath = currentPath.replace(/^\/en/, '') || '/vi';
   }
 
   if (newPath !== currentPath) {
-    const timestamp = new Date().getTime(); // Thêm timestamp để tránh cache
-    window.location.assign(`${newPath}?t=${timestamp}`); // Hard redirect
+    window.location.assign(newPath); // Hard redirect
   }
 }
 
@@ -289,8 +285,7 @@ const languageOptions = document.querySelectorAll('.language-dropdown li a');
 
 async function loadLanguage(lang, isUserTriggered = false) {
   try {
-    const timestamp = new Date().getTime(); // Thêm timestamp để tránh cache
-    const response = await fetch(`/languages/${lang}.json?t=${timestamp}`);
+    const response = await fetch(`/languages/${lang}.json`);
     if (!response.ok) throw new Error(`Failed to load ${lang}.json: ${response.status}`);
     const translations = await response.json();
 
@@ -352,9 +347,9 @@ function applyTranslations(translations) {
 function updateHreflang(lang) {
   document.querySelectorAll('link[hreflang]').forEach(link => link.remove());
 
-  const currentPath = window.location.pathname.replace(/^\/(vi|en)/, '') || '';
-  const hrefVi = `/vi${currentPath === '' ? '' : '/' + currentPath}`;
-  const hrefEn = `/en${currentPath === '' ? '' : '/' + currentPath}`;
+  const currentPath = window.location.pathname.replace(/^\/(vi|en)/, '');
+  const hrefVi = `/vi${currentPath}`;
+  const hrefEn = `/en${currentPath}`;
 
   const hreflangTags = [
     { lang: 'x-default', href: hrefVi },
@@ -376,9 +371,9 @@ languageOptions.forEach(option => {
   option.addEventListener('click', (event) => {
     event.preventDefault();
     event.stopPropagation();
-    const selectedLang = option.getAttribute('data-key') === 'lang_vi' ? 'vi' : 'en';
+    const selectedLang = option.getAttribute('data-lang');
     loadLanguage(selectedLang, true);
-    languageDropdown.classList.add('visible');
+    languageDropdown.classList.remove('visible');
   });
 });
 
