@@ -260,10 +260,7 @@ function updateURLForLanguage(lang) {
     }
   }
 
-  if (newPath !== currentPath) {
-    const timestamp = new Date().getTime(); // Thêm timestamp để tránh cache
-    window.location.assign(`${newPath}?t=${timestamp}`); // Hard redirect
-  }
+  
 }
 
 // Cập nhật các liên kết trong header để giữ ngôn ngữ hiện tại
