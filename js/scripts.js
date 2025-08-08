@@ -1,81 +1,42 @@
 /*****************************************
  * TỔNG HỢP SCRIPTS CHO PHẦN MENU HEADER *
  *****************************************/
-document.addEventListener('DOMContentLoaded', function () {
-  // Danh sách các liên kết và trang tương ứng
-  const navItems = [
-  { href: 'vi', selector: '.primary-nav-item:nth-child(1)', enHref: 'en' },
-  { href: '/vi/introduce', selector: '.primary-nav-item:nth-child(2)', enHref: '/en/introduce' },
-  { href: '/vi/services', selector: '.primary-nav-item:nth-child(3)', enHref: '/en/services' },
-  { href: '/vi/tracking-shipment', selector: '.primary-nav-item:nth-child(4)', enHref: '/en/tracking-shipment' },
-  { href: '/vi/price-check', selector: '.primary-nav-item:nth-child(5)', enHref: '/en/price-check' },
-  { href: '/vi/contact', selector: '.primary-nav-item:nth-child(6)', enHref: '/en/contact' }
-];
+/***********************************
+ * GÁN LỚP SELECTED CHO HEADER *
+ ***********************************/
+function updateSelectedNavItem() {
+  const currentPath = window.location.pathname;
+  const navItems = document.querySelectorAll('.primary-nav-item');
 
-  // Hàm xóa lớp selected khỏi tất cả các mục
-  function clearSelectedClasses() {
-    document.querySelectorAll('.primary-nav-item').forEach(item => {
-      item.classList.remove('selected-desktop','selected-mobile');
-    });
-  }
+  // Xóa lớp selected khỏi tất cả mục
+  navItems.forEach(item => {
+    item.classList.remove('selected-desktop', 'selected-mobile');
+  });
 
-  // Hàm thêm lớp selected cho mục tương ứng
-  function setSelectedClass(path) {
-  const currentItem = navItems.find(item => path === item.href || path === item.enHref);
-  if (currentItem) {
-    const navItem = document.querySelector(currentItem.selector);
-    if (navItems) {
-      navItem.classList.add('selected-desktop', 'selected-mobile');
-    }
+  // Danh sách ánh xạ URL và mục điều hướng
+  const navMap = [
+    { paths: ['/vi', '/en'], element: navItems[0] }, // Trang chủ
+    { paths: ['/vi/introduce', '/en/introduce'], element: navItems[1] }, // Giới thiệu
+    { paths: [
+      '/vi/services', '/en/services',
+      '/vi/domestic-delivery-service', '/en/domestic-delivery-service',
+      '/vi/service/transportation/trucking', '/en/service/transportation/trucking',
+      '/vi/service/transportation/rail-transportation', '/en/service/transportation/rail-transportation',
+      '/vi/service/transportation/sea-transport', '/en/service/transportation/sea-transport',
+      '/vi/service/transportation/air-transport', '/en/service/transportation/air-transport'
+    ], element: navItems[2] }, // Dịch vụ (bao gồm các trang con)
+    { paths: ['/vi/tracking-shipment', '/en/tracking-shipment'], element: navItems[3] }, // Theo dõi đơn hàng
+    { paths: ['/vi/price-check', '/en/price-check'], element: navItems[4] }, // Báo giá
+    { paths: ['/vi/contact', '/en/contact'], element: navItems[5] } // Liên hệ
+  ];
+
+  // Tìm và gán lớp selected
+  const currentNav = navMap.find(nav => nav.paths.includes(currentPath));
+  if (currentNav) {
+    currentNav.element.classList.add('selected-desktop', 'selected-mobile');
   }
 }
 
-  // Lấy tên file từ URL hiện tại
-  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-
-  // Xóa và gán lớp selected dựa trên trang hiện tại
-  clearSelectedClasses();
-  setSelectedClass(currentPath);
-
-  // Xử lý sự kiện nhấp chuột
-  const navLinks = document.querySelectorAll('.primary-nav-item > .primary-nav-link:not(.clickable), .secondary-nav-item > .secondary-nav-link[href="services.html"]');
-  navLinks.forEach(link => {
-    link.addEventListener('click', function (event) {
-      // Ngăn hành vi mặc định để xử lý thủ công
-      event.preventDefault();
-      const href = this.getAttribute('href');
-
-      // Xóa và gán lớp selected
-      clearSelectedClasses();
-      setSelectedClass(href);
-
-      // Chuyển hướng tới trang
-      window.location.href = href;
-    });
-  });
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-  // Select all primary navigation links
-  const navLinks = document.querySelectorAll('.primary-nav-link');
-
-  navLinks.forEach(link => {
-    link.addEventListener('click', function (event) {
-      // Prevent default behavior for expandable items to avoid conflicts
-      if (this.parentElement.classList.contains('expandable')) {
-        return;
-      }
-
-      // Remove selected classes from all primary nav items
-      document.querySelectorAll('.primary-nav-item').forEach(item => {
-        item.classList.remove('selected-desktop', 'selected-mobile');
-      });
-
-      // Add selected classes to the clicked link's parent
-      this.parentElement.classList.add('selected-desktop', 'selected-mobile');
-    });
-  });
-});
 
 // Script cho mở rộng sub-menu trên mobile
 document.addEventListener('DOMContentLoaded', () => {
