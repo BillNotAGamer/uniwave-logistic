@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const currentItem = navItems.find(item => path === item.href || path === item.enHref);
   if (currentItem) {
     const navItem = document.querySelector(currentItem.selector);
-    if (navItem) {
+    if (navItems) {
       navItem.classList.add('selected-desktop', 'selected-mobile');
     }
   }
