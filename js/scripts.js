@@ -1,59 +1,6 @@
 /*****************************************
  * TỔNG HỢP SCRIPTS CHO PHẦN MENU HEADER *
  *****************************************/
-document.addEventListener('DOMContentLoaded', function () {
-  // Danh sách các liên kết và trang tương ứng
-  const navItems = [
-  { href: 'vi', selector: '.primary-nav-item:nth-child(1)', enHref: 'en' },
-  { href: '/vi/introduce', selector: '.primary-nav-item:nth-child(2)', enHref: '/en/introduce' },
-  { href: '/vi/services', selector: '.primary-nav-item:nth-child(3)', enHref: '/en/services' },
-  { href: '/vi/tracking-shipment', selector: '.primary-nav-item:nth-child(4)', enHref: '/en/tracking-shipment' },
-  { href: '/vi/price-check', selector: '.primary-nav-item:nth-child(5)', enHref: '/en/price-check' },
-  { href: '/vi/contact', selector: '.primary-nav-item:nth-child(6)', enHref: '/en/contact' }
-];
-
-  // Hàm xóa lớp selected khỏi tất cả các mục
-  function clearSelectedClasses() {
-    document.querySelectorAll('.primary-nav-item').forEach(item => {
-      item.classList.remove('selected-desktop','selected-mobile');
-    });
-  }
-
-  // Hàm thêm lớp selected cho mục tương ứng
-  function setSelectedClass(path) {
-  const currentItem = navItems.find(item => path === item.href || path === item.enHref);
-  if (currentItem) {
-    const navItem = document.querySelector(currentItem.selector);
-    if (navItems) {
-      navItem.classList.add('selected-desktop', 'selected-mobile');
-    }
-  }
-}
-
-  // Lấy tên file từ URL hiện tại
-  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-
-  // Xóa và gán lớp selected dựa trên trang hiện tại
-  clearSelectedClasses();
-  setSelectedClass(currentPath);
-
-  // Xử lý sự kiện nhấp chuột
-  const navLinks = document.querySelectorAll('.primary-nav-item > .primary-nav-link:not(.clickable), .secondary-nav-item > .secondary-nav-link[href="services.html"]');
-  navLinks.forEach(link => {
-    link.addEventListener('click', function (event) {
-      // Ngăn hành vi mặc định để xử lý thủ công
-      event.preventDefault();
-      const href = this.getAttribute('href');
-
-      // Xóa và gán lớp selected
-      clearSelectedClasses();
-      setSelectedClass(href);
-
-      // Chuyển hướng tới trang
-      window.location.href = href;
-    });
-  });
-});
 
 document.addEventListener('DOMContentLoaded', function () {
   // Select all primary navigation links
@@ -261,16 +208,14 @@ function updateURLForLanguage(lang) {
   }
 
   if (newPath !== currentPath) {
-    const timestamp = new Date().getTime(); // Thêm timestamp để tránh cache
-    window.location.assign(`${newPath}?t=${timestamp}`); // Hard redirect
+    const timestamp = new Date().getTime();
+    window.location.assign(`${newPath}?t=${timestamp}`);
   }
 }
 
-// Cập nhật các liên kết trong header để giữ ngôn ngữ hiện tại
 function updateHeaderLinks(lang) {
   document.querySelectorAll('.nav-list a, .profile-menu a').forEach(link => {
     const href = link.getAttribute('href');
-
     if (href && !href.startsWith('javascript:') && !href.startsWith('http')) {
       const cleanHref = href.replace(/^\/(vi|en)/, '');
       const newHref = `/${lang}${cleanHref.startsWith('/') ? cleanHref : '/' + cleanHref}`;
@@ -278,12 +223,45 @@ function updateHeaderLinks(lang) {
     }
   });
 }
-/***********************************
- * SONG NGỮ *
- ***********************************/
 
 /***********************************
- * CHUYỂN ĐỔI NGÔN NGỮ *
+ * GÁN LỚP SELECTED CHO HEADER *
+ ***********************************/
+function updateSelectedNavItem() {
+  const currentPath = window.location.pathname;
+  const navItems = document.querySelectorAll('.primary-nav-item');
+
+  // Xóa lớp selected khỏi tất cả mục
+  navItems.forEach(item => {
+    item.classList.remove('selected-desktop', 'selected-mobile');
+  });
+
+  // Danh sách ánh xạ URL và mục điều hướng
+  const navMap = [
+    { paths: ['/vi', '/en'], element: navItems[0] }, // Trang chủ
+    { paths: ['/vi/introduce', '/en/introduce'], element: navItems[1] }, // Giới thiệu
+    { paths: [
+      '/vi/services', '/en/services',
+      '/vi/domestic-delivery-service', '/en/domestic-delivery-service',
+      '/vi/service/transportation/trucking', '/en/service/transportation/trucking',
+      '/vi/service/transportation/rail-transportation', '/en/service/transportation/rail-transportation',
+      '/vi/service/transportation/sea-transport', '/en/service/transportation/sea-transport',
+      '/vi/service/transportation/air-transport', '/en/service/transportation/air-transport'
+    ], element: navItems[2] }, // Dịch vụ (bao gồm các trang con)
+    { paths: ['/vi/tracking-shipment', '/en/tracking-shipment'], element: navItems[3] }, // Theo dõi đơn hàng
+    { paths: ['/vi/price-check', '/en/price-check'], element: navItems[4] }, // Báo giá
+    { paths: ['/vi/contact', '/en/contact'], element: navItems[5] } // Liên hệ
+  ];
+
+  // Tìm và gán lớp selected
+  const currentNav = navMap.find(nav => nav.paths.includes(currentPath));
+  if (currentNav) {
+    currentNav.element.classList.add('selected-desktop', 'selected-mobile');
+  }
+}
+
+/***********************************
+ * SONG NGỮ *
  ***********************************/
 const languageSwitcher = document.querySelector('.language-switcher');
 const languageDropdown = document.querySelector('.language-dropdown');
@@ -298,37 +276,31 @@ async function loadLanguage(lang, isUserTriggered = false) {
     if (!response.ok) throw new Error(`Failed to load ${lang}.json: ${response.status}`);
     const translations = await response.json();
 
-    // Áp dụng bản dịch
     applyTranslations(translations);
     localStorage.setItem('language', lang);
 
-    // Cập nhật tiêu đề và cờ
     if (languageTitle && languageImg) {
       languageTitle.textContent = translations[languageTitle.getAttribute('data-key')];
       languageImg.src = translations[`flag_${lang}`] || (lang === 'vi' ? '/image/icon/vn.38e19a45.png' : '/image/icon/en.5a569d53.png');
     }
 
-    // Cập nhật dropdown
     document.querySelectorAll('.language-dropdown li').forEach(li => {
       li.classList.toggle('visible', li.getAttribute('data-lang') === lang);
     });
 
-    // Cập nhật liên kết trong header
     updateHeaderLinks(lang);
+    updateSelectedNavItem(); // Cập nhật lớp selected sau khi chuyển ngôn ngữ
 
-    // Cập nhật URL nếu người dùng chọn ngôn ngữ
     if (isUserTriggered) {
       updateURLForLanguage(lang);
     }
 
-    // Cập nhật hiệu ứng đánh chữ (nếu có)
     const introText = document.querySelector('#intro-text');
     const aboutSection = document.querySelector('.uw_section_container');
     if (introText && aboutSection && getComputedStyle(aboutSection).display !== 'none') {
       startTypingEffect(introText, translations['about_intro_text'] || '');
     }
 
-    // Cập nhật thẻ hreflang
     updateHreflang(lang);
   } catch (error) {
     console.error(`Lỗi khi tải ngôn ngữ ${lang}:`, error);
@@ -375,7 +347,6 @@ function updateHreflang(lang) {
   });
 }
 
-// Xử lý sự kiện chọn ngôn ngữ
 languageOptions.forEach(option => {
   option.addEventListener('click', (event) => {
     event.preventDefault();
@@ -387,25 +358,23 @@ languageOptions.forEach(option => {
   });
 });
 
-// Đóng dropdown khi nhấp ra ngoài
 document.addEventListener('click', (event) => {
   if (!languageSwitcher.contains(event.target) && !languageDropdown.contains(event.target)) {
     languageDropdown.classList.remove('visible');
   }
 });
 
-// Mở/đóng dropdown khi click
 languageSwitcher.addEventListener('click', (event) => {
   event.preventDefault();
   languageDropdown.classList.toggle('visible');
 });
 
-// Khởi tạo ngôn ngữ khi trang load
-const initialLang = getCurrentLanguageFromURL();
-loadLanguage(initialLang);
-/***********************************
- * SONG NGỮ *
- ***********************************/
+// Khởi tạo khi trang load
+document.addEventListener('DOMContentLoaded', () => {
+  const initialLang = getCurrentLanguageFromURL();
+  loadLanguage(initialLang);
+  updateSelectedNavItem(); // Gán lớp selected khi tải trang
+});
 
 /***********************************
  * ĐẾM SỐ VÀ CHẠY CHỮ FUNCTIONS *
