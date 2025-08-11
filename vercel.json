@@ -57,6 +57,14 @@
       "destination": "/contact.html"
     },
     {
+      "source": "/vi/authentication",
+      "destination": "/authentication.html"
+    },
+    {
+      "source": "/en/authentication",
+      "destination": "/authentication.html"
+    },
+    {
       "source": "/vi/international",
       "destination": "/international.html"
     },
