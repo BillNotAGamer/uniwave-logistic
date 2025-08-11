@@ -167,69 +167,72 @@
     </div>
   </header>
   <div class="header-space"></div>
-  <!--Banner start-->
-  <div class="section-banner">
-    <img src="./image/long-banner7.png" class="w-100" />
-    <div class="content">
-      <div>
-        <p>Theo dõi đơn hàng</p>
-      </div>
+ <!--Banner start-->
+<div class="section-banner">
+  <img src="./image/long-banner7.png" class="w-100" />
+  <div class="content">
+    <div>
+      <p data-key="banner_tracking_page_title">Theo dõi đơn hàng</p>
     </div>
   </div>
-  <!--Banner end-->
-  <!--Breadcrumb start-->
-  <div class="navation">
-    <div class="container">
-      <p id="breadcrumbs" class="mb-0">
-        <span><span><a href="index.html">Trang chủ</a></span><span id="breadcrumb-arrow">»</span><span
-            class="breadcrumb_last" aria-current="page">Theo dõi đơn hàng</span></span>
-      </p>
-      <div class="clear"></div>
-    </div>
+</div>
+<!--Banner end-->
+
+<!--Breadcrumb start-->
+<div class="navation">
+  <div class="container">
+    <p id="breadcrumbs" class="mb-0">
+      <span><span><a href="index.html" data-key="breadcrumb_home">Trang chủ</a></span><span id="breadcrumb-arrow">»</span><span
+          class="breadcrumb_last" aria-current="page" data-key="breadcrumb_tracking">Theo dõi đơn hàng</span></span>
+    </p>
+    <div class="clear"></div>
   </div>
-  <!--Breadcrumb end-->
-  <!--Main content start-->
-  <section class="post-office-tracking ng-scope">
-    <div class="container container-form-tracking">
-      <div class="row">
-        <div class="col-xl-12 col-12">
-          <div class="form-title text-capitalize text-left">
-            <img width="80" height="80" src="https://img.icons8.com/ios-filled/50/FFFFFF/order-on-the-way.png"
-              alt="order-on-the-way" />
-            Theo Dõi Đơn Hàng
+</div>
+<!--Breadcrumb end-->
+
+<!--Main content start-->
+<section class="post-office-tracking ng-scope">
+  <div class="container container-form-tracking">
+    <div class="row">
+      <div class="col-xl-12 col-12">
+        <div class="form-title text-capitalize text-left">
+          <img width="80" height="80" src="https://img.icons8.com/ios-filled/50/FFFFFF/order-on-the-way.png"
+            alt="order-on-the-way" />
+          <span data-key="form_title_tracking">Theo Dõi Đơn Hàng</span>
+        </div>
+        <form class="form-tracking w-100 d-flex justify-content-evenly pt-2 align-items-center ng-pristine ng-valid"
+          action="" method="get">
+          <div class="div-tracking div-tracking-input">
+            <input type="text" ng-model="data.dataSearch.post_code"
+              class="input-tracking w-100 ng-pristine ng-untouched ng-valid ng-empty" placeholder="Nhập mã bưu gửi"
+              data-key="placeholder_post_code" />
           </div>
-          <form class="form-tracking w-100 d-flex justify-content-evenly pt-2 align-items-center ng-pristine ng-valid"
-            action="" method="get">
-            <div class="div-tracking div-tracking-input">
-              <input type="text" ng-model="data.dataSearch.post_code"
-                class="input-tracking w-100 ng-pristine ng-untouched ng-valid ng-empty" placeholder="Nhập mã bưu gửi" />
+          <div class="div-tracking d-flex justify-content-evenly with-tracking">
+            <div class="div-tracking-cap">
+              <input type="text" ng-model="data.dataSearch.captcha" placeholder="Mã xác nhận"
+                class="input-tracking w-100 ng-pristine ng-untouched ng-valid ng-empty"
+                data-key="placeholder_captcha" />
+              <!-- ngIf: info_errors.errors['captcha'] -->
             </div>
-            <div class="div-tracking d-flex justify-content-evenly with-tracking">
-              <div class="div-tracking-cap">
-                <input type="text" ng-model="data.dataSearch.captcha" placeholder="Mã xác nhận"
-                  class="input-tracking w-100 ng-pristine ng-untouched ng-valid ng-empty" />
-                <!-- ngIf: info_errors.errors['captcha'] -->
-              </div>
-              <div class="d-flex img-cap w-100">
-                <div class="output-code align-items-center justify-content-evenly" style="display: flex"
-                  id="tra-cuu-captcha-block">
-                  <img id="tra-cuu-captcha" alt="Captcha Image" src="https://vnpost.vn/captcha/default?tBDSgfSX" />
-                  <div class="d-inline-block">
-                    <img class="undo reload-captcha" onclick="getcaptcha('tra-cuu-captcha')"
-                      src="https://vnpost.vn/apps/frontend/images/svg/undo.svg" alt="Tải lại Captcha" />
-                  </div>
+            <div class="d-flex img-cap w-100">
+              <div class="output-code align-items-center justify-content-evenly" style="display: flex"
+                id="tra-cuu-captcha-block">
+                <img id="tra-cuu-captcha" alt="Captcha Image" src="https://vnpost.vn/captcha/default?tBDSgfSX" />
+                <div class="d-inline-block">
+                  <img class="undo reload-captcha" onclick="getcaptcha('tra-cuu-captcha')"
+                    src="https://vnpost.vn/apps/frontend/images/svg/undo.svg" alt="Tải lại Captcha" />
                 </div>
               </div>
             </div>
-            <button type="button" class="button-tracking" ng-click="actions.search()">
-              Theo dõi
-            </button>
-          </form>
-        </div>
+          </div>
+          <button type="button" class="button-tracking" ng-click="actions.search()"
+            data-key="button_track">Theo dõi</button>
+        </form>
       </div>
     </div>
-  </section>
-  <!--Main content start-->
+  </div>
+</section>
+<!--Main content end-->
 
   <!--Footer start-->
   <footer>
