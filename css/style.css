@@ -2884,7 +2884,6 @@ body {
 
 .output-code {
   background: #dcdadb;
-  /* Nền xám nhạt */
   border-radius: 4px;
   padding: 2px;
   display: flex;
@@ -2893,7 +2892,7 @@ body {
   height: 100%;
 }
 
-#tra-cuu-captcha {
+#custom-captcha {
   height: 28px;
   margin-right: 5px;
 }
@@ -2904,7 +2903,6 @@ body {
   cursor: pointer;
   transition: transform 0.3s ease;
   animation: pulse 2s ease-in-out infinite;
-  /* Hiệu ứng phóng to thu nhỏ */
 }
 
 .reload-captcha:hover {
