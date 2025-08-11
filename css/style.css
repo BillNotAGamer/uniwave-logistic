@@ -2799,7 +2799,6 @@ body {
 /* Container form */
 .container-form-tracking {
   background: #192a56;
-  /* Nền xanh */
   animation: fadeIn 1s forwards;
   border-radius: 12px;
   padding: 25px 40px;
@@ -2809,7 +2808,6 @@ body {
 /* Tiêu đề form */
 .form-title {
   color: #f5f6fa;
-  /* Màu xanh chủ đạo */
   font-size: 16px;
   font-weight: 700;
   line-height: 19px;
@@ -2829,7 +2827,6 @@ body {
   display: flex;
   align-items: center;
   gap: 15px;
-  /* Khoảng cách đều giữa các phần tử */
   width: 100%;
 }
 
@@ -2839,10 +2836,18 @@ body {
   flex: 1;
 }
 
-/* Ô nhập mã xác nhận */
-.div-tracking-cap {
-  width: 40% !important;
+/* Khu vực reCAPTCHA */
+.with-tracking {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   flex: 1;
+  min-height: 76px; /* Chiều cao mặc định của reCAPTCHA v2 */
+}
+
+.g-recaptcha {
+  transform: scale(0.9); /* Điều chỉnh kích thước nếu cần */
+  transform-origin: 0 0;
 }
 
 /* Ô nhập liệu */
@@ -2863,58 +2868,11 @@ body {
 
 .input-tracking:focus {
   transform: scale(1.02);
-  /* Phóng to nhẹ khi focus */
-}
-
-/* Khu vực captcha */
-.with-tracking {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
-}
-
-.img-cap {
-  width: 32% !important;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.output-code {
-  background: #dcdadb;
-  /* Nền xám nhạt */
-  border-radius: 4px;
-  padding: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-#tra-cuu-captcha {
-  height: 28px;
-  margin-right: 5px;
-}
-
-.reload-captcha {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  animation: pulse 2s ease-in-out infinite;
-  /* Hiệu ứng phóng to thu nhỏ */
-}
-
-.reload-captcha:hover {
-  transform: rotate(360deg);
 }
 
 /* Nút Theo dõi */
 .button-tracking {
   background: #e67e22 !important;
-  /* Màu cam */
   border: none;
   border-radius: 30px;
   color: #fff;
@@ -2926,12 +2884,10 @@ body {
   cursor: pointer;
   transition: background 0.3s ease;
   animation: pulse 2s ease-in-out infinite;
-  /* Hiệu ứng phóng to thu nhỏ */
 }
 
 .button-tracking:hover {
   background: #005bb5 !important;
-  /* Xanh nhạt hơn khi hover */
 }
 
 /* Animation phóng to thu nhỏ */
@@ -2939,11 +2895,9 @@ body {
   0% {
     transform: scale(1);
   }
-
   50% {
     transform: scale(1.05);
   }
-
   100% {
     transform: scale(1);
   }
@@ -2975,11 +2929,13 @@ body {
     height: 40px;
     padding: 2px 20px;
   }
+
+  .g-recaptcha {
+    transform: scale(0.85);
+  }
 }
 
 @media (max-width: 768px) {
-
-  /* Tablet */
   .post-office-tracking {
     width: 90%;
   }
@@ -2998,29 +2954,22 @@ body {
     min-width: 90%;
   }
 
-  .div-tracking-cap {
-    width: 50% !important;
-    min-width: 50%;
-  }
-
   .with-tracking {
     width: 90% !important;
     min-width: 90%;
   }
 
-  .img-cap {
-    width: 50% !important;
-    margin: 0 auto;
-  }
-
   .button-tracking {
     width: 90%;
+  }
+
+  .g-recaptcha {
+    transform: scale(0.8);
+    margin: 0 auto;
   }
 }
 
 @media (max-width: 576px) {
-
-  /* Smartphone */
   .post-office-tracking {
     width: 100%;
     margin-left: 0;
@@ -3048,13 +2997,8 @@ body {
     padding: 2px 15px;
   }
 
-  #tra-cuu-captcha {
-    height: 24px;
-  }
-
-  .reload-captcha {
-    width: 16px;
-    height: 16px;
+  .g-recaptcha {
+    transform: scale(0.7);
   }
 }
 
