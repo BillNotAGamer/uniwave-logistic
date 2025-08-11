@@ -201,25 +201,25 @@
           <span data-key="form_title_tracking">Theo Dõi Đơn Hàng</span>
         </div>
         <form class="form-tracking w-100 d-flex justify-content-evenly pt-2 align-items-center ng-pristine ng-valid"
-          action="" method="get">
+          action="" method="get" id="tracking-form">
           <div class="div-tracking div-tracking-input">
             <input type="text" ng-model="data.dataSearch.post_code"
               class="input-tracking w-100 ng-pristine ng-untouched ng-valid ng-empty" placeholder="Nhập mã bưu gửi"
-              data-key="placeholder_post_code" />
+              data-key="placeholder_post_code" name="post_code" />
           </div>
           <div class="div-tracking d-flex justify-content-evenly with-tracking">
             <div class="div-tracking-cap">
               <input type="text" ng-model="data.dataSearch.captcha" placeholder="Mã xác nhận"
                 class="input-tracking w-100 ng-pristine ng-untouched ng-valid ng-empty"
-                data-key="placeholder_captcha" />
+                data-key="placeholder_captcha" name="captcha" />
               <!-- ngIf: info_errors.errors['captcha'] -->
             </div>
             <div class="d-flex img-cap w-100">
               <div class="output-code align-items-center justify-content-evenly" style="display: flex"
                 id="tra-cuu-captcha-block">
-                <img id="tra-cuu-captcha" alt="Captcha Image" src="https://vnpost.vn/captcha/default?tBDSgfSX" />
+                <img id="custom-captcha" alt="Captcha Image" src="https://captcha-api-ca46.onrender.com/captcha" />
                 <div class="d-inline-block">
-                  <img class="undo reload-captcha" onclick="getcaptcha('tra-cuu-captcha')"
+                  <img class="undo reload-captcha" onclick="reloadCaptcha('custom-captcha')"
                     src="https://vnpost.vn/apps/frontend/images/svg/undo.svg" alt="Tải lại Captcha" />
                 </div>
               </div>
@@ -450,6 +450,56 @@
 
   
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Script captcha -->
+  <script>
+    function reloadCaptcha(captchaId) {
+  const captchaImg = document.getElementById(captchaId);
+  if (captchaImg) {
+    captchaImg.src = `https://captcha-api-ca46.onrender.com/captcha?${new Date().getTime()}`;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('tracking-form');
+  const trackButton = form.querySelector('.button-tracking');
+
+  // Tải captcha ban đầu
+  reloadCaptcha('custom-captcha');
+
+  trackButton.addEventListener('click', function (event) {
+    event.preventDefault();
+    const postCode = form.querySelector('input[name="post_code"]').value;
+    const captcha = form.querySelector('input[name="captcha"]').value;
+
+    if (!postCode || !captcha) {
+      alert('Vui lòng nhập mã bưu gửi và mã xác nhận!');
+      return;
+    }
+
+    // Gửi yêu cầu xác minh captcha tới API
+    fetch('https://captcha-api-ca46.onrender.com/verify-captcha', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ captcha: captcha })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        console.log('Tracking code:', postCode, 'Captcha verified');
+        // Thêm logic gọi API theo dõi tại đây nếu cần
+      } else {
+        alert(data.message || 'Mã xác nhận không đúng!');
+        reloadCaptcha('custom-captcha'); // Tải lại captcha khi sai
+      }
+    })
+    .catch(error => {
+      console.error('Error verifying captcha:', error);
+      alert('Có lỗi xảy ra khi xác minh!');
+      reloadCaptcha('custom-captcha');
+    });
+  });
+});
+  </script>
   <script>
     const swiper = new Swiper(".swiper", {
       loop: true,
