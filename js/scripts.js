@@ -1,7 +1,6 @@
 /*****************************************
  * TỔNG HỢP SCRIPTS CHO PHẦN MENU HEADER *
  *****************************************/
-
 document.addEventListener('DOMContentLoaded', function () {
   // Select all primary navigation links
   const navLinks = document.querySelectorAll('.primary-nav-link');
@@ -227,7 +226,7 @@ function updateHeaderLinks(lang) {
 /***********************************
  * GÁN LỚP SELECTED CHO HEADER *
  ***********************************/
-function updateSelectedNavItem() {
+function SelectedNavItem() {
   const currentPath = window.location.pathname;
   const navItems = document.querySelectorAll('.primary-nav-item');
 
@@ -289,7 +288,7 @@ async function loadLanguage(lang, isUserTriggered = false) {
     });
 
     updateHeaderLinks(lang);
-    updateSelectedNavItem(); // Cập nhật lớp selected sau khi chuyển ngôn ngữ
+    SelectedNavItem(); // Cập nhật lớp selected sau khi chuyển ngôn ngữ
 
     if (isUserTriggered) {
       updateURLForLanguage(lang);
@@ -373,7 +372,7 @@ languageSwitcher.addEventListener('click', (event) => {
 document.addEventListener('DOMContentLoaded', () => {
   const initialLang = getCurrentLanguageFromURL();
   loadLanguage(initialLang);
-  updateSelectedNavItem(); // Gán lớp selected khi tải trang
+  SelectedNavItem(); // Gán lớp selected khi tải trang
 });
 
 /***********************************
