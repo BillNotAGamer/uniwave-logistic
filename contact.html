@@ -142,74 +142,76 @@
   <!-------------------------------------------------------------------------------Header start------------------------------------------------------------------------------->
 
   <!--Banner start-->
-  <div class="section-banner">
-    <img src="./image/long-banner3.png" class="w-100" />
-    <div class="content">
-      <div>
-        <p>Liên hệ</p>
+<div class="section-banner">
+  <img src="./image/long-banner3.png" class="w-100" />
+  <div class="content">
+    <div>
+      <p data-key="banner_contact">Liên hệ</p>
+    </div>
+  </div>
+</div>
+<!--Banner end-->
+
+<!--Breadcrumb start-->
+<div class="navation">
+  <div class="container">
+    <p id="breadcrumbs" class="mb-0">
+      <span><span><a href="index.html" data-key="breadcrumb_home_contact">Trang chủ</a></span><span id="breadcrumb-arrow">»</span><span
+          class="breadcrumb_last" aria-current="page" data-key="breadcrumb_contact">Liên hệ</span></span>
+    </p>
+    <div class="clear"></div>
+  </div>
+</div>
+<!--Breadcrumb end-->
+
+<!--Main content begin-->
+<!-- Contact Section -->
+<section class="contact-section">
+  <div class="container-contact fade-in" style="animation-delay: 0.4s">
+    <!-- Thông tin công ty -->
+    <div class="company-info">
+      <div class="info-box fade-in" style="animation-delay: 0.6s">
+        <p>
+          <i class="fas fa-map-marker-alt"></i><span data-key="label_address">Địa chỉ:</span> T2-26 The Manhattan
+          – Vinhomes Grand Park, 512 Nguyễn Xiển, Long Bình, TP. Thủ Đức
+        </p>
+        <p>
+          <i class="fas fa-envelope"></i><span data-key="label_email">Email:</span><a
+            href="mailto:info@uniwave-logistics.com">info@uniwave-logistics.com</a>
+        </p>
+        <p>
+          <i class="fas fa-phone"></i><span data-key="label_phone">Phone:</span><a href="tel:+84775764586">0775 764 586</a>
+        </p>
+        <p>
+          <i class="fas fa-globe"></i><span data-key="label_website">Website:</span> www.uniwave-logistics.com
+        </p>
+      </div>
+    </div>
+    <!-- Form và Map -->
+    <div class="contact-container">
+      <!-- Form liên hệ -->
+      <div class="contact-form fade-in" style="animation-delay: 1s">
+        <h2 data-key="contact_title">Liên hệ với chúng tôi</h2>
+        <form id="contactForm" class="contact-form-input">
+          <input type="text" name="cusName" id="cusName" required placeholder="Họ và Tên" data-key="placeholder_name" />
+          <input type="tel" name="cusPhone" id="cusPhone" required placeholder="Số điện thoại" data-key="placeholder_phone" />
+          <input type="email" name="cusEmail" id="cusEmail" required placeholder="Email" data-key="placeholder_email" />
+          <textarea name="cusMessage" id="cusMessage" rows="5" required placeholder="Tin nhắn" data-key="placeholder_message"></textarea>
+          <button type="submit" data-key="button_submit">Gửi</button>
+        </form>
+      </div>
+      <!-- Map -->
+      <div class="contact-map fade-in" style="animation-delay: 1.2s">
+        <h2 data-key="location_title">Vị trí của chúng tôi</h2>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9320.102074965504!2d106.83788074260663!3d10.84034864997069!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317521001cf9ab09%3A0x7fd16131a048614e!2sUNIWAVE%20LOGISTICS%20COMPANY%20LIMITED!5e0!3m2!1svi!2s!4v1748971350943!5m2!1svi!2s"
+          width="100%" height="470px" style="border: 0; border-radius: 15px" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
   </div>
-  <!--Banner end-->
-  <!--Breadcrumb start-->
-  <div class="navation">
-    <div class="container">
-      <p id="breadcrumbs" class="mb-0">
-        <span><span><a href="index.html">Trang chủ</a></span><span id="breadcrumb-arrow">»</span><span
-            class="breadcrumb_last" aria-current="page">Liên hệ</span></span>
-      </p>
-      <div class="clear"></div>
-    </div>
-  </div>
-  <!--Breadcrumb end-->
-  <!--Main content begin-->
-  <!-- Contact Section -->
-  <section class="contact-section">
-    <div class="container-contact fade-in" style="animation-delay: 0.4s">
-      <!-- Thông tin công ty -->
-      <div class="company-info">
-        <div class="info-box fade-in" style="animation-delay: 0.6s">
-          <p>
-            <i class="fas fa-map-marker-alt"></i>Địa chỉ: T2-26 The Manhattan
-            – Vinhomes Grand Park, 512 Nguyễn Xiển, Long Bình, TP. Thủ Đức
-          </p>
-          <p>
-            <i class="fas fa-envelope"></i>Email:<a
-              href="mailto:info@uniwave-logistics.com">info@uniwave-logistics.com</a>
-          </p>
-          <p>
-            <i class="fas fa-phone"></i>Phone:<a href="tel:+84775764586">0775 764 586</a>
-          </p>
-          <p>
-            <i class="fas fa-globe"></i>Website: www.uniwave-logistics.com
-          </p>
-        </div>
-      </div>
-      <!-- Form và Map -->
-      <div class="contact-container">
-        <!-- Form liên hệ -->
-        <div class="contact-form fade-in" style="animation-delay: 1s">
-          <h2>Liên hệ với chúng tôi</h2>
-          <form id="contactForm" class="contact-form-input">
-            <input type="text" name="cusName" id="cusName" required placeholder="Họ và Tên" />
-            <input type="tel" name="cusPhone" id="cusPhone" required placeholder="Số điện thoại" />
-            <input type="email" name="cusEmail" id="cusEmail" required placeholder="Email" />
-            <textarea name="cusMessage" id="cusMessage" rows="5" required placeholder="Tin nhắn"></textarea>
-            <button type="submit">Gửi</button>
-          </form>
-        </div>
-        <!-- Map -->
-        <div class="contact-map fade-in" style="animation-delay: 1.2s">
-          <h2>Vị trí của chúng tôi</h2>
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9320.102074965504!2d106.83788074260663!3d10.84034864997069!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317521001cf9ab09%3A0x7fd16131a048614e!2sUNIWAVE%20LOGISTICS%20COMPANY%20LIMITED!5e0!3m2!1svi!2s!4v1748971350943!5m2!1svi!2s"
-            width="100%" height="470px" style="border: 0; border-radius: 15px" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!--Main content end-->
+</section>
+<!--Main content end-->
 
   <!-------------------------------------------------------------------------------Footer start------------------------------------------------------------------------------->
   <!--Footer start-->
