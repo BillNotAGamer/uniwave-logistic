@@ -148,7 +148,6 @@
   "southeast_asia_export_description": "FCL, LCL, third-party payment support",
   "learn_more": "Learn More",
 
-  
   "banner_tracking_page_title": "Track Shipment",
   "breadcrumb_home": "Home",
   "breadcrumb_tracking": "Track Shipment",
@@ -156,6 +155,23 @@
   "placeholder_post_code": "Enter tracking code",
   "placeholder_captcha": "Enter captcha",
   "button_track": "Track",
+
+  "banner_price_check": "Price Quote",
+  "breadcrumb_home_price": "Home",
+  "breadcrumb_price_check": "Price Quote",
+  "main_title_price_check": "Estimate Shipping Cost",
+  "label_from": "From",
+  "label_to": "To",
+  "label_trongluong": "Weight (kg)",
+  "label_pickup_address": "Pickup Address",
+  "label_delivery_address": "Delivery Address",
+  "label_size": "Dimensions (cm)",
+  "placeholder_pickup_address": "Enter pickup address...",
+  "placeholder_delivery_address": "Enter delivery address...",
+  "placeholder_length": "Length",
+  "placeholder_width": "Width",
+  "placeholder_height": "Height",
+  "button_price_check": "Estimate Shipping Cost",
 
   "reason_staff_desc": "With practical experience and a dedicated service spirit, Uniwave’s team is always ready to consult, support, and flexibly handle any situations that arise during transportation.",
   "footer_slogan": "Ship Smart. Move Fast",

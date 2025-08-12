@@ -143,96 +143,97 @@
   <div class="header-space"></div>
   <!-------------------------------------------------------------------------------Header start------------------------------------------------------------------------------->
   <!--Banner start-->
-  <div class="section-banner">
-    <img src="./image/long-banner6.png" class="w-100">
-    <div class="content">
-      <div>
-        <p>Báo giá</p>
-      </div>
+<div class="section-banner">
+  <img src="./image/long-banner6.png" class="w-100">
+  <div class="content">
+    <div>
+      <p data-key="banner_price_check">Báo giá</p>
     </div>
   </div>
-  <!--Banner end-->
-  <!--Breadcrumb start-->
-  <div class="navation">
-    <div class="container">
-      <p id="breadcrumbs" class="mb-0"><span><span><a href="index.html">Trang chủ</a></span><span
-            id="breadcrumb-arrow">»</span><span class="breadcrumb_last" aria-current="page">Báo giá</span></span></p>
-      <div class="clear"></div>
-    </div>
+</div>
+<!--Banner end-->
+
+<!--Breadcrumb start-->
+<div class="navation">
+  <div class="container">
+    <p id="breadcrumbs" class="mb-0"><span><span><a href="index.html" data-key="breadcrumb_home_price">Trang chủ</a></span><span
+          id="breadcrumb-arrow">»</span><span class="breadcrumb_last" aria-current="page" data-key="breadcrumb_price_check">Báo giá</span></span></p>
+    <div class="clear"></div>
   </div>
-  <!--Breadcrumb end-->
-  <div class="main-content">
-    <div class="container-price-check">
-      <p class="main-title">Ước tính cước phí</p>
-      <form id="priceCheckForm" class="form-tracuu">
-        <div class="flex">
-          <div class="w-full md:w-1/2">
-            <div class="form-group">
-              <label for="from">Nơi đi *</label>
-              <select id="from" name="from" class="js-select" required>
-                <option value="TP.HCM" selected>Hồ Chí Minh</option>
-                <option value="Nha Trang">Nha Trang</option>
-                <option value="Đà Lạt">Đà Lạt</option>
-                <option value="Pleiku">Pleiku</option>
-                <option value="Phú Quốc">Phú Quốc</option>
-                <option value="Buôn Mê Thuộc">Buôn Mê Thuộc</option>
-                <option value="Cần Thơ">Cần Thơ</option>
-                <option value="Huế">Huế</option>
-                <option value="Chu Lai">Chu Lai</option>
-                <option value="Đồng Hới">Đồng Hới</option>
-                <option value="Tuy Hòa">Tuy Hòa</option>
-                <option value="Quy Nhơn">Quy Nhơn</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="to">Nơi đến *</label>
-              <select id="to" name="to" class="js-select" required>
-                <option value="TP.HCM">Hồ Chí Minh</option>
-                <option value="Nha Trang">Nha Trang</option>
-                <option value="Đà Lạt">Đà Lạt</option>
-                <option value="Pleiku">Pleiku</option>
-                <option value="Phú Quốc" selected>Phú Quốc</option>
-                <option value="Buôn Mê Thuộc">Buôn Mê Thuộc</option>
-                <option value="Cần Thơ">Cần Thơ</option>
-                <option value="Huế">Huế</option>
-                <option value="Chu Lai">Chu Lai</option>
-                <option value="Đồng Hới">Đồng Hới</option>
-                <option value="Tuy Hòa">Tuy Hòa</option>
-                <option value="Quy Nhơn">Quy Nhơn</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="trongluong">Trọng lượng (kg) *</label>
-              <input type="number" id="trongluong" name="trongluong" min="0.1" step="0.1" required>
-            </div>
+</div>
+<!--Breadcrumb end-->
+
+<div class="main-content">
+  <div class="container-price-check">
+    <p class="main-title" data-key="main_title_price_check">Ước tính cước phí</p>
+    <form id="priceCheckForm" class="form-tracuu">
+      <div class="flex">
+        <div class="w-full md:w-1/2">
+          <div class="form-group">
+            <label for="from" data-key="label_from">Nơi đi <span data-key="required_field">*</span></label>
+            <select id="from" name="from" class="js-select" required>
+              <option value="TP.HCM" selected>Hồ Chí Minh</option>
+              <option value="Nha Trang">Nha Trang</option>
+              <option value="Đà Lạt">Đà Lạt</option>
+              <option value="Pleiku">Pleiku</option>
+              <option value="Phú Quốc">Phú Quốc</option>
+              <option value="Buôn Mê Thuộc">Buôn Mê Thuộc</option>
+              <option value="Cần Thơ">Cần Thơ</option>
+              <option value="Huế">Huế</option>
+              <option value="Chu Lai">Chu Lai</option>
+              <option value="Đồng Hới">Đồng Hới</option>
+              <option value="Tuy Hòa">Tuy Hòa</option>
+              <option value="Quy Nhơn">Quy Nhơn</option>
+            </select>
           </div>
-          <div class="w-full md:w-1/2">
-            <div class="form-group">
-              <label for="pickupAddress">Địa chỉ lấy hàng *</label>
-              <input type="text" id="pickupAddress" name="pickupAddress" placeholder="Nhập địa chỉ lấy hàng..."
-                required>
-            </div>
-            <div class="form-group">
-              <label for="deliveryAddress">Địa chỉ nhận hàng *</label>
-              <input type="text" id="deliveryAddress" name="deliveryAddress" placeholder="Nhập địa chỉ nhận hàng..."
-                required>
-            </div>
-            <div class="form-group">
-              <label>Kích thước (cm) *</label>
-              <ul class="al-tcgckt">
-                <li><input type="number" name="length" placeholder="Dài" min="1" required></li>
-                <li><input type="number" name="width" placeholder="Rộng" min="1" required></li>
-                <li><input type="number" name="height" placeholder="Cao" min="1" required></li>
-              </ul>
-            </div>
+          <div class="form-group">
+            <label for="to" data-key="label_to">Nơi đến <span data-key="required_field">*</span></label>
+            <select id="to" name="to" class="js-select" required>
+              <option value="TP.HCM">Hồ Chí Minh</option>
+              <option value="Nha Trang">Nha Trang</option>
+              <option value="Đà Lạt">Đà Lạt</option>
+              <option value="Pleiku">Pleiku</option>
+              <option value="Phú Quốc" selected>Phú Quốc</option>
+              <option value="Buôn Mê Thuộc">Buôn Mê Thuộc</option>
+              <option value="Cần Thơ">Cần Thơ</option>
+              <option value="Huế">Huế</option>
+              <option value="Chu Lai">Chu Lai</option>
+              <option value="Đồng Hới">Đồng Hới</option>
+              <option value="Tuy Hòa">Tuy Hòa</option>
+              <option value="Quy Nhơn">Quy Nhơn</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="trongluong" data-key="label_trongluong">Trọng lượng (kg) <span data-key="required_field">*</span></label>
+            <input type="number" id="trongluong" name="trongluong" min="0.1" step="0.1" required>
           </div>
         </div>
+        <div class="w-full md:w-1/2">
+          <div class="form-group">
+            <label for="pickupAddress" data-key="label_pickup_address">Địa chỉ lấy hàng <span data-key="required_field">*</span></label>
+            <input type="text" id="pickupAddress" name="pickupAddress" placeholder="Nhập địa chỉ lấy hàng..."
+              data-key="placeholder_pickup_address" required>
+          </div>
+          <div class="form-group">
+            <label for="deliveryAddress" data-key="label_delivery_address">Địa chỉ nhận hàng <span data-key="required_field">*</span></label>
+            <input type="text" id="deliveryAddress" name="deliveryAddress" placeholder="Nhập địa chỉ nhận hàng..."
+              data-key="placeholder_delivery_address" required>
+          </div>
+          <div class="form-group">
+            <label data-key="label_size">Kích thước (cm) <span data-key="required_field">*</span></label>
+            <ul class="al-tcgckt">
+              <li><input type="number" name="length" placeholder="Dài" data-key="placeholder_length" min="1" required></li>
+              <li><input type="number" name="width" placeholder="Rộng" data-key="placeholder_width" min="1" required></li>
+              <li><input type="number" name="height" placeholder="Cao" data-key="placeholder_height" min="1" required></li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
-        <button type="submit" class="btn-tracuu">Ước tính cước phí</button>
-    </div>
+      <button type="submit" class="btn-tracuu" data-key="button_price_check">Ước tính cước phí</button>
+    </form>
   </div>
-
-
+</div>
   <!-------------------------------------------------------------------------------Footer start------------------------------------------------------------------------------->
   <!--Footer start-->
   <footer>
