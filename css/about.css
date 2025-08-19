@@ -426,69 +426,7 @@
   flex: 1;
 }
 
-/* Thông tin liên hệ */
-.cards__wrapper {
-  display: flex;
-  gap: var(--spacing-lg);
-  flex-wrap: wrap;
-  justify-content: center;
-}
 
-.card {
-  position: relative;
-  flex: 1;
-  min-width: 300px;
-  max-width: 600px;
-  text-decoration: none;
-  color: inherit;
-}
-
-.card__image {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  transition: transform 0.3s ease;
-}
-
-.card__overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-}
-
-.card__content {
-  position: absolute;
-  bottom: var(--spacing-md);
-  left: 0;
-  right: 0;
-  padding: 0 var(--spacing-md);
-  color: #fff;
-  z-index: 10;
-}
-
-.card__description {
-  font-size: var(--font-size-text);
-  line-height: 1.6;
-  margin-bottom: var(--spacing-sm);
-}
-
-.card__read-more {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  font-size: var(--font-size-text);
-  font-weight: 500;
-}
-
-.card:hover .card__image {
-  transform: scale(1.02);
-}
 
 /* Responsive */
 @media (max-width: 1280px) {
