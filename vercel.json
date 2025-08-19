@@ -25,12 +25,12 @@
       "destination": "/services.html"
     },
     {
-      "source": "/vi/support",
-      "destination": "/support.html"
+      "source": "/vi/domestic-delivery-service",
+      "destination": "/domestic-delivery-service.html"
     },
     {
-      "source": "/en/support",
-      "destination": "/support.html"
+      "source": "/en/domestic-delivery-service",
+      "destination": "/domestic-delivery-service.html"
     },
     {
       "source": "/vi/price-check",

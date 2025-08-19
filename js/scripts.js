@@ -242,7 +242,6 @@ function SelectedNavItem() {
     { paths: [
       '/vi/services', '/en/services',
       '/vi/domestic-delivery-service', '/en/domestic-delivery-service',
-      '/vi/service/transportation/trucking', '/en/service/transportation/trucking',
       '/vi/service/transportation/rail-transportation', '/en/service/transportation/rail-transportation',
       '/vi/service/transportation/sea-transport', '/en/service/transportation/sea-transport',
       '/vi/service/transportation/air-transport', '/en/service/transportation/air-transport'
