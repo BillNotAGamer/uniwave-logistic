@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Observe sections for animation
   const sections = document.querySelectorAll(
-    '.services, .partners, .cta, .cta-container, #fbot, .container-about, .reasons__container, .mission__background'
+    '.services, .partners, .cta, .cta-container, #fbot, .container-about, .reasons__container, .mission__background, .container_about_contact'
   );
   const observer = new IntersectionObserver(
     (entries) => {

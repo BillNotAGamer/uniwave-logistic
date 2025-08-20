@@ -426,6 +426,136 @@
   flex: 1;
 }
 
+.contact__container {
+  padding: 16px;
+  background-color: #f5f5f5;
+}
+
+/* Điều chỉnh container-about cho phần Thông tin liên hệ */
+.container-about {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+.container_about_contact {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.contact_card_wrapper {
+  position: relative;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  height: 600px;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact_card_wrapper a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.container_img_contact {
+  position: relative; /* Làm tham chiếu cho các phần tử con */
+  width: 100%;
+  height: 600px; /* Chiều cao cố định, có thể điều chỉnh */
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.container_img_contact img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  position: absolute; /* Hình ảnh làm nền */
+  top: 0;
+  left: 0;
+  z-index: 0; /* Đặt hình ảnh ở dưới cùng */
+}
+
+.contact_card_wrapper {
+  position: relative; /* Đảm bảo các phần tử con được định vị */
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.title_section {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #e3e3e3;
+  margin: 15px 0 10px;
+  padding: 10px 20px;
+  opacity: 1;
+  z-index: 1; /* Đưa chữ lên trên hình ảnh */
+  position: absolute; /* Chồng lên hình ảnh */
+  bottom: 140px;
+  left: 0;
+  background: #1e3799; 
+  border-radius: 5px;
+  width: calc(100% - 450px); /* Chiều rộng trừ padding */
+}
+
+.contact_description {
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 800;
+  color: #e3e3e3;
+  padding: 10px 20px;
+  margin: 0;
+  opacity: 1;
+  z-index: 1; 
+  position: absolute; 
+  bottom: 50px; 
+  background: transparent;
+  border-radius: 5px;
+}
+
+.read_more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e3e3e3;
+  padding: 10px 20px;
+  background-color: transparent;
+  margin: 0;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  opacity: 1;
+  z-index: 1; /* Đưa nút lên trên hình ảnh */
+  position: absolute; /* Chồng lên hình ảnh */
+  bottom: 20px; /* Đặt ở dưới cùng */
+  right: 10%;
+  transform: translateX(50%); /* Điều chỉnh vị trí chính xác */
+  text-decoration: none; /* Loại bỏ gạch chân */
+}
+
+.read_more img {
+  width: 15px; /* Điều chỉnh kích thước icon */
+  height: 15px;
+  transition: transform 0.3s ease;
+}
+
+.read_more:hover img {
+  transform: translateX(5px); /* Di chuyển icon sang phải khi hover */
+}
+
+.contact_card_wrapper:hover .container_img_contact img {
+  transform: scale(1.05);
+}
+
 
 
 /* Responsive */
@@ -581,6 +711,18 @@
 }
 
 .mission__background.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+.container_about_contact {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.container_about_contact.visible {
   opacity: 1;
   transform: translateY(0);
   animation: slideUp 0.6s ease-out forwards;
