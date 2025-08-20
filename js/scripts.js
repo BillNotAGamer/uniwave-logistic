@@ -185,7 +185,7 @@ function getCurrentLanguageFromURL() {
   const path = window.location.pathname;
   if (path.startsWith('/en')) return 'en';
   if (path.startsWith('/vi')) return 'vi';
-  return 'vi'; // Default
+  return 'en'; // Default
 }
 
 function updateURLForLanguage(lang) {
