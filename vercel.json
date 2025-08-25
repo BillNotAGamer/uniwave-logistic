@@ -124,7 +124,7 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/vi",
+      "destination": "/en",
       "permanent": true
     }
   ],

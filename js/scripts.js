@@ -183,24 +183,24 @@ document.addEventListener('DOMContentLoaded', function () {
  ***********************************/
 function getCurrentLanguageFromURL() {
   const path = window.location.pathname;
-  if (path.startsWith('/en')) return 'en';
   if (path.startsWith('/vi')) return 'vi';
-  return 'vi'; // Default
+  if (path.startsWith('/en')) return 'en';
+  return 'en'; // Default tiếng Anh
 }
 
 function updateURLForLanguage(lang) {
   let currentPath = window.location.pathname;
   let newPath;
 
-  if (lang === 'en') {
-    if (!currentPath.startsWith('/en')) {
-      newPath = currentPath === '/' || currentPath === '/vi' ? '/en' : `/en${currentPath.replace(/^\/vi/, '')}`;
+  if (lang === 'vi') {
+    if (!currentPath.startsWith('/vi')) {
+      newPath = currentPath === '/' || currentPath === '/en' ? '/vi' : `/vi${currentPath.replace(/^\/en/, '')}`;
     } else {
       newPath = currentPath;
     }
-  } else if (lang === 'vi') {
-    if (!currentPath.startsWith('/vi')) {
-      newPath = currentPath === '/' || currentPath === '/en' ? '/vi' : `/vi${currentPath.replace(/^\/en/, '')}`;
+  } else if (lang === 'en') {
+    if (!currentPath.startsWith('/en')) {
+      newPath = currentPath === '/' || currentPath === '/vi' ? '/en' : `/en${currentPath.replace(/^\/vi/, '')}`;
     } else {
       newPath = currentPath;
     }
@@ -237,18 +237,18 @@ function SelectedNavItem() {
 
   // Danh sách ánh xạ URL và mục điều hướng
   const navMap = [
-    { paths: ['/vi', '/en'], element: navItems[0] }, // Trang chủ
-    { paths: ['/vi/introduce', '/en/introduce'], element: navItems[1] }, // Giới thiệu
+    { paths: ['/en', '/vi'], element: navItems[0] }, // Trang chủ
+    { paths: ['/en/introduce', '/vi/introduce'], element: navItems[1] }, // Giới thiệu
     { paths: [
-      '/vi/services', '/en/services',
-      '/vi/domestic-delivery-service', '/en/domestic-delivery-service',
-      '/vi/service/transportation/rail-transportation', '/en/service/transportation/rail-transportation',
-      '/vi/service/transportation/sea-transport', '/en/service/transportation/sea-transport',
-      '/vi/service/transportation/air-transport', '/en/service/transportation/air-transport'
+      '/en/services', '/vi/services',
+      '/en/domestic-delivery-service', '/vi/domestic-delivery-service',
+      '/en/service/transportation/rail-transportation', '/vi/service/transportation/rail-transportation',
+      '/en/service/transportation/sea-transport', '/vi/service/transportation/sea-transport',
+      '/en/service/transportation/air-transport', '/vi/service/transportation/air-transport'
     ], element: navItems[2] }, // Dịch vụ (bao gồm các trang con)
-    { paths: ['/vi/tracking-shipment', '/en/tracking-shipment'], element: navItems[3] }, // Theo dõi đơn hàng
-    { paths: ['/vi/price-check', '/en/price-check'], element: navItems[4] }, // Báo giá
-    { paths: ['/vi/contact', '/en/contact'], element: navItems[5] } // Liên hệ
+    { paths: ['/en/tracking-shipment', '/vi/tracking-shipment'], element: navItems[3] }, // Theo dõi đơn hàng
+    { paths: ['/en/price-check', '/vi/price-check'], element: navItems[4] }, // Báo giá
+    { paths: ['/en/contact', '/vi/contact'], element: navItems[5] } // Liên hệ
   ];
 
   // Tìm và gán lớp selected
@@ -279,7 +279,7 @@ async function loadLanguage(lang, isUserTriggered = false) {
 
     if (languageTitle && languageImg) {
       languageTitle.textContent = translations[languageTitle.getAttribute('data-key')];
-      languageImg.src = translations[`flag_${lang}`] || (lang === 'vi' ? '/image/icon/vn.38e19a45.png' : '/image/icon/en.5a569d53.png');
+      languageImg.src = translations[`flag_${lang}`] || (lang === 'en' ? '/image/icon/en.5a569d53.png' : '/image/icon/vn.38e19a45.png');
     }
 
     document.querySelectorAll('.language-dropdown li').forEach(li => {
@@ -302,9 +302,9 @@ async function loadLanguage(lang, isUserTriggered = false) {
     updateHreflang(lang);
   } catch (error) {
     console.error(`Lỗi khi tải ngôn ngữ ${lang}:`, error);
-    if (lang !== 'vi') {
-      console.warn('Quay về ngôn ngữ mặc định: Tiếng Việt');
-      updateURLForLanguage('vi');
+    if (lang !== 'en') {
+      console.warn('Quay về ngôn ngữ mặc định: Tiếng Anh');
+      updateURLForLanguage('en');
     }
   }
 }
@@ -327,13 +327,13 @@ function updateHreflang(lang) {
   document.querySelectorAll('link[hreflang]').forEach(link => link.remove());
 
   const currentPath = window.location.pathname.replace(/^\/(vi|en)/, '') || '';
-  const hrefVi = `/vi${currentPath === '' ? '' : '/' + currentPath}`;
   const hrefEn = `/en${currentPath === '' ? '' : '/' + currentPath}`;
+  const hrefVi = `/vi${currentPath === '' ? '' : '/' + currentPath}`;
 
   const hreflangTags = [
-    { lang: 'x-default', href: hrefVi },
-    { lang: 'vi', href: hrefVi },
-    { lang: 'en', href: hrefEn }
+    { lang: 'x-default', href: hrefEn },
+    { lang: 'en', href: hrefEn },
+    { lang: 'vi', href: hrefVi }
   ];
 
   hreflangTags.forEach(item => {
