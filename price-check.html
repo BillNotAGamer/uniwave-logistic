@@ -384,7 +384,49 @@
   </div>
   <!-- Scripts fetch báo giá -->
   <script>
+document.getElementById('priceCheckForm').addEventListener('submit', async function(event) {
+  event.preventDefault(); // Prevent default form submission
 
+  // Collect form data
+  const formData = {
+    from: document.getElementById('from').value,
+    to: document.getElementById('to').value,
+    weight: parseFloat(document.getElementById('trongluong').value),
+    pickupAddress: document.getElementById('pickupAddress').value,
+    deliveryAddress: document.getElementById('deliveryAddress').value,
+    dimensions: {
+      length: parseFloat(document.querySelector('input[name="length"]').value),
+      width: parseFloat(document.querySelector('input[name="width"]').value),
+      height: parseFloat(document.querySelector('input[name="height"]').value)
+    }
+  };
+
+  try {
+    // Make API request
+    const response = await fetch('https://cool-dhawan.103-28-36-58.plesk.page/api/Pricing/estimate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const result = await response.json();
+
+    // Display the result (modify this based on API response structure)
+    alert(`Estimated Price: ${result.estimatedPrice || 'N/A'} VND`);
+    // Optionally, update the DOM to display the result
+    // Example: document.getElementById('result').innerText = `Estimated Price: ${result.estimatedPrice} VND`;
+
+  } catch (error) {
+    console.error('Error fetching price estimate:', error);
+    alert('An error occurred while fetching the price estimate. Please try again.');
+  }
+});
   </script>
 
   <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/bootstrap.js"></script>
