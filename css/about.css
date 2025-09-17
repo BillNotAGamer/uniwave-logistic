@@ -727,3 +727,19 @@
   transform: translateY(0);
   animation: slideUp 0.6s ease-out forwards;
 }
+
+@media (max-width: 959px) {
+   .container_about_contact {
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 804px) {
+  .contact_description {
+    font-size: 0.8rem;
+  }
+
+  .title-section {
+    font-size: medium;
+  }
+}
