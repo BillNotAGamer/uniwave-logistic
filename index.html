@@ -13,11 +13,190 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
   <link href="./uni-content/themes/uniwave/style.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="css/support_fixed.css" />
-  <link rel="stylesheet" href="./uni-content/themes/uniwave/style.css" />
   <link rel="stylesheet" href="css/theme.css" />
   <link rel="stylesheet" href="css/style.css" />
   <!-- Swiper CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <style>
+    .uniwaveunique-hero-banner {
+            position: relative;
+            width: 100%;
+            height: 90vh; /* Full viewport như demo */
+            overflow: hidden;
+            box-sizing: border-box;
+            padding: 3rem 2rem;
+            display: flex;
+            
+        }
+
+        .uniwaveunique-slides {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .uniwaveunique-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Easing mượt như Revolution */
+            display: flex;
+            align-items: center;
+        }
+
+        .uniwaveunique-slide.active { opacity: 1; }
+
+        .uniwaveunique-overlay {
+            position: relative;
+            z-index: 2;
+            max-width: 80%;
+            padding: 40px;
+            
+            border-radius: 10px;
+        }
+
+        /* Căn chỉnh riêng cho từng slide */
+        .uniwaveunique-slide1 { justify-content: flex-end; }
+        .uniwaveunique-slide1 .uniwaveunique-overlay { text-align: right; }
+
+        .uniwaveunique-slide2 { justify-content: flex-start; }
+        .uniwaveunique-slide2 .uniwaveunique-overlay { text-align: left; }
+
+        .uniwaveunique-slide3 { justify-content: center; }
+        .uniwaveunique-slide3 .uniwaveunique-overlay { text-align: center; }
+
+        /* Text styles exact từ demo */
+        .uniwaveunique-intro-text { font-size: 1.5rem; text-transform: uppercase; opacity: 0; }
+        .uniwaveunique-hero-title { font-size: 3.5rem; font-weight: 700; margin: 10px 0; opacity: 0; }
+        .uniwaveunique-hero-subtitle { font-size: 2.5rem; margin-bottom: 20px; opacity: 0; }
+        .uniwaveunique-hero-description { font-size: 1.2rem; margin-bottom: 20px; opacity: 0; }
+        .uniwaveunique-hero-tagline { font-size: 1.3rem; text-transform: uppercase; opacity: 0; }
+        .uniwaveunique-core-title, .uniwaveunique-mission-title { font-size: 1.8rem; margin: 20px 0 10px; opacity: 0; }
+        .uniwaveunique-core-desc, .uniwaveunique-mission-desc { font-size: 1rem; margin-bottom: 20px; opacity: 0; }
+
+        /* Stats grid phức tạp: 4 cột, với animation stagger */
+        .uniwaveunique-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .uniwaveunique-stat-item {
+            text-align: center;
+            opacity: 0;
+        }
+
+        .uniwaveunique-stat-number { display: block; font-size: 2.5rem; font-weight: bold; }
+        .uniwaveunique-stat-label { font-size: 1rem; }
+
+        /* Buttons CTA: Hiệu ứng hover nâng cao */
+        .uniwaveunique-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #007bff; /* Màu xanh như demo, adjust nếu inspect */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            margin: 10px;
+            opacity: 0;
+        }
+
+        .uniwaveunique-btn:hover { transform: scale(1.05); background-color: #0056b3; }
+
+        .uniwaveunique-phone-link { font-size: 1.2rem; color: #fff; text-decoration: none; opacity: 0; }
+
+        /* Animations nâng cao: Keyframes phức tạp với delay staggered cho layers */
+        @keyframes uniwaveunique-fadeSlideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .uniwaveunique-slide.active .uniwaveunique-layer { /* Trigger khi slide active */
+            animation: uniwaveunique-fadeSlideUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        /* Stagger delays cho từng layer */
+        .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(1) { animation-delay: 0.2s; }
+        .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(2) { animation-delay: 0.4s; }
+        .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(3) { animation-delay: 0.6s; }
+        .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(4) { animation-delay: 0.8s; }
+        .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(5) { animation-delay: 1.0s; }
+        .uniwaveunique-slide.active .uniwaveunique-stat-item:nth-child(1) { animation-delay: 1.2s; }
+        .uniwaveunique-slide.active .uniwaveunique-stat-item:nth-child(2) { animation-delay: 1.4s; }
+        .uniwaveunique-slide.active .uniwaveunique-stat-item:nth-child(3) { animation-delay: 1.6s; }
+        .uniwaveunique-slide.active .uniwaveunique-stat-item:nth-child(4) { animation-delay: 1.8s; }
+
+        /* Navigation: Arrows và pagination như demo (ẩn nếu không cần) */
+        .uniwaveunique-slider-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 3;
+        }
+
+        .uniwaveunique-nav-btn {
+            background: rgba(255,255,255,0.3);
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .uniwaveunique-nav-btn:hover { background: rgba(255,255,255,0.5); }
+
+        .uniwaveunique-pagination {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .uniwaveunique-dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .uniwaveunique-dot.active { background: #fff; }
+
+        /* Responsive nâng cao */
+        @media (max-width: 1024px) {
+            .uniwaveunique-hero-title { font-size: 3rem; }
+            .uniwaveunique-stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .uniwaveunique-hero-banner { height: 70vh; }
+            .uniwaveunique-overlay { padding: 20px; max-width: 95%; }
+            .uniwaveunique-hero-title { font-size: 2.5rem; }
+            .uniwaveunique-hero-subtitle { font-size: 1.8rem; }
+            .uniwaveunique-stats-grid { grid-template-columns: 1fr; gap: 20px; }
+            .uniwaveunique-nav-btn { font-size: 1.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .uniwaveunique-hero-title { font-size: 2rem; }
+            .uniwaveunique-stat-number { font-size: 2rem; }
+        }
+  </style>
 </head>
 
 <body>
@@ -114,29 +293,68 @@
   <div class="header-space"></div>
   <!--Main content begin-->
   <!-- 1. Banner đầu trang -->
-  <section id="bn">
-    <div class="banner-container">
-      <div class="owl-carousel owl-theme" data-item="1" data-dot="true" data-autoplay="true">
-        <div class="item">
-          <a href="/">
-            <img src="image/home/banner-cont-ship-bg.png" alt="" class="lz" />
-          </a>
+  <section class="uniwaveunique-hero-banner">
+        <div class="uniwaveunique-slides">
+            <!-- Slide 1: Digital / Fortifying - Căn phải -->
+            <div class="uniwaveunique-slide uniwaveunique-slide1" style="background-image: url('F:\Coding\Web development\Logistic\uniwave - Copy\image\home\banner-cont-ship-bg.png');">
+                <div class="uniwaveunique-overlay">
+                    <p class="uniwaveunique-intro-text uniwaveunique-layer">Digital</p>
+                    <h1 class="uniwaveunique-hero-title uniwaveunique-layer">Fortifying Your</h1>
+                    <h2 class="uniwaveunique-hero-subtitle uniwaveunique-layer">Intelligent Solutions for Smarter Businesses</h2>
+                    <p class="uniwaveunique-hero-description uniwaveunique-layer">Refers to software specifically designed and developed to meet the unique needs and requirements of a particular organization, business, or individual.</p>
+                    <p class="uniwaveunique-hero-tagline uniwaveunique-layer">The best it solution & consultation</p>
+                    <a href="https://themetechmount.com/demos/inqord/contact-us/" class="uniwaveunique-btn uniwaveunique-layer">Let’s get started now</a>
+                    <p class="uniwaveunique-hero-description uniwaveunique-layer">The timeframe for results can vary depending on the specific services required World</p>
+                </div>
+            </div>
+            <!-- Slide 2: Software Development - Căn trái -->
+            <div class="uniwaveunique-slide uniwaveunique-slide2" style="background-image: url('F:\Coding\Web development\Logistic\uniwave - Copy\image\home\banner2.png');">
+                <div class="uniwaveunique-overlay">
+                    <h2 class="uniwaveunique-hero-subtitle uniwaveunique-layer">Software development</h2>
+                    <h2 class="uniwaveunique-hero-title uniwaveunique-layer">We’re offering best</h2>
+                    <p class="uniwaveunique-hero-description uniwaveunique-layer">IT solution and services</p>
+                    <p class="uniwaveunique-hero-description uniwaveunique-layer">You can also find our <a href="https://themetechmount.com/demos/inqord/service/" style="color: #007bff;">Services</a> to contact for the IT consulting.</p>
+                    <a href="https://themetechmount.com/demos/inqord/service/" class="uniwaveunique-btn uniwaveunique-layer">See all our services</a>
+                </div>
+            </div>
+            <!-- Slide 3: Core Values & Stats - Căn giữa bình thường -->
+            <div class="uniwaveunique-slide uniwaveunique-slide3" style="background-image: url('https://example.com/values-bg.jpg');">
+                <div class="uniwaveunique-overlay">
+                    <h4 class="uniwaveunique-core-title uniwaveunique-layer">Our core values</h4>
+                    <p class="uniwaveunique-core-desc uniwaveunique-layer">Duis eleifend molestie leo atie Duis atiem eleifend molestie leo atie duis eleifend molestie</p>
+                    <h4 class="uniwaveunique-mission-title uniwaveunique-layer">Our mission & vision</h4>
+                    <p class="uniwaveunique-mission-desc uniwaveunique-layer">Molestie duis eleifend leo atie Duis atiem eleifend eleifend molestie leo atie molestie duis</p>
+                    <div class="uniwaveunique-stats-grid">
+                        <div class="uniwaveunique-stat-item uniwaveunique-layer">
+                            <span class="uniwaveunique-stat-number">2.5K</span>
+                            <p class="uniwaveunique-stat-label">Happy & Delighted customers</p>
+                        </div>
+                        <div class="uniwaveunique-stat-item uniwaveunique-layer">
+                            <span class="uniwaveunique-stat-number">4.5 (Out of 5)</span>
+                            <p class="uniwaveunique-stat-label">Avg. general customer feedback</p>
+                        </div>
+                        <div class="uniwaveunique-stat-item uniwaveunique-layer">
+                            <span class="uniwaveunique-stat-number">15+</span>
+                            <p class="uniwaveunique-stat-label">Years of experience in field</p>
+                        </div>
+                        <div class="uniwaveunique-stat-item uniwaveunique-layer">
+                            <span class="uniwaveunique-stat-number">3,805</span>
+                            <p class="uniwaveunique-stat-label">Accomplished projects</p>
+                        </div>
+                    </div>
+                    <a href="tel:+18005559876" class="uniwaveunique-phone-link uniwaveunique-btn uniwaveunique-layer">+1(800) 555-9876</a>
+                    <a href="tel:1015000200" class="uniwaveunique-phone-link uniwaveunique-btn uniwaveunique-layer">(101) 500 0200</a>
+                </div>
+            </div>
         </div>
-        <div class="item">
-          <a href="/">
-            <img src="image/home/banner2.png" alt="" class="lz" />
-          </a>
+        <!-- Navigation arrows -->
+        <div class="uniwaveunique-slider-nav">
+            <button class="uniwaveunique-nav-btn prev">&lt;</button>
+            <button class="uniwaveunique-nav-btn next">&gt;</button>
         </div>
-      </div>
-      <div class="banner-content">
-        <h1 class="banner-slogan" data-key="banner_slogan">FAST, RELIABLE, BORDERLESS SHIPPING</h1>
-        <div class="banner-buttons">
-          <a href="price-check.html" class="btn banner-btn" data-key="banner_pricing">Nhận báo giá</a>
-          <a href="tracking-shipment.html" class="btn banner-btn" data-key="banner_tracking">Theo dõi đơn hàng</a>
-        </div>
-      </div>
-    </div>
-  </section>
+        <!-- Pagination dots -->
+        <div class="uniwaveunique-pagination"></div>
+    </section>
   <!-- 2. Về chúng tôi -->
   <section class="uw_section_container">
     <div class="uw_content_wrapper">
@@ -760,6 +978,68 @@
       });
     });
   </script>
+  <script>
+    // JS nâng cao: Custom slider với animation trigger, autoplay, swipe support
+        const slides = document.querySelectorAll('.uniwaveunique-slide');
+        const prevBtn = document.querySelector('.prev');
+        const nextBtn = document.querySelector('.next');
+        const pagination = document.querySelector('.uniwaveunique-pagination');
+        let currentIndex = 0;
+        let interval;
+
+        // Tạo dots pagination
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('uniwaveunique-dot');
+            dot.addEventListener('click', () => goToSlide(index));
+            pagination.appendChild(dot);
+        });
+        const dots = document.querySelectorAll('.uniwaveunique-dot');
+
+        function goToSlide(index) {
+            slides[currentIndex].classList.remove('active');
+            currentIndex = (index + slides.length) % slides.length;
+            slides[currentIndex].classList.add('active');
+            dots.forEach(d => d.classList.remove('active'));
+            dots[currentIndex].classList.add('active');
+            resetAnimations(); // Reset và trigger animations mới
+        }
+
+        function resetAnimations() {
+            const layers = slides[currentIndex].querySelectorAll('.uniwaveunique-layer');
+            layers.forEach(layer => {
+                layer.style.animation = 'none';
+                layer.offsetHeight; // Trigger reflow
+                layer.style.animation = '';
+            });
+        }
+
+        // Autoplay
+        function startAutoplay() {
+            interval = setInterval(() => goToSlide(currentIndex + 1), 6000); // 6s như demo
+        }
+
+        // Swipe support cho mobile
+        let touchStartX = 0;
+        document.querySelector('.uniwaveunique-hero-banner').addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+        document.querySelector('.uniwaveunique-hero-banner').addEventListener('touchend', e => {
+            const touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) goToSlide(currentIndex + 1);
+            if (touchEndX - touchStartX > 50) goToSlide(currentIndex - 1);
+        });
+
+        // Events
+        prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+        nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+        // Khởi động
+        goToSlide(0);
+        startAutoplay();
+
+        // Pause autoplay khi hover (nâng cao)
+        document.querySelector('.uniwaveunique-hero-banner').addEventListener('mouseenter', () => clearInterval(interval));
+        document.querySelector('.uniwaveunique-hero-banner').addEventListener('mouseleave', startAutoplay);
+  </script>
   <script src="./js/support_fixed.js"></script>
   <!--Script gửi thông tin trong popup-->
   <!-- Tích hợp EmailJS SDK -->
@@ -799,15 +1079,4 @@
   </script>
   <!--Script gửi thông tin trong popup-->
 </body>
-
-<link rel="stylesheet" id="whp6778font-awesome.min.css-css"
-  href="./uni-content/plugins/wp-security-hardening/modules/inc/fa/css/font-awesome.min.css" type="text/css"
-  media="all" />
-<link rel="stylesheet" id="whp8372front.css-css"
-  href="./uni-content/plugins/wp-security-hardening/modules/css/front.css" type="text/css" media="all" />
-
 </html>
-<script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/home.js"></script>
-
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
