@@ -3,251 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banner Slider Giống Demo Inqord Home-3</title>
+    <title>Banner Slider Giống Demo Inqord Home-3 (Custom Logistics)</title>
     <style>
-        /* CSS nâng cao: Layout, animations phức tạp, responsive */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Quicksand', sans-serif; color: #fff; background: #000; } /* Assume dark theme như demo */
+    .uniwaveunique-hero-banner {
+      position: relative;
+      width: 100%;
+      height: 90vh;
+      /* Full viewport như demo */
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 3rem 2rem;
+      display: flex;
 
-        .uniwaveunique-hero-banner {
-            position: relative;
-            width: 100%;
-            height: 90vh; /* Full viewport như demo */
-            overflow: hidden;
-        }
+    }
 
-        .uniwaveunique-slides {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
+    .uniwaveunique-slides {
+      width: 100%;
+      height: 100%;
+    }
 
-        .uniwaveunique-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Easing mượt như Revolution */
-            display: flex;
-            align-items: center;
-        }
+    .uniwaveunique-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      /* Easing mượt như Revolution */
+      display: flex;
+      align-items: center;
+    }
 
-        .uniwaveunique-slide.active { opacity: 1; }
+    .uniwaveunique-slide.active {
+      opacity: 1;
+    }
 
-        .uniwaveunique-overlay {
-            position: relative;
-            z-index: 2;
-            max-width: 80%;
-            padding: 40px;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)); /* Overlay gradient tối như demo */
-            border-radius: 10px;
-        }
+    .uniwaveunique-overlay {
+      position: relative;
+      z-index: 2;
+      max-width: 80%;
+      padding: 40px;
+      color: #666; /* Gray cho description như ảnh */
+      border-radius: 10px;
+    }
 
-        /* Căn chỉnh riêng cho từng slide */
-        .uniwaveunique-slide1 { justify-content: flex-end; }
-        .uniwaveunique-slide1 .uniwaveunique-overlay { text-align: right; }
+    /* Căn chỉnh riêng cho từng slide */
+    .uniwaveunique-slide1 {
+      justify-content: flex-end;
+    }
 
-        .uniwaveunique-slide2 { justify-content: flex-start; }
-        .uniwaveunique-slide2 .uniwaveunique-overlay { text-align: left; }
+    .uniwaveunique-slide1 .uniwaveunique-overlay {
+      text-align: right;
+    }
 
-        .uniwaveunique-slide3 { justify-content: center; }
-        .uniwaveunique-slide3 .uniwaveunique-overlay { text-align: center; }
+    .uniwaveunique-slide2 {
+      justify-content: flex-start;
+    }
 
-        /* Text styles exact từ demo */
-        .uniwaveunique-intro-text { font-size: 1.5rem; text-transform: uppercase; opacity: 0; }
-        .uniwaveunique-hero-title { font-size: 3.5rem; font-weight: 700; margin: 10px 0; opacity: 0; }
-        .uniwaveunique-hero-subtitle { font-size: 2.5rem; margin-bottom: 20px; opacity: 0; }
-        .uniwaveunique-hero-description { font-size: 1.2rem; margin-bottom: 20px; opacity: 0; }
-        .uniwaveunique-hero-tagline { font-size: 1.3rem; text-transform: uppercase; opacity: 0; }
-        .uniwaveunique-core-title, .uniwaveunique-mission-title { font-size: 1.8rem; margin: 20px 0 10px; opacity: 0; }
-        .uniwaveunique-core-desc, .uniwaveunique-mission-desc { font-size: 1rem; margin-bottom: 20px; opacity: 0; }
+    .uniwaveunique-slide2 .uniwaveunique-overlay {
+      text-align: left;
+    }
 
-        /* Stats grid phức tạp: 4 cột, với animation stagger */
-        .uniwaveunique-stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            margin: 30px 0;
-        }
+    /* Text styles exact từ ảnh: Màu xanh đậm cho title, uppercase small text */
+    .uniwaveunique-intro-text {
+      font-size: 1.2rem; /* Small top text như ảnh */
+      text-transform: uppercase;
+      color: #666; /* Gray */
+      opacity: 0;
+      margin-bottom: 10px;
+    }
 
-        .uniwaveunique-stat-item {
-            text-align: center;
-            opacity: 0;
-        }
+    .uniwaveunique-hero-title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin: 0 0 10px;
+      color: #001746; /* Dark blue như title trong ảnh */
+      opacity: 0;
+    }
 
-        .uniwaveunique-stat-number { display: block; font-size: 2.5rem; font-weight: bold; }
-        .uniwaveunique-stat-label { font-size: 1rem; }
+    .uniwaveunique-hero-subtitle {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #001746; /* Dark blue */
+      opacity: 0;
+    }
 
-        /* Buttons CTA: Hiệu ứng hover nâng cao */
-        .uniwaveunique-btn {
-            display: inline-block;
-            padding: 15px 30px;
-            background-color: #007bff; /* Màu xanh như demo, adjust nếu inspect */
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            margin: 10px;
-            opacity: 0;
-        }
+    .uniwaveunique-hero-description {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      opacity: 0;
+    }
 
-        .uniwaveunique-btn:hover { transform: scale(1.05); background-color: #0056b3; }
+    .uniwaveunique-hero-tagline {
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      color: #666;
+      opacity: 0;
+      margin-bottom: 20px;
+    }
 
-        .uniwaveunique-phone-link { font-size: 1.2rem; color: #fff; text-decoration: none; opacity: 0; }
+    /* Buttons CTA: Blue như ảnh */
+    .uniwaveunique-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 30px; /* Rounded như ảnh */
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      margin: 10px 0;
+      opacity: 0;
+      font-weight: bold;
+    }
 
-        /* Animations nâng cao: Keyframes phức tạp với delay staggered cho layers */
-        @keyframes uniwaveunique-fadeSlideUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .uniwaveunique-btn:hover {
+      transform: scale(1.05);
+      background-color: #0056b3;
+    }
 
-        .uniwaveunique-slide.active .uniwaveunique-layer { /* Trigger khi slide active */
-            animation: uniwaveunique-fadeSlideUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
+    /* Phone link cho slide 2, với icon giả định (dùng text) */
+    .uniwaveunique-phone-link {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 30px;
+      margin-left: 20px;
+      opacity: 0;
+    }
 
-        /* Stagger delays cho từng layer */
-        .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(1) { animation-delay: 0.2s; }
-        .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(2) { animation-delay: 0.4s; }
-        .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(3) { animation-delay: 0.6s; }
-        .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(4) { animation-delay: 0.8s; }
-        .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(5) { animation-delay: 1.0s; }
-        .uniwaveunique-slide.active .uniwaveunique-stat-item:nth-child(1) { animation-delay: 1.2s; }
-        .uniwaveunique-slide.active .uniwaveunique-stat-item:nth-child(2) { animation-delay: 1.4s; }
-        .uniwaveunique-slide.active .uniwaveunique-stat-item:nth-child(3) { animation-delay: 1.6s; }
-        .uniwaveunique-slide.active .uniwaveunique-stat-item:nth-child(4) { animation-delay: 1.8s; }
+    .uniwaveunique-phone-link:before {
+      content: "\260E"; /* Icon phone unicode */
+      margin-right: 5px;
+    }
 
-        /* Navigation: Arrows và pagination như demo (ẩn nếu không cần) */
-        .uniwaveunique-slider-nav {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-            z-index: 3;
-        }
+    /* Animations nâng cao: Keyframes phức tạp với delay staggered cho layers */
+    @keyframes uniwaveunique-fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
 
-        .uniwaveunique-nav-btn {
-            background: rgba(255,255,255,0.3);
-            border: none;
-            color: #fff;
-            font-size: 2rem;
-            padding: 10px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        .uniwaveunique-nav-btn:hover { background: rgba(255,255,255,0.5); }
+    .uniwaveunique-slide.active .uniwaveunique-layer {
+      /* Trigger khi slide active */
+      animation: uniwaveunique-fadeSlideUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
 
-        .uniwaveunique-pagination {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 3;
-        }
+    /* Stagger delays cho từng layer */
+    .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(1) {
+      animation-delay: 0.2s;
+    }
 
-        .uniwaveunique-dot {
-            width: 12px;
-            height: 12px;
-            background: rgba(255,255,255,0.5);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
+    .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(2) {
+      animation-delay: 0.4s;
+    }
 
-        .uniwaveunique-dot.active { background: #fff; }
+    .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(3) {
+      animation-delay: 0.6s;
+    }
 
-        /* Responsive nâng cao */
-        @media (max-width: 1024px) {
-            .uniwaveunique-hero-title { font-size: 3rem; }
-            .uniwaveunique-stats-grid { grid-template-columns: repeat(2, 1fr); }
-        }
+    .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(4) {
+      animation-delay: 0.8s;
+    }
 
-        @media (max-width: 768px) {
-            .uniwaveunique-hero-banner { height: 70vh; }
-            .uniwaveunique-overlay { padding: 20px; max-width: 95%; }
-            .uniwaveunique-hero-title { font-size: 2.5rem; }
-            .uniwaveunique-hero-subtitle { font-size: 1.8rem; }
-            .uniwaveunique-stats-grid { grid-template-columns: 1fr; gap: 20px; }
-            .uniwaveunique-nav-btn { font-size: 1.5rem; }
-        }
+    .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(5) {
+      animation-delay: 1.0s;
+    }
 
-        @media (max-width: 480px) {
-            .uniwaveunique-hero-title { font-size: 2rem; }
-            .uniwaveunique-stat-number { font-size: 2rem; }
-        }
-    </style>
+    /* Navigation: Arrows và pagination như demo (ẩn nếu không cần) */
+    .uniwaveunique-slider-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      z-index: 3;
+    }
+
+    .uniwaveunique-nav-btn {
+      background: rgba(0, 23, 70, 0.5);
+      border: none;
+      color: #fff;
+      font-size: 1.3rem;
+      font-weight: 800;
+      padding: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+      border-radius: 30%;
+
+    }
+
+    .uniwaveunique-nav-btn:hover {
+      background: #001746;
+    }
+
+    .uniwaveunique-pagination {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 3;
+    }
+
+    .uniwaveunique-dot {
+      width: 12px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .uniwaveunique-dot.active {
+      background: #fff;
+    }
+
+    /* Responsive nâng cao */
+    @media (max-width: 1024px) {
+      .uniwaveunique-hero-title {
+        font-size: 3rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .uniwaveunique-hero-banner {
+        height: 70vh;
+      }
+
+      .uniwaveunique-overlay {
+        padding: 20px;
+        max-width: 95%;
+      }
+
+      .uniwaveunique-hero-title {
+        font-size: 2.5rem;
+      }
+
+      .uniwaveunique-hero-subtitle {
+        font-size: 1.8rem;
+      }
+
+      .uniwaveunique-nav-btn {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .uniwaveunique-hero-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
 </head>
 <body>
     <section class="uniwaveunique-hero-banner">
-        <div class="uniwaveunique-slides">
-            <!-- Slide 1: Digital / Fortifying - Căn phải -->
-            <div class="uniwaveunique-slide uniwaveunique-slide1" style="background-image: url('https://example.com/digital-bg.jpg');">
-                <div class="uniwaveunique-overlay">
-                    <p class="uniwaveunique-intro-text uniwaveunique-layer">Digital</p>
-                    <h1 class="uniwaveunique-hero-title uniwaveunique-layer">Fortifying Your</h1>
-                    <h2 class="uniwaveunique-hero-subtitle uniwaveunique-layer">Intelligent Solutions for Smarter Businesses</h2>
-                    <p class="uniwaveunique-hero-description uniwaveunique-layer">Refers to software specifically designed and developed to meet the unique needs and requirements of a particular organization, business, or individual.</p>
-                    <p class="uniwaveunique-hero-tagline uniwaveunique-layer">The best it solution & consultation</p>
-                    <a href="https://themetechmount.com/demos/inqord/contact-us/" class="uniwaveunique-btn uniwaveunique-layer">Let’s get started now</a>
-                    <p class="uniwaveunique-hero-description uniwaveunique-layer">The timeframe for results can vary depending on the specific services required World</p>
-                </div>
-            </div>
-            <!-- Slide 2: Software Development - Căn trái -->
-            <div class="uniwaveunique-slide uniwaveunique-slide2" style="background-image: url('https://example.com/software-bg.jpg');">
-                <div class="uniwaveunique-overlay">
-                    <h2 class="uniwaveunique-hero-subtitle uniwaveunique-layer">Software development</h2>
-                    <h2 class="uniwaveunique-hero-title uniwaveunique-layer">We’re offering best</h2>
-                    <p class="uniwaveunique-hero-description uniwaveunique-layer">IT solution and services</p>
-                    <p class="uniwaveunique-hero-description uniwaveunique-layer">You can also find our <a href="https://themetechmount.com/demos/inqord/service/" style="color: #007bff;">Services</a> to contact for the IT consulting.</p>
-                    <a href="https://themetechmount.com/demos/inqord/service/" class="uniwaveunique-btn uniwaveunique-layer">See all our services</a>
-                </div>
-            </div>
-            <!-- Slide 3: Core Values & Stats - Căn giữa bình thường -->
-            <div class="uniwaveunique-slide uniwaveunique-slide3" style="background-image: url('https://example.com/values-bg.jpg');">
-                <div class="uniwaveunique-overlay">
-                    <h4 class="uniwaveunique-core-title uniwaveunique-layer">Our core values</h4>
-                    <p class="uniwaveunique-core-desc uniwaveunique-layer">Duis eleifend molestie leo atie Duis atiem eleifend molestie leo atie duis eleifend molestie</p>
-                    <h4 class="uniwaveunique-mission-title uniwaveunique-layer">Our mission & vision</h4>
-                    <p class="uniwaveunique-mission-desc uniwaveunique-layer">Molestie duis eleifend leo atie Duis atiem eleifend eleifend molestie leo atie molestie duis</p>
-                    <div class="uniwaveunique-stats-grid">
-                        <div class="uniwaveunique-stat-item uniwaveunique-layer">
-                            <span class="uniwaveunique-stat-number">2.5K</span>
-                            <p class="uniwaveunique-stat-label">Happy & Delighted customers</p>
-                        </div>
-                        <div class="uniwaveunique-stat-item uniwaveunique-layer">
-                            <span class="uniwaveunique-stat-number">4.5 (Out of 5)</span>
-                            <p class="uniwaveunique-stat-label">Avg. general customer feedback</p>
-                        </div>
-                        <div class="uniwaveunique-stat-item uniwaveunique-layer">
-                            <span class="uniwaveunique-stat-number">15+</span>
-                            <p class="uniwaveunique-stat-label">Years of experience in field</p>
-                        </div>
-                        <div class="uniwaveunique-stat-item uniwaveunique-layer">
-                            <span class="uniwaveunique-stat-number">3,805</span>
-                            <p class="uniwaveunique-stat-label">Accomplished projects</p>
-                        </div>
-                    </div>
-                    <a href="tel:+18005559876" class="uniwaveunique-phone-link uniwaveunique-btn uniwaveunique-layer">+1(800) 555-9876</a>
-                    <a href="tel:1015000200" class="uniwaveunique-phone-link uniwaveunique-btn uniwaveunique-layer">(101) 500 0200</a>
-                </div>
-            </div>
+    <div class="uniwaveunique-slides">
+      <!-- Slide 1: Custom Logistics - Căn phải, text giống ảnh 1 -->
+      <div class="uniwaveunique-slide uniwaveunique-slide1" style="background-image: url('image/home/banner-1.png');">
+        <div class="uniwaveunique-overlay">
+          <p class="uniwaveunique-intro-text uniwaveunique-layer">Intelligent Solutions for Smarter Logistics</p>
+          <h1 class="uniwaveunique-hero-title uniwaveunique-layer">Fortifying Your Supply Chain</h1>
+          <p class="uniwaveunique-hero-description uniwaveunique-layer">The timeframe for results can vary depending on the specific services required</p>
+          <a href="https://themetechmount.com/demos/inqord/contact-us/"
+            class="uniwaveunique-btn uniwaveunique-layer">Let’s get started now</a>
         </div>
-        <!-- Navigation arrows -->
-        <div class="uniwaveunique-slider-nav">
-            <button class="uniwaveunique-nav-btn prev">&lt;</button>
-            <button class="uniwaveunique-nav-btn next">&gt;</button>
+      </div>
+      <!-- Slide 2: Custom Logistics - Căn trái, text giống ảnh 2 -->
+      <div class="uniwaveunique-slide uniwaveunique-slide2" style="background-image: url('image/home/banner-2.png');">
+        <div class="uniwaveunique-overlay">
+          <p class="uniwaveunique-hero-tagline uniwaveunique-layer">THE BEST LOGISTICS SOLUTION & CONSULTATION</p>
+          <h1 class="uniwaveunique-hero-title uniwaveunique-layer">Logistics Solutions &</h1>
+          <h2 class="uniwaveunique-hero-subtitle uniwaveunique-layer">Software development</h2>
+          <p class="uniwaveunique-hero-description uniwaveunique-layer">Refers to software specifically designed and developed to meet the unique needs and requirements of a particular organization, business, or individual.</p>
+          <a href="https://themetechmount.com/demos/inqord/service/" class="uniwaveunique-btn uniwaveunique-layer">See all our services</a>
+          <a href="tel:+18005559876" class="uniwaveunique-phone-link uniwaveunique-layer">+1(800) 555-9876</a>
         </div>
-        <!-- Pagination dots -->
-        <div class="uniwaveunique-pagination"></div>
-    </section>
+      </div>
+    </div>
+    <!-- Navigation arrows -->
+    <div class="uniwaveunique-slider-nav">
+      <button class="uniwaveunique-nav-btn prev">&lt;</button>
+      <button class="uniwaveunique-nav-btn next">&gt;</button>
+    </div>
+    <!-- Pagination dots -->
+    <div class="uniwaveunique-pagination"></div>
+  </section>
 
     <script>
         // JS nâng cao: Custom slider với animation trigger, autoplay, swipe support
