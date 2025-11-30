@@ -639,7 +639,7 @@
 
         try {
           const response = await fetch(
-            "https://cool-dhawan.103-28-36-58.plesk.page/api/User/register",
+            "https://localhost:7258/api/Auth/register",
             {
               method: "POST",
               headers: {
@@ -698,7 +698,7 @@
         }
 
         try {
-          const response = await UniwaveAPI.apiFetch("/api/auth/login", {
+          const response = await UniwaveAPI.apiFetch("/api/Auth/login", {
             method: "POST",
             body: { email, password },
           });
