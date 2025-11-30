@@ -23,6 +23,23 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+
+// Script đóng mở menu trên mobile
+document.addEventListener("DOMContentLoaded", function () {
+      const navbarToggler = document.querySelector(".menu-toggle");
+      const navbarCollapse = document.querySelector(".menu-collapse");
+      const closeButton = document.querySelector(".close-search");
+
+      navbarToggler.addEventListener("click", function () {
+        navbarCollapse.classList.toggle("visible");
+      });
+
+      closeButton.addEventListener("click", function () {
+        navbarCollapse.classList.remove("visible");
+      });
+    });
+
+
 // Script cho mở rộng sub-menu trên mobile
 document.addEventListener('DOMContentLoaded', () => {
   const clickableItems = document.querySelectorAll('.primary-nav-link.clickable, .secondary-nav-link.clickable');
@@ -239,13 +256,15 @@ function SelectedNavItem() {
   const navMap = [
     { paths: ['/en', '/vi'], element: navItems[0] }, // Trang chủ
     { paths: ['/en/introduce', '/vi/introduce'], element: navItems[1] }, // Giới thiệu
-    { paths: [
-      '/en/services', '/vi/services',
-      '/en/domestic-delivery-service', '/vi/domestic-delivery-service',
-      '/en/service/transportation/rail-transportation', '/vi/service/transportation/rail-transportation',
-      '/en/service/transportation/sea-transport', '/vi/service/transportation/sea-transport',
-      '/en/service/transportation/air-transport', '/vi/service/transportation/air-transport'
-    ], element: navItems[2] }, // Dịch vụ (bao gồm các trang con)
+    {
+      paths: [
+        '/en/services', '/vi/services',
+        '/en/domestic-delivery-service', '/vi/domestic-delivery-service',
+        '/en/service/transportation/rail-transportation', '/vi/service/transportation/rail-transportation',
+        '/en/service/transportation/sea-transport', '/vi/service/transportation/sea-transport',
+        '/en/service/transportation/air-transport', '/vi/service/transportation/air-transport'
+      ], element: navItems[2]
+    }, // Dịch vụ (bao gồm các trang con)
     { paths: ['/en/tracking-shipment', '/vi/tracking-shipment'], element: navItems[3] }, // Theo dõi đơn hàng
     { paths: ['/en/price-check', '/vi/price-check'], element: navItems[4] }, // Báo giá
     { paths: ['/en/contact', '/vi/contact'], element: navItems[5] } // Liên hệ
@@ -517,3 +536,88 @@ if (missionStatsSection && getComputedStyle(missionStatsSection).display !== 'no
   console.warn('Mission stats section is not visible or not found.');
 }
 
+/*********************
+ * JS phần utilities *
+ *********************/
+window.onload = function () {
+  $(function () {
+
+    $("#close-lk").click(function () {
+      $("#ml-menu-fixed").toggleClass("active");
+      $(".btn-show-lk").toggleClass("active");
+
+    });
+    $(".btn-show-lk").click(function () {
+      $(this).toggleClass("active");
+      $("#ml-menu-fixed").toggleClass("active");
+
+    });
+  });
+
+};
+/*********************
+ * JS phần utilities *
+ *********************/
+
+/***** Slider banner trang home *****/
+// JS nâng cao: Custom slider với animation trigger, autoplay, swipe support
+const slides = document.querySelectorAll('.uniwaveunique-slide');
+const prevBtn = document.querySelector('.prev');
+const nextBtn = document.querySelector('.next');
+const pagination = document.querySelector('.uniwaveunique-pagination');
+let currentIndex = 0;
+let interval;
+
+// Tạo dots pagination
+slides.forEach((_, index) => {
+  const dot = document.createElement('div');
+  dot.classList.add('uniwaveunique-dot');
+  dot.addEventListener('click', () => goToSlide(index));
+  pagination.appendChild(dot);
+});
+const dots = document.querySelectorAll('.uniwaveunique-dot');
+
+function goToSlide(index) {
+  slides[currentIndex].classList.remove('active');
+  currentIndex = (index + slides.length) % slides.length;
+  slides[currentIndex].classList.add('active');
+  dots.forEach(d => d.classList.remove('active'));
+  dots[currentIndex].classList.add('active');
+  resetAnimations(); // Reset và trigger animations mới
+}
+
+function resetAnimations() {
+  const layers = slides[currentIndex].querySelectorAll('.uniwaveunique-layer');
+  layers.forEach(layer => {
+    layer.style.animation = 'none';
+    layer.offsetHeight; // Trigger reflow
+    layer.style.animation = '';
+  });
+}
+
+// Autoplay
+function startAutoplay() {
+  interval = setInterval(() => goToSlide(currentIndex + 1), 6000); // 6s như demo
+}
+
+// Swipe support cho mobile
+let touchStartX = 0;
+document.querySelector('.uniwaveunique-hero-banner').addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+document.querySelector('.uniwaveunique-hero-banner').addEventListener('touchend', e => {
+  const touchEndX = e.changedTouches[0].screenX;
+  if (touchStartX - touchEndX > 50) goToSlide(currentIndex + 1);
+  if (touchEndX - touchStartX > 50) goToSlide(currentIndex - 1);
+});
+
+// Events
+prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+// Khởi động
+goToSlide(0);
+startAutoplay();
+
+// Pause autoplay khi hover (nâng cao)
+document.querySelector('.uniwaveunique-hero-banner').addEventListener('mouseenter', () => clearInterval(interval));
+document.querySelector('.uniwaveunique-hero-banner').addEventListener('mouseleave', startAutoplay);
+/***** Slider banner trang home *****/

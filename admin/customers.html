@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-key="title">UNIWAVE LOGISTICS</title>
+  <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
+  <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/admin.js" defer></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+<div class="layout-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-logo">
+        <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo" height="30">
+      </a>
+    </div>
+    <ul class="sidebar-nav mt-2">
+      <li><a href="index.html"><i class="bi bi-speedometer2"></i><span>Tong quan</span></a></li>
+      <li><a href="blogs.html"><i class="bi bi-journal-text"></i><span>Quan ly Blog</span></a></li>
+      <li><a href="customers.html" class="active"><i class="bi bi-people"></i><span>Quan ly nguoi dung</span></a></li>
+      <li><a href="orders.html"><i class="bi bi-truck"></i><span>Don hang</span></a></li>
+    </ul>
+    <div class="sidebar-footer">Ac 2025 Uniwave</div>
+  </aside>
+
+  <div class="main-content">
+    <header class="main-header">
+      <div class="logo-text"><span>Uniwave</span> Dashboard</div>
+      <div class="d-flex align-items-center gap-3">
+        <button class="btn btn-outline-secondary d-md-none" id="toggleSidebarBtn">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="dropdown">
+          <button class="btn btn-light border-0 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle fs-5"></i>
+            <span class="d-none d-sm-inline">Admin</span>
+            <i class="bi bi-caret-down-fill small d-none d-sm-inline"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">Ho so Admin</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="#">Dang xuat</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content-wrapper">
+      <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2 mb-3">
+        <h5 class="mb-0">Danh sach khach hang</h5>
+        <div class="input-group input-group-sm" style="max-width: 260px;">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input type="search" class="form-control" placeholder="Search name or email" id="customerSearchInput" aria-label="Search customers">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table mb-0 align-middle" id="customerTable">
+              <thead>
+              <tr>
+                <th>Full name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Tier</th>
+                <th>Created</th>
+                <th class="text-end">Actions</th>
+              </tr>
+              </thead>
+              <tbody id="customerTableBody">
+              <tr><td colspan="6" class="text-center text-muted py-4">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="d-flex align-items-center justify-content-between px-3 py-2 border-top" id="customerPagination" style="display:none;">
+            <div class="text-muted small" id="customerPaginationInfo"></div>
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-outline-secondary" type="button" id="customerPrev">Previous</button>
+              <button class="btn btn-outline-secondary" type="button" id="customerNext">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script defer type="text/javascript" src="../js/api.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const Api = window.UniwaveApi || window.UniwaveAPI;
+    const tbody = document.getElementById("customerTableBody");
+    const searchInput = document.getElementById("customerSearchInput");
+    const pagination = document.getElementById("customerPagination");
+    const paginationInfo = document.getElementById("customerPaginationInfo");
+    const prevBtn = document.getElementById("customerPrev");
+    const nextBtn = document.getElementById("customerNext");
+
+    const PAGE_SIZE = 20;
+    let currentPage = 1;
+    let totalPages = 1;
+    let currentSearch = "";
+    let hasTotalHeader = false;
+    let searchTimer;
+
+    if (!tbody) return;
+
+    if (!Api || typeof Api.apiFetch !== "function") {
+      tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">API client not available.</td></tr>`;
+      return;
+    }
+
+    if (typeof Api.getAccessToken === "function" && !Api.getAccessToken()) {
+      tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">Not authorized. Please log in.</td></tr>`;
+      return;
+    }
+
+    function setMessage(text) {
+      tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">${text}</td></tr>`;
+    }
+
+    function formatDate(value) {
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return "--";
+      return d.toLocaleString("vi-VN");
+    }
+
+    function renderRows(users) {
+      if (!users || users.length === 0) {
+        setMessage("No customers found.");
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+      users.forEach((user) => {
+        const id = user.id || user.Id || "";
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${user.fullName || user.FullName || "--"}</td>
+          <td>${user.email || user.Email || "--"}</td>
+          <td>${user.phoneNumber || user.PhoneNumber || "--"}</td>
+          <td><span class="badge bg-light text-dark">${user.tier || user.Tier || "Unknown"}</span></td>
+          <td>${formatDate(user.createdAt || user.CreatedAt)}</td>
+          <td class="text-end">
+            <a class="btn btn-sm btn-outline-primary" href="customer-detail.html?id=${encodeURIComponent(id)}">View</a>
+          </td>
+        `;
+        fragment.appendChild(tr);
+      });
+
+      tbody.innerHTML = "";
+      tbody.appendChild(fragment);
+    }
+
+    function renderPagination(totalCount) {
+      if (!hasTotalHeader) {
+        pagination.style.display = "none";
+        return;
+      }
+
+      totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
+      if (totalPages <= 1) {
+        pagination.style.display = "none";
+        return;
+      }
+
+      pagination.style.display = "flex";
+      paginationInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+      prevBtn.disabled = currentPage <= 1;
+      nextBtn.disabled = currentPage >= totalPages;
+    }
+
+    async function loadCustomers(page = 1) {
+      const query = new URLSearchParams({
+        page: page.toString(),
+        pageSize: PAGE_SIZE.toString()
+      });
+      if (currentSearch.trim()) {
+        query.set("search", currentSearch.trim());
+      }
+
+      setMessage("Loading...");
+
+      try {
+        const res = await Api.apiFetch(`/api/users?${query.toString()}`);
+        const data = await res.json();
+        const totalHeader = res.headers.get("X-Total-Count");
+        hasTotalHeader = totalHeader !== null;
+        const totalCount = hasTotalHeader ? Number(totalHeader) || 0 : data.length;
+
+        currentPage = page;
+        renderRows(Array.isArray(data) ? data : []);
+        renderPagination(totalCount);
+      } catch (error) {
+        if (String(error?.message || "").includes("401") || String(error?.message || "").includes("403")) {
+          setMessage("Not authorized. Please log in.");
+        } else {
+          setMessage(error?.message || "Failed to load customers.");
+        }
+      }
+    }
+
+    searchInput?.addEventListener("input", () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => {
+        currentSearch = searchInput.value || "";
+        loadCustomers(1);
+      }, 300);
+    });
+
+    prevBtn?.addEventListener("click", () => {
+      if (currentPage > 1) loadCustomers(currentPage - 1);
+    });
+    nextBtn?.addEventListener("click", () => {
+      if (currentPage < totalPages) loadCustomers(currentPage + 1);
+    });
+
+    loadCustomers();
+  });
+</script>
+</body>
+</html>

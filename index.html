@@ -5,286 +5,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title data-key="title">UNIWAVE LOGISTICS</title>
-  <link rel="icon" href="./image/uniwave-favicon.png" type="image/png" />
-  <link rel="shortcut icon" href="./image/uniwave-favicon.png" type="image/x-icon" />
+  <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
+  <link rel="shortcut icon" href="./image/favicon/uniwave-favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
-  <link href="./uni-content/themes/uniwave/style.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="css/support_fixed.css" />
-  <link rel="stylesheet" href="css/theme.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css" />
   <!-- Swiper CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <style>
-    .uniwaveunique-hero-banner {
-      position: relative;
-      width: 100%;
-      height: 90vh;
-      /* Full viewport như demo */
-      overflow: hidden;
-      box-sizing: border-box;
-      padding: 3rem 2rem;
-      display: flex;
-
-    }
-
-    .uniwaveunique-slides {
-      width: 100%;
-      height: 100%;
-    }
-
-    .uniwaveunique-slide {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      /* Easing mượt như Revolution */
-      display: flex;
-      align-items: center;
-    }
-
-    .uniwaveunique-slide.active {
-      opacity: 1;
-    }
-
-    .uniwaveunique-overlay {
-      position: relative;
-      z-index: 2;
-      max-width: 80%;
-      padding: 150px;
-      color: #666; /* Gray cho description như ảnh */
-      border-radius: 10px;
-    }
-
-    /* Căn chỉnh riêng cho từng slide */
-    .uniwaveunique-slide1 {
-      justify-content: flex-end;
-    }
-
-    .uniwaveunique-slide1 .uniwaveunique-overlay {
-      text-align: right;
-    }
-
-    .uniwaveunique-slide2 {
-      justify-content: flex-start;
-    }
-
-    .uniwaveunique-slide2 .uniwaveunique-overlay {
-      text-align: left;
-    }
-
-    /* Text styles exact từ ảnh: Màu xanh đậm cho title, uppercase small text */
-    .uniwaveunique-intro-text {
-      font-size: 1.2rem; /* Small top text như ảnh */
-      font-weight: 700;
-      text-transform: uppercase;
-      color: #666; /* Gray */
-      opacity: 0;
-      margin-bottom: 10px;
-    }
-
-    .uniwaveunique-hero-title {
-      font-size: 3.5rem;
-      font-weight: 700;
-      margin: 0 0 10px;
-      color: #001746; /* Dark blue như title trong ảnh */
-      opacity: 0;
-    }
-
-    .uniwaveunique-hero-subtitle {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: #001746; /* Dark blue */
-      opacity: 0;
-    }
-
-    .uniwaveunique-hero-description {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-      font-weight: 600;
-      opacity: 0;
-      color: rgb(0, 23, 70);
-    }
-
-    .uniwaveunique-hero-tagline {
-      font-size: 1.3rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: #666;
-      opacity: 0;
-      margin-bottom: 20px;
-    }
-
-    /* Buttons CTA: Blue như ảnh */
-    .uniwaveunique-btn {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 30px; /* Rounded như ảnh */
-      transition: transform 0.3s ease, background-color 0.3s ease;
-      margin: 10px 0;
-      opacity: 0;
-      font-weight: bold;
-    }
-
-    .uniwaveunique-btn:hover {
-      transform: scale(1.05);
-      background-color: #0056b3;
-    }
-
-    /* Phone link cho slide 2, với icon giả định (dùng text) */
-    .uniwaveunique-phone-link {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 30px;
-      margin-left: 20px;
-      opacity: 0;
-    }
-
-    .uniwaveunique-phone-link:before {
-      content: "\260E"; /* Icon phone unicode */
-      margin-right: 5px;
-    }
-
-    /* Animations nâng cao: Keyframes phức tạp với delay staggered cho layers */
-    @keyframes uniwaveunique-fadeSlideUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .uniwaveunique-slide.active .uniwaveunique-layer {
-      /* Trigger khi slide active */
-      animation: uniwaveunique-fadeSlideUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-    }
-
-    /* Stagger delays cho từng layer */
-    .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(1) {
-      animation-delay: 0.2s;
-    }
-
-    .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(2) {
-      animation-delay: 0.4s;
-    }
-
-    .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(3) {
-      animation-delay: 0.6s;
-    }
-
-    .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(4) {
-      animation-delay: 0.8s;
-    }
-
-    .uniwaveunique-slide.active .uniwaveunique-layer:nth-child(5) {
-      animation-delay: 1.0s;
-    }
-
-    /* Navigation: Arrows và pagination như demo (ẩn nếu không cần) */
-    .uniwaveunique-slider-nav {
-      position: absolute;
-      top: 50%;
-      width: 97%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-      z-index: 3;
-    }
-
-    .uniwaveunique-nav-btn {
-      background: rgba(0, 23, 70, 0.5);
-      border: none;
-      color: #fff;
-      font-size: 1.3rem;
-      font-weight: 800;
-      padding: 10px;
-      cursor: pointer;
-      transition: background 0.3s;
-      border-radius: 30%;
-
-    }
-
-    .uniwaveunique-nav-btn:hover {
-      background: #001746;
-    }
-
-    .uniwaveunique-pagination {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 10px;
-      z-index: 3;
-    }
-
-    .uniwaveunique-dot {
-      width: 12px;
-      height: 12px;
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 50%;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .uniwaveunique-dot.active {
-      background: #fff;
-    }
-
-    /* Responsive nâng cao */
-    @media (max-width: 1024px) {
-      .uniwaveunique-hero-title {
-        font-size: 3rem;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .uniwaveunique-hero-banner {
-        height: 70vh;
-      }
-
-      .uniwaveunique-overlay {
-        padding: 20px;
-        max-width: 95%;
-      }
-
-      .uniwaveunique-hero-title {
-        font-size: 2.5rem;
-      }
-
-      .uniwaveunique-hero-subtitle {
-        font-size: 1.8rem;
-      }
-
-      .uniwaveunique-nav-btn {
-        font-size: 1.5rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .uniwaveunique-hero-title {
-        font-size: 2rem;
-      }
-    }
-  </style>
 </head>
 
 <body>
@@ -292,7 +22,7 @@
     <button class="menu-toggle animated slide-down"
       style="animation-delay: 0.2s; opacity: 1; background-color: transparent">
       <img alt="menu" loading="lazy" width="22" height="18" decoding="async" data-nimg="1"
-        style="background-color: transparent" src="./image/icon/menu.3f1ed974.png" />
+        style="background-color: transparent" src="./image/general/icon/menu.3f1ed974.png" />
     </button>
     <div class="main-container center-align">
       <nav class="navigation-bar">
@@ -369,36 +99,36 @@
             style="animation: auto ease 0.8s 1 normal none running none; opacity: 1;">
             <div class="search-bar">
               <img alt="search-icon" loading="lazy" width="30" height="30" decoding="async" data-nimg="1"
-                style="color: transparent" src="./image/icon/search_light.71eaeab0.png" />
+                style="color: transparent" src="./image/general/icon/search_light.71eaeab0.png" />
               <input placeholder="Tìm kiếm" type="text" data-key="search_placeholder" /><button class="close-search">
                 <img alt="search-close-button" loading="lazy" width="24" height="24" decoding="async" data-nimg="1"
-                  style="color: transparent" src="./image/icon/close_dark.a63d54e6.png" />
+                  style="color: transparent" src="./image/general/icon/close_dark.a63d54e6.png" />
               </button>
             </div>
             <div class="language-switcher">
               <img alt="flag" loading="lazy" width="30" height="30" decoding="async" data-nimg="1"
-                style="color: transparent" id="current-flag" src="./image/icon/vn.38e19a45.png" />
+                style="color: transparent" id="current-flag" src="./image/general/icon/vn.38e19a45.png" />
               <p class="language-title" data-key="lang_vi">Viet Nam</p>
               <div></div>
               <ul class="language-dropdown">
                 <li class="visible" data-lang="vi">
                   <a href="javascript:void(0);" data-lang="vi"><img alt="" loading="lazy" width="30" height="30"
                       decoding="async" data-nimg="1" style="color: transparent"
-                      src="./image/icon/vn.38e19a45.png" /><span data-key="lang_vi">Viet Nam</span></a>
+                      src="./image/general/icon/vn.38e19a45.png" /><span data-key="lang_vi">Viet Nam</span></a>
                 </li>
                 <li data-lang="en">
                   <a href="javascript:void(0);" data-lang="en"><img alt="" loading="lazy" width="30" height="30"
                       decoding="async" data-nimg="1" style="color: transparent"
-                      src="./image/icon/en.5a569d53.png" /><span data-key="lang_en">English</span></a>
+                      src="./image/general/icon/en.5a569d53.png" /><span data-key="lang_en">English</span></a>
                 </li>
               </ul>
             </div>
             <div class="profile-menu" title="customer-profile">
               <a href="/vi/authentication">
                 <img id="profile-icon-black" alt="profile" loading="lazy" width="30" height="30" decoding="async"
-                  data-nimg="1" style="color: transparent" src="./image/icon/profile_light.79437222.png" />
+                  data-nimg="1" style="color: transparent" src="./image/general/icon/profile_light.79437222.png" />
                 <img id="profile-icon-white" alt="profile" loading="lazy" width="30" height="30" decoding="async"
-                  data-nimg="1" style="color: transparent" src="./image/icon/profile_light.79437222.png" />
+                  data-nimg="1" style="color: transparent" src="./image/general/icon/profile_light.79437222.png" />
               </a>
             </div>
           </div>
@@ -495,7 +225,7 @@
           <div class="swiper-slide">
             <div class="feature">
               <div class="feature-logo">
-                <img src="./image/uniwave-favicon.png" alt="" />
+                <img src="./image/favicon/uniwave-favicon.png" alt="" />
               </div>
               <div class="feature-text">
                 <div class="feature-title">
@@ -514,7 +244,7 @@
           <div class="swiper-slide">
             <div class="feature">
               <div class="feature-logo">
-                <img src="./image/uniwave-favicon.png" alt="" />
+                <img src="./image/favicon/uniwave-favicon.png" alt="" />
               </div>
               <div class="feature-text">
                 <div class="feature-title">
@@ -533,7 +263,7 @@
           <div class="swiper-slide">
             <div class="feature">
               <div class="feature-logo">
-                <img src="./image/uniwave-favicon.png" alt="" />
+                <img src="./image/favicon/uniwave-favicon.png" alt="" />
               </div>
               <div class="feature-text">
                 <div class="feature-title">
@@ -552,7 +282,7 @@
           <div class="swiper-slide">
             <div class="feature">
               <div class="feature-logo">
-                <img src="./image/uniwave-favicon.png" alt="" />
+                <img src="./image/favicon/uniwave-favicon.png" alt="" />
               </div>
               <div class="feature-text">
                 <div class="feature-title">
@@ -571,7 +301,7 @@
           <div class="swiper-slide">
             <div class="feature">
               <div class="feature-logo">
-                <img src="./image/uniwave-favicon.png" alt="" />
+                <img src="./image/favicon/uniwave-favicon.png" alt="" />
               </div>
               <div class="feature-text">
                 <div class="feature-title">
@@ -590,7 +320,7 @@
           <div class="swiper-slide">
             <div class="feature">
               <div class="feature-logo">
-                <img src="./image/uniwave-favicon.png" alt="" />
+                <img src="./image/favicon/uniwave-favicon.png" alt="" />
               </div>
               <div class="feature-text">
                 <div class="feature-title">
@@ -700,7 +430,7 @@
             <span class="hotline-icon">📞</span>
             <span class="hotline-badge" data-key="footer_hotline">0775 764 586</span>
           </div>
-          <a href="price-check.html" class="cta-btn" data-key="cta_pricing">Nhận báo giá ngay</a>
+          <a href="/en/price-check" class="cta-btn" data-key="cta_pricing">Nhận báo giá ngay</a>
         </div>
       </div>
     </div>
@@ -727,19 +457,19 @@
               <ul class="social">
                 <li>
                   <a href="https://www.facebook.com/Uniwavelogistics" title="Facebook"><img
-                      src="./uni-content/uploads/2021/02/fb1.png" alt="Facebook" /></a>
+                      src="./image/general/icon/fb1.png" alt="Facebook" /></a>
                 </li>
                 <li>
                   <a href="mailto:sales@uniwavelogistics.com" title="Email"><img
-                      src="./uni-content/uploads/2021/04/Vector-4.png" alt="Email" /></a>
+                      src="./image/general/icon/Vector-4.png" alt="Email" /></a>
                 </li>
                 <li>
                   <a href="https://zalo.me/3419211667593921528" title="Zalo"><img
-                      src="./uni-content/uploads/2021/11/Group-5897.png" alt="Zalo" /></a>
+                      src="./image/general/icon/Group-5897.png" alt="Zalo" /></a>
                 </li>
                 <li>
                   <a href="https://www.linkedin.com/company/uniwave-logistic/" title="LinkedIn"><img
-                      src="./uni-content/uploads/2021/02/in1.png" alt="LinkedIn" /></a>
+                      src="./image/general/icon/in1.png" alt="LinkedIn" /></a>
                 </li>
               </ul>
             </div>
@@ -793,7 +523,7 @@
                         src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
                         alt="DMCA.com Protection Status" />
                     </a>
-                    <img src="./image/bocongthuong.jpg" alt="Bộ Công Thương"
+                    <img src="./image/general/img/bocongthuong.jpg" alt="Bộ Công Thương"
                       style="max-width: 100px; height: auto; vertical-align: middle; border-radius: 5px;" />
                   </div>
                 </div>
@@ -816,27 +546,27 @@
     <ul>
       <li>
         <a href="price-check.html" target="_blank">
-          <img src="./uni-content/themes/uniwave/assets/images/ic-r1.png" alt="" />
+          <img src="./image/general/icon/ic-r1.png" alt="" />
           <span data-key="nav_pricing">Ước tính cước phí</span>
         </a>
       </li>
       <li>
         <a href="tracking-shipment.html" target="_blank">
-          <img src="./uni-content/themes/uniwave/assets/images/ic-r2.png" alt="" />
+          <img src="./image/general/icon/ic-r2.png" alt="" />
           <span data-key="nav_tracking">Theo dõi vận đơn</span>
         </a>
       </li>
     </ul>
-    <img src="./uni-content/themes/uniwave/images/close.png" id="close-lk" />
+    <img src="./image/general/icon/close.png" id="close-lk" />
   </div>
   <div class="btn-show-lk">
-    <img src="./uni-content/themes/uniwave/images/icon-send.png" />
+    <img src="./image/general/icon/icon-send.png" />
     <span data-key="support_utilities">Tiện ích</span>
   </div>
   <!-- Phần bên trái: chứa ảnh social-block-img -->
   <div class="icon-need-help" id="icon-need-help">
     <a>
-      <img src="/image/social-block-img.jpg" alt="Laboon Assistant" />
+      <img src="/image/general/img/social-block-img.jpg" alt="Laboon Assistant" />
     </a>
     <div class="chat-box" id="chat-box">
       <p data-key="chat_greeting">Chào bạn! Mình là Laboon – trợ lý siêu tốc ngành logistics!
@@ -860,114 +590,30 @@
     <ul class="social-chat" style="list-style: none; margin: 0; padding: 0">
       <li>
         <a href="https://zalo.me/3419211667593921528" target="_blank">
-          <img src="./uni-content/uploads/2024/05/ic_zalo.png" style="width: 48px; height: 48px; border-radius: 50%" />
+          <img src="./image/general/icon/ic_zalo.png" style="width: 48px; height: 48px; border-radius: 50%" />
         </a>
       </li>
       <li>
         <a href="https://api.whatsapp.com/send?phone=%2B84775764586&context=AffwBgBqo1894NOEVfp1pgqQyQevjJmSxfHBrfAO8o13dBn_os7LDX1m3lPxsLDNasPQyjVgPqc1wGVRYdm5_k0MXhKf7ly0zOr2R5CBfICOHLQQY4pHti_sGHqK5DkNoZfou8Hl6SddSybp3br_omT7HA&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwY2xjawKeqkFleHRuA2FlbQIxMABicmlkETFlQ1pTVkVUeUR3R01VYUt0AR4pN1Wf8tFMyGYwc5zA2BHI981cMiWbPfasHGcVlXJUXBkwMUJF2-0UQp3rjw_aem_R7-NxHXZhcLsEGOFDuiv3g"
           target="_blank">
-          <img src="./uni-content/uploads/2024/05/whatsapp-icon.png"
+          <img src="./image/general/icon/whatsapp-icon.png"
             style="width: 48px; height: 48px; border-radius: 50%" />
         </a>
       </li>
       <li>
         <a href="https://www.facebook.com/messages/t/610000072203351" target="_blank">
-          <img src="./uni-content/uploads/2024/05/ic_messenger.png" style="width: 48px; height: 48px" />
+          <img src="./image/general/icon/ic_messenger.png" style="width: 48px; height: 48px" />
         </a>
       </li>
     </ul>
   </div>
 
+  <!--Scripts chung-->
   <script defer type="text/javascript" src="js/scripts.js"></script>
-  <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/bootstrap.js"></script>
-  <script type="text/javascript" src="./js/main.js"></script>
-  <script type="text/javascript" src="./uni-content/themes/uniwave/assets/js/support_fixed.js"></script>
-  <script type="text/javascript">
-    var popup_vipo = localStorage.getItem("popup_vipo27");
-    var currentDay = new Date().toLocaleDateString();
-    var currentTiem = new Date().getTime();
-    function closeModal() {
-      document.getElementById("popup_vipo").remove();
-    }
-    window.onload = function () {
-      $(function () {
-        window.onscroll = function () {
-          if (window.pageYOffset > 100) {
-            $("header .menu").addClass("sticky");
-          } else {
-            $("header .menu").removeClass("sticky");
-          }
-        };
-        $("#close-lk").click(function () {
-          $("#ml-menu-fixed").toggleClass("active");
-          $(".btn-show-lk").toggleClass("active");
-          // $('.chat-live').slideToggle();
-        });
-        $(".btn-show-lk").click(function () {
-          $(this).toggleClass("active");
-          $("#ml-menu-fixed").toggleClass("active");
-          // $('.chat-live').slideToggle();
-        });
+  <script defer type="text/javascript" src="js/api.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <!--Scripts chung-->
 
-        $("ul#service-menu").toggleClass("ccodon");
-        var menuList = $(".ccodon").find("li");
-        menuList.find("ul").hide();
-        menuList.on("click", function (e) {
-          var childUl = $(this).find("ul").first();
-          if (childUl.length < 1 || childUl.is(":visible")) {
-            return;
-          }
-          e.preventDefault();
-          menuList.removeClass("open");
-          menuList.find("ul").slideUp(400);
-          childUl.slideDown(400);
-          $(this).addClass("open");
-        });
-      });
-      try {
-        if (currentTiem < 1696093199000) {
-          if (popup_vipo) {
-            let p = JSON.parse(popup_vipo);
-            let d = new Date(p.at).toLocaleDateString();
-            let t = p.ti;
-            if (String(d) == String(currentDay)) {
-              if (t < 3) {
-                if (currentTiem - p.at > 60 * 1000) {
-                  document.getElementById("popup_vipo").style.display =
-                    "flex";
-                  localStorage.setItem(
-                    "popup_vipo27",
-                    JSON.stringify({ at: currentTiem, ti: t + 1 })
-                  );
-                } else {
-                  document.getElementById("popup_vipo").style.display =
-                    "none";
-                }
-              } else {
-                document.getElementById("popup_vipo").style.display = "none";
-              }
-            } else {
-              localStorage.setItem(
-                "popup_vipo27",
-                JSON.stringify({ at: currentTiem, ti: 1 })
-              );
-              document.getElementById("popup_vipo").style.display = "flex";
-            }
-          } else {
-            localStorage.setItem(
-              "popup_vipo27",
-              JSON.stringify({ at: currentTiem, ti: 1 })
-            );
-            document.getElementById("popup_vipo").style.display = "flex";
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
     const swiper = new Swiper(".swiper", {
@@ -1084,122 +730,9 @@
       }
     });
   </script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const navbarToggler = document.querySelector(".menu-toggle");
-      const navbarCollapse = document.querySelector(".menu-collapse");
-      const closeButton = document.querySelector(".close-search");
-
-      navbarToggler.addEventListener("click", function () {
-        navbarCollapse.classList.toggle("visible");
-      });
-
-      closeButton.addEventListener("click", function () {
-        navbarCollapse.classList.remove("visible");
-      });
-    });
-  </script>
-  <!-- JS slider -->
-  <script>
-        // JS nâng cao: Custom slider với animation trigger, autoplay, swipe support
-        const slides = document.querySelectorAll('.uniwaveunique-slide');
-        const prevBtn = document.querySelector('.prev');
-        const nextBtn = document.querySelector('.next');
-        const pagination = document.querySelector('.uniwaveunique-pagination');
-        let currentIndex = 0;
-        let interval;
-
-        // Tạo dots pagination
-        slides.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.classList.add('uniwaveunique-dot');
-            dot.addEventListener('click', () => goToSlide(index));
-            pagination.appendChild(dot);
-        });
-        const dots = document.querySelectorAll('.uniwaveunique-dot');
-
-        function goToSlide(index) {
-            slides[currentIndex].classList.remove('active');
-            currentIndex = (index + slides.length) % slides.length;
-            slides[currentIndex].classList.add('active');
-            dots.forEach(d => d.classList.remove('active'));
-            dots[currentIndex].classList.add('active');
-            resetAnimations(); // Reset và trigger animations mới
-        }
-
-        function resetAnimations() {
-            const layers = slides[currentIndex].querySelectorAll('.uniwaveunique-layer');
-            layers.forEach(layer => {
-                layer.style.animation = 'none';
-                layer.offsetHeight; // Trigger reflow
-                layer.style.animation = '';
-            });
-        }
-
-        // Autoplay
-        function startAutoplay() {
-            interval = setInterval(() => goToSlide(currentIndex + 1), 6000); // 6s như demo
-        }
-
-        // Swipe support cho mobile
-        let touchStartX = 0;
-        document.querySelector('.uniwaveunique-hero-banner').addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
-        document.querySelector('.uniwaveunique-hero-banner').addEventListener('touchend', e => {
-            const touchEndX = e.changedTouches[0].screenX;
-            if (touchStartX - touchEndX > 50) goToSlide(currentIndex + 1);
-            if (touchEndX - touchStartX > 50) goToSlide(currentIndex - 1);
-        });
-
-        // Events
-        prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
-        nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
-
-        // Khởi động
-        goToSlide(0);
-        startAutoplay();
-
-        // Pause autoplay khi hover (nâng cao)
-        document.querySelector('.uniwaveunique-hero-banner').addEventListener('mouseenter', () => clearInterval(interval));
-        document.querySelector('.uniwaveunique-hero-banner').addEventListener('mouseleave', startAutoplay);
-    </script>
-  <script src="./js/support_fixed.js"></script>
   <!--Script gửi thông tin trong popup-->
-  <!-- Tích hợp EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script>
-    // Khởi tạo EmailJS
-    (function () {
-      emailjs.init("BERY7kRlfqMVpherf");
-    })();
-
-    // Bắt sự kiện gửi form
-    document
-      .getElementById("contact-form")
-      .addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        // Gửi email đến sales
-        emailjs
-          .sendForm("service_d5irvii", "template_contact_fwpo0kh", this)
-          .then(
-            function (response) {
-              alert("✅ Gửi thành công!");
-            },
-            function (error) {
-              alert("❌ Gửi thất bại.");
-              console.log(error);
-            }
-          );
-
-        // Gửi email cảm ơn (nếu cần)
-        const formData = new FormData(this);
-        emailjs.send("service_d5irvii", "template_auto_reply_7426", {
-          name: formData.get("name"),
-          email: formData.get("email"),
-        });
-      });
-  </script>
+  
+  
   <!--Script gửi thông tin trong popup-->
 </body>
-
 </html>

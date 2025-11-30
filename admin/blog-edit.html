@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-key="title">UNIWAVE LOGISTICS</title>
+    <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
+    <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/admin.css">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons (dùng icon người) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+<div class="layout-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <a href="index.html" class="sidebar-logo">
+            <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo" height="30">
+        </a>
+    </div>
+    <ul class="sidebar-nav mt-2">
+      <li><a href="index.html"><i class="bi bi-speedometer2"></i><span>Tổng quan</span></a></li>
+      <li><a href="blogs.html" class="active"><i class="bi bi-journal-text"></i><span>Quản lý Blog</span></a></li>
+      <li><a href="customers.html"><i class="bi bi-people"></i><span>Quản lý người dùng</span></a></li>
+    </ul>
+    <div class="sidebar-footer">© 2025 Uniwave</div>
+  </aside>
+
+  <div class="main-content">
+    <header class="main-header">
+      <div class="logo-text"><span>Uniwave</span> Dashboard</div>
+      <div class="d-flex align-items-center gap-3">
+        <button class="btn btn-outline-secondary d-md-none" id="toggleSidebarBtn">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="dropdown">
+          <button class="btn btn-light border-0 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle fs-5"></i>
+            <span class="d-none d-sm-inline">Admin</span>
+            <i class="bi bi-caret-down-fill small d-none d-sm-inline"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">Hồ sơ Admin</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="#">Đăng xuất</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content-wrapper">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0">Chỉnh sửa bài viết</h5>
+        <a href="blogs.html" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-arrow-left"></i> Quay lại danh sách
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Tiêu đề</label>
+              <input type="text" class="form-control"
+                     value="5 tips tối ưu chi phí vận chuyển">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Chuyên mục</label>
+              <select class="form-select">
+                <option selected>Logistics</option>
+                <option>Hướng dẫn</option>
+                <option>Giải pháp</option>
+                <option>Câu chuyện thương hiệu</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Trạng thái</label>
+              <select class="form-select">
+                <option value="published" selected>Đã xuất bản</option>
+                <option value="draft">Bản nháp</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nội dung</label>
+              <textarea class="form-control" rows="6">Nội dung demo: 5 tips tối ưu chi phí vận chuyển cho doanh nghiệp vừa và nhỏ...</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-save"></i> Cập nhật bài viết
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/admin.js"></script>
+<script defer type="text/javascript" src="js/api.js"></script>
+</body>
+</html>

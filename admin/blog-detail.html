@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-key="title">UNIWAVE LOGISTICS</title>
+    <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
+    <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/admin.css">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons (dùng icon người) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+<div class="layout-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <a href="index.html" class="sidebar-logo">
+            <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo" height="30">
+        </a>
+    </div>
+    <ul class="sidebar-nav mt-2">
+      <li><a href="index.html"><i class="bi bi-speedometer2"></i><span>Tổng quan</span></a></li>
+      <li><a href="blogs.html" class="active"><i class="bi bi-journal-text"></i><span>Quản lý Blog</span></a></li>
+      <li><a href="customers.html"><i class="bi bi-people"></i><span>Quản lý người dùng</span></a></li>
+    </ul>
+    <div class="sidebar-footer">© 2025 Uniwave</div>
+  </aside>
+
+  <div class="main-content">
+    <header class="main-header">
+      <div class="logo-text"><span>Uniwave</span> Dashboard</div>
+      <div class="d-flex align-items-center gap-3">
+        <button class="btn btn-outline-secondary d-md-none" id="toggleSidebarBtn">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="dropdown">
+          <button class="btn btn-light border-0 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle fs-5"></i>
+            <span class="d-none d-sm-inline">Admin</span>
+            <i class="bi bi-caret-down-fill small d-none d-sm-inline"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">Hồ sơ Admin</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="#">Đăng xuất</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content-wrapper">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h5 class="mb-1">5 tips tối ưu chi phí vận chuyển</h5>
+          <div class="text-muted small">
+            Logistics · 25/11/2025 · Đã xuất bản
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <a href="blogs.html" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i> Danh sách
+          </a>
+          <a href="blog-edit.html" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-pencil"></i> Sửa
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="mb-2">
+            <span class="badge bg-light text-dark">Logistics</span>
+          </div>
+          <p class="text-muted small mb-3">
+            Viết bởi Uniwave Team
+          </p>
+          <p>
+            Nội dung demo: 5 tips tối ưu chi phí vận chuyển cho doanh nghiệp vừa và nhỏ...
+          </p>
+          <p>
+            Bạn có thể thay thế nội dung này bằng nội dung thật từ hệ thống backend sau này.
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/admin.js"></script>
+<script defer type="text/javascript" src="js/api.js"></script>
+</body>
+</html>

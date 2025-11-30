@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-key="title">UNIWAVE LOGISTICS</title>
+  <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
+  <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/admin.js" defer></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+<div class="layout-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-logo">
+        <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo" height="30">
+      </a>
+    </div>
+    <ul class="sidebar-nav mt-2">
+      <li><a href="index.html"><i class="bi bi-speedometer2"></i><span>Tong quan</span></a></li>
+      <li><a href="blogs.html"><i class="bi bi-journal-text"></i><span>Quan ly Blog</span></a></li>
+      <li><a href="customers.html" class="active"><i class="bi bi-people"></i><span>Quan ly nguoi dung</span></a></li>
+      <li><a href="orders.html"><i class="bi bi-truck"></i><span>Don hang</span></a></li>
+    </ul>
+    <div class="sidebar-footer">Ac 2025 Uniwave</div>
+  </aside>
+
+  <div class="main-content">
+    <header class="main-header">
+      <div class="logo-text"><span>Uniwave</span> Dashboard</div>
+      <div class="d-flex align-items-center gap-3">
+        <button class="btn btn-outline-secondary d-md-none" id="toggleSidebarBtn">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="dropdown">
+          <button class="btn btn-light border-0 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle fs-5"></i>
+            <span class="d-none d-sm-inline">Admin</span>
+            <i class="bi bi-caret-down-fill small d-none d-sm-inline"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">Ho so Admin</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="#">Dang xuat</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="content-wrapper">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h5 class="mb-1" id="customerName">Loading...</h5>
+          <div class="text-muted small" id="customerEmail"></div>
+        </div>
+        <a href="customers.html" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-arrow-left"></i> Danh sach khach hang
+        </a>
+      </div>
+
+      <div id="detailMessage" class="alert alert-info">Loading...</div>
+
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h6 class="mb-3">Thong tin chung</h6>
+              <p class="mb-2">
+                <span class="text-muted small d-block">So dien thoai</span>
+                <span id="customerPhone">--</span>
+              </p>
+              <p class="mb-2">
+                <span class="text-muted small d-block">Dia chi</span>
+                <span id="customerAddress">--</span>
+              </p>
+              <p class="mb-2">
+                <span class="text-muted small d-block">Ngay tham gia</span>
+                <span id="customerCreated">--</span>
+              </p>
+              <p class="mb-2">
+                <span class="text-muted small d-block">Hang thanh vien</span>
+                <span class="badge bg-light text-dark" id="customerTier">--</span>
+              </p>
+              <p class="mb-2">
+                <span class="text-muted small d-block">Trang thai</span>
+                <span class="badge bg-success-subtle text-success border border-success-subtle" id="customerStatus">Hoat dong</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="mb-0">Don hang gan day</h6>
+                <span class="text-muted small" id="ordersSummary"></span>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-sm align-middle mb-0">
+                  <thead>
+                  <tr>
+                    <th>Ma don</th>
+                    <th>Ngay tao</th>
+                    <th>Trang thai</th>
+                    <th class="text-end">Gia</th>
+                    <th class="text-end">Xem</th>
+                  </tr>
+                  </thead>
+                  <tbody id="ordersTableBody">
+                  <tr><td colspan="5" class="text-center text-muted py-3">Loading orders...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script defer type="text/javascript" src="../js/api.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const Api = window.UniwaveApi || window.UniwaveAPI;
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get("id");
+
+    const messageEl = document.getElementById("detailMessage");
+    const nameEl = document.getElementById("customerName");
+    const emailEl = document.getElementById("customerEmail");
+    const phoneEl = document.getElementById("customerPhone");
+    const addressEl = document.getElementById("customerAddress");
+    const createdEl = document.getElementById("customerCreated");
+    const tierEl = document.getElementById("customerTier");
+    const statusEl = document.getElementById("customerStatus");
+    const ordersBody = document.getElementById("ordersTableBody");
+    const ordersSummary = document.getElementById("ordersSummary");
+
+    const STATUS_BADGE = {
+      Active: "badge bg-success-subtle text-success border border-success-subtle",
+      Inactive: "badge bg-secondary-subtle text-secondary border border-secondary-subtle"
+    };
+
+    if (!Api || typeof Api.apiFetch !== "function") {
+      setMessage("API client not available.", true);
+      return;
+    }
+
+    if (!userId) {
+      setMessage("Missing customer id.", true);
+      return;
+    }
+
+    if (typeof Api.getAccessToken === "function" && !Api.getAccessToken()) {
+      setMessage("Not authorized. Please log in.", true);
+      return;
+    }
+
+    function setMessage(text, isError = false) {
+      messageEl.textContent = text;
+      messageEl.className = isError ? "alert alert-danger" : "alert alert-info";
+      messageEl.style.display = text ? "block" : "none";
+    }
+
+    function formatDate(value) {
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return "--";
+      return d.toLocaleString("vi-VN");
+    }
+
+    function formatMoney(value) {
+      if (value === null || value === undefined) return "--";
+      const num = Number(value);
+      if (Number.isNaN(num)) return value;
+      return num.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+    }
+
+    async function loadCustomer() {
+      setMessage("Loading...");
+      try {
+        const res = await Api.apiFetch(`/api/users/${encodeURIComponent(userId)}`);
+        const user = await res.json();
+        nameEl.textContent = user.fullName || user.FullName || "--";
+        emailEl.textContent = user.email || user.Email || "";
+        phoneEl.textContent = user.phoneNumber || user.PhoneNumber || "--";
+        addressEl.textContent = user.address || user.Address || "--";
+        createdEl.textContent = formatDate(user.createdAt || user.CreatedAt);
+        tierEl.textContent = user.tier || user.Tier || "Unknown";
+        const isActive = user.isActive ?? user.IsActive ?? true;
+        statusEl.textContent = isActive ? "Hoat dong" : "Tam khoa";
+        statusEl.className = isActive ? STATUS_BADGE.Active : STATUS_BADGE.Inactive;
+        setMessage("");
+      } catch (error) {
+        if (String(error?.message || "").includes("401") || String(error?.message || "").includes("403")) {
+          setMessage("Not authorized. Please log in.", true);
+        } else {
+          setMessage(error?.message || "Failed to load customer.", true);
+        }
+      }
+    }
+
+    async function loadOrders() {
+      ordersBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-3">Loading orders...</td></tr>';
+      try {
+        const res = await Api.apiFetch(`/api/orders/admin?userId=${encodeURIComponent(userId)}`);
+        const data = await res.json();
+        const orders = Array.isArray(data) ? data : [];
+
+        if (!orders.length) {
+          ordersBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-3">No orders.</td></tr>';
+          ordersSummary.textContent = "0 orders";
+          return;
+        }
+
+        ordersSummary.textContent = `${orders.length} orders`;
+
+        const fragment = document.createDocumentFragment();
+        orders.forEach((order) => {
+          const orderCode = order.orderCode || order.OrderCode || "";
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${orderCode}</td>
+            <td>${formatDate(order.createdAt || order.CreatedAt)}</td>
+            <td><span class="badge bg-light text-dark">${order.currentStatus || order.CurrentStatus || "Unknown"}</span></td>
+            <td class="text-end">${formatMoney(order.finalPrice ?? order.FinalPrice ?? order.estimatedPrice ?? order.EstimatedPrice)}</td>
+            <td class="text-end">
+              <a class="btn btn-sm btn-outline-primary" href="order-detail.html?id=${encodeURIComponent(order.id || order.Id || "")}&code=${encodeURIComponent(orderCode)}">View</a>
+            </td>
+          `;
+          fragment.appendChild(tr);
+        });
+
+        ordersBody.innerHTML = "";
+        ordersBody.appendChild(fragment);
+      } catch (error) {
+        ordersBody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-3">${error?.message || "Failed to load orders."}</td></tr>`;
+        ordersSummary.textContent = "";
+      }
+    }
+
+    loadCustomer();
+    loadOrders();
+  });
+</script>
+</body>
+</html>
