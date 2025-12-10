@@ -180,8 +180,8 @@
         <h1 class="auth-title">Đăng Ký</h1>
         <form id="reg-auth-form">
           <div class="reg-form-group">
-            <input type="text" id="reg-username" placeholder=" " required />
-            <label for="reg-username">Tên người dùng</label>
+            <input type="text" id="reg-fullname" placeholder=" " required />
+            <label for="reg-fullname">Họ Tên</label>
           </div>
           <div class="reg-form-group">
             <input type="email" id="reg-email" placeholder=" " required />
@@ -209,7 +209,7 @@
         <form id="login-auth-form">
           <div class="login-form-group">
             <input type="text" id="login-email" placeholder=" " required />
-            <label for="login-email">Email hoặc Tên người dùng</label>
+            <label for="login-email">Email</label>
           </div>
           <div class="login-form-group">
             <input type="password" id="login-password" placeholder=" " required />
@@ -594,7 +594,7 @@
   document.getElementById("reg-auth-form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const username = document.getElementById("reg-username").value.trim();
+    const fullName = document.getElementById("reg-fullname").value.trim();
     const email = document.getElementById("reg-email").value.trim();
     const password = document.getElementById("reg-password").value.trim();
     const terms = document.getElementById("reg-terms").checked;
@@ -608,19 +608,19 @@
     errorBox.textContent = "";
 
     // Client-side validation
-    if (!username || !email || !password || !terms) {
+    if (!fullName || !email || !password || !terms) {
       errorBox.textContent = "Vui lòng điền đầy đủ thông tin và đồng ý với điều khoản!";
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       errorBox.textContent = "Định dạng email không hợp lệ!";
-      return;
+      return; 
     }
     if (password.length < 6) {
       errorBox.textContent = "Mật khẩu phải có ít nhất 6 ký tự!";
       return;
     }
-    if (username.length > 50) {
+    if (fullName.length > 50) {
       errorBox.textContent = "Tên người dùng không được vượt quá 50 ký tự!";
       return;
     }
@@ -629,7 +629,7 @@
       return;
     }
 
-    const data = { username, email, password };
+    const data = { fullName, email, password };
 
     submitButton.disabled = true;
     submitButton.textContent = "Đang xử lý...";
@@ -672,7 +672,7 @@
       event.preventDefault();
       showError("");
 
-      const loginValue = loginInput ? loginInput.value.trim() : ""; // Email hoặc username
+      const loginValue = loginInput ? loginInput.value.trim() : ""; // Email
       const password = passwordInput ? passwordInput.value.trim() : "";
 
       if (!loginValue || !password) {
