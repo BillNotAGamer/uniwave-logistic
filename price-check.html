@@ -929,7 +929,7 @@
 
       const fetchVehicles = async () => {
         try {
-          const res = await Api.apiFetch("/api/vehicles");
+          const res = await Api.apiFetch("/api/Vehicles");
           const data = await res.json();
           const list = Array.isArray(data) ? data : data?.items || [];
           list.forEach((v) => {
@@ -956,7 +956,7 @@
         formError.textContent = "";
         distanceValue.textContent = "--";
         try {
-          const res = await Api.apiFetch("/api/quote/estimate", {
+          const res = await Api.apiFetch("/api/Quote/estimate", {
             method: "POST",
             body: {
               pickupAddress: pendingPickup,
@@ -1023,7 +1023,7 @@
         const originalText = submitOrderBtn.textContent;
         submitOrderBtn.textContent = "Đang gửi...";
         try {
-          await Api.apiFetch("/api/quote/submit", {
+          await Api.apiFetch("/api/Quote/submit", {
             method: "POST",
             body: {
               pickupAddress: pendingPickup,
