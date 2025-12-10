@@ -79,6 +79,7 @@ async function apiFetch(path, options = {}) {
   try {
     response = await fetch(url, fetchOptions);
   } catch (error) {
+    console.error(`Network error while calling ${url}: ${error.message}`); // Thêm log
     throw new Error(`Network error while calling ${url}: ${error.message}`);
   }
 
@@ -104,6 +105,7 @@ async function apiFetch(path, options = {}) {
       }
     }
 
+    console.error(`API error: ${errorMessage}`); // Thêm log lỗi
     throw new Error(errorMessage);
   }
 
