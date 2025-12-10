@@ -698,7 +698,7 @@
         }
 
         try {
-          const response = await UniwaveAPI.apiFetch("/api/Auth/login", {
+          const response = await UniwaveAPI.apiFetch("api/Auth/login", {
             method: "POST",
             body: { email, password },
           });
