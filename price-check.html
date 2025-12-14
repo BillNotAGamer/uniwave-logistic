@@ -75,7 +75,8 @@
       padding: 12px 16px;
       border-radius: 12px;
       cursor: pointer;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+      transition: transform 0.18s ease, box-shadow 0.18s ease,
+        opacity 0.18s ease;
     }
 
     .btn-estimate:hover,
@@ -147,7 +148,8 @@
       flex-direction: column;
       gap: 8px;
       cursor: pointer;
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, border-color 0.2s ease,
+        box-shadow 0.2s ease;
       opacity: 0;
       animation: fadeIn 0.4s forwards ease;
     }
@@ -459,11 +461,14 @@
   </div>
   <!--Breadcrumb end-->
 
-    <div class="main-content">
+  <div class="main-content">
     <section class="quote-wrapper">
       <div class="quote-card">
         <h2>Ước tính cước phí</h2>
-        <p class="lead">Nhập địa chỉ điểm đi và điểm đến để xem khoảng cách và giá cho từng loại xe.</p>
+        <p class="lead">
+          Nhập địa chỉ điểm đi và điểm đến để xem khoảng cách và giá cho từng
+          loại xe.
+        </p>
         <form id="estimate-form" class="quote-form">
           <div>
             <label for="pickup-input">Từ (địa chỉ lấy hàng)</label>
@@ -471,10 +476,13 @@
           </div>
           <div>
             <label for="dropoff-input">Đến (địa chỉ giao hàng)</label>
-            <input id="dropoff-input" name="dropoff" type="text" placeholder="VD: 12 Trần Hưng Đạo, Quận 1, TP.HCM" required />
+            <input id="dropoff-input" name="dropoff" type="text" placeholder="VD: 12 Trần Hưng Đạo, Quận 1, TP.HCM"
+              required />
           </div>
           <div>
-            <button id="estimate-btn" type="button" class="btn-estimate">Ước tính</button>
+            <button id="estimate-btn" type="button" class="btn-estimate">
+              Ước tính
+            </button>
             <div id="form-error" class="form-error" aria-live="polite"></div>
           </div>
         </form>
@@ -485,19 +493,23 @@
           <div id="map"></div>
           <div class="distance-summary">
             <span>Khoảng cách: <strong id="distance-value">--</strong></span>
-            <span id="route-status" style="color: #9ab5c6;">Nhập địa chỉ để nhận được tính.</span>
+            <span id="route-status" style="color: #9ab5c6">Nhập địa chỉ để nhận được tính.</span>
           </div>
         </div>
 
         <div class="vehicles-header">
-          <h3 style="margin: 0;">Bảng giá theo loại xe</h3>
-          <button id="submit-order-btn" class="btn-submit-order" type="button" disabled>Đặt hàng</button>
+          <h3 style="margin: 0">Bảng giá theo loại xe</h3>
+          <button id="submit-order-btn" class="btn-submit-order" type="button" disabled>
+            Đặt hàng
+          </button>
         </div>
 
-        <div id="estimate-loading" class="loading-box" style="display: none;">
+        <div id="estimate-loading" class="loading-box" style="display: none">
           <span class="spinner"></span>Đang tính toán, vui lòng chờ...
         </div>
-        <div id="vehicles-empty" class="empty-box" style="display: none;">Chưa có dữ liệu gì. Vui lòng thử lại.</div>
+        <div id="vehicles-empty" class="empty-box" style="display: none">
+          Chưa có dữ liệu gì. Vui lòng thử lại.
+        </div>
 
         <div id="vehicles-grid" class="vehicles-grid"></div>
       </section>
@@ -508,12 +520,18 @@
   <div id="email-modal" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal">
       <h4>Nhập email để nhận báo giá</h4>
-      <p style="margin: 0 0 10px; color: #9ab5c6;">Chúng tôi sẽ gửi báo giá và xác nhận thông tin.</p>
+      <p style="margin: 0 0 10px; color: #9ab5c6">
+        Chúng tôi sẽ gửi báo giá và xác nhận thông tin.
+      </p>
       <input type="email" id="email-input" placeholder="you@example.com" />
       <div id="email-error" class="error"></div>
       <div class="modal-actions">
-        <button type="button" class="btn-secondary" id="email-cancel">Hủy</button>
-        <button type="button" class="btn-estimate" id="email-confirm">Xác nhận</button>
+        <button type="button" class="btn-secondary" id="email-cancel">
+          Hủy
+        </button>
+        <button type="button" class="btn-estimate" id="email-confirm">
+          Xác nhận
+        </button>
       </div>
     </div>
   </div>
@@ -522,9 +540,13 @@
   <div id="thankyou-modal" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal">
       <h4>Cảm ơn bạn!</h4>
-      <p style="margin: 0 0 10px; color: #9ab5c6;">Chúng tôi đã nhận được yêu cầu đặt hàng và sẽ liên hệ sớm.</p>
-      <div class="modal-actions" style="justify-content: center;">
-        <button type="button" class="btn-estimate" id="thankyou-close">Đóng</button>
+      <p style="margin: 0 0 10px; color: #9ab5c6">
+        Chúng tôi đã nhận được yêu cầu đặt hàng và sẽ liên hệ sớm.
+      </p>
+      <div class="modal-actions" style="justify-content: center">
+        <button type="button" class="btn-estimate" id="thankyou-close">
+          Đóng
+        </button>
       </div>
     </div>
   </div>
@@ -771,40 +793,53 @@
       },
     });
   </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=process.env.GOOGLE_MAP_API_KEY"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlNp55eANwXP-R-_vJR3cOQeCtnsRKVek"></script>
   <script>
-    // Ensure Google Maps JS API is loaded on the page with your key:
-    
     document.addEventListener("DOMContentLoaded", () => {
       const Api = window.UniwaveAPI || window.UniwaveApi;
+      if (!Api?.apiFetch) {
+        console.error(
+          "UniwaveAPI.apiFetch not found. Check js/api.js load order."
+        );
+        return;
+      }
+
+      // ===== DOM =====
       const pickupInput = document.getElementById("pickup-input");
       const dropoffInput = document.getElementById("dropoff-input");
       const estimateBtn = document.getElementById("estimate-btn");
       const formError = document.getElementById("form-error");
       const distanceValue = document.getElementById("distance-value");
       const routeStatus = document.getElementById("route-status");
+
       const vehiclesGrid = document.getElementById("vehicles-grid");
       const vehiclesEmpty = document.getElementById("vehicles-empty");
       const estimateLoading = document.getElementById("estimate-loading");
       const submitOrderBtn = document.getElementById("submit-order-btn");
+
       const emailModal = document.getElementById("email-modal");
       const emailInput = document.getElementById("email-input");
       const emailError = document.getElementById("email-error");
       const emailConfirm = document.getElementById("email-confirm");
       const emailCancel = document.getElementById("email-cancel");
+
       const thankyouModal = document.getElementById("thankyou-modal");
       const thankyouClose = document.getElementById("thankyou-close");
 
+      // ===== State =====
       let pendingPickup = "";
       let pendingDropoff = "";
-      let userEmail = "";
-      let selectedVehicle = null;
-      let lastDistanceKm = null;
-      let map;
-      let directionsService;
-      let directionsRenderer;
-      const vehicleMeta = new Map();
+      let lastDistanceKm = 0;
 
+      let selectedVehicle = null; // VehicleEstimateDto
+      let userEmail = "";
+
+      // Map
+      let map = null;
+      let directionsService = null;
+      let directionsRenderer = null;
+
+      // Optional: vehicle icons by code slug
       const vehicleIcons = {
         van500: "image/price-check/image/van500.svg",
         van1000: "image/price-check/image/van1000.svg",
@@ -812,45 +847,77 @@
         truck1000: "image/price-check/image/truck1000.svg",
         truck1500: "image/price-check/image/truck1500.svg",
         truck2000: "image/price-check/image/truck2000.svg",
-        truck5000: "image/price-check/image/truck5000.svg"
+        truck5000: "image/price-check/image/truck5000.svg",
       };
+
+      // ===== Utils =====
+      const slugifyCode = (value) =>
+        (value || "")
+          .toString()
+          .toLowerCase()
+          .replace(/[^a-z0-9]/g, "");
 
       const formatCurrency = (value) => {
         if (value === undefined || value === null || value === "") return "-";
         const num = Number(value);
-        if (Number.isNaN(num)) return value;
+        if (Number.isNaN(num)) return String(value);
         return `${num.toLocaleString("vi-VN")} đ`;
       };
 
-      const validateEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      const validateEmail = (value) =>
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
+      const setLoading = (isLoading) => {
+        estimateLoading.style.display = isLoading ? "block" : "none";
+        estimateBtn.disabled = isLoading;
+        if (isLoading) {
+          vehiclesGrid.innerHTML = "";
+          vehiclesEmpty.style.display = "none";
+          submitOrderBtn.disabled = true;
+          selectedVehicle = null;
+        }
+      };
+
+      const setError = (message) => {
+        formError.textContent = message || "";
+      };
+
+      const resetResults = () => {
+        distanceValue.textContent = "--";
+        routeStatus.textContent = "Nhập địa chỉ để nhận được tính.";
+        vehiclesGrid.innerHTML = "";
+        vehiclesEmpty.style.display = "none";
+        submitOrderBtn.disabled = true;
+        selectedVehicle = null;
+        lastDistanceKm = 0;
+      };
+
+      // ===== Modals =====
       const toggleEmailModal = (show) => {
         emailError.textContent = "";
         if (show) {
           emailModal.classList.add("active");
-          setTimeout(() => emailInput && emailInput.focus(), 100);
+          setTimeout(() => emailInput?.focus(), 50);
         } else {
           emailModal.classList.remove("active");
         }
       };
 
       const toggleThankYou = (show) => {
-        if (show) {
-          thankyouModal.classList.add("active");
-        } else {
-          thankyouModal.classList.remove("active");
-        }
+        if (show) thankyouModal.classList.add("active");
+        else thankyouModal.classList.remove("active");
       };
 
+      // ===== Google Map =====
       const ensureMap = () => {
         if (!(window.google && google.maps)) {
           routeStatus.textContent =
-            "Không tải được Google Maps. Thêm script API key vào trang để hiển thị lộ trình.";
+            "Không tải được Google Maps. Hãy kiểm tra script Google Maps API key.";
           return null;
         }
         if (!map) {
           map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 5,
+            zoom: 6,
             center: { lat: 15.9, lng: 105.8 },
             mapTypeControl: false,
             streetViewControl: false,
@@ -861,190 +928,227 @@
         return map;
       };
 
-      const drawRoute = async (origin, destination) => {
+      const getDistanceKmFromDirections = async (origin, destination) => {
         const m = ensureMap();
-        if (!m || !directionsService || !directionsRenderer) return;
-        try {
-          const result = await directionsService.route({
-            origin,
-            destination,
-            travelMode: google.maps.TravelMode.DRIVING,
-          });
-          directionsRenderer.setDirections(result);
-          routeStatus.textContent = "Đã vẽ lộ trình trên bản đồ.";
-        } catch (err) {
-          routeStatus.textContent = "Không vẽ được lộ trình. Vui lòng kiểm tra địa chỉ.";
-        }
+        if (!m || !directionsService || !directionsRenderer) return null;
+
+        const result = await directionsService.route({
+          origin,
+          destination,
+          travelMode: google.maps.TravelMode.DRIVING,
+        });
+
+        directionsRenderer.setDirections(result);
+
+        const leg = result?.routes?.[0]?.legs?.[0];
+        const meters = leg?.distance?.value;
+        if (!meters || meters <= 0) return null;
+        return meters / 1000;
       };
 
-      const setLoading = (isLoading) => {
-        estimateLoading.style.display = isLoading ? "block" : "none";
-        if (isLoading) {
-          vehiclesGrid.innerHTML = "";
-          vehiclesEmpty.style.display = "none";
-          submitOrderBtn.disabled = true;
-        }
-      };
-
-      const renderVehicles = (estimates) => {
+      // ===== Render =====
+      const renderVehicles = (vehicles) => {
         vehiclesGrid.innerHTML = "";
         selectedVehicle = null;
         submitOrderBtn.disabled = true;
 
-        if (!estimates.length) {
+        if (!Array.isArray(vehicles) || vehicles.length === 0) {
           vehiclesEmpty.style.display = "block";
           return;
         }
         vehiclesEmpty.style.display = "none";
 
-        estimates.forEach((item, idx) => {
-          const type = (item.vehicleType || item.type || item.code || item.name || `vehicle${idx}`).toString();
-          const slug = type.toLowerCase().replace(/[^a-z0-9]/g, "");
-          const meta = vehicleMeta.get(slug) || {};
-          const name = item.vehicleName || item.name || meta.name || type;
-          const capacity = item.capacity || meta.capacity || meta.size || item.size || "-";
-          const price = item.price || item.estimatedPrice || item.estimate || item.amount;
-          const icon = vehicleIcons[slug] || meta.icon || vehicleIcons.van500;
+        vehicles.forEach((v) => {
+          // VehicleEstimateDto (backend)
+          const code = v.vehicleCode;
+          const name = v.vehicleName;
+          const capacity = v.capacityKg ? `${v.capacityKg} kg` : "-";
+          const price = v.estimatedPrice;
+
+          const slug = slugifyCode(code);
+          const icon =
+            vehicleIcons[slug] || v.imageUrl || vehicleIcons.van500;
+
           const card = document.createElement("div");
           card.className = "vehicle-card";
           card.innerHTML = `
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-              <div>
-                <div style="font-weight:800;">${name}</div>
-                <div class="vehicle-meta">Tải trọng/Kích thước: ${capacity}</div>
-              </div>
-              <img src="${icon}" alt="${name}" />
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+            <div>
+              <div style="font-weight:800;">${name}</div>
+              <div class="vehicle-meta">Tải trọng: ${capacity}</div>
             </div>
-            <div class="vehicle-price">${formatCurrency(price)}</div>
-          `;
+            <img src="${icon}" alt="${name}" />
+          </div>
+          <div class="vehicle-price">${formatCurrency(price)}</div>
+        `;
+
           card.addEventListener("click", () => {
-            document.querySelectorAll(".vehicle-card.selected").forEach((el) => el.classList.remove("selected"));
+            document
+              .querySelectorAll(".vehicle-card.selected")
+              .forEach((el) => el.classList.remove("selected"));
             card.classList.add("selected");
-            selectedVehicle = { type, name, price, capacity, icon };
+
+            selectedVehicle = v; // keep full dto
             submitOrderBtn.disabled = false;
           });
+
           vehiclesGrid.appendChild(card);
         });
       };
 
-      const fetchVehicles = async () => {
-        try {
-          const res = await Api.apiFetch("/api/Vehicles");
-          const data = await res.json();
-          const list = Array.isArray(data) ? data : data?.items || [];
-          list.forEach((v) => {
-            const slug = (v.code || v.type || v.name || "").toLowerCase().replace(/[^a-z0-9]/g, "");
-            if (!slug) return;
-            vehicleMeta.set(slug, {
-              name: v.name || v.title || v.type,
-              capacity: v.capacity || v.size,
-              icon: vehicleIcons[slug],
-            });
-          });
-        } catch (_) {
-          // silent fallback; estimates will still render
+      // ===== API Calls =====
+      const estimateQuote = async ({
+        pickupAddress,
+        dropoffAddress,
+        distanceKm,
+      }) => {
+        const res = await Api.apiFetch("/api/Quote/estimate", {
+          method: "POST",
+          body: { pickupAddress, dropoffAddress, distanceKm },
+        });
+        return await res.json(); // EstimateResponse
+      };
+
+      const createLead = async ({
+        email,
+        pickupAddress,
+        dropoffAddress,
+        distanceKm,
+      }) => {
+        const res = await Api.apiFetch("/api/Quote/lead", {
+          method: "POST",
+          body: { email, pickupAddress, dropoffAddress, distanceKm },
+        });
+        return await res.json(); // LeadResponse
+      };
+
+      // ===== Handlers =====
+      const handleEstimate = async () => {
+        const pickup = pickupInput.value.trim();
+        const dropoff = dropoffInput.value.trim();
+
+        setError("");
+        resetResults();
+
+        if (!pickup || !dropoff) {
+          setError("Vui lòng nhập đầy đủ điểm đi và điểm đến.");
+          return;
         }
-      };
 
-      const openEmailStep = () => {
-        emailInput.value = userEmail || "";
-        toggleEmailModal(true);
-      };
+        pendingPickup = pickup;
+        pendingDropoff = dropoff;
 
-      const runEstimate = async () => {
         setLoading(true);
-        formError.textContent = "";
-        distanceValue.textContent = "--";
         try {
-          const res = await Api.apiFetch("/api/Quote/estimate", {
-            method: "POST",
-            body: {
-              pickupAddress: pendingPickup,
-              dropoffAddress: pendingDropoff,
-              email: userEmail,
-            },
-          });
-          const data = await res.json();
-          lastDistanceKm =
-            data.distanceKm ||
-            data.distance ||
-            (typeof data.distanceInKm === "number" ? data.distanceInKm : null);
-          distanceValue.textContent = lastDistanceKm ? `${Number(lastDistanceKm).toFixed(2)} km` : "--";
-          routeStatus.textContent = "Đã tính toán lộ trình.";
-          drawRoute(pendingPickup, pendingDropoff);
+          // 1) Compute distance by Google Directions (FE responsibility)
+          routeStatus.textContent = "Đang tính lộ trình...";
+          const km = await getDistanceKmFromDirections(pickup, dropoff);
 
-          const estimates = Array.isArray(data)
-            ? data
-            : data.estimates || data.vehicles || data.items || [];
-          renderVehicles(estimates);
-        } catch (error) {
-          formError.textContent = error?.message || "Không thể ước tính cước phí. Vui lòng thử lại.";
-          vehiclesGrid.innerHTML = "";
+          if (!km || km <= 0) {
+            throw new Error(
+              "Không tính được khoảng cách. Vui lòng kiểm tra địa chỉ."
+            );
+          }
+
+          lastDistanceKm = km;
+          distanceValue.textContent = `${km.toFixed(2)} km`;
+          routeStatus.textContent = "Đã tính toán lộ trình.";
+
+          // 2) Ask backend to estimate prices
+          const data = await estimateQuote({
+            pickupAddress: pickup,
+            dropoffAddress: dropoff,
+            distanceKm: km,
+          });
+
+          // Backend response: { distanceKm, vehicles }
+          renderVehicles(data?.vehicles || []);
+        } catch (err) {
+          console.error(err);
+          setError(
+            err?.message || "Không thể ước tính cước phí. Vui lòng thử lại."
+          );
           vehiclesEmpty.style.display = "block";
         } finally {
           setLoading(false);
         }
       };
 
-      estimateBtn.addEventListener("click", () => {
-        const pickup = pickupInput.value.trim();
-        const dropoff = dropoffInput.value.trim();
-        formError.textContent = "";
-        if (!pickup || !dropoff) {
-          formError.textContent = "Vui lòng nhập đầy đủ điểm đi và điểm đến.";
+      const handleSubmitOrder = () => {
+        setError("");
+        if (!selectedVehicle) {
+          setError("Vui lòng chọn loại xe trước khi đặt hàng.");
           return;
         }
-        pendingPickup = pickup;
-        pendingDropoff = dropoff;
-        openEmailStep();
-      });
+        // Email only required at lead step (backend design)
+        emailInput.value = userEmail || "";
+        toggleEmailModal(true);
+      };
 
-      emailConfirm.addEventListener("click", () => {
+      const handleConfirmEmailAndSendLead = async () => {
         const email = emailInput.value.trim();
+
         if (!validateEmail(email)) {
           emailError.textContent = "Email không hợp lệ.";
           return;
         }
-        emailError.textContent = "";
-        userEmail = email;
-        toggleEmailModal(false);
-        runEstimate();
-      });
-
-      emailCancel.addEventListener("click", () => toggleEmailModal(false));
-      thankyouClose.addEventListener("click", () => toggleThankYou(false));
-
-      submitOrderBtn.addEventListener("click", async () => {
-        if (!selectedVehicle) {
-          formError.textContent = "Vui lòng chọn loại xe trước khi đặt hàng.";
+        if (!pendingPickup || !pendingDropoff || !lastDistanceKm) {
+          emailError.textContent =
+            "Thiếu dữ liệu báo giá. Vui lòng ước tính lại.";
           return;
         }
-        submitOrderBtn.disabled = true;
+
+        emailError.textContent = "";
+        userEmail = email;
+
+        toggleEmailModal(false);
+
         const originalText = submitOrderBtn.textContent;
+        submitOrderBtn.disabled = true;
         submitOrderBtn.textContent = "Đang gửi...";
+
         try {
-          await Api.apiFetch("/api/Quote/submit", {
-            method: "POST",
-            body: {
-              pickupAddress: pendingPickup,
-              dropoffAddress: pendingDropoff,
-              email: userEmail,
-              vehicleType: selectedVehicle.type,
-              vehicleName: selectedVehicle.name,
-              estimatedPrice: selectedVehicle.price,
-              distanceKm: lastDistanceKm,
-            },
+          await createLead({
+            email,
+            pickupAddress: pendingPickup,
+            dropoffAddress: pendingDropoff,
+            distanceKm: lastDistanceKm,
           });
           toggleThankYou(true);
-        } catch (error) {
-          formError.textContent = error?.message || "Không thể gửi yêu cầu. Vui lòng thử lại.";
+        } catch (err) {
+          console.error(err);
+          setError(
+            err?.message || "Không thể gửi yêu cầu. Vui lòng thử lại."
+          );
         } finally {
           submitOrderBtn.disabled = false;
           submitOrderBtn.textContent = originalText;
         }
+      };
+
+      // ===== Events =====
+      estimateBtn.addEventListener("click", handleEstimate);
+
+      // Optional: press Enter to estimate
+      [pickupInput, dropoffInput].forEach((el) => {
+        el.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            handleEstimate();
+          }
+        });
       });
 
-      fetchVehicles();
+      submitOrderBtn.addEventListener("click", handleSubmitOrder);
+
+      emailConfirm.addEventListener("click", handleConfirmEmailAndSendLead);
+      emailCancel.addEventListener("click", () => toggleEmailModal(false));
+
+      thankyouClose.addEventListener("click", () => toggleThankYou(false));
+
+      // init state
+      resetResults();
+      ensureMap();
     });
   </script>
 </body>
