@@ -267,7 +267,8 @@ function SelectedNavItem() {
     }, // Dịch vụ (bao gồm các trang con)
     { paths: ['/en/tracking-shipment', '/vi/tracking-shipment'], element: navItems[3] }, // Theo dõi đơn hàng
     { paths: ['/en/price-check', '/vi/price-check'], element: navItems[4] }, // Báo giá
-    { paths: ['/en/contact', '/vi/contact'], element: navItems[5] } // Liên hệ
+    { paths: ['/en/contact', '/vi/contact'], element: navItems[5] }, // Liên hệ
+    
   ];
 
   // Tìm và gán lớp selected

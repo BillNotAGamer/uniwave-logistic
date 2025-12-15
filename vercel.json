@@ -65,6 +65,10 @@
       "destination": "/authentication.html"
     },
     {
+      "source": "/user-dashboard",
+      "destination": "/user-dashboard.html"
+    },
+    {
       "source": "/vi/international",
       "destination": "/international.html"
     },
@@ -111,15 +115,8 @@
     {
       "source": "/en/css/:path*",
       "destination": "uni-content/css/:path*"
-    },
-    {
-      "source": "/vi/uni-content/:path*",
-      "destination": "uni-content/:path*"
-    },
-    {
-      "source": "/en/uni-content/:path*",
-      "destination": "uni-content/:path*"
     }
+    
   ],
   "redirects": [
     {
