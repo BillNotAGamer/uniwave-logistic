@@ -15,279 +15,241 @@
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    .quote-wrapper {
-      max-width: 1180px;
+    /* ===== GoGoX-like ===== */
+    .gx-wrap {
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 24px 16px 60px;
+      padding: 22px 16px 60px
     }
 
-    .quote-card {
-      background: #10222d;
-      color: #e8f1f7;
-      border-radius: 18px;
-      padding: 24px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .quote-card h2 {
-      margin: 0 0 8px;
-      font-size: 1.6rem;
-    }
-
-    .quote-card p.lead {
-      margin: 0 0 20px;
-      color: #a9c0ce;
-    }
-
-    .quote-form {
+    .gx-top {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 14px;
-      align-items: end;
+      grid-template-columns: 420px 1fr;
+      gap: 18px;
+      align-items: stretch
     }
 
-    .quote-form label {
-      color: #9ab5c6;
-      font-weight: 600;
-      margin-bottom: 6px;
+    @media (max-width:992px) {
+      .gx-top {
+        grid-template-columns: 1fr
+      }
     }
 
-    .quote-form input {
-      width: 100%;
+    .gx-form {
+      background: #fff;
+      border: 1px solid #e7eef5;
       border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(255, 255, 255, 0.04);
-      padding: 12px 14px;
-      color: #eef6fb;
+      padding: 18px;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .06);
+      position: relative;
     }
 
-    .quote-form input:focus {
-      outline: 2px solid #ff8e53;
+    .gx-point {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start
     }
 
-    .btn-estimate,
-    .btn-submit-order {
-      background: linear-gradient(135deg, #ff8e53, #ff6a3d);
-      border: none;
-      color: #0f1c24;
+    .gx-content {
+      flex: 1
+    }
+
+    .gx-label {
       font-weight: 800;
-      padding: 12px 16px;
-      border-radius: 12px;
+      color: #111827;
+      margin-bottom: 6px
+    }
+
+    .gx-marker {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-top: 6px;
+      flex: 0 0 12px;
+    }
+
+    .gx-marker-from {
+      background: #1f8fd6
+    }
+
+    .gx-marker-to {
+      background: #1f8fd6
+    }
+
+    .gx-line {
+      margin: 6px 0 10px 5px;
+      height: 22px;
+      border-left: 2px dotted #c9d6e4;
+    }
+
+    .gx-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center
+    }
+
+    .gx-form input {
+      flex: 1;
+      border-radius: 6px;
+      border: 1px solid #d6e2ee;
+      padding: 11px 12px;
+      outline: none;
+    }
+
+    .gx-form input:focus {
+      border-color: #1f8fd6;
+      box-shadow: 0 0 0 3px rgba(31, 143, 214, .15);
+    }
+
+    .gx-trash {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      border: 1px solid #d6e2ee;
+      background: #fff;
       cursor: pointer;
-      transition: transform 0.18s ease, box-shadow 0.18s ease,
-        opacity 0.18s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .btn-estimate:hover,
-    .btn-submit-order:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    .gx-trash i {
+      color: #4b5563
     }
 
-    .btn-estimate:disabled,
-    .btn-submit-order:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      box-shadow: none;
-      transform: none;
+    .gx-btn {
+      margin-top: 14px;
+      width: 180px;
+      background: #1f8fd6;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-weight: 900;
+      cursor: pointer;
     }
 
-    .form-error {
-      margin-top: 8px;
-      color: #ffb199;
-      font-size: 0.95rem;
+    .gx-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed
     }
 
-    .results-section {
-      margin-top: 26px;
-      display: grid;
-      gap: 16px;
+    .gx-error {
+      margin-top: 10px;
+      color: #d64545;
+      font-weight: 700
     }
 
-    .map-panel {
-      background: #0f1c24;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 14px;
+    .gx-map {
+      background: #fff;
+      border: 1px solid #e7eef5;
+      border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .06);
     }
 
     #map {
       width: 100%;
-      min-height: 280px;
-      background: #0c171e;
+      min-height: 290px
     }
 
-    .distance-summary {
-      padding: 12px 16px;
-      color: #cfe2ef;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .vehicles-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
+    .gx-distance {
       margin-top: 10px;
-    }
-
-    .vehicle-card {
-      background: #0f1c24;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 14px;
-      padding: 14px;
-      color: #eaf3fb;
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      cursor: pointer;
-      transition: transform 0.2s ease, border-color 0.2s ease,
-        box-shadow 0.2s ease;
-      opacity: 0;
-      animation: fadeIn 0.4s forwards ease;
-    }
-
-    .vehicle-card.selected {
-      border-color: #ff8e53;
-      box-shadow: 0 12px 30px rgba(255, 142, 83, 0.22);
-    }
-
-    .vehicle-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255, 255, 255, 0.12);
-    }
-
-    .vehicle-card img {
-      max-height: 60px;
-      object-fit: contain;
-    }
-
-    .vehicle-meta {
-      font-size: 0.95rem;
-      color: #a9c0ce;
-    }
-
-    .vehicle-price {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: #ffbe94;
-    }
-
-    .vehicles-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-top: 6px;
-      margin-bottom: 4px;
-      color: #eaf3fb;
-    }
-
-    .loading-box,
-    .empty-box {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px dashed rgba(255, 255, 255, 0.07);
-      color: #cfe2ef;
-      padding: 12px 14px;
-      border-radius: 10px;
-      text-align: center;
-    }
-
-    .spinner {
-      width: 18px;
-      height: 18px;
-      border: 3px solid rgba(255, 255, 255, 0.12);
-      border-top-color: #ff8e53;
-      border-radius: 50%;
-      display: inline-block;
-      animation: spin 1s linear infinite;
-      margin-right: 8px;
-    }
-
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    .modal {
-      background: #0f1c24;
-      padding: 22px;
-      border-radius: 14px;
-      min-width: 320px;
-      max-width: 420px;
-      color: #eaf3fb;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 14px 38px rgba(0, 0, 0, 0.4);
-      animation: fadeIn 0.25s ease;
-    }
-
-    .modal h4 {
-      margin: 0 0 8px;
-    }
-
-    .modal-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .modal input {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(255, 255, 255, 0.04);
-      color: #eef6fb;
-    }
-
-    .modal .error {
-      color: #ffb199;
-      margin-top: 8px;
-      font-size: 0.95rem;
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.08);
-      color: #eaf3fb;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: #fff;
+      border: 1px solid #e7eef5;
       border-radius: 10px;
       padding: 10px 14px;
-      cursor: pointer;
+      display: flex;
+      gap: 14px;
+      justify-content: space-between;
+      align-items: center;
+      color: #111827;
     }
 
-    @keyframes spin {
+    .gx-status {
+      color: #6b7280
+    }
+
+    .gx-results {
+      margin-top: 24px
+    }
+
+    .gx-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 900;
+      color: #111827;
+      margin: 18px 0
+    }
+
+    .gx-loading,
+    .gx-empty {
+      text-align: center;
+      background: #fff;
+      border: 1px dashed #d6e2ee;
+      border-radius: 10px;
+      padding: 12px;
+      color: #374151;
+    }
+
+    .gx-spinner {
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(0, 0, 0, .1);
+      border-top-color: #1f8fd6;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: -3px;
+      margin-right: 8px;
+      animation: gxspin 1s linear infinite;
+    }
+
+    @keyframes gxspin {
       to {
-        transform: rotate(360deg);
+        transform: rotate(360deg)
       }
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(4px);
-      }
+    .gx-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin-top: 16px
+    }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .gx-card {
+      background: #fff;
+      border: 1px solid #e7eef5;
+      border-radius: 10px;
+      padding: 14px 12px;
+      text-align: center;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .06);
+    }
+
+    .gx-card img {
+      height: 64px;
+      width: auto;
+      object-fit: contain;
+      margin: 6px auto 10px;
+      display: block
+    }
+
+    .gx-name {
+      font-weight: 900;
+      color: #111827
+    }
+
+    .gx-size {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 4px
+    }
+
+    .gx-price {
+      margin-top: 8px;
+      font-size: 18px;
+      font-weight: 900;
+      color: #111827
     }
   </style>
   <!-- Swiper CSS -->
@@ -462,57 +424,70 @@
   <!--Breadcrumb end-->
 
   <div class="main-content">
-    <section class="quote-wrapper">
-      <div class="quote-card">
-        <h2>Ước tính cước phí</h2>
-        <p class="lead">
-          Nhập địa chỉ điểm đi và điểm đến để xem khoảng cách và giá cho từng
-          loại xe.
-        </p>
-        <form id="estimate-form" class="quote-form">
-          <div>
-            <label for="pickup-input">Từ (địa chỉ lấy hàng)</label>
-            <input id="pickup-input" name="pickup" type="text" placeholder="VD: 512 Nguyễn Xiển, TP.Thủ Đức" required />
+    <section class="gx-wrap">
+      <div class="gx-top">
+        <!-- LEFT: form -->
+        <div class="gx-form">
+          <div class="gx-point">
+            <div class="gx-marker gx-marker-from"></div>
+            <div class="gx-content">
+              <div class="gx-label">Từ</div>
+              <div class="gx-input-row">
+                <input id="pickup-input" type="text" placeholder="Nhập địa chỉ lấy hàng" autocomplete="off" />
+                <button class="gx-trash" type="button" data-clear="pickup" aria-label="Xóa">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </div>
           </div>
-          <div>
-            <label for="dropoff-input">Đến (địa chỉ giao hàng)</label>
-            <input id="dropoff-input" name="dropoff" type="text" placeholder="VD: 12 Trần Hưng Đạo, Quận 1, TP.HCM"
-              required />
+
+          <div class="gx-line"></div>
+
+          <div class="gx-point">
+            <div class="gx-marker gx-marker-to"></div>
+            <div class="gx-content">
+              <div class="gx-label">Đến</div>
+              <div class="gx-input-row">
+                <input id="dropoff-input" type="text" placeholder="Nhập địa chỉ giao hàng" autocomplete="off" />
+                <button class="gx-trash" type="button" data-clear="dropoff" aria-label="Xóa">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </div>
           </div>
-          <div>
-            <button id="estimate-btn" type="button" class="btn-estimate">
-              Ước tính
-            </button>
-            <div id="form-error" class="form-error" aria-live="polite"></div>
-          </div>
-        </form>
+
+          <button id="estimate-btn" type="button" class="gx-btn">
+            Chi phí ước tính
+          </button>
+          <div id="form-error" class="gx-error" aria-live="polite"></div>
+        </div>
+
+        <!-- RIGHT: map -->
+        <div class="gx-map">
+          <div id="map"></div>
+        </div>
       </div>
 
-      <section class="results-section">
-        <div class="map-panel">
-          <div id="map"></div>
-          <div class="distance-summary">
-            <span>Khoảng cách: <strong id="distance-value">--</strong></span>
-            <span id="route-status" style="color: #9ab5c6">Nhập địa chỉ để nhận được tính.</span>
-          </div>
+      <div class="gx-distance">
+        <div>Khoảng cách: <strong id="distance-value">--</strong></div>
+        <div id="route-status" class="gx-status">
+          Nhập địa chỉ để nhận được tính.
+        </div>
+      </div>
+
+      <div class="gx-results">
+        <h2 class="gx-title">Đây là chi phí ước tính</h2>
+
+        <div id="estimate-loading" class="gx-loading" style="display: none">
+          <span class="gx-spinner"></span>Đang tính toán, vui lòng chờ...
         </div>
 
-        <div class="vehicles-header">
-          <h3 style="margin: 0">Bảng giá theo loại xe</h3>
-          <button id="submit-order-btn" class="btn-submit-order" type="button" disabled>
-            Đặt hàng
-          </button>
-        </div>
-
-        <div id="estimate-loading" class="loading-box" style="display: none">
-          <span class="spinner"></span>Đang tính toán, vui lòng chờ...
-        </div>
-        <div id="vehicles-empty" class="empty-box" style="display: none">
+        <div id="vehicles-empty" class="gx-empty" style="display: none">
           Chưa có dữ liệu gì. Vui lòng thử lại.
         </div>
 
-        <div id="vehicles-grid" class="vehicles-grid"></div>
-      </section>
+        <div id="vehicles-grid" class="gx-grid"></div>
+      </div>
     </section>
   </div>
 
@@ -793,14 +768,13 @@
       },
     });
   </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlNp55eANwXP-R-_vJR3cOQeCtnsRKVek"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlNp55eANwXP-R-_vJR3cOQeCtnsRKVek&libraries=places"
+    async defer></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const Api = window.UniwaveAPI || window.UniwaveApi;
       if (!Api?.apiFetch) {
-        console.error(
-          "UniwaveAPI.apiFetch not found. Check js/api.js load order."
-        );
+        console.error("UniwaveAPI.apiFetch not found. Check js/api.js load order.");
         return;
       }
 
@@ -809,37 +783,20 @@
       const dropoffInput = document.getElementById("dropoff-input");
       const estimateBtn = document.getElementById("estimate-btn");
       const formError = document.getElementById("form-error");
+
       const distanceValue = document.getElementById("distance-value");
       const routeStatus = document.getElementById("route-status");
 
       const vehiclesGrid = document.getElementById("vehicles-grid");
       const vehiclesEmpty = document.getElementById("vehicles-empty");
       const estimateLoading = document.getElementById("estimate-loading");
-      const submitOrderBtn = document.getElementById("submit-order-btn");
-
-      const emailModal = document.getElementById("email-modal");
-      const emailInput = document.getElementById("email-input");
-      const emailError = document.getElementById("email-error");
-      const emailConfirm = document.getElementById("email-confirm");
-      const emailCancel = document.getElementById("email-cancel");
-
-      const thankyouModal = document.getElementById("thankyou-modal");
-      const thankyouClose = document.getElementById("thankyou-close");
 
       // ===== State =====
-      let pendingPickup = "";
-      let pendingDropoff = "";
-      let lastDistanceKm = 0;
-
-      let selectedVehicle = null; // VehicleEstimateDto
-      let userEmail = "";
-
-      // Map
       let map = null;
       let directionsService = null;
       let directionsRenderer = null;
 
-      // Optional: vehicle icons by code slug
+      // Optional: map icon theo vehicleCode (slug)
       const vehicleIcons = {
         van500: "image/price-check/image/van500.svg",
         van1000: "image/price-check/image/van1000.svg",
@@ -851,35 +808,20 @@
       };
 
       // ===== Utils =====
-      const slugifyCode = (value) =>
-        (value || "")
-          .toString()
-          .toLowerCase()
-          .replace(/[^a-z0-9]/g, "");
-
+      const slugify = (v) => (v || "").toString().toLowerCase().replace(/[^a-z0-9]/g, "");
       const formatCurrency = (value) => {
-        if (value === undefined || value === null || value === "") return "-";
         const num = Number(value);
-        if (Number.isNaN(num)) return String(value);
+        if (Number.isNaN(num)) return "-";
         return `${num.toLocaleString("vi-VN")} đ`;
       };
 
-      const validateEmail = (value) =>
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-
-      const setLoading = (isLoading) => {
-        estimateLoading.style.display = isLoading ? "block" : "none";
-        estimateBtn.disabled = isLoading;
-        if (isLoading) {
-          vehiclesGrid.innerHTML = "";
-          vehiclesEmpty.style.display = "none";
-          submitOrderBtn.disabled = true;
-          selectedVehicle = null;
-        }
+      const setLoading = (on) => {
+        estimateLoading.style.display = on ? "block" : "none";
+        estimateBtn.disabled = on;
       };
 
-      const setError = (message) => {
-        formError.textContent = message || "";
+      const setError = (msg) => {
+        formError.textContent = msg || "";
       };
 
       const resetResults = () => {
@@ -887,48 +829,56 @@
         routeStatus.textContent = "Nhập địa chỉ để nhận được tính.";
         vehiclesGrid.innerHTML = "";
         vehiclesEmpty.style.display = "none";
-        submitOrderBtn.disabled = true;
-        selectedVehicle = null;
-        lastDistanceKm = 0;
       };
 
-      // ===== Modals =====
-      const toggleEmailModal = (show) => {
-        emailError.textContent = "";
-        if (show) {
-          emailModal.classList.add("active");
-          setTimeout(() => emailInput?.focus(), 50);
-        } else {
-          emailModal.classList.remove("active");
-        }
-      };
-
-      const toggleThankYou = (show) => {
-        if (show) thankyouModal.classList.add("active");
-        else thankyouModal.classList.remove("active");
-      };
-
-      // ===== Google Map =====
+      // ===== Map =====
       const ensureMap = () => {
         if (!(window.google && google.maps)) {
           routeStatus.textContent =
-            "Không tải được Google Maps. Hãy kiểm tra script Google Maps API key.";
+            "Google Maps chưa tải. Vui lòng kiểm tra API key và libraries=places.";
           return null;
         }
+
         if (!map) {
           map = new google.maps.Map(document.getElementById("map"), {
             zoom: 6,
-            center: { lat: 15.9, lng: 105.8 },
+            center: { lat: 10.7769, lng: 106.7009 }, // bias HCM như GoGoX VN
             mapTypeControl: false,
             streetViewControl: false,
+            fullscreenControl: false,
           });
+
           directionsService = new google.maps.DirectionsService();
-          directionsRenderer = new google.maps.DirectionsRenderer({ map });
+          directionsRenderer = new google.maps.DirectionsRenderer({
+            map,
+            suppressMarkers: false,
+            preserveViewport: true, // ta tự fitBounds
+          });
         }
         return map;
       };
 
-      const getDistanceKmFromDirections = async (origin, destination) => {
+      // Auto-zoom theo bounds route (GoGoX behavior)
+      const fitRouteBounds = (result) => {
+        const m = ensureMap();
+        if (!m) return;
+
+        const bounds = result?.routes?.[0]?.bounds;
+        if (bounds) {
+          m.fitBounds(bounds, 40);
+          return;
+        }
+
+        const b = new google.maps.LatLngBounds();
+        const legs = result?.routes?.[0]?.legs || [];
+        legs.forEach((leg) => {
+          if (leg?.start_location) b.extend(leg.start_location);
+          if (leg?.end_location) b.extend(leg.end_location);
+        });
+        if (!b.isEmpty()) m.fitBounds(b, 40);
+      };
+
+      const computeRouteAndDistanceKm = async (origin, destination) => {
         const m = ensureMap();
         if (!m || !directionsService || !directionsRenderer) return null;
 
@@ -939,6 +889,7 @@
         });
 
         directionsRenderer.setDirections(result);
+        fitRouteBounds(result);
 
         const leg = result?.routes?.[0]?.legs?.[0];
         const meters = leg?.distance?.value;
@@ -946,62 +897,75 @@
         return meters / 1000;
       };
 
-      // ===== Render =====
+      // ===== Places Autocomplete (GoGoX-style) =====
+      const initAutocomplete = () => {
+        const m = ensureMap();
+        if (!m) return;
+
+        const options = {
+          componentRestrictions: { country: "vn" },
+          fields: ["formatted_address", "geometry", "name"],
+        };
+
+        const acFrom = new google.maps.places.Autocomplete(pickupInput, options);
+        const acTo = new google.maps.places.Autocomplete(dropoffInput, options);
+
+        acFrom.bindTo("bounds", m);
+        acTo.bindTo("bounds", m);
+
+        acFrom.addListener("place_changed", () => {
+          const p = acFrom.getPlace();
+          if (p?.formatted_address) pickupInput.value = p.formatted_address;
+        });
+
+        acTo.addListener("place_changed", () => {
+          const p = acTo.getPlace();
+          if (p?.formatted_address) dropoffInput.value = p.formatted_address;
+        });
+      };
+
+      // ===== Render vehicles (GoGoX style) =====
       const renderVehicles = (vehicles) => {
         vehiclesGrid.innerHTML = "";
-        selectedVehicle = null;
-        submitOrderBtn.disabled = true;
+        vehiclesEmpty.style.display = "none";
 
         if (!Array.isArray(vehicles) || vehicles.length === 0) {
           vehiclesEmpty.style.display = "block";
+          vehiclesEmpty.textContent = "Chưa có dữ liệu bảng giá. Vui lòng thử lại.";
           return;
         }
-        vehiclesEmpty.style.display = "none";
 
         vehicles.forEach((v) => {
-          // VehicleEstimateDto (backend)
-          const code = v.vehicleCode;
-          const name = v.vehicleName;
-          const capacity = v.capacityKg ? `${v.capacityKg} kg` : "-";
-          const price = v.estimatedPrice;
+          // VehicleEstimateDto expected:
+          // vehicleName, vehicleCode, capacityKg, lengthM, widthM, heightM, imageUrl, estimatedPrice
+          const name = v.vehicleName || "Loại xe";
+          const code = v.vehicleCode || "";
+          const slug = slugify(code);
 
-          const slug = slugifyCode(code);
-          const icon =
-            vehicleIcons[slug] || v.imageUrl || vehicleIcons.van500;
+          const size =
+            (v.lengthM && v.widthM && v.heightM)
+              ? `${v.lengthM} x ${v.widthM} x ${v.heightM} m`
+              : (v.capacityKg ? `${v.capacityKg} kg` : "");
+
+          const price = v.estimatedPrice;
+          const icon = vehicleIcons[slug] || v.imageUrl || vehicleIcons.van500;
 
           const card = document.createElement("div");
-          card.className = "vehicle-card";
+          // Nếu bạn dùng CSS gx-card/gx-name/... như mình đã gửi
+          card.className = "gx-card";
           card.innerHTML = `
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-            <div>
-              <div style="font-weight:800;">${name}</div>
-              <div class="vehicle-meta">Tải trọng: ${capacity}</div>
-            </div>
-            <img src="${icon}" alt="${name}" />
-          </div>
-          <div class="vehicle-price">${formatCurrency(price)}</div>
-        `;
-
-          card.addEventListener("click", () => {
-            document
-              .querySelectorAll(".vehicle-card.selected")
-              .forEach((el) => el.classList.remove("selected"));
-            card.classList.add("selected");
-
-            selectedVehicle = v; // keep full dto
-            submitOrderBtn.disabled = false;
-          });
+        <img src="${icon}" alt="${name}" />
+        <div class="gx-name">${name}</div>
+        <div class="gx-size">${size}</div>
+        <div class="gx-price">Từ ${formatCurrency(price)}</div>
+      `;
 
           vehiclesGrid.appendChild(card);
         });
       };
 
-      // ===== API Calls =====
-      const estimateQuote = async ({
-        pickupAddress,
-        dropoffAddress,
-        distanceKm,
-      }) => {
+      // ===== API =====
+      const callEstimateApi = async ({ pickupAddress, dropoffAddress, distanceKm }) => {
         const res = await Api.apiFetch("/api/Quote/estimate", {
           method: "POST",
           body: { pickupAddress, dropoffAddress, distanceKm },
@@ -1009,127 +973,66 @@
         return await res.json(); // EstimateResponse
       };
 
-      const createLead = async ({
-        email,
-        pickupAddress,
-        dropoffAddress,
-        distanceKm,
-      }) => {
-        const res = await Api.apiFetch("/api/Quote/lead", {
-          method: "POST",
-          body: { email, pickupAddress, dropoffAddress, distanceKm },
-        });
-        return await res.json(); // LeadResponse
-      };
-
-      // ===== Handlers =====
+      // ===== Main handler =====
       const handleEstimate = async () => {
+        setError("");
+        vehiclesGrid.innerHTML = "";
+        vehiclesEmpty.style.display = "none";
+        distanceValue.textContent = "--";
+
         const pickup = pickupInput.value.trim();
         const dropoff = dropoffInput.value.trim();
 
-        setError("");
-        resetResults();
-
         if (!pickup || !dropoff) {
           setError("Vui lòng nhập đầy đủ điểm đi và điểm đến.");
+          routeStatus.textContent = "Thiếu địa chỉ.";
           return;
         }
 
-        pendingPickup = pickup;
-        pendingDropoff = dropoff;
-
         setLoading(true);
         try {
-          // 1) Compute distance by Google Directions (FE responsibility)
           routeStatus.textContent = "Đang tính lộ trình...";
-          const km = await getDistanceKmFromDirections(pickup, dropoff);
+          const km = await computeRouteAndDistanceKm(pickup, dropoff);
 
-          if (!km || km <= 0) {
-            throw new Error(
-              "Không tính được khoảng cách. Vui lòng kiểm tra địa chỉ."
-            );
+          if (!km) {
+            throw new Error("Không tính được khoảng cách. Vui lòng kiểm tra địa chỉ.");
           }
 
-          lastDistanceKm = km;
           distanceValue.textContent = `${km.toFixed(2)} km`;
-          routeStatus.textContent = "Đã tính toán lộ trình.";
+          routeStatus.textContent = "Đã tính lộ trình.";
 
-          // 2) Ask backend to estimate prices
-          const data = await estimateQuote({
+          // GoGoX: BE chỉ nhận distance và trả pricing matrix
+          const data = await callEstimateApi({
             pickupAddress: pickup,
             dropoffAddress: dropoff,
             distanceKm: km,
           });
 
-          // Backend response: { distanceKm, vehicles }
           renderVehicles(data?.vehicles || []);
-        } catch (err) {
-          console.error(err);
-          setError(
-            err?.message || "Không thể ước tính cước phí. Vui lòng thử lại."
-          );
+        } catch (e) {
+          console.error(e);
+          setError(e?.message || "Không thể ước tính cước phí. Vui lòng thử lại.");
           vehiclesEmpty.style.display = "block";
+          vehiclesEmpty.textContent = "Không thể lấy báo giá. Vui lòng thử lại.";
+          routeStatus.textContent = "Ước tính thất bại.";
         } finally {
           setLoading(false);
         }
       };
 
-      const handleSubmitOrder = () => {
-        setError("");
-        if (!selectedVehicle) {
-          setError("Vui lòng chọn loại xe trước khi đặt hàng.");
-          return;
-        }
-        // Email only required at lead step (backend design)
-        emailInput.value = userEmail || "";
-        toggleEmailModal(true);
-      };
+      // ===== Clear buttons (optional) =====
+      document.querySelectorAll(".gx-trash").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const key = btn.getAttribute("data-clear");
+          if (key === "pickup") pickupInput.value = "";
+          if (key === "dropoff") dropoffInput.value = "";
+          pickupInput.focus();
+        });
+      });
 
-      const handleConfirmEmailAndSendLead = async () => {
-        const email = emailInput.value.trim();
-
-        if (!validateEmail(email)) {
-          emailError.textContent = "Email không hợp lệ.";
-          return;
-        }
-        if (!pendingPickup || !pendingDropoff || !lastDistanceKm) {
-          emailError.textContent =
-            "Thiếu dữ liệu báo giá. Vui lòng ước tính lại.";
-          return;
-        }
-
-        emailError.textContent = "";
-        userEmail = email;
-
-        toggleEmailModal(false);
-
-        const originalText = submitOrderBtn.textContent;
-        submitOrderBtn.disabled = true;
-        submitOrderBtn.textContent = "Đang gửi...";
-
-        try {
-          await createLead({
-            email,
-            pickupAddress: pendingPickup,
-            dropoffAddress: pendingDropoff,
-            distanceKm: lastDistanceKm,
-          });
-          toggleThankYou(true);
-        } catch (err) {
-          console.error(err);
-          setError(
-            err?.message || "Không thể gửi yêu cầu. Vui lòng thử lại."
-          );
-        } finally {
-          submitOrderBtn.disabled = false;
-          submitOrderBtn.textContent = originalText;
-        }
-      };
-
-      // ===== Events =====
+      // ===== Bind events =====
       estimateBtn.addEventListener("click", handleEstimate);
 
-      // Optional: press Enter to estimate
       [pickupInput, dropoffInput].forEach((el) => {
         el.addEventListener("keydown", (e) => {
           if (e.key === "Enter") {
@@ -1139,18 +1042,25 @@
         });
       });
 
-      submitOrderBtn.addEventListener("click", handleSubmitOrder);
-
-      emailConfirm.addEventListener("click", handleConfirmEmailAndSendLead);
-      emailCancel.addEventListener("click", () => toggleEmailModal(false));
-
-      thankyouClose.addEventListener("click", () => toggleThankYou(false));
-
-      // init state
+      // ===== Init =====
       resetResults();
       ensureMap();
+
+      // Init autocomplete after maps is available
+      // If maps loads slowly, try a small retry loop
+      let tries = 0;
+      const tryInit = () => {
+        tries += 1;
+        if (window.google?.maps?.places) {
+          initAutocomplete();
+          return;
+        }
+        if (tries < 30) setTimeout(tryInit, 150);
+      };
+      tryInit();
     });
   </script>
+
 </body>
 
 </html>

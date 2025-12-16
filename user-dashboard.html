@@ -769,7 +769,7 @@
       const loadProfile = async () => {
         setProfileLoading(true);
         try {
-          const res = await Api.apiFetch("/api/auth/me");
+          const res = await Api.apiFetch("/api/Auth/me");
           const data = await res.json();
           renderProfile(data);
         } catch (error) {
