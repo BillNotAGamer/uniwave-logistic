@@ -392,7 +392,12 @@
   
   <!--Script gửi thông tin trong popup-->
   <script>
-    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+    document.addEventListener("DOMContentLoaded", () => {
+      const Api = window.UniwaveAPI || window.UniwaveApi;
+      const formEl = document.getElementById('contactForm');
+      if (!formEl || !Api || typeof Api.apiFetch !== "function") return;
+
+      formEl.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const formData = {
@@ -415,24 +420,20 @@
       console.log('Dữ liệu gửi đi:', formData); // Debug
 
       try {
-        const response = await fetch('https://localhost:7258/api/Contact', {
+        const response = await Api.apiFetch("/api/Contact", {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData),
+          headers: {},
+          body: formData,
         });
         const result = await response.json();
-        if (response.ok) {
-          alert(result.message || 'Thông tin đã được gửi thành công!');
-          document.getElementById('contactForm').reset();
-        } else {
-          console.log('Lỗi từ server:', result); // In lỗi
-          alert(result.errors ? result.errors.map(err => err.msg).join(', ') : 'Đã có lỗi xảy ra, vui lòng thử lại.');
-        }
+        alert(result.message || 'Thong tin da duoc gui thanh cong!');
+        formEl.reset();
       } catch (error) {
         console.error('Lỗi gửi yêu cầu:', error);
         alert('Không thể kết nối đến server, vui lòng thử lại sau.');
       }
     });
+  });
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -466,3 +467,6 @@
     });
   </script>
 </body>
+
+
+
