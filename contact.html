@@ -319,13 +319,13 @@
   <div id="ml-menu-fixed" class="hidden-xs hidden-sm active">
     <ul>
       <li>
-        <a href="price-check.html" target="_blank">
+        <a href="/en/price-check" target="_blank">
           <img src="./image/general/icon/ic-r1.png" alt="" />
           <span data-key="nav_pricing">Ước tính cước phí</span>
         </a>
       </li>
       <li>
-        <a href="tracking-shipment.html" target="_blank">
+        <a href="/en/tracking-shipment" target="_blank">
           <img src="./image/general/icon/ic-r2.png" alt="" />
           <span data-key="nav_tracking">Theo dõi vận đơn</span>
         </a>
@@ -426,7 +426,8 @@
           body: formData,
         });
         const result = await response.json();
-        alert(result.message || 'Thong tin da duoc gui thanh cong!');
+        alert(result.message || 'Thông tin đã được gửi thành công!');
+        console.log('Phản hồi từ server:', result); // Debug
         formEl.reset();
       } catch (error) {
         console.error('Lỗi gửi yêu cầu:', error);

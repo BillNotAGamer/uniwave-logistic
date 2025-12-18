@@ -13,9 +13,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link rel="stylesheet" href="css/style.css" />
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.16.0/mapbox-gl.css" rel="stylesheet">
-  <script src="https://api.mapbox.com/mapbox-gl-js/v2.16.0/mapbox-gl.js"></script>
   <style>
     /* ===== GoGoX-like ===== */
     .gx-wrap {
@@ -542,8 +542,9 @@
                 thành phố Hồ Chí Minh cấp lần đầu ngày 13/05/2025
               </p>
               <p style="padding-top: 5px">
-                <i class="fa fa-paper-plane"></i><a style="color: #ffff; padding: 5px" href="https://www.uniwave-logistics.com/image/license/VLA.pdf"
-                  target="_blank" data-key="footer_fiata">Giấy phép FIATA</a>
+                <i class="fa fa-paper-plane"></i><a style="color: #ffff; padding: 5px"
+                  href="https://www.uniwave-logistics.com/image/license/VLA.pdf" target="_blank"
+                  data-key="footer_fiata">Giấy phép FIATA</a>
               </p>
             </div>
             <br />
@@ -771,237 +772,368 @@
     });
   </script>
   <script>
-    /* =======================
-   MAPBOX CONFIG
-======================= */
-mapboxgl.accessToken = "pk.eyJ1IjoicmFjaGVsaG91bml3YXZlIiwiYSI6ImNtamE0b3pkZDAxajMzZXB0Mnc3NDlsN3oifQ.yB7_K_9Lih_r5RZBGSIHWQ";
+(() => {
+  // ========= CONFIG =========
+  const NOMINATIM_SEARCH = "https://nominatim.openstreetmap.org/search";
+  const OSRM_ROUTE = "https://router.project-osrm.org/route/v1/driving";
 
-const pickupInput = document.getElementById("pickupInput");
-const dropoffInput = document.getElementById("dropoffInput");
+  const elPickup = document.getElementById("pickupInput");
+  const elDropoff = document.getElementById("dropoffInput");
+  const btnEstimate = document.getElementById("estimate-btn");
+  const elError = document.getElementById("form-error");
+  const elDistance = document.getElementById("distance-value");
+  const elRouteStatus = document.getElementById("route-status");
+  const elLoading = document.getElementById("estimate-loading");
+  const elEmpty = document.getElementById("vehicles-empty");
+  const elGrid = document.getElementById("vehicles-grid");
 
-const distanceValue = document.getElementById("distance-value");
-const routeStatus = document.getElementById("route-status");
+  // ========= STATE =========
+  const state = {
+    pickup: null,   // { address, lat, lon }
+    dropoff: null,  // { address, lat, lon }
+    route: null,    // { distanceKm, durationMin, polylineLatLngs }
+  };
 
-let map;
-let pickupCoord = null;
-let dropoffCoord = null;
-let pickupMarker = null;
-let dropoffMarker = null;
-let routeLayerId = "route-line";
-let clickStep = 0;
+  // ========= HELPERS =========
+  const fmtVND = (n) => {
+    const x = Number(n);
+    if (Number.isFinite(x)) return x.toLocaleString("vi-VN") + "đ";
+    return (n ?? "") + "đ";
+  };
+  const setError = (msg) => (elError.textContent = msg || "");
+  const setRouteStatus = (msg) => (elRouteStatus.textContent = msg || "");
+  const setDistanceUI = (km) => (elDistance.textContent = (km == null) ? "--" : `${km.toFixed(1)} km`);
+  const setLoading = (isLoading) => {
+    elLoading.style.display = isLoading ? "block" : "none";
+    btnEstimate.disabled = isLoading;
+  };
+  const clearResults = () => { elGrid.innerHTML = ""; elEmpty.style.display = "none"; };
+  const showEmpty = (msg) => { elEmpty.style.display = "block"; elEmpty.textContent = msg || "Chưa có dữ liệu gì."; };
 
-/* =======================
-   INIT MAP
-======================= */
-function initMapbox() {
-  map = new mapboxgl.Map({
-    container: "map",
-    style: "mapbox://styles/mapbox/streets-v12",
-    center: [106.7009, 10.7769], // HCM
-    zoom: 12
+  // ========= MAP (Leaflet + OSM tiles) =========
+  const map = L.map("map", { zoomControl: true }).setView([10.7758, 106.7004], 12); // HCM default
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: "&copy; OpenStreetMap contributors",
+  }).addTo(map);
+
+  let pickupMarker = null;
+  let dropoffMarker = null;
+  let routeLine = null;
+
+  const fitMapToThings = () => {
+    const pts = [];
+    if (pickupMarker) pts.push(pickupMarker.getLatLng());
+    if (dropoffMarker) pts.push(dropoffMarker.getLatLng());
+    if (pts.length === 1) map.setView(pts[0], 14);
+    if (pts.length === 2) map.fitBounds(L.latLngBounds(pts), { padding: [30, 30] });
+  };
+
+  const setMarker = (type, lat, lon) => {
+    const ll = L.latLng(lat, lon);
+    if (type === "pickup") {
+      if (pickupMarker) pickupMarker.remove();
+      pickupMarker = L.marker(ll).addTo(map);
+    } else {
+      if (dropoffMarker) dropoffMarker.remove();
+      dropoffMarker = L.marker(ll).addTo(map);
+    }
+    fitMapToThings();
+  };
+
+  const clearMarker = (type) => {
+    if (type === "pickup" && pickupMarker) { pickupMarker.remove(); pickupMarker = null; }
+    if (type === "dropoff" && dropoffMarker) { dropoffMarker.remove(); dropoffMarker = null; }
+  };
+
+  const clearRoute = () => {
+    state.route = null;
+    setDistanceUI(null);
+    setRouteStatus("Nhập địa chỉ để nhận được tính.");
+    if (routeLine) { routeLine.remove(); routeLine = null; }
+  };
+
+  const drawRoute = (latlngs) => {
+    if (routeLine) routeLine.remove();
+    routeLine = L.polyline(latlngs, { weight: 5, opacity: 0.85 }).addTo(map);
+    map.fitBounds(routeLine.getBounds(), { padding: [30, 30] });
+  };
+
+  // ========= AUTOCOMPLETE UI =========
+  function createDropdown(inputEl) {
+    const wrap = document.createElement("div");
+    wrap.style.position = "relative";
+
+    const parent = inputEl.parentElement;
+    parent.insertBefore(wrap, inputEl);
+    wrap.appendChild(inputEl);
+
+    const list = document.createElement("div");
+    list.style.position = "absolute";
+    list.style.left = "0";
+    list.style.right = "0";
+    list.style.top = "calc(100% + 6px)";
+    list.style.zIndex = "9999";
+    list.style.background = "#fff";
+    list.style.border = "1px solid #d6e2ee";
+    list.style.borderRadius = "8px";
+    list.style.boxShadow = "0 10px 20px rgba(0,0,0,.08)";
+    list.style.overflow = "hidden";
+    list.style.display = "none";
+    wrap.appendChild(list);
+
+    const hide = () => { list.style.display = "none"; list.innerHTML = ""; };
+
+    const showItems = (items, onPick) => {
+      list.innerHTML = "";
+      if (!items.length) {
+        const empty = document.createElement("div");
+        empty.textContent = "Không tìm thấy địa chỉ phù hợp";
+        empty.style.padding = "10px 12px";
+        empty.style.color = "#6b7280";
+        list.appendChild(empty);
+        list.style.display = "block";
+        return;
+      }
+      items.slice(0, 6).forEach((it, idx) => {
+        const row = document.createElement("div");
+        row.style.padding = "10px 12px";
+        row.style.cursor = "pointer";
+        row.style.borderTop = idx === 0 ? "0" : "1px solid #eef2f7";
+        row.textContent = it.display_name;
+        row.onmouseenter = () => (row.style.background = "#f5faff");
+        row.onmouseleave = () => (row.style.background = "#fff");
+        row.onclick = () => onPick(it);
+        list.appendChild(row);
+      });
+      list.style.display = "block";
+    };
+
+    document.addEventListener("click", (e) => {
+      if (!wrap.contains(e.target)) hide();
+    });
+
+    return { showItems, hide };
+  }
+
+  const pickupDD = createDropdown(elPickup);
+  const dropoffDD = createDropdown(elDropoff);
+
+  const debounce = (fn, wait = 450) => {
+    let t;
+    return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
+  };
+
+  // Throttle Nominatim (đỡ spam)
+  let lastNomCallAt = 0;
+  async function nominatimSearch(q) {
+    const now = Date.now();
+    const gap = now - lastNomCallAt;
+    if (gap < 900) await new Promise(r => setTimeout(r, 900 - gap));
+    lastNomCallAt = Date.now();
+
+    const url = new URL(NOMINATIM_SEARCH);
+    url.searchParams.set("format", "json");
+    url.searchParams.set("limit", "6");
+    url.searchParams.set("q", q);
+
+    const res = await fetch(url.toString(), { headers: { "Accept": "application/json" } });
+    if (!res.ok) throw new Error("Không gọi được dịch vụ tìm địa chỉ.");
+    return await res.json();
+  }
+
+  const onTypeAddress = debounce(async (inputEl, dd) => {
+    const q = (inputEl.value || "").trim();
+    setError("");
+    if (q.length < 3) { dd.hide(); return; }
+
+    try {
+      const items = await nominatimSearch(q);
+      dd.showItems(items, (it) => {
+        inputEl.value = it.display_name;
+        dd.hide();
+
+        const lat = Number(it.lat);
+        const lon = Number(it.lon);
+
+        if (inputEl === elPickup) {
+          state.pickup = { address: it.display_name, lat, lon };
+          setMarker("pickup", lat, lon);
+        } else {
+          state.dropoff = { address: it.display_name, lat, lon };
+          setMarker("dropoff", lat, lon);
+        }
+
+        clearRoute();
+        clearResults();
+        tryBuildRoute();
+      });
+    } catch (e) {
+      dd.hide();
+      setError(e.message || "Có lỗi khi tìm địa chỉ.");
+    }
+  }, 450);
+
+  elPickup.addEventListener("input", () => onTypeAddress(elPickup, pickupDD));
+  elDropoff.addEventListener("input", () => onTypeAddress(elDropoff, dropoffDD));
+
+  // ========= CLEAR BUTTONS =========
+  document.querySelectorAll(".gx-trash").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const type = btn.getAttribute("data-clear");
+      if (type === "pickup") {
+        elPickup.value = "";
+        state.pickup = null;
+        clearMarker("pickup");
+      } else {
+        elDropoff.value = "";
+        state.dropoff = null;
+        clearMarker("dropoff");
+      }
+      pickupDD.hide();
+      dropoffDD.hide();
+      clearRoute();
+      clearResults();
+      fitMapToThings();
+    });
   });
 
-  map.on("click", handleMapClick);
-}
+  // ========= ROUTE (OSRM) =========
+  async function buildRoute(pickup, dropoff) {
+    const coords = `${pickup.lon},${pickup.lat};${dropoff.lon},${dropoff.lat}`;
+    const url = `${OSRM_ROUTE}/${coords}?overview=full&geometries=geojson`;
 
-/* =======================
-   MAP CLICK → CHOOSE POINT
-======================= */
-async function handleMapClick(e) {
-  const coord = [e.lngLat.lng, e.lngLat.lat];
+    setRouteStatus("Đang tính tuyến đường...");
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Không tính được tuyến đường (routing).");
 
-  if (clickStep === 0) {
-    setPickup(coord);
-    clickStep = 1;
-  } else {
-    setDropoff(coord);
-    clickStep = 0;
+    const data = await res.json();
+    if (!data.routes || !data.routes.length) throw new Error("Không có tuyến đường phù hợp.");
+
+    const r = data.routes[0];
+    const distanceKm = r.distance / 1000;
+    const durationMin = r.duration / 60;
+
+    const coordsLatLng = (r.geometry.coordinates || []).map(([lon, lat]) => [lat, lon]);
+    return { distanceKm, durationMin, polylineLatLngs: coordsLatLng };
   }
 
-  if (pickupCoord && dropoffCoord) {
-    await computeRouteAndDistanceKm();
+  async function tryBuildRoute() {
+    if (!state.pickup || !state.dropoff) return;
+    try {
+      const r = await buildRoute(state.pickup, state.dropoff);
+      state.route = r;
+      setDistanceUI(r.distanceKm);
+      setRouteStatus(`Ước tính thời gian: ~ ${Math.round(r.durationMin)} phút`);
+      drawRoute(r.polylineLatLngs);
+    } catch (e) {
+      clearRoute();
+      setError(e.message || "Không tính được tuyến đường.");
+    }
   }
-}
 
-/* =======================
-   SET PICKUP / DROPOFF
-======================= */
-async function setPickup(coord) {
-  pickupCoord = coord;
-  if (pickupMarker) pickupMarker.remove();
+  // ========= IMAGE MAP (the 8 files you provided) =========
+  function vehicleImageFromCode(code, imageUrl) {
+    if (imageUrl && String(imageUrl).trim()) return imageUrl;
 
-  pickupMarker = new mapboxgl.Marker({ color: "green" })
-    .setLngLat(coord)
-    .addTo(map);
+    const mapByCode = {
+  "MOTORCYCLE": "motorcycle.svg",
+  "TRICYCLE": "tricycle.svg",
+  "VAN_500KG": "van500.svg",
+  "VAN_1T": "van1000.svg",
+  "TRUCK_500KG": "truck500.svg",
+  "TRUCK_1T": "truck1000.svg",
+  "TRUCK_1_5T": "truck1500.svg",
+  "TRUCK_2T": "truck2000.svg",
+};
+    const filename = mapByCode[code] || "truck1000.svg";
+    return `image/price-check/image/${filename}`;
+  }
 
-  pickupInput.value = await reverseGeocode(coord);
-}
-
-async function setDropoff(coord) {
-  dropoffCoord = coord;
-  if (dropoffMarker) dropoffMarker.remove();
-
-  dropoffMarker = new mapboxgl.Marker({ color: "red" })
-    .setLngLat(coord)
-    .addTo(map);
-
-  dropoffInput.value = await reverseGeocode(coord);
-}
-
-/* =======================
-   GEOCODING
-======================= */
-async function searchAddress(query) {
-  const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json
-    ?access_token=${mapboxgl.accessToken}
-    &country=vn
-    &language=vi
-    &limit=5`;
-
-  const res = await fetch(url);
-  return await res.json();
-}
-
-async function reverseGeocode(coord) {
-  const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${coord[0]},${coord[1]}.json
-    ?access_token=${mapboxgl.accessToken}
-    &language=vi`;
-
-  const res = await fetch(url);
-  const data = await res.json();
-  return data.features?.[0]?.place_name || "";
-}
-
-/* =======================
-   AUTOCOMPLETE DROPDOWN
-======================= */
-function setupAutocomplete(input, onSelect) {
-  const list = document.createElement("ul");
-  list.style.position = "absolute";
-  list.style.zIndex = "9999";
-  list.style.background = "#fff";
-  list.style.listStyle = "none";
-  list.style.padding = "0";
-  list.style.margin = "4px 0 0 0";
-  list.style.border = "1px solid #ccc";
-  list.style.width = input.offsetWidth + "px";
-  list.style.display = "none";
-
-  input.parentElement.style.position = "relative";
-  input.parentElement.appendChild(list);
-
-  let debounce;
-
-  input.addEventListener("input", () => {
-    clearTimeout(debounce);
-    const q = input.value.trim();
-    if (q.length < 3) {
-      list.style.display = "none";
+  // ========= RENDER VEHICLES =========
+  function renderVehicles(estimateResponse) {
+    const vehicles = (estimateResponse && estimateResponse.vehicles) || [];
+    if (!vehicles.length) {
+      showEmpty("Chưa có dữ liệu gì. Vui lòng thử lại.");
       return;
     }
 
-    debounce = setTimeout(async () => {
-      const data = await searchAddress(q);
-      list.innerHTML = "";
+    elEmpty.style.display = "none";
+    elGrid.innerHTML = "";
 
-      data.features.forEach(place => {
-        const li = document.createElement("li");
-        li.textContent = place.place_name;
-        li.style.padding = "8px";
-        li.style.cursor = "pointer";
+    vehicles.forEach((v) => {
+      const sizeText =
+        (v.lengthM && v.widthM && v.heightM)
+          ? `${v.lengthM} x ${v.widthM} x ${v.heightM} m`
+          : "";
 
-        li.onclick = async () => {
-          input.value = place.place_name;
-          list.style.display = "none";
-          onSelect(place.center);
+      const imgSrc = vehicleImageFromCode(v.vehicleCode, v.imageUrl);
 
-          if (pickupCoord && dropoffCoord) {
-            await computeRouteAndDistanceKm();
-          }
-        };
-
-        list.appendChild(li);
-      });
-
-      list.style.display = "block";
-    }, 300);
-  });
-
-  document.addEventListener("click", e => {
-    if (!input.parentElement.contains(e.target)) {
-      list.style.display = "none";
-    }
-  });
-}
-
-
-/* =======================
-   ROUTING + DISTANCE
-======================= */
-async function computeRouteAndDistanceKm() {
-  if (!pickupCoord || !dropoffCoord) return null;
-
-  const url = `https://api.mapbox.com/directions/v5/mapbox/driving/
-    ${pickupCoord.join(",")};${dropoffCoord.join(",")}
-    ?geometries=geojson&overview=full
-    &access_token=${mapboxgl.accessToken}`;
-
-  const res = await fetch(url);
-  const data = await res.json();
-  const route = data.routes[0];
-
-  if (map.getLayer(routeLayerId)) {
-    map.removeLayer(routeLayerId);
-    map.removeSource(routeLayerId);
+      const card = document.createElement("div");
+      card.className = "gx-card";
+      card.innerHTML = `
+        <img src="${imgSrc}" alt="${v.vehicleName || ""}" onerror="this.style.display='none'" />
+        <div class="gx-name">${v.vehicleName || ""}</div>
+        <div class="gx-size">
+          ${sizeText}
+          ${v.capacityKg ? ` • ${v.capacityKg}kg` : ""}
+        </div>
+        <div class="gx-price">Từ ${fmtVND(v.estimatedPrice)}</div>
+      `;
+      elGrid.appendChild(card);
+    });
   }
 
-  map.addSource(routeLayerId, {
-    type: "geojson",
-    data: {
-      type: "Feature",
-      geometry: route.geometry
+  // ========= CALL BACKEND ESTIMATE =========
+  async function callEstimateApi() {
+    if (!state.pickup || !state.dropoff) {
+      setError("Vui lòng chọn đầy đủ địa chỉ Từ và Đến.");
+      return;
     }
-  });
-
-  map.addLayer({
-    id: routeLayerId,
-    type: "line",
-    source: routeLayerId,
-    paint: {
-      "line-width": 5
+    if (!state.route) {
+      setError("Chưa tính được tuyến đường. Vui lòng chọn lại địa chỉ.");
+      return;
     }
-  });
 
-  const bounds = new mapboxgl.LngLatBounds();
-  route.geometry.coordinates.forEach(c => bounds.extend(c));
-  map.fitBounds(bounds, { padding: 40 });
+    setError("");
+    clearResults();
+    setLoading(true);
 
-  const km = route.distance / 1000;
+    try {
+      const body = {
+        pickupAddress: state.pickup.address,
+        dropoffAddress: state.dropoff.address,
+        distanceKm: Number(state.route.distanceKm.toFixed(3))
+      };
 
-distanceValue.textContent = km.toFixed(2) + " km";
-routeStatus.textContent = "Đã tính được quãng đường.";
+      // api.js cung cấp window.UniwaveAPI.apiFetch()
+      const res = await window.UniwaveAPI.apiFetch("/api/Quote/estimate", {
+        method: "POST",
+        body
+      });
 
-return km;
+      const json = await res.json();
+      renderVehicles(json);
+    } catch (e) {
+      showEmpty(e.message || "Không lấy được dữ liệu báo giá.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
-}
+  btnEstimate.addEventListener("click", callEstimateApi);
 
-/* =======================
-   INIT ALL
-======================= */
-document.addEventListener("DOMContentLoaded", () => {
-  initMapbox();
+  // Optional: set initial map view from geolocation
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => map.setView([pos.coords.latitude, pos.coords.longitude], 13),
+      () => {},
+      { enableHighAccuracy: false, timeout: 4000 }
+    );
+  }
+})();
+</script>
 
-  setupAutocomplete(pickupInput, coord => {
-    pickupCoord = coord;
-    setPickup(coord);
-  });
-
-  setupAutocomplete(dropoffInput, coord => {
-    dropoffCoord = coord;
-    setDropoff(coord);
-  });
-});
-
-  </script>
 </body>
+
 </html>
