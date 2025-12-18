@@ -121,10 +121,10 @@ function setupProfileMenu() {
   const bodyEl = document.body;
 
   if (hasToken) {
-    profileLink.setAttribute("href", "user-dashboard.html");
+    profileLink.setAttribute("href", "/user-dashboard");
     if (bodyEl) bodyEl.classList.add("logged-in");
   } else {
-    profileLink.setAttribute("href", "authentication.html");
+    profileLink.setAttribute("href", "/vi/authentication");
     if (bodyEl) bodyEl.classList.remove("logged-in");
   }
 }
