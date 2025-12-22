@@ -1352,8 +1352,8 @@ video {
 .uniwaveunique-overlay {
   position: relative;
   z-index: 2;
-  max-width: 80%;
-  padding: 150px;
+  max-width: min(90%, 900px);
+  padding: clamp(24px, 6vw, 120px);
   color: #666; /* Gray cho description như ảnh */
   border-radius: 10px;
 }
@@ -1906,8 +1906,8 @@ video {
 }
 
 /* Swiper Slide */
-.swiper-slide {
-  width: 320px;
+.slider-features .swiper-slide {
+  width: clamp(220px, 28vw, 320px);
   /* Match card width for 4 cards per view */
   margin-right: 2px;
   /* Minimal spacing */
@@ -1925,7 +1925,8 @@ video {
   flex-direction: column;
   align-items: center;
   height: 380px;
-  width: 320px;
+  width: 100%;
+  max-width: 320px;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   position: relative;
   overflow: hidden;
@@ -2108,13 +2109,22 @@ video {
     padding: 0 2px;
   }
 
-  .swiper-slide {
-    width: 200px;
+  .slider-features {
+    height: auto;
+  }
+
+  .slider-features .swiper-slide {
+    width: clamp(200px, 70vw, 240px);
     margin-right: 2px;
+  }
+
+  .feature {
+    height: 320px;
   }
 
   .feature-text {
     padding: 8px;
+    height: 160px;
   }
 
   .feature-img-container {
@@ -2154,14 +2164,13 @@ video {
     padding: 0 2px;
   }
 
-  .swiper-slide {
-    width: 160px;
+  .slider-features .swiper-slide {
+    width: clamp(180px, 80vw, 220px);
     margin-right: 2px;
   }
 
   .feature {
-    height: 360px;
-    width: 300px;
+    height: 300px;
   }
 
   .feature-img-container {
@@ -2175,6 +2184,10 @@ video {
 
   .feature-description {
     font-size: 0.8rem;
+  }
+
+  .feature-text {
+    height: 150px;
   }
 
   .swiper-pagination {
