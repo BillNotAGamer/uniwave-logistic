@@ -5735,7 +5735,6 @@ video {
   position: relative;
   width: 40px;
   height: 40px;
-
   line-height: 21px;
   color: #ffffff;
 }
@@ -5768,15 +5767,6 @@ video {
 
 #ml-menu-fixed ul li.social .popup ul li a:hover i.fa-pinterest {
   background: #cb2027;
-}
-
-@media (max-width: 468px) {
-  .arcontactus-widget.opened.arcontactus-message,
-  .arcontactus-widget.opened.left.arcontactus-message {
-    width: auto;
-    right: 20px;
-    left: 20px;
-  }
 }
 
 @media all and (max-width: 991px) {
