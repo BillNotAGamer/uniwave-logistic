@@ -6266,6 +6266,17 @@ footer {
   filter: brightness(2);
 }
 
+#fbot ul.vla-fiata-member {
+  display: flex;
+  justify-content: space-between;
+  max-width: 130px;
+  opacity: 1;
+}
+
+#fbot ul.vla-fiata-member img {
+  margin-right: 10px;
+}
+
 .comp-link,
 .comp-info,
 .comp-location {
@@ -6312,6 +6323,7 @@ footer {
   text-decoration: underline;
 }
 
+#sec-office-address,
 #comp-address,
 #comp-mail {
   font-size: 14px !important;
@@ -6386,7 +6398,8 @@ footer {
 #fbot.visible .comp-link,
 #fbot.visible .comp-info,
 #fbot.visible .comp-location,
-#fbot.visible .social {
+#fbot.visible .social,
+#fbot.visible .vla-fiata-member{
   animation: slideUp 0.8s forwards;
 }
 

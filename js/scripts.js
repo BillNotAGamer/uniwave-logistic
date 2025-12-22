@@ -540,22 +540,21 @@ if (missionStatsSection && getComputedStyle(missionStatsSection).display !== 'no
 /*********************
  * JS phần utilities *
  *********************/
-window.onload = function () {
-  $(function () {
+document.addEventListener("DOMContentLoaded", () => {
+  const menu = document.getElementById("ml-menu-fixed");
+  const btn = document.querySelector(".btn-show-lk");
+  const closeBtn = document.getElementById("close-lk");
 
-    $("#close-lk").click(function () {
-      $("#ml-menu-fixed").toggleClass("active");
-      $(".btn-show-lk").toggleClass("active");
+  const toggleActive = () => {
+    menu.classList.toggle("active");
+    btn.classList.toggle("active");
+  };
 
-    });
-    $(".btn-show-lk").click(function () {
-      $(this).toggleClass("active");
-      $("#ml-menu-fixed").toggleClass("active");
-
-    });
+  // Gán sự kiện cho cả 2 nút
+  [btn, closeBtn].forEach(el => {
+    el?.addEventListener("click", toggleActive);
   });
-
-};
+});
 /*********************
  * JS phần utilities *
  *********************/
