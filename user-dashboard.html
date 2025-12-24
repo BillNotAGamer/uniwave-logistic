@@ -170,6 +170,62 @@
       word-break: break-word;
     }
 
+    .profile-completion {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px dashed rgba(255, 255, 255, 0.16);
+      background: rgba(8, 18, 26, 0.6);
+    }
+
+    .profile-completion h4 {
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .profile-completion p {
+      margin-bottom: 12px;
+      color: #cfe0ea;
+      font-size: 0.92rem;
+    }
+
+    .profile-completion form {
+      display: grid;
+      gap: 10px;
+    }
+
+    .profile-completion label {
+      font-size: 0.85rem;
+      color: #9fb7c6;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .profile-completion input,
+    .profile-completion textarea {
+      width: 100%;
+      background: rgba(15, 28, 36, 0.9);
+      color: #eef5fb;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+
+    .profile-completion button {
+      background: #ff8e53;
+      border: none;
+      color: #0f1c24;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .profile-completion button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
     .orders-table {
       width: 100%;
       border-collapse: collapse;
@@ -429,6 +485,27 @@
             <span id="profile-tier-detail">-</span>
           </div>
         </div>
+        <div id="profile-completion" class="profile-completion" style="display: none;">
+          <h4>Complete your profile</h4>
+          <p id="profile-completion-hint">Please complete your profile to continue.</p>
+          <form id="profile-completion-form">
+            <div>
+              <label for="profile-fullname-input">Full name</label>
+              <input id="profile-fullname-input" type="text" autocomplete="name" required />
+            </div>
+            <div>
+              <label for="profile-phone-input">Phone number</label>
+              <input id="profile-phone-input" type="tel" autocomplete="tel" required />
+            </div>
+            <div>
+              <label for="profile-address-input">Address</label>
+              <textarea id="profile-address-input" rows="2" autocomplete="street-address" required></textarea>
+            </div>
+            <button id="profile-save-btn" type="submit">Save profile</button>
+            <div id="profile-completion-error" class="error-box" style="display: none;"></div>
+            <div id="profile-completion-success" class="empty-box" style="display: none;"></div>
+          </form>
+        </div>
       </article>
 
       <article class="dashboard-card" id="orders-card" style="grid-column: 1/-1;">
@@ -664,6 +741,15 @@
       const profileTierDetail = document.getElementById("profile-tier-detail");
       const profileLoading = document.getElementById("profile-loading");
       const profileError = document.getElementById("profile-error");
+      const profileCompletion = document.getElementById("profile-completion");
+      const profileCompletionForm = document.getElementById("profile-completion-form");
+      const profileCompletionHint = document.getElementById("profile-completion-hint");
+      const profileCompletionError = document.getElementById("profile-completion-error");
+      const profileCompletionSuccess = document.getElementById("profile-completion-success");
+      const profileFullNameInput = document.getElementById("profile-fullname-input");
+      const profilePhoneInput = document.getElementById("profile-phone-input");
+      const profileAddressInput = document.getElementById("profile-address-input");
+      const profileSaveBtn = document.getElementById("profile-save-btn");
 
       const ordersLoading = document.getElementById("orders-loading");
       const ordersError = document.getElementById("orders-error");
@@ -695,6 +781,20 @@
         return number.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
       };
 
+      const fieldLabels = {
+        fullName: "full name",
+        phoneNumber: "phone number",
+        address: "address"
+      };
+
+      const buildMissingFieldsText = (missingFields) => {
+        if (!Array.isArray(missingFields) || missingFields.length === 0) {
+          return "Please complete your profile to continue.";
+        }
+        const readable = missingFields.map((field) => fieldLabels[field] || field);
+        return `Missing: ${readable.join(", ")}.`;
+      };
+
       const setProfileLoading = (isLoading) => {
         profileLoading.style.display = isLoading ? "block" : "none";
         if (isLoading) {
@@ -721,6 +821,29 @@
         const tier = profile?.tier || profile?.membership || "-";
         profileTier.textContent = tier;
         profileTierDetail.textContent = tier;
+
+        const requiresCompletion =
+          profile?.requiresProfileCompletion === true || profile?.isProfileComplete === false;
+
+        if (profileCompletion) {
+          profileCompletion.style.display = requiresCompletion ? "block" : "none";
+          if (profileCompletionHint) {
+            profileCompletionHint.textContent = buildMissingFieldsText(profile?.missingFields);
+          }
+          if (profileFullNameInput) {
+            profileFullNameInput.value = profile?.fullName || "";
+          }
+          if (profilePhoneInput) {
+            profilePhoneInput.value = profile?.phoneNumber || "";
+          }
+          if (profileAddressInput) {
+            profileAddressInput.value = profile?.address || "";
+          }
+          if (!requiresCompletion) {
+            if (profileCompletionError) profileCompletionError.style.display = "none";
+            if (profileCompletionSuccess) profileCompletionSuccess.style.display = "none";
+          }
+        }
 
         welcomeTitle.textContent = name && name !== "-" ? `Xin chào, ${name}!` : "Xin chào!";
         welcomeSubtitle.textContent = "Chào mừng bạn quay lại bảng điều khiển Uniwave Logistics.";
@@ -776,14 +899,34 @@
         ordersEmpty.style.display = "none";
       };
 
+      const showProfileCompletionError = (message) => {
+        if (!profileCompletionError) return;
+        profileCompletionError.textContent = message || "Unable to update profile.";
+        profileCompletionError.style.display = "block";
+        if (profileCompletionSuccess) {
+          profileCompletionSuccess.style.display = "none";
+        }
+      };
+
+      const showProfileCompletionSuccess = (message) => {
+        if (!profileCompletionSuccess) return;
+        profileCompletionSuccess.textContent = message || "Profile updated.";
+        profileCompletionSuccess.style.display = "block";
+        if (profileCompletionError) {
+          profileCompletionError.style.display = "none";
+        }
+      };
+
       const loadProfile = async () => {
         setProfileLoading(true);
         try {
           const res = await Api.apiFetch("/api/Auth/me");
           const data = await res.json();
           renderProfile(data);
+          return data;
         } catch (error) {
           showProfileError(error?.message || "Không thể tải hồ sơ.");
+          return null;
         } finally {
           setProfileLoading(false);
         }
@@ -802,8 +945,75 @@
         }
       };
 
-      loadProfile();
-      loadOrders();
+      if (profileCompletionForm) {
+        profileCompletionForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          if (!Api?.apiFetch) return;
+
+          const payload = {
+            fullName: profileFullNameInput?.value?.trim() || "",
+            phoneNumber: profilePhoneInput?.value?.trim() || "",
+            address: profileAddressInput?.value?.trim() || ""
+          };
+
+          if (!payload.fullName || !payload.phoneNumber || !payload.address) {
+            showProfileCompletionError("Please fill out all required fields.");
+            return;
+          }
+
+          if (profileSaveBtn) {
+            profileSaveBtn.disabled = true;
+            profileSaveBtn.textContent = "Saving...";
+          }
+
+          try {
+            const res = await Api.apiFetch("/api/Auth/profile", {
+              method: "PUT",
+              body: payload
+            });
+            const updated = await res.json();
+            renderProfile(updated);
+            showProfileCompletionSuccess("Profile updated.");
+
+            const stillIncomplete =
+              updated?.requiresProfileCompletion === true || updated?.isProfileComplete === false;
+            if (!stillIncomplete) {
+              if (ordersError) {
+                ordersError.style.display = "none";
+              }
+              await loadOrders();
+            }
+          } catch (error) {
+            showProfileCompletionError(error?.message || "Unable to update profile.");
+          } finally {
+            if (profileSaveBtn) {
+              profileSaveBtn.disabled = false;
+              profileSaveBtn.textContent = "Save profile";
+            }
+          }
+        });
+      }
+
+      const initializeDashboard = async () => {
+        const profile = await loadProfile();
+        if (!profile) {
+          setOrdersLoading(false);
+          return;
+        }
+
+        const requiresCompletion =
+          profile.requiresProfileCompletion === true || profile.isProfileComplete === false;
+
+        if (requiresCompletion) {
+          setOrdersLoading(false);
+          showOrdersError("Please complete your profile to view orders.");
+          return;
+        }
+
+        await loadOrders();
+      };
+
+      initializeDashboard();
     });
   </script>
 </body>

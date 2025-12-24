@@ -219,12 +219,56 @@
             <input type="checkbox" id="login-remember" />
             <label for="login-remember">Ghi nhớ đăng nhập</label>
           </div>
+          <div class="login-link">
+            <a href="#" class="auth-switch" data-form="forgot-form">Quên mật khẩu?</a>
+          </div>
           <button type="submit" class="login-btn">Đăng Nhập</button>
           <div id="login-error-message" class="text-danger mt-2" role="alert" aria-live="polite"></div>
         </form>
         <div class="login-link">
           Chưa có tài khoản?
           <a href="#" class="auth-switch" data-form="reg-form">Đăng ký</a>
+        </div>
+      </div>
+      <div class="auth-form" id="forgot-form">
+        <h1 class="auth-title">Bạn quên mật khẩu?</h1>
+        <form id="forgot-request-form">
+          <div class="login-form-group">
+            <input type="email" id="forgot-email" placeholder=" " required />
+            <label for="forgot-email">Email</label>
+          </div>
+          <button type="submit" class="login-btn">Send OTP</button>
+          <div id="forgot-request-error" class="text-danger mt-2" role="alert" aria-live="polite"></div>
+          <div id="forgot-request-success" class="text-success mt-2" role="status" aria-live="polite"></div>
+        </form>
+        <form id="forgot-verify-form" style="display: none;">
+          <p id="forgot-verify-hint" style="color: #fff; text-align: center; margin-bottom: 20px;"></p>
+          <div class="login-form-group">
+            <input type="text" id="forgot-otp" placeholder=" " inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required />
+            <label for="forgot-otp">OTP</label>
+          </div>
+          <button type="submit" class="login-btn">Verify OTP</button>
+          <div id="forgot-verify-error" class="text-danger mt-2" role="alert" aria-live="polite"></div>
+        </form>
+        <form id="forgot-reset-form" style="display: none;">
+          <p style="color: #fff; text-align: center; margin-bottom: 20px;">
+            Password must be at least 8 characters and include a letter, number, and symbol.
+          </p>
+          <div class="login-form-group">
+            <input type="password" id="forgot-new-password" placeholder=" " required />
+            <label for="forgot-new-password">New password</label>
+          </div>
+          <div class="login-form-group">
+            <input type="password" id="forgot-confirm-password" placeholder=" " required />
+            <label for="forgot-confirm-password">Confirm password</label>
+          </div>
+          <button type="submit" class="login-btn">Reset Password</button>
+          <div id="forgot-reset-error" class="text-danger mt-2" role="alert" aria-live="polite"></div>
+          <div id="forgot-reset-success" class="text-success mt-2" role="status" aria-live="polite"></div>
+        </form>
+        <div class="login-link">
+          Remembered your password?
+          <a href="#" class="auth-switch" data-form="login-form">Back to login</a>
         </div>
       </div>
     </div>
@@ -688,6 +732,245 @@
   });
   </script>
 
+  <!--Script fetch for forgot password-->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const Api = window.UniwaveAPI || window.UniwaveApi;
+      const requestForm = document.getElementById("forgot-request-form");
+      const verifyForm = document.getElementById("forgot-verify-form");
+      const resetForm = document.getElementById("forgot-reset-form");
+
+      if (!Api?.apiFetch || !requestForm || !verifyForm || !resetForm) return;
+
+      const requestEmailInput = document.getElementById("forgot-email");
+      const otpInput = document.getElementById("forgot-otp");
+      const newPasswordInput = document.getElementById("forgot-new-password");
+      const confirmPasswordInput = document.getElementById("forgot-confirm-password");
+
+      const requestError = document.getElementById("forgot-request-error");
+      const requestSuccess = document.getElementById("forgot-request-success");
+      const verifyError = document.getElementById("forgot-verify-error");
+      const verifyHint = document.getElementById("forgot-verify-hint");
+      const resetError = document.getElementById("forgot-reset-error");
+      const resetSuccess = document.getElementById("forgot-reset-success");
+
+      let resetToken = "";
+      let resetEmail = "";
+
+      const showStep = (step) => {
+        requestForm.style.display = step === "request" ? "block" : "none";
+        verifyForm.style.display = step === "verify" ? "block" : "none";
+        resetForm.style.display = step === "reset" ? "block" : "none";
+      };
+
+      const clearMessages = () => {
+        if (requestError) requestError.textContent = "";
+        if (requestSuccess) requestSuccess.textContent = "";
+        if (verifyError) verifyError.textContent = "";
+        if (resetError) resetError.textContent = "";
+        if (resetSuccess) resetSuccess.textContent = "";
+      };
+
+      showStep("request");
+
+      const forgotTriggers = document.querySelectorAll(
+        '.auth-tab[data-form="forgot-form"], .auth-switch[data-form="forgot-form"]'
+      );
+      forgotTriggers.forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          clearMessages();
+          if (requestEmailInput) requestEmailInput.value = "";
+          if (otpInput) otpInput.value = "";
+          if (newPasswordInput) newPasswordInput.value = "";
+          if (confirmPasswordInput) confirmPasswordInput.value = "";
+          resetToken = "";
+          resetEmail = "";
+          showStep("request");
+        });
+      });
+
+      requestForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        clearMessages();
+
+        const email = requestEmailInput ? requestEmailInput.value.trim() : "";
+        if (!email) {
+          if (requestError) requestError.textContent = "Please enter your email.";
+          return;
+        }
+
+        const submitButton = requestForm.querySelector(".login-btn");
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = "Sending...";
+        }
+
+        try {
+          await Api.apiFetch("api/Auth/forgot-password", {
+            method: "POST",
+            body: { email }
+          });
+          resetEmail = email;
+          if (requestSuccess) requestSuccess.textContent = "OTP sent. Please check your email.";
+          if (verifyHint) verifyHint.textContent = `Enter the 6-digit code sent to ${email}.`;
+          showStep("verify");
+        } catch (error) {
+          if (requestError) requestError.textContent = error?.message || "Failed to send OTP. Please try again.";
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = "Send OTP";
+          }
+        }
+      });
+
+      verifyForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        clearMessages();
+
+        const otp = otpInput ? otpInput.value.trim() : "";
+        if (!resetEmail) {
+          if (verifyError) verifyError.textContent = "Please request an OTP first.";
+          showStep("request");
+          return;
+        }
+
+        if (!otp) {
+          if (verifyError) verifyError.textContent = "Please enter the OTP.";
+          return;
+        }
+
+        const submitButton = verifyForm.querySelector(".login-btn");
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = "Verifying...";
+        }
+
+        try {
+          const response = await Api.apiFetch("api/Auth/verify-otp", {
+            method: "POST",
+            body: { email: resetEmail, otp }
+          });
+          const result = await response.json();
+          resetToken = result.resetToken || "";
+          if (!resetToken) {
+            throw new Error("Reset token missing from response.");
+          }
+          showStep("reset");
+        } catch (error) {
+          if (verifyError) verifyError.textContent = error?.message || "OTP verification failed.";
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = "Verify OTP";
+          }
+        }
+      });
+
+      resetForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        clearMessages();
+
+        const newPassword = newPasswordInput ? newPasswordInput.value.trim() : "";
+        const confirmPassword = confirmPasswordInput ? confirmPasswordInput.value.trim() : "";
+
+        if (!resetEmail || !resetToken) {
+          if (resetError) resetError.textContent = "Reset token missing. Please verify OTP again.";
+          showStep("verify");
+          return;
+        }
+
+        if (!newPassword || !confirmPassword) {
+          if (resetError) resetError.textContent = "Please enter and confirm your new password.";
+          return;
+        }
+
+        if (newPassword !== confirmPassword) {
+          if (resetError) resetError.textContent = "Passwords do not match.";
+          return;
+        }
+
+        const submitButton = resetForm.querySelector(".login-btn");
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = "Resetting...";
+        }
+
+        try {
+          await Api.apiFetch("api/Auth/reset-password", {
+            method: "POST",
+            body: {
+              email: resetEmail,
+              resetToken,
+              newPassword,
+              confirmPassword
+            }
+          });
+          resetToken = "";
+          if (resetSuccess) resetSuccess.textContent = "Password updated. You can log in now.";
+          if (newPasswordInput) newPasswordInput.value = "";
+          if (confirmPasswordInput) confirmPasswordInput.value = "";
+
+          if (typeof switchForm === "function") {
+            setTimeout(() => switchForm("login-form"), 1200);
+          }
+        } catch (error) {
+          if (resetError) resetError.textContent = error?.message || "Unable to reset password.";
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = "Reset Password";
+          }
+        }
+      });
+    });
+  </script>
+  <!--Script gửi thông tin trong popup-->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const popupForm = document.getElementById('contact-form');
+    if (!popupForm) return;
+
+    const API_URL = "https://uniwave-contact-form.vercel.app/api/contact";
+
+    popupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitBtn = popupForm.querySelector('button[type="submit"]');
+      const formData = {
+        name: popupForm.querySelector('input[name="name"]').value.trim(),
+        phone: popupForm.querySelector('input[name="phone"]').value.trim(),
+        email: popupForm.querySelector('input[name="email"]').value.trim(),
+        message: popupForm.querySelector('textarea[name="message"]').value.trim(),
+      };
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.innerText = '...';
+
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          alert('Uniwave đã nhận được thông tin. Chúng tôi sẽ liên hệ bạn sớm nhất!');
+          popupForm.reset();
+          if (typeof togglePopup === "function") togglePopup(); // Đóng popup nếu có hàm này
+        } else {
+          alert('Có lỗi xảy ra, vui lòng thử lại.');
+        }
+      } catch (error) {
+        alert('Lỗi kết nối server.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Gửi';
+      }
+    });
+  });
+</script>
+<!--Script gửi thông tin trong popup-->
 </body>
 
 </html>

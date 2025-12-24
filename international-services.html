@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-key="title">UNIWAVE LOGISTICS</title>
+  <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
+  <link rel="shortcut icon" href="./image/favicon/uniwave-favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+  /* International services redesign */
+  :root {
+    --intl-ink: #132233;
+    --intl-ink-soft: #4a5b6b;
+    --intl-cream: #fbf7f1;
+    --intl-blue: #1e3a8a;
+    --intl-blue-dark: #14284f;
+    --intl-teal: #0f766e;
+    --intl-gold: #f6c453;
+    --intl-line: rgba(19, 34, 51, 0.12);
+    --intl-shadow: 0 18px 40px rgba(16, 32, 50, 0.12);
+  }
+
+  .intl-page {
+    background: var(--intl-cream);
+    color: var(--intl-ink);
+  }
+
+  .intl-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 72px 0 64px;
+    background: radial-gradient(circle at 10% 10%, #fff2cf 0%, #f7efe2 45%, #e4efff 100%);
+  }
+
+  .intl-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("image/services/img/logistics-bg-pattern.jpg");
+    background-size: cover;
+    opacity: 0.12;
+  }
+
+  .intl-hero::after {
+    content: "";
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: rgba(30, 58, 138, 0.12);
+    top: -160px;
+    right: -140px;
+  }
+
+  .intl-hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 40px;
+    align-items: center;
+  }
+
+  .intl-breadcrumbs {
+    display: flex;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--intl-ink-soft);
+    margin-bottom: 16px;
+  }
+
+  .intl-breadcrumbs a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .intl-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--intl-blue);
+    margin-bottom: 16px;
+  }
+
+  .intl-hero h1 {
+    font-size: clamp(2.2rem, 2.4vw + 1.6rem, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: var(--intl-blue-dark);
+  }
+
+  .intl-hero p {
+    font-size: 1rem;
+    color: var(--intl-ink-soft);
+    margin-bottom: 0;
+  }
+
+  .intl-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 24px 0 18px;
+  }
+
+  .intl-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 0.75rem 1.7rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+
+  .intl-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(15, 31, 46, 0.15);
+  }
+
+  .intl-btn-primary {
+    background: var(--intl-blue);
+    color: #fff;
+    border-color: var(--intl-blue);
+  }
+
+  .intl-btn-ghost {
+    background: transparent;
+    color: var(--intl-blue);
+    border-color: var(--intl-blue);
+  }
+
+  .intl-btn-light {
+    background: #fff;
+    color: var(--intl-blue-dark);
+    border-color: #fff;
+  }
+
+  .intl-btn-outline {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+
+  .intl-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+  }
+
+  .intl-tags li {
+    background: rgba(30, 58, 138, 0.08);
+    color: var(--intl-blue-dark);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .intl-hero-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .intl-stat-card {
+    background: #fff;
+    padding: 14px 16px;
+    border-radius: 16px;
+    border: 1px solid rgba(15, 31, 46, 0.08);
+    box-shadow: 0 12px 30px rgba(15, 31, 46, 0.1);
+  }
+
+  .intl-stat-number {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--intl-blue-dark);
+    display: block;
+  }
+
+  .intl-stat-label {
+    font-size: 0.85rem;
+    color: var(--intl-ink-soft);
+  }
+
+  .intl-hero-media {
+    position: relative;
+  }
+
+  .intl-hero-image {
+    width: 100%;
+    display: block;
+    border-radius: 26px;
+    box-shadow: var(--intl-shadow);
+  }
+
+  .intl-floating-card {
+    position: absolute;
+    right: -18px;
+    bottom: 18px;
+    background: #fff;
+    padding: 14px 16px;
+    border-radius: 16px;
+    box-shadow: 0 16px 36px rgba(15, 31, 46, 0.18);
+    max-width: 220px;
+  }
+
+  .intl-floating-card p {
+    font-size: 0.85rem;
+    color: var(--intl-ink-soft);
+    margin: 6px 0 0;
+  }
+
+  .intl-floating-title {
+    font-weight: 700;
+    color: var(--intl-blue-dark);
+  }
+
+  .intl-section {
+    padding: 72px 0;
+    position: relative;
+  }
+
+  .intl-services {
+    background: #fff;
+  }
+
+  .intl-section-head {
+    max-width: 680px;
+    margin-bottom: 36px;
+  }
+
+  .intl-section-head h2 {
+    font-size: clamp(1.8rem, 1.4vw + 1.3rem, 2.6rem);
+    margin-bottom: 12px;
+    color: var(--intl-blue-dark);
+  }
+
+  .intl-section-head p {
+    color: var(--intl-ink-soft);
+  }
+
+  .intl-kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--intl-blue);
+    margin-bottom: 12px;
+  }
+
+  .intl-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+  }
+
+  .intl-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid var(--intl-line);
+    box-shadow: 0 14px 32px rgba(16, 32, 50, 0.08);
+    height: 100%;
+  }
+
+  .intl-card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: rgba(30, 58, 138, 0.08);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--intl-blue);
+    font-size: 1.2rem;
+  }
+
+  .intl-card h3 {
+    margin: 18px 0 10px;
+    color: var(--intl-blue-dark);
+    font-size: 1.25rem;
+  }
+
+  .intl-card p {
+    color: var(--intl-ink-soft);
+  }
+
+  .intl-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+  }
+
+  .intl-checklist li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 10px;
+    color: var(--intl-ink-soft);
+    font-size: 0.95rem;
+  }
+
+  .intl-checklist li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--intl-teal);
+  }
+
+  .intl-lanes {
+    background: linear-gradient(120deg, #fef7e8 0%, #ecf4ff 100%);
+  }
+
+  .intl-lanes-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 36px;
+    align-items: center;
+  }
+
+  .intl-lanes-media {
+    position: relative;
+  }
+
+  .intl-lanes-image {
+    width: 100%;
+    display: block;
+    border-radius: 24px;
+    box-shadow: var(--intl-shadow);
+  }
+
+  .intl-lanes-badge {
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    background: #fff;
+    padding: 12px 16px;
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgba(15, 31, 46, 0.18);
+  }
+
+  .intl-lanes-badge strong {
+    display: block;
+    color: var(--intl-blue);
+  }
+
+  .intl-route-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 16px 0 20px;
+  }
+
+  .intl-route-tags span {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid var(--intl-line);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--intl-blue-dark);
+  }
+
+  .intl-feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 18px;
+  }
+
+  .intl-feature-list li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 10px;
+    color: var(--intl-ink-soft);
+  }
+
+  .intl-feature-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--intl-gold);
+  }
+
+  .intl-link {
+    color: var(--intl-blue);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .intl-process {
+    background: #fff;
+  }
+
+  .intl-steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .intl-step {
+    background: #fff;
+    border-radius: 18px;
+    padding: 22px;
+    border: 1px solid var(--intl-line);
+    box-shadow: 0 10px 24px rgba(16, 32, 50, 0.08);
+  }
+
+  .intl-step-num {
+    font-weight: 700;
+    color: var(--intl-blue);
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .intl-step h3 {
+    font-size: 1.1rem;
+    color: var(--intl-blue-dark);
+    margin-bottom: 8px;
+  }
+
+  .intl-step p {
+    color: var(--intl-ink-soft);
+    margin: 0;
+  }
+
+  .intl-trust {
+    background: #f8f3ea;
+  }
+
+  .intl-logo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 24px;
+    align-items: center;
+    justify-items: center;
+    filter: grayscale(100%);
+    opacity: 0.8;
+  }
+
+  .intl-logo-grid img {
+    max-width: 120px;
+    max-height: 44px;
+    object-fit: contain;
+  }
+
+  .intl-cta {
+    position: relative;
+    padding: 80px 0 90px;
+    color: #fff;
+    background: linear-gradient(120deg, #14284f 0%, #1e3a8a 55%, #0f766e 100%);
+    overflow: hidden;
+  }
+
+  .intl-cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("image/services/img/service-intro-bg-partten.jpg");
+    background-size: cover;
+    opacity: 0.12;
+  }
+
+  .intl-cta-card {
+    position: relative;
+    z-index: 1;
+    background: rgba(12, 23, 38, 0.55);
+    border-radius: 26px;
+    padding: 32px 36px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+  }
+
+  .intl-cta-card h2 {
+    font-size: clamp(1.8rem, 1.4vw + 1.2rem, 2.6rem);
+    margin-bottom: 12px;
+  }
+
+  .intl-cta-card p {
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+  }
+
+  .intl-cta-kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--intl-gold);
+    margin-bottom: 12px;
+  }
+
+  .intl-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .intl-rise {
+    animation: intlRise 0.9s ease forwards;
+  }
+
+  .intl-fade {
+    animation: intlFade 0.8s ease forwards;
+  }
+
+  .intl-zoom {
+    animation: intlZoom 0.8s ease forwards;
+  }
+
+  @keyframes intlRise {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes intlFade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes intlZoom {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (max-width: 992px) {
+    .intl-hero-grid,
+    .intl-lanes-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .intl-hero-media {
+      margin-top: 28px;
+    }
+
+    .intl-floating-card {
+      position: static;
+      margin-top: 16px;
+      max-width: none;
+    }
+
+    .intl-steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 768px) {
+    .intl-card-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .intl-steps {
+      grid-template-columns: 1fr;
+    }
+
+    .intl-cta-card {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .intl-hero {
+      padding: 60px 0 48px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .intl-hero-actions,
+    .intl-cta-actions {
+      width: 100%;
+    }
+
+    .intl-btn {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intl-page .animation {
+      animation: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+    }
+  }
+  </style>
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+</head>
+
+<body>
+  <header class="header-container header-home">
+    <button class="menu-toggle animated slide-down"
+      style="animation-delay: 0.2s; opacity: 1; background-color: transparent">
+      <img alt="menu" loading="lazy" width="22" height="18" decoding="async" data-nimg="1"
+        style="background-color: transparent" src="./image/general/icon/menu.3f1ed974.png" />
+    </button>
+    <div class="main-container center-align">
+      <nav class="navigation-bar">
+        <a class="animated brand-logo slide-down" href="/en"
+          style="animation: auto ease 0.2s 1 normal none running none; opacity: 1;">
+          <img class="logo-desktop" src="./image/Uniwave-Logo-on-Cream.png" alt="Uniwave Logistics Logo" />
+          <img class="logo-mobile" src="./image/Uniwave-Logo-on-Cream.png" alt="Uniwave Logistics Mobile Logo" />
+        </a>
+        <div class="menu-collapse">
+          <ul class="nav-list animated slide-down"
+            style="animation: auto ease 0.2s 1 normal none running none; opacity: 1;">
+            <li class="primary-nav-item animated selected-desktop selected-mobile toggle-mobile slide-down"
+              data-animtion-delay="0.3s" style="animation: auto ease 0.2s 1 normal none running none; opacity: 1;">
+              <a class="primary-nav-link" href="/vi" data-key="nav_home">Trang chủ</a>
+            </li>
+            <li class="primary-nav-item animated slide-down" data-animtion-delay="0.7s"
+              style="animation: auto ease 0.2s 1 normal none running none; opacity: 1;">
+              <a class="primary-nav-link" href="/vi/introduce" data-key="nav_about">Giới thiệu</a>
+            </li>
+            <li class="primary-nav-item animated expandable slide-down" data-animtion-delay="0.5s"
+              style="animation: auto ease 0.2s 1 normal none running none; opacity: 1;">
+              <div class="primary-nav-link clickable" data-key="nav_services">Dịch vụ<div></div>
+              </div>
+              <ul class="secondary-nav">
+                <li class="secondary-nav-item">
+                  <a class="secondary-nav-link" href="/vi/services" data-key="nav_services_general">Dịch vụ chung</a>
+                </li>
+                <li class="secondary-nav-item">
+                  <a class="secondary-nav-link" href="/vi/domestic-delivery-service"
+                    data-key="nav_domestic_delivery">Vận chuyển nội địa</a>
+                </li>
+                <li class="secondary-nav-item expandable">
+                  <div class="secondary-nav-link clickable" data-key="nav_international">Dịch vụ quốc tế<div></div>
+                  </div>
+                  <ul class="tertiary-nav">
+                    <li>
+                      <a class="text-gray medium-weight" href="/vi/service/transportation/trucking"
+                        data-key="nav_international_vn_cn">Vận chuyển Việt - Trung</a>
+                    </li>
+                    <li>
+                      <a class="text-gray medium-weight" href="/vi/service/transportation/rail-transportation"
+                        data-key="nav_international_sea">Vận chuyển Đông Nam Á</a>
+                    </li>
+                    <li>
+                      <a class="text-gray medium-weight" href="/vi/service/transportation/sea-transport"
+                        data-key="nav_international_eu">Vận chuyển Châu Âu</a>
+                    </li>
+                    <li>
+                      <a class="text-gray medium-weight" href="/vi/service/transportation/air-transport"
+                        data-key="nav_international_us">Xuất khẩu sang Mỹ</a>
+                    </li>
+                    <li>
+                      <a class="text-gray medium-weight" href="/vi/service/transportation/air-transport"
+                        data-key="nav_international_au">Xuất khẩu sang Úc</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="primary-nav-item animated slide-down" data-animtion-delay="0.8s"
+              style="animation: auto ease 0.2s 1 normal none running none; opacity: 1;">
+              <a class="primary-nav-link" href="/vi/tracking-shipment" data-key="nav_tracking">Theo dõi đơn hàng</a>
+            </li>
+            <li class="primary-nav-item animated slide-down" data-animtion-delay="0.7s"
+              style="animation: auto ease 0.2s 1 normal none running none; opacity: 1;">
+              <a class="primary-nav-link" href="/vi/price-check" data-key="nav_pricing">Báo giá</a>
+            </li>
+            <li class="primary-nav-item animated slide-down" data-animtion-delay="0.8s"
+              style="animation: auto ease 0.2s 1 normal none running none; opacity: 1;">
+              <a class="primary-nav-link" href="/vi/contact" data-key="nav_contact">Liên hệ</a>
+            </li>
+          </ul>
+          <div class="animated action-panel slide-down" data-animation-delay="0.8s"
+            style="animation: auto ease 0.8s 1 normal none running none; opacity: 1;">
+            <div class="search-bar">
+              <img alt="search-icon" loading="lazy" width="30" height="30" decoding="async" data-nimg="1"
+                style="color: transparent" src="./image/general/icon/search_light.71eaeab0.png" />
+              <input placeholder="Tìm kiếm" type="text" data-key="search_placeholder" /><button class="close-search">
+                <img alt="search-close-button" loading="lazy" width="24" height="24" decoding="async" data-nimg="1"
+                  style="color: transparent" src="./image/general/icon/close_dark.a63d54e6.png" />
+              </button>
+            </div>
+            <div class="language-switcher">
+              <img alt="flag" loading="lazy" width="30" height="30" decoding="async" data-nimg="1"
+                style="color: transparent" id="current-flag" src="./image/general/icon/vn.38e19a45.png" />
+              <p class="language-title" data-key="lang_vi">Viet Nam</p>
+              <div></div>
+              <ul class="language-dropdown">
+                <li class="visible" data-lang="vi">
+                  <a href="javascript:void(0);" data-lang="vi"><img alt="" loading="lazy" width="30" height="30"
+                      decoding="async" data-nimg="1" style="color: transparent"
+                      src="./image/general/icon/vn.38e19a45.png" /><span data-key="lang_vi">Viet Nam</span></a>
+                </li>
+                <li data-lang="en">
+                  <a href="javascript:void(0);" data-lang="en"><img alt="" loading="lazy" width="30" height="30"
+                      decoding="async" data-nimg="1" style="color: transparent"
+                      src="./image/general/icon/en.5a569d53.png" /><span data-key="lang_en">English</span></a>
+                </li>
+              </ul>
+            </div>
+            <div class="profile-menu" title="customer-profile">
+              <a href="/en/authentication">
+                <img id="profile-icon-black" alt="profile" loading="lazy" width="30" height="30" decoding="async"
+                  data-nimg="1" style="color: transparent" src="./image/general/icon/profile_light.79437222.png" />
+                <img id="profile-icon-white" alt="profile" loading="lazy" width="30" height="30" decoding="async"
+                  data-nimg="1" style="color: transparent" src="./image/general/icon/profile_light.79437222.png" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <div class="header-space"></div>
+
+  <!-- International Services Redesign -->
+  <main class="intl-page">
+    <section class="intl-hero">
+      <div class="container intl-hero-grid">
+        <div class="intl-hero-copy animation" data-animation="intl-rise">
+          <div class="intl-breadcrumbs">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <span>International Services</span>
+          </div>
+          <p class="intl-eyebrow">International logistics</p>
+          <h1>Global freight with a local control tower</h1>
+          <p>Move cargo across Asia, Europe, and the Americas with a single point of contact. We blend sea, air, and cross-border trucking with proactive customs management and real-time visibility.</p>
+          <div class="intl-hero-actions">
+            <a class="intl-btn intl-btn-primary" href="price-check.html">Get a quote</a>
+            <a class="intl-btn intl-btn-ghost" href="contact.html">Talk to an expert</a>
+          </div>
+          <ul class="intl-tags">
+            <li>Sea and air</li>
+            <li>Cross-border trucking</li>
+            <li>Customs ready</li>
+            <li>Live tracking</li>
+          </ul>
+          <div class="intl-hero-stats">
+            <div class="intl-stat-card">
+              <span class="intl-stat-number">60+</span>
+              <span class="intl-stat-label">gateway ports</span>
+            </div>
+            <div class="intl-stat-card">
+              <span class="intl-stat-number">24/7</span>
+              <span class="intl-stat-label">shipment visibility</span>
+            </div>
+            <div class="intl-stat-card">
+              <span class="intl-stat-number">98%</span>
+              <span class="intl-stat-label">on-time milestones</span>
+            </div>
+          </div>
+        </div>
+        <div class="intl-hero-media animation" data-animation="intl-zoom">
+          <img src="image/services/img/sea-air-freight.jpg" alt="International air and sea freight" class="intl-hero-image">
+          <div class="intl-floating-card">
+            <div class="intl-floating-title">Control tower</div>
+            <p>Milestone alerts, carrier coordination, and exception handling in one place.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="intl-section intl-services">
+      <div class="container">
+        <div class="intl-section-head animation" data-animation="intl-fade">
+          <p class="intl-kicker">Service lines</p>
+          <h2>Design the right route for every shipment</h2>
+          <p>Build a flexible plan across modes while keeping cost and risk under control.</p>
+        </div>
+        <div class="intl-card-grid">
+          <article class="intl-card animation" data-animation="intl-rise" data-animation-delay="0.1s">
+            <div class="intl-card-icon"><i class="fa-solid fa-ship"></i></div>
+            <h3>Ocean freight</h3>
+            <p>Weekly sailings with FCL and LCL options across key trade lanes.</p>
+            <ul class="intl-checklist">
+              <li>Carrier allocation and space protection</li>
+              <li>Port-to-door delivery coordination</li>
+              <li>Container tracking and detention alerts</li>
+            </ul>
+          </article>
+          <article class="intl-card animation" data-animation="intl-rise" data-animation-delay="0.2s">
+            <div class="intl-card-icon"><i class="fa-solid fa-plane"></i></div>
+            <h3>Air freight</h3>
+            <p>Priority uplift for urgent and high value cargo with secure handling.</p>
+            <ul class="intl-checklist">
+              <li>Consolidation and breakbulk options</li>
+              <li>Temperature-sensitive planning</li>
+              <li>Fast customs release support</li>
+            </ul>
+          </article>
+          <article class="intl-card animation" data-animation="intl-rise" data-animation-delay="0.3s">
+            <div class="intl-card-icon"><i class="fa-solid fa-truck"></i></div>
+            <h3>Cross-border trucking</h3>
+            <p>Road and rail connections for Asia intra trade and last mile.</p>
+            <ul class="intl-checklist">
+              <li>Door pickup and drop off</li>
+              <li>Border transfer management</li>
+              <li>Secure cargo monitoring</li>
+            </ul>
+          </article>
+          <article class="intl-card animation" data-animation="intl-rise" data-animation-delay="0.4s">
+            <div class="intl-card-icon"><i class="fa-solid fa-file-lines"></i></div>
+            <h3>Customs and compliance</h3>
+            <p>Documentation control that keeps shipments moving without delays.</p>
+            <ul class="intl-checklist">
+              <li>HS code review and audit trails</li>
+              <li>Import and export documentation</li>
+              <li>Broker coordination and duty guidance</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="intl-section intl-lanes">
+      <div class="container intl-lanes-grid">
+        <div class="intl-lanes-media animation" data-animation="intl-zoom">
+          <img src="image/services/img/china-warehouse-interior.jpg" alt="Warehouse consolidation and staging" class="intl-lanes-image">
+          <div class="intl-lanes-badge">
+            <span>Origin consolidation</span>
+            <strong>72 hour dispatch window</strong>
+          </div>
+        </div>
+        <div class="intl-lanes-copy animation" data-animation="intl-rise">
+          <p class="intl-kicker">Network coverage</p>
+          <h2>From factory floor to final delivery</h2>
+          <p>Our overseas teams coordinate consolidation, packing, and compliance so shipments move as one coordinated flow.</p>
+          <div class="intl-route-tags">
+            <span>Vietnam - China</span>
+            <span>Sea routes to EU</span>
+            <span>North America exports</span>
+            <span>ASEAN lanes</span>
+          </div>
+          <ul class="intl-feature-list">
+            <li>Bonded and non-bonded storage options</li>
+            <li>SKU labeling and cargo inspection</li>
+            <li>Door delivery with last mile partners</li>
+          </ul>
+          <a class="intl-link" href="contact.html">Build a custom lane plan</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="intl-section intl-process">
+      <div class="container">
+        <div class="intl-section-head animation" data-animation="intl-fade">
+          <p class="intl-kicker">How it works</p>
+          <h2>Clear handoffs at every milestone</h2>
+          <p>We keep your team informed with a transparent process and a single owner for every shipment.</p>
+        </div>
+        <div class="intl-steps">
+          <div class="intl-step animation" data-animation="intl-rise" data-animation-delay="0.1s">
+            <span class="intl-step-num">01</span>
+            <h3>Route design</h3>
+            <p>Confirm cargo profile, service mode, and target transit time.</p>
+          </div>
+          <div class="intl-step animation" data-animation="intl-rise" data-animation-delay="0.2s">
+            <span class="intl-step-num">02</span>
+            <h3>Origin control</h3>
+            <p>Pickup, consolidation, and export documentation review.</p>
+          </div>
+          <div class="intl-step animation" data-animation="intl-rise" data-animation-delay="0.3s">
+            <span class="intl-step-num">03</span>
+            <h3>Transit visibility</h3>
+            <p>Milestone updates with proactive exception handling.</p>
+          </div>
+          <div class="intl-step animation" data-animation="intl-rise" data-animation-delay="0.4s">
+            <span class="intl-step-num">04</span>
+            <h3>Destination delivery</h3>
+            <p>Customs clearance, final mile, and POD confirmation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="intl-section intl-trust">
+      <div class="container">
+        <div class="intl-section-head animation" data-animation="intl-fade">
+          <p class="intl-kicker">Partner network</p>
+          <h2>Trusted carriers and forwarder partners</h2>
+        </div>
+        <div class="intl-logo-grid animation" data-animation="intl-rise">
+          <img src="image/partner/maersk-logo.png" alt="Maersk logo">
+          <img src="image/partner/oocl-logo.png" alt="OOCL logo">
+          <img src="image/partner/fedex-logo.png" alt="FedEx logo">
+          <img src="image/partner/dhl-logo.png" alt="DHL logo">
+          <img src="image/partner/vietnamairline-logo.png" alt="Vietnam Airlines logo">
+          <img src="image/partner/sr-logo.png" alt="SR logo">
+        </div>
+      </div>
+    </section>
+
+    <section class="intl-cta">
+      <div class="container">
+        <div class="intl-cta-card animation" data-animation="intl-rise">
+          <div>
+            <p class="intl-cta-kicker">Ready to ship</p>
+            <h2>Launch your international shipment plan today</h2>
+            <p>Share your lane and cargo details and we will build the right mix of speed, cost, and compliance.</p>
+          </div>
+          <div class="intl-cta-actions">
+            <a class="intl-btn intl-btn-light" href="price-check.html">Request pricing</a>
+            <a class="intl-btn intl-btn-outline" href="authentication.html">Open an account</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- International Services Redesign -->
+
+<!--Footer start-->
+  <footer>
+    <section class="line-footer"></section>
+    <section id="fbot">
+      <div class="container">
+        <div class="row position-relative" style="background: #212d33">
+          <div class="col-md-4">
+            <div>
+              <h4>UNIWAVE LOGISTICS COMPANY LIMITED</h4>
+              <h3 data-key="footer_slogan">"Ship Smart. Move Fast"</h3>
+              <p style="padding-top: 5px" data-key="footer_company_info">Giấy chứng nhận Đăng ký Kinh doanh số:
+                0318948734 do Sở KHDT thành phố Hồ Chí Minh cấp lần đầu ngày 13/05/2025</p>
+              <p style="padding-top: 5px"><i class="fa fa-paper-plane"></i><a style="color: #ffff; padding: 5px;"
+                  href="https://www.uniwave-logistics.com/image/license/VLA.pdf" target="_blank" data-key="footer_fiata">Giấy phép FIATA</a></p>
+            </div>
+            <br />
+            <div>
+              <h4 data-key="footer_membership">Là thành viên chính thức của</h4>
+              <ul class="vla-fiata-member">
+                <li><img src="./image/general/img/Logo-VLA-High-Quality.png" alt="VLA Logo" style="max-width: 50px;" /></li>
+                <li><img src="./image/general/img/FIATA.PNG" alt="FIATA Logo" style="max-width: 50px; border-radius: 50%;" /></li>
+              </ul>
+            </div>
+            <br />
+            <div>
+              <h4 data-key="footer_connect">Kết nối cùng UNIWAVE</h4>
+              <ul class="social">
+                <li>
+                  <a href="https://www.facebook.com/Uniwavelogistics" title="Facebook"><img
+                      src="./image/general/icon/fb1.png" alt="Facebook" /></a>
+                </li>
+                <li>
+                  <a href="mailto:sales@uniwavelogistics.com" title="Email"><img
+                      src="./image/general/icon/Vector-4.png" alt="Email" /></a>
+                </li>
+                <li>
+                  <a href="https://zalo.me/3419211667593921528" title="Zalo"><img
+                      src="./image/general/icon/Group-5897.png" alt="Zalo" /></a>
+                </li>
+                <li>
+                  <a href="https://www.linkedin.com/company/uniwave-logistic/" title="LinkedIn"><img
+                      src="./image/general/icon/in1.png" alt="LinkedIn" /></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-12 col-md-3">
+                <div class="comp-link">
+                  <h4 data-key="footer_about">Về UNIWAVE</h4>
+                  <ul>
+                    <li><a href="/en" data-key="nav_home">Trang chủ</a></li>
+                    <li><a href="/en/introduce" data-key="nav_about">Giới thiệu</a></li>
+                    <li><a href="/en/services" data-key="nav_services">Dịch vụ</a></li>
+                    <li><a href="/en/tracking-shipment" data-key="nav_tracking">Theo dõi đơn hàng</a></li>
+                    <li><a href="/en/price-check" data-key="nav_pricing">Báo giá</a></li>
+                    <li><a href="/en/contact" data-key="nav_contact">Liên hệ</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="comp-info">
+                  <h4 data-key="footer_company">Thông Tin Công Ty</h4>
+                  <p id="comp-address"><i class="fa fa-map-marker"></i><span data-key="footer_address"
+                      style="padding-left: 5px;">Trụ sở công ty: T2-26 The Manhattan – Vinhomes Grand Park, 512 Nguyễn
+                      Xiển, Long Bình, TP. Thủ Đức.</span></p>
+                  <p id="sec-office-address"><i class="fa fa-map-marker"></i><span data-key="footer_office_address"
+                      style="padding-left: 5px;">Văn phòng: 441 Võ Nguyên Giáp, xã Phú Minh, huyện Sóc Sơn, Hà Nội.</span></p>
+                  <p id="comp-mail"><i class="fa fa-envelope"></i><a data-key="footer_email"
+                      style="color: white; padding-left: 5px;"
+                      href="mailto:info@uniwave-logistics.com">info@uniwave-logistics.com</a></p>
+                  <p class="hotline-footer"><a href="tel:+84775764586" style="color: #fff"><img width="20" height="20"
+                        src="https://img.icons8.com/ios-filled/50/FFFFFF/phone.png" alt="phone" /><span
+                        data-key="footer_hotline">0775 764 586</span></a></p>
+                </div>
+              </div>
+              <div class="col-12 col-md-5">
+                <div class="comp-location">
+                  <iframe class="fanpage"
+                    src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/Uniwavelogistics&tabs=timeline&width=400&height=200&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                    width="400" height="100" style="border: none; overflow: hidden; border-radius: 5px" scrolling="no"
+                    frameborder="0" allowfullscreen="true"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+                  <p style="height: 5px"></p>
+                  <iframe class="company-map"
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d31349.021799670136!2d106.842186!3d10.839775!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317521001cf9ab09%3A0x7fd16131a048614e!2sUNIWAVE%20LOGISTICS%20COMPANY%20LIMITED!5e0!3m2!1svi!2sus!4v1747196529956!5m2!1svi!2sus"
+                    width="400" height="100" style="border: 0" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                  <div class="badge-container"
+                    style="padding-top: 5px; padding-bottom: 5px; display: flex; align-items: center; gap: 10px;">
+                    <a href="https://www.dmca.com/Protection/Status.aspx?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
+                      title="DMCA.com Protection Status" class="dmca-badge">
+                      <img
+                        src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
+                        alt="DMCA.com Protection Status" />
+                    </a>
+                    <img src="./image/general/img/bocongthuong.jpg" alt="Bộ Công Thương"
+                      style="max-width: 100px; height: auto; vertical-align: middle; border-radius: 5px;" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- row -->
+      </div>
+      <!-- container -->
+    </section>
+    <section id="copyight">
+      <div class="container">
+        <div class="copyright-text" data-key="copyright">© Uniwave 2025. All rights reserved</div>
+      </div>
+    </section>
+  </footer>
+  <!--Footer end-->
+  <div id="ml-menu-fixed" class="hidden-xs hidden-sm">
+    <ul>
+      <li>
+        <a href="price-check.html" target="_blank">
+          <img src="./image/general/icon/ic-r1.png" alt="" />
+          <span data-key="nav_pricing">Ước tính cước phí</span>
+        </a>
+      </li>
+      <li>
+        <a href="tracking-shipment.html" target="_blank">
+          <img src="./image/general/icon/ic-r2.png" alt="" />
+          <span data-key="nav_tracking">Theo dõi vận đơn</span>
+        </a>
+      </li>
+    </ul>
+    <img src="./image/general/icon/close.png" id="close-lk" />
+  </div>
+  <div class="btn-show-lk active">
+    <img src="./image/general/icon/icon-send.png" />
+    <span data-key="support_utilities">Tiện ích</span>
+  </div>
+  <!-- Phần bên trái: chứa ảnh social-block-img -->
+  <div class="icon-need-help" id="icon-need-help">
+    <a>
+      <img src="/image/general/img/social-block-img.jpg" alt="Laboon Assistant" />
+    </a>
+    <div class="chat-box" id="chat-box">
+      <p data-key="chat_greeting">Chào bạn! Mình là Laboon – trợ lý siêu tốc ngành logistics!
+        📦 Bạn cần mình hỗ trợ gì trong quá trình vận chuyển, báo giá hay theo dõi đơn hàng không nè?
+        👉 Cứ nói nha, Laboon luôn sẵn sàng giúp đỡ!</p>
+    </div>
+    <div class="popup-form" id="popup-form">
+      <button class="close-btn" onclick="togglePopup()">✕</button>
+      <h3 data-key="form_title">Để lại thông tin</h3>
+      <form id="contact-form">
+        <input type="text" name="name" placeholder="Họ và tên" required data-key="form_name" />
+        <input type="tel" name="phone" placeholder="Số điện thoại" required data-key="form_phone" />
+        <input type="email" name="email" placeholder="Email" required data-key="form_email" />
+        <textarea name="message" placeholder="Nội dung cần hỗ trợ" required data-key="form_message"></textarea>
+        <button type="submit" data-key="form_submit">Gửi</button>
+      </form>
+    </div>
+  </div>
+  <!-- Phần bên phải: chứa social-box -->
+  <div class="social-box-list" id="social_box" style="position: fixed; right: 20px; bottom: 30px; z-index: 99">
+    <ul class="social-chat" style="list-style: none; margin: 0; padding: 0">
+      <li>
+        <a href="https://zalo.me/3419211667593921528" target="_blank">
+          <img src="./image/general/icon/ic_zalo.png" style="width: 48px; height: 48px; border-radius: 50%" />
+        </a>
+      </li>
+      <li>
+        <a href="https://api.whatsapp.com/send?phone=%2B84775764586&context=AffwBgBqo1894NOEVfp1pgqQyQevjJmSxfHBrfAO8o13dBn_os7LDX1m3lPxsLDNasPQyjVgPqc1wGVRYdm5_k0MXhKf7ly0zOr2R5CBfICOHLQQY4pHti_sGHqK5DkNoZfou8Hl6SddSybp3br_omT7HA&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwY2xjawKeqkFleHRuA2FlbQIxMABicmlkETFlQ1pTVkVUeUR3R01VYUt0AR4pN1Wf8tFMyGYwc5zA2BHI981cMiWbPfasHGcVlXJUXBkwMUJF2-0UQp3rjw_aem_R7-NxHXZhcLsEGOFDuiv3g"
+          target="_blank">
+          <img src="./image/general/icon/whatsapp-icon.png"
+            style="width: 48px; height: 48px; border-radius: 50%" />
+        </a>
+      </li>
+      <li>
+        <a href="https://www.facebook.com/messages/t/610000072203351" target="_blank">
+          <img src="./image/general/icon/ic_messenger.png" style="width: 48px; height: 48px" />
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!--Scripts chung-->
+  <script defer type="text/javascript" src="js/scripts.js"></script>
+  <script defer type="text/javascript" src="js/api.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <!--Scripts chung-->
+  <!--Script gửi thông tin trong popup-->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const popupForm = document.getElementById('contact-form');
+    if (!popupForm) return;
+
+    const API_URL = "https://uniwave-contact-form.vercel.app/api/contact";
+
+    popupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitBtn = popupForm.querySelector('button[type="submit"]');
+      const formData = {
+        name: popupForm.querySelector('input[name="name"]').value.trim(),
+        phone: popupForm.querySelector('input[name="phone"]').value.trim(),
+        email: popupForm.querySelector('input[name="email"]').value.trim(),
+        message: popupForm.querySelector('textarea[name="message"]').value.trim(),
+      };
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.innerText = '...';
+
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          alert('Uniwave đã nhận được thông tin. Chúng tôi sẽ liên hệ bạn sớm nhất!');
+          popupForm.reset();
+          if (typeof togglePopup === "function") togglePopup(); // Đóng popup nếu có hàm này
+        } else {
+          alert('Có lỗi xảy ra, vui lòng thử lại.');
+        }
+      } catch (error) {
+        alert('Lỗi kết nối server.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Gửi';
+      }
+    });
+  });
+</script>
+  <!--Script gửi thông tin trong popup-->
+</body>
+</html>
