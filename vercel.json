@@ -69,12 +69,12 @@
       "destination": "/user-dashboard.html"
     },
     {
-      "source": "/vi/international",
-      "destination": "/international.html"
+      "source": "/vi/international-services",
+      "destination": "/international-services.html"
     },
     {
-      "source": "/en/international",
-      "destination": "/international.html"
+      "source": "/en/international-services",
+      "destination": "/international-services.html"
     },
     {
       "source": "/vi/languages/:path*",
