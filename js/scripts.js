@@ -260,6 +260,7 @@ function SelectedNavItem() {
       paths: [
         '/en/services', '/vi/services',
         '/en/domestic-delivery-service', '/vi/domestic-delivery-service',
+        '/en/international-services', '/vi/international-services',
         '/en/service/transportation/rail-transportation', '/vi/service/transportation/rail-transportation',
         '/en/service/transportation/sea-transport', '/vi/service/transportation/sea-transport',
         '/en/service/transportation/air-transport', '/vi/service/transportation/air-transport'
