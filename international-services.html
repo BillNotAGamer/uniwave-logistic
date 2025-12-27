@@ -68,19 +68,6 @@
     align-items: center;
   }
 
-  .intl-breadcrumbs {
-    display: flex;
-    gap: 8px;
-    font-size: 0.9rem;
-    color: var(--intl-ink-soft);
-    margin-bottom: 16px;
-  }
-
-  .intl-breadcrumbs a {
-    color: inherit;
-    text-decoration: none;
-  }
-
   .intl-eyebrow {
     text-transform: uppercase;
     letter-spacing: 0.2em;
@@ -745,17 +732,21 @@
     </div>
   </header>
   <div class="header-space"></div>
-
+  <!--Breadcrumb start-->
+  <div class="navation">
+    <div class="container">
+      <p id="breadcrumbs" class="mb-0"><span><span><a href="/en" data-key="nav_home">Trang chủ</a></span><span
+            id="breadcrumb-arrow">»</span><span class="breadcrumb_last" aria-current="page"
+            data-key="breadcrumb_international_services">Dịch vụ quốc tế</span></span></p>
+      <div class="clear"></div>
+    </div>
+  </div>
+  <!--Breadcrumb end-->
   <!-- International Services Redesign -->
   <main class="intl-page">
     <section class="intl-hero">
       <div class="container intl-hero-grid">
         <div class="intl-hero-copy animation" data-animation="intl-rise">
-          <div class="intl-breadcrumbs">
-            <a href="index.html">Home</a>
-            <span>/</span>
-            <span>International Services</span>
-          </div>
           <p class="intl-eyebrow">International logistics</p>
           <h1>Global freight with a local control tower</h1>
           <p>Move cargo across Asia, Europe, and the Americas with a single point of contact. We blend sea, air, and cross-border trucking with proactive customs management and real-time visibility.</p>
