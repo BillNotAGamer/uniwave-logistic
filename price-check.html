@@ -753,7 +753,7 @@
   <script>
 (() => {
   // ========= CONFIG =========
-  const NOMINATIM_SEARCH = "https://nominatim.openstreetmap.org/search";
+  const LOCATIONIQ_AUTOCOMPLETE = "https://api.locationiq.com/v1/autocomplete";  // Thay Nominatim bằng LocationIQ
   const OSRM_ROUTE = "https://router.project-osrm.org/route/v1/driving";
 
   const elPickup = document.getElementById("pickupInput");
@@ -903,21 +903,23 @@
     return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
   };
 
-  // Throttle Nominatim (đỡ spam)
-  let lastNomCallAt = 0;
-  async function nominatimSearch(q) {
+  // Throttle LocationIQ (đỡ spam)
+  let lastLocCallAt = 0;
+  async function locationiqAutocomplete(q) {
     const now = Date.now();
-    const gap = now - lastNomCallAt;
+    const gap = now - lastLocCallAt;
     if (gap < 900) await new Promise(r => setTimeout(r, 900 - gap));
-    lastNomCallAt = Date.now();
+    lastLocCallAt = Date.now();
 
-    const url = new URL(NOMINATIM_SEARCH);
-    url.searchParams.set("format", "json");
-    url.searchParams.set("limit", "6");
+    const url = new URL(LOCATIONIQ_AUTOCOMPLETE);
+    url.searchParams.set("key", "pk.548e873fab5bc44191a2df040d3dd3f4");  // Thay bằng API key thật của bạn
     url.searchParams.set("q", q);
+    url.searchParams.set("limit", "6");
+    url.searchParams.set("format", "json");
+    url.searchParams.set("countrycodes", "vn");  // Ưu tiên Việt Nam (có thể bỏ nếu không cần)
 
     const res = await fetch(url.toString(), { headers: { "Accept": "application/json" } });
-    if (!res.ok) throw new Error("Không gọi được dịch vụ tìm địa chỉ.");
+    if (!res.ok) throw new Error("Không gọi được dịch vụ tìm địa chỉ từ LocationIQ.");
     return await res.json();
   }
 
@@ -927,7 +929,7 @@
     if (q.length < 3) { dd.hide(); return; }
 
     try {
-      const items = await nominatimSearch(q);
+      const items = await locationiqAutocomplete(q);
       dd.showItems(items, (it) => {
         inputEl.value = it.display_name;
         dd.hide();
@@ -1016,15 +1018,15 @@
     if (imageUrl && String(imageUrl).trim()) return imageUrl;
 
     const mapByCode = {
-  "MOTORCYCLE": "motorcycle.svg",
-  "TRICYCLE": "tricycle.svg",
-  "VAN_500KG": "van500.svg",
-  "VAN_1T": "van1000.svg",
-  "TRUCK_500KG": "truck500.svg",
-  "TRUCK_1T": "truck1000.svg",
-  "TRUCK_1_5T": "truck1500.svg",
-  "TRUCK_2T": "truck2000.svg",
-};
+      "MOTORCYCLE": "motorcycle.svg",
+      "TRICYCLE": "tricycle.svg",
+      "VAN_500KG": "van500.svg",
+      "VAN_1T": "van1000.svg",
+      "TRUCK_500KG": "truck500.svg",
+      "TRUCK_1T": "truck1000.svg",
+      "TRUCK_1_5T": "truck1500.svg",
+      "TRUCK_2T": "truck2000.svg",
+    };
     const filename = mapByCode[code] || "truck1000.svg";
     return `image/price-check/image/${filename}`;
   }
