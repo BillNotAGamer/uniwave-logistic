@@ -121,7 +121,7 @@ function setupProfileMenu() {
   const bodyEl = document.body;
 
   if (hasToken) {
-    profileLink.setAttribute("href", "/vi/user-dashboard");
+    profileLink.setAttribute("href", "/user-dashboard");
     if (bodyEl) bodyEl.classList.add("logged-in");
   } else {
     profileLink.setAttribute("href", "/vi/authentication");
