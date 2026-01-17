@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -7,250 +7,320 @@
   <title data-key="title">UNIWAVE LOGISTICS</title>
   <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
   <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
-  <link rel="stylesheet" href="../css/admin.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-</head>
-<body>
-<div class="layout-wrapper">
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <a href="index.html" class="sidebar-logo">
-        <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo" height="30">
-      </a>
-    </div>
-    <ul class="sidebar-nav mt-2">
-      <li><a href="index.html"><i class="bi bi-speedometer2"></i><span>Tong quan</span></a></li>
-      <li><a href="blogs.html"><i class="bi bi-journal-text"></i><span>Quan ly Blog</span></a></li>
-      <li><a href="customers.html"><i class="bi bi-people"></i><span>Quan ly nguoi dung</span></a></li>
-      <li><a href="orders.html" class="active"><i class="bi bi-truck"></i><span>Don hang</span></a></li>
-    </ul>
-    <div class="sidebar-footer">Ac 2025 Uniwave</div>
-  </aside>
-
-  <div class="main-content">
-    <header class="main-header">
-      <div class="d-flex align-items-center gap-2">
-        <div class="logo-text"><span>Uniwave</span> Dashboard</div>
-      </div>
-      <div class="d-flex align-items-center gap-3">
-        <button class="btn btn-outline-secondary d-md-none" id="toggleSidebarBtn">
-          <i class="bi bi-list"></i>
-        </button>
-        <div class="dropdown">
-          <button class="btn btn-light border-0 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle fs-5"></i>
-            <span class="d-none d-sm-inline">Admin</span>
-            <i class="bi bi-caret-down-fill small d-none d-sm-inline"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Ho so Admin</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="#">Dang xuat</a></li>
-          </ul>
-        </div>
-      </div>
-    </header>
-
-    <main class="content-wrapper">
-      <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2 mb-3">
-        <div class="d-flex flex-column">
-          <h5 class="mb-0">Danh sach don hang</h5>
-          <small class="text-muted">Admin xem tat ca don hang noi dia</small>
-        </div>
-        <div class="d-flex flex-wrap gap-2 align-items-center">
-          <div class="input-group input-group-sm" style="max-width: 220px;">
-            <span class="input-group-text"><i class="bi bi-sliders"></i></span>
-            <select class="form-select" id="statusFilter" aria-label="Filter by status">
-              <option value="all">All status</option>
-              <option value="Created">Created</option>
-              <option value="Preparing">Preparing</option>
-              <option value="InTransit">InTransit</option>
-              <option value="AtLocalWarehouse">AtLocalWarehouse</option>
-              <option value="OutForDelivery">OutForDelivery</option>
-              <option value="Delivered">Delivered</option>
-              <option value="DeliveryFailed">DeliveryFailed</option>
-              <option value="Cancelled">Cancelled</option>
-            </select>
-          </div>
-          <button class="btn btn-outline-secondary btn-sm" id="sortCreatedBtn">
-            <i class="bi bi-sort-down-alt"></i> Sort: Newest
-          </button>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-body p-0">
-          <div class="table-responsive">
-            <table class="table mb-0 align-middle" id="ordersTable">
-              <thead>
-              <tr>
-                <th>Order Code</th>
-                <th>Created At</th>
-                <th>Status</th>
-                <th>Pickup</th>
-                <th>Dropoff</th>
-                <th>Estimated</th>
-                <th>Final</th>
-                <th class="text-end">Actions</th>
-              </tr>
-              </thead>
-              <tbody id="ordersTableBody">
-              <tr><td colspan="8" class="text-center text-muted py-4">Loading...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/admin.js"></script>
-<script defer type="text/javascript" src="../js/api.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const Api = window.UniwaveApi || window.UniwaveAPI;
-    const tbody = document.getElementById("ordersTableBody");
-    const statusFilter = document.getElementById("statusFilter");
-    const sortBtn = document.getElementById("sortCreatedBtn");
-    const STATUS_MAP = {
-      0: "Created",
-      1: "Preparing",
-      2: "InTransit",
-      3: "AtLocalWarehouse",
-      4: "OutForDelivery",
-      5: "Delivered",
-      6: "DeliveryFailed",
-      7: "Cancelled"
-    };
-    const BADGE_CLASS = {
-      Created: "badge bg-secondary-subtle text-secondary border border-secondary-subtle",
-      Preparing: "badge bg-info-subtle text-info border border-info-subtle",
-      InTransit: "badge bg-warning-subtle text-warning border border-warning-subtle",
-      AtLocalWarehouse: "badge bg-primary-subtle text-primary border border-primary-subtle",
-      OutForDelivery: "badge bg-primary-subtle text-primary border border-primary-subtle",
-      Delivered: "badge bg-success-subtle text-success border border-success-subtle",
-      DeliveryFailed: "badge bg-danger-subtle text-danger border border-danger-subtle",
-      Cancelled: "badge bg-dark-subtle text-dark border border-dark-subtle"
-    };
-    const COLUMN_COUNT = 8;
-    let ordersData = [];
-    let sortDesc = true;
-
-    if (!tbody) return;
-    if (!Api || typeof Api.apiFetch !== "function") {
-      setMessage("API client khong san sang.");
-      return;
-    }
-    if (typeof Api.getAccessToken === "function" && !Api.getAccessToken()) {
-      setMessage("Not authorized. Please log in as admin.");
-      return;
-    }
-
-    function setMessage(text) {
-      tbody.innerHTML = `<tr><td colspan="${COLUMN_COUNT}" class="text-center text-muted py-4">${text}</td></tr>`;
-    }
-
-    function toStatusLabel(value) {
-      if (typeof value === "string") return value;
-      return STATUS_MAP[value] || "Unknown";
-    }
-
-    function statusBadge(status) {
-      const label = toStatusLabel(status);
-      const cls = BADGE_CLASS[label] || BADGE_CLASS.Created;
-      return `<span class="${cls}">${label}</span>`;
-    }
-
-    function formatDate(value) {
-      const d = new Date(value);
-      if (Number.isNaN(d.getTime())) return "--";
-      return d.toLocaleString("vi-VN");
-    }
-
-    function formatMoney(value) {
-      if (value === null || value === undefined) return "--";
-      const num = Number(value);
-      if (Number.isNaN(num)) return value;
-      return num.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-    }
-
-    function applyFilters() {
-      const filterVal = statusFilter?.value || "all";
-      let list = [...ordersData];
-
-      if (filterVal !== "all") {
-        list = list.filter((o) => toStatusLabel(o.currentStatus) === filterVal);
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ["Space Grotesk", "sans-serif"],
+            body: ["Manrope", "sans-serif"]
+          },
+          boxShadow: {
+            soft: "0 18px 45px rgba(15, 23, 42, 0.12)"
+          }
+        }
       }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/admin.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+</head>
 
-      list.sort((a, b) => {
-        const da = new Date(a.createdAt).getTime();
-        const db = new Date(b.createdAt).getTime();
-        return sortDesc ? db - da : da - db;
-      });
+<body class="font-body text-slate-900">
+  <div class="flex min-h-screen">
+    <aside id="sidebar" class="sidebar-panel fixed inset-y-0 left-0 z-40 w-64">
+      <div class="flex h-full flex-col bg-slate-950 text-white">
+        <div class="px-6 py-6">
+          <a href="index.html" class="flex items-center gap-3">
+            <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo"
+              class="h-9 w-auto rounded-lg bg-transparentp p-1" />
+            <div>
+              <p class="font-display text-lg leading-tight">Uniwave</p>
+              <p class="text-xs text-slate-400">Admin Console</p>
+            </div>
+          </a>
+        </div>
+        <nav class="flex-1 px-4">
+          <p class="px-3 text-xs uppercase tracking-[0.25em] text-slate-500">Dashboard</p>
+          <div class="mt-4 space-y-1">
+            <a href="index.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-speedometer2 text-base"></i>
+              Overview
+            </a>
+            <a href="blogs.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-journal-text text-base"></i>
+              Blog posts
+            </a>
+            <a href="customers.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-people text-base"></i>
+              Customers
+            </a>
+            <a href="orders.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl bg-white/10 px-3 py-2 text-sm font-medium text-white shadow-sm">
+              <i class="bi bi-truck text-base"></i>
+              Orders
+            </a>
+          </div>
+        </nav>
+        <div class="border-t border-slate-800 px-6 py-4 text-xs text-slate-400">
+          (c) 2025 Uniwave Logistics
+        </div>
+      </div>
+    </aside>
 
-      renderRows(list);
-    }
+    <div id="sidebarBackdrop" class="fixed inset-0 z-30 hidden bg-slate-950/40 backdrop-blur-sm lg:hidden"></div>
 
-    function renderRows(items) {
-      if (!items.length) {
-        setMessage("No orders found.");
+    <div class="flex min-h-screen flex-1 flex-col lg:pl-64">
+      <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/80 backdrop-blur">
+        <div class="flex flex-wrap items-center justify-between gap-4 px-6 py-4">
+          <div class="flex items-center gap-3">
+            <button id="toggleSidebarBtn" aria-expanded="false" aria-controls="sidebar"
+              class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 lg:hidden">
+              <i class="bi bi-list text-lg"></i>
+            </button>
+            <div>
+              <p class="text-xs uppercase tracking-[0.25em] text-slate-500">Operations</p>
+              <h1 class="font-display text-xl">Orders overview</h1>
+            </div>
+          </div>
+          <details class="relative">
+            <summary
+              class="flex cursor-pointer items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:shadow-md">
+              <span class="flex h-8 w-8 items-center justify-center rounded-full bg-teal-600 text-white">A</span>
+              <span class="hidden sm:block">Admin</span>
+              <i class="bi bi-chevron-down chevron text-xs text-slate-500 transition"></i>
+            </summary>
+            <div class="absolute right-0 mt-2 w-48 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
+              <a href="#" class="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">Profile</a>
+              <a href="#" class="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">Settings</a>
+              <div class="my-1 h-px bg-slate-100"></div>
+              <a href="#" class="block rounded-lg px-3 py-2 text-sm text-rose-600 hover:bg-rose-50">Sign out</a>
+            </div>
+          </details>
+        </div>
+      </header>
+
+      <main class="px-6 py-6">
+        <section class="animate-fade rounded-3xl border border-white/70 bg-white/85 p-6 shadow-soft">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p class="text-xs uppercase tracking-[0.25em] text-teal-700">Fulfillment</p>
+              <h2 class="mt-2 font-display text-2xl">Order list</h2>
+              <p class="mt-2 text-sm text-slate-500">Monitor all domestic orders and delivery states.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="relative">
+                <i class="bi bi-sliders absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                <select id="statusFilter"
+                  class="w-52 rounded-full border border-slate-200 bg-white px-9 py-2 text-sm text-slate-700 focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
+                  aria-label="Filter by status">
+                  <option value="all">All status</option>
+                  <option value="Created">Created</option>
+                  <option value="Preparing">Preparing</option>
+                  <option value="InTransit">InTransit</option>
+                  <option value="AtLocalWarehouse">AtLocalWarehouse</option>
+                  <option value="OutForDelivery">OutForDelivery</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="DeliveryFailed">DeliveryFailed</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+              </div>
+              <button id="sortCreatedBtn"
+                class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
+                <i class="bi bi-sort-down-alt"></i>
+                Sort: Newest
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="mt-6">
+          <div class="animate-pop rounded-2xl border border-white/70 bg-white/85 shadow-soft">
+            <div class="border-b border-slate-100 px-6 py-4">
+              <h3 class="font-display text-lg">Orders</h3>
+              <p class="text-sm text-slate-500">Tap an order to review details and timeline.</p>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-sm" id="ordersTable">
+                <thead class="bg-slate-50 text-xs uppercase tracking-widest text-slate-500">
+                  <tr>
+                    <th class="px-6 py-3 text-left">Order code</th>
+                    <th class="px-6 py-3 text-left">Created</th>
+                    <th class="px-6 py-3 text-left">Status</th>
+                    <th class="px-6 py-3 text-left">Pickup</th>
+                    <th class="px-6 py-3 text-left">Dropoff</th>
+                    <th class="px-6 py-3 text-left">Estimated</th>
+                    <th class="px-6 py-3 text-left">Final</th>
+                    <th class="px-6 py-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersTableBody" class="divide-y divide-slate-100 text-slate-700">
+                  <tr>
+                    <td colspan="8" class="px-6 py-6 text-center text-slate-400">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/admin.js"></script>
+  <script defer type="text/javascript" src="../js/api.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const Api = window.UniwaveApi || window.UniwaveAPI;
+      const tbody = document.getElementById("ordersTableBody");
+      const statusFilter = document.getElementById("statusFilter");
+      const sortBtn = document.getElementById("sortCreatedBtn");
+      const STATUS_MAP = {
+        0: "Created",
+        1: "Preparing",
+        2: "InTransit",
+        3: "AtLocalWarehouse",
+        4: "OutForDelivery",
+        5: "Delivered",
+        6: "DeliveryFailed",
+        7: "Cancelled"
+      };
+      const BADGE_CLASS = {
+        Created: "inline-flex items-center rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600",
+        Preparing: "inline-flex items-center rounded-full bg-sky-100 px-2.5 py-1 text-xs font-semibold text-sky-700",
+        InTransit: "inline-flex items-center rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700",
+        AtLocalWarehouse: "inline-flex items-center rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-semibold text-indigo-700",
+        OutForDelivery: "inline-flex items-center rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700",
+        Delivered: "inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700",
+        DeliveryFailed: "inline-flex items-center rounded-full bg-rose-100 px-2.5 py-1 text-xs font-semibold text-rose-700",
+        Cancelled: "inline-flex items-center rounded-full bg-slate-300 px-2.5 py-1 text-xs font-semibold text-slate-700"
+      };
+      const COLUMN_COUNT = 8;
+      let ordersData = [];
+      let sortDesc = true;
+
+      if (!tbody) return;
+      if (!Api || typeof Api.apiFetch !== "function") {
+        setMessage("API client not ready.");
+        return;
+      }
+      if (typeof Api.getAccessToken === "function" && !Api.getAccessToken()) {
+        setMessage("Not authorized. Please log in as admin.");
         return;
       }
 
-      const fragment = document.createDocumentFragment();
-      items.forEach((order) => {
-        const orderId = order.id || order.Id;
-        const orderCode = order.orderCode || order.OrderCode || "";
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${orderCode || "--"}</td>
-          <td>${formatDate(order.createdAt || order.CreatedAt)}</td>
-          <td>${statusBadge(order.currentStatus || order.CurrentStatus)}</td>
-          <td>${order.pickupAddress || order.PickupAddress || "--"}</td>
-          <td>${order.dropoffAddress || order.DropoffAddress || "--"}</td>
-          <td>${formatMoney(order.estimatedPrice ?? order.EstimatedPrice)}</td>
-          <td>${formatMoney(order.finalPrice ?? order.FinalPrice)}</td>
-          <td class="text-end">
-            <a class="btn btn-sm btn-outline-primary" href="order-detail.html?id=${encodeURIComponent(orderId || "")}&code=${encodeURIComponent(orderCode)}">Xem</a>
+      function setMessage(text) {
+        tbody.innerHTML = `<tr><td colspan="${COLUMN_COUNT}" class="px-6 py-6 text-center text-slate-400">${text}</td></tr>`;
+      }
+
+      function toStatusLabel(value) {
+        if (typeof value === "string") return value;
+        return STATUS_MAP[value] || "Unknown";
+      }
+
+      function statusBadge(status) {
+        const label = toStatusLabel(status);
+        const cls = BADGE_CLASS[label] || BADGE_CLASS.Created;
+        return `<span class="${cls}">${label}</span>`;
+      }
+
+      function formatDate(value) {
+        const d = new Date(value);
+        if (Number.isNaN(d.getTime())) return "--";
+        return d.toLocaleString("vi-VN");
+      }
+
+      function formatMoney(value) {
+        if (value === null || value === undefined) return "--";
+        const num = Number(value);
+        if (Number.isNaN(num)) return value;
+        return num.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+      }
+
+      function applyFilters() {
+        const filterVal = statusFilter?.value || "all";
+        let list = [...ordersData];
+
+        if (filterVal !== "all") {
+          list = list.filter((o) => toStatusLabel(o.currentStatus) === filterVal);
+        }
+
+        list.sort((a, b) => {
+          const da = new Date(a.createdAt).getTime();
+          const db = new Date(b.createdAt).getTime();
+          return sortDesc ? db - da : da - db;
+        });
+
+        renderRows(list);
+      }
+
+      function renderRows(items) {
+        if (!items.length) {
+          setMessage("No orders found.");
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        items.forEach((order) => {
+          const orderId = order.id || order.Id;
+          const orderCode = order.orderCode || order.OrderCode || "";
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+          <td class="px-6 py-4 font-semibold text-slate-900">${orderCode || "--"}</td>
+          <td class="px-6 py-4">${formatDate(order.createdAt || order.CreatedAt)}</td>
+          <td class="px-6 py-4">${statusBadge(order.currentStatus || order.CurrentStatus)}</td>
+          <td class="px-6 py-4">${order.pickupAddress || order.PickupAddress || "--"}</td>
+          <td class="px-6 py-4">${order.dropoffAddress || order.DropoffAddress || "--"}</td>
+          <td class="px-6 py-4">${formatMoney(order.estimatedPrice ?? order.EstimatedPrice)}</td>
+          <td class="px-6 py-4">${formatMoney(order.finalPrice ?? order.FinalPrice)}</td>
+          <td class="px-6 py-4 text-right">
+            <a class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50" href="order-detail.html?id=${encodeURIComponent(orderId || "")}&code=${encodeURIComponent(orderCode)}">View</a>
           </td>
         `;
-        fragment.appendChild(tr);
-      });
+          fragment.appendChild(tr);
+        });
 
-      tbody.innerHTML = "";
-      tbody.appendChild(fragment);
-    }
+        tbody.innerHTML = "";
+        tbody.appendChild(fragment);
+      }
 
-    async function loadOrders() {
-      setMessage("Loading...");
-      try {
-        const res = await Api.apiFetch("/api/orders/admin");
-        const data = await res.json();
-        ordersData = Array.isArray(data) ? data : [];
-        applyFilters();
-      } catch (error) {
-        if (String(error?.message || "").includes("401") || String(error?.message || "").includes("403")) {
-          setMessage("Not authorized. Please log in as admin.");
-        } else {
-          setMessage(error?.message || "Failed to load orders.");
+      async function loadOrders() {
+        setMessage("Loading...");
+        try {
+          const res = await Api.apiFetch("/api/orders/admin");
+          const data = await res.json();
+          ordersData = Array.isArray(data) ? data : [];
+          applyFilters();
+        } catch (error) {
+          if (String(error?.message || "").includes("401") || String(error?.message || "").includes("403")) {
+            setMessage("Not authorized. Please log in as admin.");
+          } else {
+            setMessage(error?.message || "Failed to load orders.");
+          }
         }
       }
-    }
 
-    statusFilter?.addEventListener("change", applyFilters);
-    sortBtn?.addEventListener("click", () => {
-      sortDesc = !sortDesc;
-      sortBtn.innerHTML = sortDesc
-        ? '<i class="bi bi-sort-down-alt"></i> Sort: Newest'
-        : '<i class="bi bi-sort-up"></i> Sort: Oldest';
-      applyFilters();
+      statusFilter?.addEventListener("change", applyFilters);
+      sortBtn?.addEventListener("click", () => {
+        sortDesc = !sortDesc;
+        sortBtn.innerHTML = sortDesc
+          ? '<i class="bi bi-sort-down-alt"></i> Sort: Newest'
+          : '<i class="bi bi-sort-up"></i> Sort: Oldest';
+        applyFilters();
+      });
+
+      loadOrders();
     });
-
-    loadOrders();
-  });
-</script>
+  </script>
 </body>
+
 </html>

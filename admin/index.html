@@ -1,202 +1,287 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-key="title">UNIWAVE LOGISTICS</title>
-    <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
-    <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
-    <link rel="stylesheet" href="../css/admin.css">
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons (dùng icon người) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-key="title">UNIWAVE LOGISTICS</title>
+  <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
+  <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ["Space Grotesk", "sans-serif"],
+            body: ["Manrope", "sans-serif"]
+          },
+          boxShadow: {
+            soft: "0 18px 45px rgba(15, 23, 42, 0.12)"
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/admin.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
 </head>
-<body>
-<div class="layout-wrapper">
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <a href="index.html" class="sidebar-logo">
-            <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo" height="30">
-        </a>
+
+<body class="font-body text-slate-900">
+  <div class="flex min-h-screen">
+    <aside id="sidebar" class="sidebar-panel fixed inset-y-0 left-0 z-40 w-64">
+      <div class="flex h-full flex-col bg-slate-950 text-white">
+        <div class="px-6 py-6">
+          <a href="index.html" class="flex items-center gap-3">
+            <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo"
+              class="h-9 w-auto rounded-lg bg-transparent p-1" />
+            <div>
+              <p class="font-display text-lg leading-tight">Uniwave</p>
+              <p class="text-xs text-slate-400">Admin Console</p>
+            </div>
+          </a>
+        </div>
+        <nav class="flex-1 px-4">
+          <p class="px-3 text-xs uppercase tracking-[0.25em] text-slate-500">Dashboard</p>
+          <div class="mt-4 space-y-1">
+            <a href="index.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl bg-white/10 px-3 py-2 text-sm font-medium text-white shadow-sm">
+              <i class="bi bi-speedometer2 text-base"></i>
+              Overview
+            </a>
+            <a href="blogs.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-journal-text text-base"></i>
+              Blog posts
+            </a>
+            <a href="customers.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-people text-base"></i>
+              Customers
+            </a>
+            <a href="orders.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-truck text-base"></i>
+              Orders
+            </a>
+          </div>
+
+          <div class="mt-8 rounded-2xl bg-white/10 p-4 text-sm text-slate-200">
+            <p class="font-semibold">Ops focus</p>
+            <p class="mt-2 text-xs text-slate-300">Prioritize high value deliveries and escalation checks today.</p>
+          </div>
+        </nav>
+        <div class="border-t border-slate-800 px-6 py-4 text-xs text-slate-400">
+          (c) 2025 Uniwave Logistics
+        </div>
+      </div>
+    </aside>
+
+    <div id="sidebarBackdrop" class="fixed inset-0 z-30 hidden bg-slate-950/40 backdrop-blur-sm lg:hidden"></div>
+
+    <div class="flex min-h-screen flex-1 flex-col lg:pl-64">
+      <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/80 backdrop-blur">
+        <div class="flex flex-wrap items-center justify-between gap-4 px-6 py-4">
+          <div class="flex items-center gap-3">
+            <button id="toggleSidebarBtn" aria-expanded="false" aria-controls="sidebar"
+              class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 lg:hidden">
+              <i class="bi bi-list text-lg"></i>
+            </button>
+            <div>
+              <p class="text-xs uppercase tracking-[0.25em] text-slate-500">Admin</p>
+              <h1 class="font-display text-xl">Overview</h1>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="hidden items-center gap-2 rounded-full bg-slate-100 px-3 py-2 text-sm text-slate-500 md:flex">
+              <i class="bi bi-search text-sm"></i>
+              <input type="search" class="w-40 bg-transparent text-sm outline-none placeholder:text-slate-400"
+                placeholder="Search insights" />
+            </div>
+            <details class="relative">
+              <summary
+                class="flex cursor-pointer items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:shadow-md">
+                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-teal-600 text-white">A</span>
+                <span class="hidden sm:block">Admin</span>
+                <i class="bi bi-chevron-down chevron text-xs text-slate-500 transition"></i>
+              </summary>
+              <div class="absolute right-0 mt-2 w-48 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
+                <a href="#" class="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">Profile</a>
+                <a href="#" class="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">Settings</a>
+                <div class="my-1 h-px bg-slate-100"></div>
+                <a href="#" class="block rounded-lg px-3 py-2 text-sm text-rose-600 hover:bg-rose-50">Sign out</a>
+              </div>
+            </details>
+          </div>
+        </div>
+      </header>
+
+      <main class="px-6 py-6">
+        <section class="animate-fade rounded-3xl border border-white/70 bg-white/85 p-6 shadow-soft">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p class="text-xs uppercase tracking-[0.25em] text-teal-700">Monthly snapshot</p>
+              <h2 class="mt-2 font-display text-2xl text-slate-900">Operational overview for this month</h2>
+              <p class="mt-2 text-sm text-slate-500">Track order health, completion rates, and active loads in one
+                place.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <button
+                class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
+                <i class="bi bi-download"></i>
+                Export
+              </button>
+              <button
+                class="inline-flex items-center gap-2 rounded-full bg-teal-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-teal-500/30 transition hover:bg-teal-700">
+                <i class="bi bi-plus-circle"></i>
+                New order
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="mt-6 grid gap-4 md:grid-cols-3">
+          <div class="animate-rise rounded-2xl border border-white/70 bg-white/85 p-5 shadow-soft"
+            style="animation-delay:0.05s;">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Total orders</p>
+                <p class="mt-2 text-2xl font-semibold text-slate-900">1,245</p>
+                <p class="mt-2 text-xs text-emerald-600"><i class="bi bi-arrow-up-right"></i> 12% vs last month</p>
+              </div>
+              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-100 text-teal-700">
+                <i class="bi bi-bag-check text-xl"></i>
+              </div>
+            </div>
+          </div>
+          <div class="animate-rise rounded-2xl border border-white/70 bg-white/85 p-5 shadow-soft"
+            style="animation-delay:0.12s;">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Completed</p>
+                <p class="mt-2 text-2xl font-semibold text-slate-900">1,050</p>
+                <p class="mt-2 text-xs text-slate-500">Completion rate 84.3%</p>
+              </div>
+              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700">
+                <i class="bi bi-check-circle text-xl"></i>
+              </div>
+            </div>
+          </div>
+          <div class="animate-rise rounded-2xl border border-white/70 bg-white/85 p-5 shadow-soft"
+            style="animation-delay:0.18s;">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">In progress</p>
+                <p class="mt-2 text-2xl font-semibold text-slate-900">132</p>
+                <p class="mt-2 text-xs text-slate-500">Avg. finish time 1.2 days</p>
+              </div>
+              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-amber-700">
+                <i class="bi bi-hourglass-split text-xl"></i>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="mt-6 grid gap-6 lg:grid-cols-[2fr,1fr]">
+          <div class="animate-pop rounded-2xl border border-white/70 bg-white/85 shadow-soft"
+            style="animation-delay:0.1s;">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 px-6 py-4">
+              <div>
+                <h3 class="font-display text-lg">Recent orders</h3>
+                <p class="text-sm text-slate-500">Latest customer activity this month.</p>
+              </div>
+              <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">Nov 2025</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-sm">
+                <thead class="bg-slate-50 text-xs uppercase tracking-widest text-slate-500">
+                  <tr>
+                    <th class="px-6 py-3 text-left">Order</th>
+                    <th class="px-6 py-3 text-left">Customer</th>
+                    <th class="px-6 py-3 text-left">Pickup</th>
+                    <th class="px-6 py-3 text-left">Amount</th>
+                    <th class="px-6 py-3 text-left">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-slate-700">
+                  <tr>
+                    <td class="px-6 py-4 font-semibold">#ORD-10234</td>
+                    <td class="px-6 py-4">Nguyen Van A</td>
+                    <td class="px-6 py-4">29/11/2025</td>
+                    <td class="px-6 py-4">1,250,000 VND</td>
+                    <td class="px-6 py-4">
+                      <span
+                        class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">Completed</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 font-semibold">#ORD-10233</td>
+                    <td class="px-6 py-4">Tran Thi B</td>
+                    <td class="px-6 py-4">29/11/2025</td>
+                    <td class="px-6 py-4">890,000 VND</td>
+                    <td class="px-6 py-4">
+                      <span
+                        class="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">In transit</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 font-semibold">#ORD-10232</td>
+                    <td class="px-6 py-4">Le Van C</td>
+                    <td class="px-6 py-4">28/11/2025</td>
+                    <td class="px-6 py-4">560,000 VND</td>
+                    <td class="px-6 py-4">
+                      <span
+                        class="inline-flex items-center rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600">Unpaid</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 font-semibold">#ORD-10231</td>
+                    <td class="px-6 py-4">Pham Thi D</td>
+                    <td class="px-6 py-4">28/11/2025</td>
+                    <td class="px-6 py-4">2,150,000 VND</td>
+                    <td class="px-6 py-4">
+                      <span
+                        class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">Completed</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="animate-pop rounded-2xl border border-white/70 bg-white/85 p-6 shadow-soft"
+            style="animation-delay:0.2s;">
+            <h3 class="font-display text-lg">Operations pulse</h3>
+            <p class="mt-2 text-sm text-slate-500">Daily checklist to keep the flow stable.</p>
+            <div class="mt-4 space-y-3 text-sm text-slate-600">
+              <div class="flex items-start gap-3">
+                <span class="mt-1 h-2.5 w-2.5 rounded-full bg-teal-500"></span>
+                Review high value orders flagged by risk system.
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="mt-1 h-2.5 w-2.5 rounded-full bg-amber-500"></span>
+                Confirm warehouse capacity for next 48 hours.
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="mt-1 h-2.5 w-2.5 rounded-full bg-slate-400"></span>
+                Sync with finance on pending COD settlements.
+              </div>
+            </div>
+            <div class="mt-5 rounded-2xl bg-slate-50 p-4 text-xs text-slate-500">
+              Last updated 2 hours ago.
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
-    <ul class="sidebar-nav mt-2">
-      <li>
-        <a href="index.html" class="active">
-          <i class="bi bi-speedometer2"></i>
-          <span>Tổng quan</span>
-        </a>
-      </li>
-      <li>
-        <a href="blogs.html">
-          <i class="bi bi-journal-text"></i>
-          <span>Quản lý Blog</span>
-        </a>
-      </li>
-      <li>
-        <a href="customers.html">
-          <i class="bi bi-people"></i>
-          <span>Quản lý người dùng</span>
-        </a>
-      </li>
-    </ul>
-    <div class="sidebar-footer">
-      © 2025 Uniwave
-    </div>
-  </aside>
-
-  <!-- Main content -->
-  <div class="main-content">
-    <header class="main-header">
-      <div class="d-flex align-items-center gap-2">
-        <div class="logo-text">
-          <span>Uniwave</span> Dashboard
-        </div>
-      </div>
-      <div class="d-flex align-items-center gap-3">
-        <button class="btn btn-outline-secondary d-md-none" id="toggleSidebarBtn">
-          <i class="bi bi-list"></i>
-        </button>
-        <div class="dropdown">
-          <button class="btn btn-light border-0 d-flex align-items-center gap-2" type="button"
-                  id="adminMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-person-circle fs-5"></i>
-            <span class="d-none d-sm-inline">Admin</span>
-            <i class="bi bi-caret-down-fill small d-none d-sm-inline"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminMenuButton">
-            <li><a class="dropdown-item" href="#">Hồ sơ Admin</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="#">Đăng xuất</a></li>
-          </ul>
-        </div>
-      </div>
-    </header>
-
-    <main class="content-wrapper">
-      <h5 class="mb-3">Tổng quan đơn hàng tháng này</h5>
-
-      <div class="row g-3 mb-4">
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <div class="text-muted small text-uppercase mb-1">Tổng đơn hàng</div>
-                  <div class="h4 mb-0">1,245</div>
-                </div>
-                <div class="rounded-circle bg-primary bg-opacity-10 p-2">
-                  <i class="bi bi-bag-check text-primary"></i>
-                </div>
-              </div>
-              <div class="small text-success mt-2">
-                <i class="bi bi-arrow-up-right"></i> +12% so với tháng trước
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <div class="text-muted small text-uppercase mb-1">Đơn hoàn tất</div>
-                  <div class="h4 mb-0">1,050</div>
-                </div>
-                <div class="rounded-circle bg-success bg-opacity-10 p-2">
-                  <i class="bi bi-check-circle text-success"></i>
-                </div>
-              </div>
-              <div class="small text-muted mt-2">
-                Tỉ lệ hoàn tất: <span class="fw-semibold">84.3%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <div class="text-muted small text-uppercase mb-1">Đơn đang xử lý</div>
-                  <div class="h4 mb-0">132</div>
-                </div>
-                <div class="rounded-circle bg-warning bg-opacity-10 p-2">
-                  <i class="bi bi-hourglass-split text-warning"></i>
-                </div>
-              </div>
-              <div class="small text-muted mt-2">
-                Ước tính hoàn tất: 1–2 ngày
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bảng đơn hàng gần đây -->
-      <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <span>Đơn hàng gần đây</span>
-          <span class="badge bg-light text-dark">Tháng 11/2025</span>
-        </div>
-        <div class="card-body p-0">
-          <div class="table-responsive">
-            <table class="table mb-0 align-middle">
-              <thead>
-              <tr>
-                <th>Mã đơn</th>
-                <th>Khách hàng</th>
-                <th>Ngày đặt</th>
-                <th>Giá trị</th>
-                <th>Trạng thái</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td>#ORD-10234</td>
-                <td>Nguyễn Văn A</td>
-                <td>29/11/2025</td>
-                <td>1.250.000₫</td>
-                <td><span class="badge bg-success-subtle text-success border border-success-subtle">Hoàn tất</span></td>
-              </tr>
-              <tr>
-                <td>#ORD-10233</td>
-                <td>Trần Thị B</td>
-                <td>29/11/2025</td>
-                <td>890.000₫</td>
-                <td><span class="badge bg-warning-subtle text-warning border border-warning-subtle">Đang xử lý</span></td>
-              </tr>
-              <tr>
-                <td>#ORD-10232</td>
-                <td>Lê Văn C</td>
-                <td>28/11/2025</td>
-                <td>560.000₫</td>
-                <td><span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">Chờ thanh toán</span></td>
-              </tr>
-              <tr>
-                <td>#ORD-10231</td>
-                <td>Phạm Thị D</td>
-                <td>28/11/2025</td>
-                <td>2.150.000₫</td>
-                <td><span class="badge bg-success-subtle text-success border border-success-subtle">Hoàn tất</span></td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-    </main>
   </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/admin.js"></script>
-<script defer type="text/javascript" src="js/api.js"></script>
+  <script src="../js/admin.js"></script>
 </body>
+
 </html>

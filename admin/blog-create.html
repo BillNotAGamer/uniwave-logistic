@@ -1,106 +1,198 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-key="title">UNIWAVE LOGISTICS</title>
-    <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
-    <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
-    <link rel="stylesheet" href="../css/admin.css">
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons (dùng icon người) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-key="title">UNIWAVE LOGISTICS</title>
+  <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
+  <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ["Space Grotesk", "sans-serif"],
+            body: ["Manrope", "sans-serif"]
+          },
+          boxShadow: {
+            soft: "0 18px 45px rgba(15, 23, 42, 0.12)"
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/admin.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
 </head>
-<body>
-<div class="layout-wrapper">
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <a href="index.html" class="sidebar-logo">
-            <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo" height="30">
-        </a>
-    </div>
-    <ul class="sidebar-nav mt-2">
-      <li><a href="index.html"><i class="bi bi-speedometer2"></i><span>Tổng quan</span></a></li>
-      <li><a href="blogs.html" class="active"><i class="bi bi-journal-text"></i><span>Quản lý Blog</span></a></li>
-      <li><a href="customers.html"><i class="bi bi-people"></i><span>Quản lý người dùng</span></a></li>
-    </ul>
-    <div class="sidebar-footer">© 2025 Uniwave</div>
-  </aside>
 
-  <div class="main-content">
-    <header class="main-header">
-      <div class="logo-text">
-        <span>Uniwave</span> Dashboard
-      </div>
-      <div class="d-flex align-items-center gap-3">
-        <button class="btn btn-outline-secondary d-md-none" id="toggleSidebarBtn">
-          <i class="bi bi-list"></i>
-        </button>
-        <div class="dropdown">
-          <button class="btn btn-light border-0 d-flex align-items-center gap-2" type="button"
-                  data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle fs-5"></i>
-            <span class="d-none d-sm-inline">Admin</span>
-            <i class="bi bi-caret-down-fill small d-none d-sm-inline"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Hồ sơ Admin</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="#">Đăng xuất</a></li>
-          </ul>
+<body class="font-body text-slate-900">
+  <div class="flex min-h-screen">
+    <aside id="sidebar" class="sidebar-panel fixed inset-y-0 left-0 z-40 w-64">
+      <div class="flex h-full flex-col bg-slate-950 text-white">
+        <div class="px-6 py-6">
+          <a href="index.html" class="flex items-center gap-3">
+            <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo"
+              class="h-9 w-auto rounded-lg bg-transparent p-1" />
+            <div>
+              <p class="font-display text-lg leading-tight">Uniwave</p>
+              <p class="text-xs text-slate-400">Admin Console</p>
+            </div>
+          </a>
+        </div>
+        <nav class="flex-1 px-4">
+          <p class="px-3 text-xs uppercase tracking-[0.25em] text-slate-500">Dashboard</p>
+          <div class="mt-4 space-y-1">
+            <a href="index.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-speedometer2 text-base"></i>
+              Overview
+            </a>
+            <a href="blogs.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl bg-white/10 px-3 py-2 text-sm font-medium text-white shadow-sm">
+              <i class="bi bi-journal-text text-base"></i>
+              Blog posts
+            </a>
+            <a href="customers.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-people text-base"></i>
+              Customers
+            </a>
+            <a href="orders.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-truck text-base"></i>
+              Orders
+            </a>
+          </div>
+        </nav>
+        <div class="border-t border-slate-800 px-6 py-4 text-xs text-slate-400">
+          (c) 2025 Uniwave Logistics
         </div>
       </div>
-    </header>
+    </aside>
 
-    <main class="content-wrapper">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="mb-0">Tạo bài viết mới</h5>
-        <a href="blogs.html" class="btn btn-outline-secondary btn-sm">
-          <i class="bi bi-arrow-left"></i> Quay lại danh sách
-        </a>
-      </div>
+    <div id="sidebarBackdrop" class="fixed inset-0 z-30 hidden bg-slate-950/40 backdrop-blur-sm lg:hidden"></div>
 
-      <div class="card">
-        <div class="card-body">
-          <form>
-            <div class="mb-3">
-              <label class="form-label">Tiêu đề</label>
-              <input type="text" class="form-control" placeholder="Nhập tiêu đề bài viết">
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Chuyên mục</label>
-              <select class="form-select">
-                <option>Logistics</option>
-                <option>Hướng dẫn</option>
-                <option>Giải pháp</option>
-                <option>Câu chuyện thương hiệu</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Trạng thái</label>
-              <select class="form-select">
-                <option value="published">Đã xuất bản</option>
-                <option value="draft">Bản nháp</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Nội dung</label>
-              <textarea class="form-control" rows="6" placeholder="Nội dung bài viết..."></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">
-              <i class="bi bi-save"></i> Lưu bài viết
+    <div class="flex min-h-screen flex-1 flex-col lg:pl-64">
+      <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/80 backdrop-blur">
+        <div class="flex flex-wrap items-center justify-between gap-4 px-6 py-4">
+          <div class="flex items-center gap-3">
+            <button id="toggleSidebarBtn" aria-expanded="false" aria-controls="sidebar"
+              class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 lg:hidden">
+              <i class="bi bi-list text-lg"></i>
             </button>
-          </form>
+            <div>
+              <p class="text-xs uppercase tracking-[0.25em] text-slate-500">Content</p>
+              <h1 class="font-display text-xl">Create new post</h1>
+            </div>
+          </div>
+          <a href="blogs.html"
+            class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
+            <i class="bi bi-arrow-left"></i>
+            Back to posts
+          </a>
         </div>
-      </div>
-    </main>
-  </div>
-</div>
+      </header>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/admin.js"></script>
-<script defer type="text/javascript" src="js/api.js"></script>
+      <main class="px-6 py-6">
+        <form class="space-y-6">
+          <section class="animate-fade rounded-3xl border border-white/70 bg-white/85 p-6 shadow-soft">
+            <div>
+              <p class="text-xs uppercase tracking-[0.25em] text-teal-700">Draft</p>
+              <h2 class="mt-2 font-display text-2xl">Blog post details</h2>
+              <p class="mt-2 text-sm text-slate-500">Use clear titles and structured sections to improve readability.</p>
+            </div>
+          </section>
+
+          <section class="grid gap-6 lg:grid-cols-3">
+            <div class="lg:col-span-2 space-y-6">
+              <div class="animate-pop rounded-2xl border border-white/70 bg-white/85 p-6 shadow-soft">
+                <h3 class="font-display text-lg">Content</h3>
+                <div class="mt-4 space-y-4">
+                  <div>
+                    <label class="text-xs uppercase tracking-[0.2em] text-slate-500">Title</label>
+                    <input type="text"
+                      class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
+                      placeholder="Enter a strong headline" />
+                  </div>
+                  <div>
+                    <label class="text-xs uppercase tracking-[0.2em] text-slate-500">Short summary</label>
+                    <textarea rows="3"
+                      class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
+                      placeholder="Write a concise summary for the hero section."></textarea>
+                  </div>
+                  <div>
+                    <label class="text-xs uppercase tracking-[0.2em] text-slate-500">Body</label>
+                    <textarea rows="10"
+                      class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
+                      placeholder="Start writing your content here..."></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-6">
+              <div class="animate-pop rounded-2xl border border-white/70 bg-white/85 p-6 shadow-soft"
+                style="animation-delay:0.05s;">
+                <h3 class="font-display text-lg">Publishing</h3>
+                <div class="mt-4 space-y-4">
+                  <div>
+                    <label class="text-xs uppercase tracking-[0.2em] text-slate-500">Category</label>
+                    <select
+                      class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-700 focus:border-teal-500 focus:ring-2 focus:ring-teal-200">
+                      <option>Logistics</option>
+                      <option>Guides</option>
+                      <option>Solutions</option>
+                      <option>Brand stories</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="text-xs uppercase tracking-[0.2em] text-slate-500">Status</label>
+                    <select
+                      class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-700 focus:border-teal-500 focus:ring-2 focus:ring-teal-200">
+                      <option value="published">Published</option>
+                      <option value="draft">Draft</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="text-xs uppercase tracking-[0.2em] text-slate-500">Publish date</label>
+                    <input type="date"
+                      class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-700 focus:border-teal-500 focus:ring-2 focus:ring-teal-200" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="animate-pop rounded-2xl border border-white/70 bg-white/85 p-6 shadow-soft"
+                style="animation-delay:0.12s;">
+                <h3 class="font-display text-lg">Actions</h3>
+                <p class="mt-2 text-sm text-slate-500">Save changes or return to the blog list.</p>
+                <div class="mt-4 space-y-3">
+                  <button type="submit"
+                    class="w-full rounded-full bg-teal-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-teal-500/30 transition hover:bg-teal-700">
+                    <i class="bi bi-save"></i>
+                    Save post
+                  </button>
+                  <a href="blogs.html"
+                    class="block w-full rounded-full border border-slate-200 bg-white px-4 py-2 text-center text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
+                    Cancel
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </form>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/admin.js"></script>
+  <script defer type="text/javascript" src="../js/api.js"></script>
 </body>
+
 </html>

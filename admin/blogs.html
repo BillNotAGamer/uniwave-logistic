@@ -1,312 +1,368 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-key="title">UNIWAVE LOGISTICS</title>
-    <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
-    <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
-    <link rel="stylesheet" href="../css/admin.css">
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-key="title">UNIWAVE LOGISTICS</title>
+  <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
+  <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ["Space Grotesk", "sans-serif"],
+            body: ["Manrope", "sans-serif"]
+          },
+          boxShadow: {
+            soft: "0 18px 45px rgba(15, 23, 42, 0.12)"
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/admin.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
 </head>
-<body>
-<div class="layout-wrapper">
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <a href="index.html" class="sidebar-logo">
-            <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo" height="30">
-        </a>
-    </div>
-    <ul class="sidebar-nav mt-2">
-      <li>
-        <a href="index.html">
-          <i class="bi bi-speedometer2"></i><span>Tổng quan</span>
-        </a>
-      </li>
-      <li>
-        <a href="blogs.html" class="active">
-          <i class="bi bi-journal-text"></i><span>Quản lí Blog</span>
-        </a>
-      </li>
-      <li>
-        <a href="customers.html">
-          <i class="bi bi-people"></i><span>Quản lí người dùng</span>
-        </a>
-      </li>
-    </ul>
-    <div class="sidebar-footer">
-      Ac 2025 Uniwave
-    </div>
-  </aside>
 
-  <div class="main-content">
-    <header class="main-header">
-      <div class="d-flex align-items-center gap-2">
-        <div class="logo-text">
-          <span>Uniwave</span> Dashboard
-        </div>
-      </div>
-      <div class="d-flex align-items-center gap-3">
-        <button class="btn btn-outline-secondary d-md-none" id="toggleSidebarBtn">
-          <i class="bi bi-list"></i>
-        </button>
-        <div class="dropdown">
-          <button class="btn btn-light border-0 d-flex align-items-center gap-2" type="button"
-                  data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle fs-5"></i>
-            <span class="d-none d-sm-inline">Admin</span>
-            <i class="bi bi-caret-down-fill small d-none d-sm-inline"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Hồ sơ Admin</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="#">Đăng xuất</a></li>
-          </ul>
-        </div>
-      </div>
-    </header>
-
-    <main class="content-wrapper">
-      <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2 mb-3">
-        <h5 class="mb-0">Danh sách Blog</h5>
-        <div class="d-flex flex-wrap gap-2 align-items-center">
-          <div class="input-group input-group-sm" style="max-width: 260px;">
-            <span class="input-group-text"><i class="bi bi-search"></i></span>
-            <input type="search" class="form-control" placeholder="Search by title" id="blogSearchInput"
-                   aria-label="Search blog title">
-          </div>
-          <a href="blog-create.html" class="btn btn-primary btn-sm">
-            <i class="bi bi-plus-circle"></i> Bài viết mới
+<body class="font-body text-slate-900">
+  <div class="flex min-h-screen">
+    <aside id="sidebar" class="sidebar-panel fixed inset-y-0 left-0 z-40 w-64">
+      <div class="flex h-full flex-col bg-slate-950 text-white">
+        <div class="px-6 py-6">
+          <a href="index.html" class="flex items-center gap-3">
+            <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo"
+              class="h-9 w-auto rounded-lg bg-transparent p-1" />
+            <div>
+              <p class="font-display text-lg leading-tight">Uniwave</p>
+              <p class="text-xs text-slate-400">Admin Console</p>
+            </div>
           </a>
         </div>
-      </div>
-
-      <div class="card">
-        <div class="card-body p-0">
-          <div class="table-responsive">
-            <table class="table mb-0 align-middle" id="blogTable">
-              <thead>
-              <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Status</th>
-                <th>CreatedAt</th>
-                <th>PublishedAt</th>
-                <th>Author</th>
-                <th class="text-end">Actions</th>
-              </tr>
-              </thead>
-              <tbody id="blogTableBody">
-              <tr>
-                <td colspan="7" class="text-center text-muted py-4">Loading...</td>
-              </tr>
-              </tbody>
-            </table>
+        <nav class="flex-1 px-4">
+          <p class="px-3 text-xs uppercase tracking-[0.25em] text-slate-500">Dashboard</p>
+          <div class="mt-4 space-y-1">
+            <a href="index.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-speedometer2 text-base"></i>
+              Overview
+            </a>
+            <a href="blogs.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl bg-white/10 px-3 py-2 text-sm font-medium text-white shadow-sm">
+              <i class="bi bi-journal-text text-base"></i>
+              Blog posts
+            </a>
+            <a href="customers.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-people text-base"></i>
+              Customers
+            </a>
+            <a href="orders.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-truck text-base"></i>
+              Orders
+            </a>
           </div>
-          <div class="d-flex align-items-center justify-content-between px-3 py-2 border-top" id="blogPagination" style="display:none;">
-            <div class="text-muted small" id="blogPaginationInfo"></div>
-            <div class="btn-group btn-group-sm" role="group">
-              <button class="btn btn-outline-secondary" type="button" id="blogPrevPage">Previous</button>
-              <button class="btn btn-outline-secondary" type="button" id="blogNextPage">Next</button>
-            </div>
-          </div>
+        </nav>
+        <div class="border-t border-slate-800 px-6 py-4 text-xs text-slate-400">
+          (c) 2025 Uniwave Logistics
         </div>
       </div>
-    </main>
-  </div>
-</div>
+    </aside>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/admin.js"></script>
-<script defer type="text/javascript" src="../js/api.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const apiClient = window.UniwaveApi || window.UniwaveAPI;
-    const tableBody = document.getElementById("blogTableBody");
-    const searchInput = document.getElementById("blogSearchInput");
-    const pagination = document.getElementById("blogPagination");
-    const paginationInfo = document.getElementById("blogPaginationInfo");
-    const prevBtn = document.getElementById("blogPrevPage");
-    const nextBtn = document.getElementById("blogNextPage");
-    const PAGE_SIZE = 20;
-    const COLUMN_COUNT = 7;
-    let currentPage = 1;
-    let totalPages = 1;
-    let currentSearch = "";
-    let hasTotalHeader = false;
-    let searchTimer;
+    <div id="sidebarBackdrop" class="fixed inset-0 z-30 hidden bg-slate-950/40 backdrop-blur-sm lg:hidden"></div>
 
-    if (!tableBody) {
-      console.error("Blog table not found.");
-      return;
-    }
-
-    if (!apiClient || typeof apiClient.apiFetch !== "function") {
-      setTableMessage("API client is not available.");
-      return;
-    }
-
-    function setTableMessage(message) {
-      tableBody.innerHTML = `<tr><td colspan="${COLUMN_COUNT}" class="text-center text-muted py-4">${message}</td></tr>`;
-    }
-
-    function escapeHtml(value) {
-      return String(value || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    function formatDate(value) {
-      if (!value) return "N/A";
-      const date = new Date(value);
-      if (Number.isNaN(date.getTime())) return "N/A";
-      return date.toLocaleString("vi-VN");
-    }
-
-    function renderRows(items) {
-      if (!items || items.length === 0) {
-        setTableMessage("No blogs found.");
-        return;
-      }
-
-      const fragment = document.createDocumentFragment();
-
-      items.forEach((blog) => {
-        const id = blog.id ?? "";
-        const encodedId = id === "" ? "" : encodeURIComponent(id);
-        const statusText = blog.status || "Unknown";
-        const normalizedStatus = statusText.toString().toLowerCase();
-        const isPublished = normalizedStatus === "published";
-        const badgeClass = isPublished
-          ? "badge bg-success-subtle text-success border border-success-subtle"
-          : "badge bg-secondary-subtle text-secondary border border-secondary-subtle";
-
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${escapeHtml(id)}</td>
-          <td>${escapeHtml(blog.title || "")}</td>
-          <td><span class="${badgeClass}">${escapeHtml(statusText)}</span></td>
-          <td>${formatDate(blog.createdAt)}</td>
-          <td>${formatDate(blog.publishedAt)}</td>
-          <td>${escapeHtml(blog.author || blog.authorName || "")}</td>
-          <td class="text-end">
-            <div class="btn-group btn-group-sm" role="group">
-              <a class="btn btn-outline-primary" href="blog-detail.html?id=${encodedId}">View</a>
-              <a class="btn btn-outline-secondary" href="blog-edit.html?id=${encodedId}">Edit</a>
-              <button class="btn btn-outline-danger" type="button" data-delete-id="${escapeHtml(id)}">Delete</button>
+    <div class="flex min-h-screen flex-1 flex-col lg:pl-64">
+      <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/80 backdrop-blur">
+        <div class="flex flex-wrap items-center justify-between gap-4 px-6 py-4">
+          <div class="flex items-center gap-3">
+            <button id="toggleSidebarBtn" aria-expanded="false" aria-controls="sidebar"
+              class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 lg:hidden">
+              <i class="bi bi-list text-lg"></i>
+            </button>
+            <div>
+              <p class="text-xs uppercase tracking-[0.25em] text-slate-500">Content</p>
+              <h1 class="font-display text-xl">Blog management</h1>
             </div>
-          </td>
-        `;
-        fragment.appendChild(row);
-      });
+          </div>
+          <details class="relative">
+            <summary
+              class="flex cursor-pointer items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:shadow-md">
+              <span class="flex h-8 w-8 items-center justify-center rounded-full bg-teal-600 text-white">A</span>
+              <span class="hidden sm:block">Admin</span>
+              <i class="bi bi-chevron-down chevron text-xs text-slate-500 transition"></i>
+            </summary>
+            <div class="absolute right-0 mt-2 w-48 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
+              <a href="#" class="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">Profile</a>
+              <a href="#" class="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">Settings</a>
+              <div class="my-1 h-px bg-slate-100"></div>
+              <a href="#" class="block rounded-lg px-3 py-2 text-sm text-rose-600 hover:bg-rose-50">Sign out</a>
+            </div>
+          </details>
+        </div>
+      </header>
 
-      tableBody.innerHTML = "";
-      tableBody.appendChild(fragment);
-    }
+      <main class="px-6 py-6">
+        <section class="animate-fade rounded-3xl border border-white/70 bg-white/85 p-6 shadow-soft">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p class="text-xs uppercase tracking-[0.25em] text-teal-700">Publishing</p>
+              <h2 class="mt-2 font-display text-2xl">Blog library</h2>
+              <p class="mt-2 text-sm text-slate-500">Create, review, and schedule content updates.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="relative">
+                <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+                <input id="blogSearchInput" type="search"
+                  class="w-64 rounded-full border border-slate-200 bg-white px-10 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
+                  placeholder="Search by title" aria-label="Search blog title" />
+              </div>
+              <a href="blog-create.html"
+                class="inline-flex items-center gap-2 rounded-full bg-teal-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-teal-500/30 transition hover:bg-teal-700">
+                <i class="bi bi-plus-circle"></i>
+                New post
+              </a>
+            </div>
+          </div>
+        </section>
 
-    function renderPagination(totalCount) {
-      if (!hasTotalHeader) {
-        pagination.style.display = "none";
+        <section class="mt-6">
+          <div class="animate-pop rounded-2xl border border-white/70 bg-white/85 shadow-soft">
+            <div class="border-b border-slate-100 px-6 py-4">
+              <h3 class="font-display text-lg">Posts</h3>
+              <p class="text-sm text-slate-500">Manage all articles in one view.</p>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-sm" id="blogTable">
+                <thead class="bg-slate-50 text-xs uppercase tracking-widest text-slate-500">
+                  <tr>
+                    <th class="px-6 py-3 text-left">ID</th>
+                    <th class="px-6 py-3 text-left">Title</th>
+                    <th class="px-6 py-3 text-left">Status</th>
+                    <th class="px-6 py-3 text-left">Created</th>
+                    <th class="px-6 py-3 text-left">Published</th>
+                    <th class="px-6 py-3 text-left">Author</th>
+                    <th class="px-6 py-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="blogTableBody" class="divide-y divide-slate-100 text-slate-700">
+                  <tr>
+                    <td colspan="7" class="px-6 py-6 text-center text-slate-400">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="flex items-center justify-between border-t border-slate-100 px-6 py-3 text-sm text-slate-500"
+              id="blogPagination" style="display:none;">
+              <div id="blogPaginationInfo"></div>
+              <div class="flex items-center gap-2">
+                <button
+                  class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
+                  type="button" id="blogPrevPage">Previous</button>
+                <button
+                  class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
+                  type="button" id="blogNextPage">Next</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/admin.js"></script>
+  <script defer type="text/javascript" src="../js/api.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const apiClient = window.UniwaveApi || window.UniwaveAPI;
+      const tableBody = document.getElementById("blogTableBody");
+      const searchInput = document.getElementById("blogSearchInput");
+      const pagination = document.getElementById("blogPagination");
+      const paginationInfo = document.getElementById("blogPaginationInfo");
+      const prevBtn = document.getElementById("blogPrevPage");
+      const nextBtn = document.getElementById("blogNextPage");
+      const PAGE_SIZE = 20;
+      const COLUMN_COUNT = 7;
+      let currentPage = 1;
+      let totalPages = 1;
+      let currentSearch = "";
+      let hasTotalHeader = false;
+      let searchTimer;
+
+      if (!tableBody) {
+        console.error("Blog table not found.");
         return;
       }
 
-      totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
-
-      if (totalPages <= 1) {
-        pagination.style.display = "none";
+      if (!apiClient || typeof apiClient.apiFetch !== "function") {
+        setTableMessage("API client is not available.");
         return;
       }
 
-      pagination.style.display = "flex";
-      paginationInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-      prevBtn.disabled = currentPage <= 1;
-      nextBtn.disabled = currentPage >= totalPages;
-    }
-
-    async function loadBlogs(page = 1) {
-      const query = new URLSearchParams({
-        page: page.toString(),
-        pageSize: PAGE_SIZE.toString()
-      });
-      if (currentSearch.trim()) {
-        query.set("search", currentSearch.trim());
+      function setTableMessage(message) {
+        tableBody.innerHTML = `<tr><td colspan="${COLUMN_COUNT}" class="px-6 py-6 text-center text-slate-400">${message}</td></tr>`;
       }
 
-      setTableMessage("Loading...");
+      function escapeHtml(value) {
+        return String(value || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
 
-      try {
-        const response = await apiClient.apiFetch(`/api/admin/blogs?${query.toString()}`);
-        const blogs = await response.json();
-        const totalHeader = response.headers.get("X-Total-Count");
+      function formatDate(value) {
+        if (!value) return "N/A";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "N/A";
+        return date.toLocaleString("vi-VN");
+      }
 
-        hasTotalHeader = totalHeader !== null;
-        const totalCount = hasTotalHeader ? Number(totalHeader) || 0 : blogs.length;
-
-        if (Array.isArray(blogs) && blogs.length === 0 && page > 1 && hasTotalHeader && (page - 1) * PAGE_SIZE >= totalCount) {
-          currentPage = page - 1;
-          await loadBlogs(currentPage);
+      function renderRows(items) {
+        if (!items || items.length === 0) {
+          setTableMessage("No blogs found.");
           return;
         }
 
-        currentPage = page;
-        renderRows(Array.isArray(blogs) ? blogs : []);
-        renderPagination(totalCount);
-      } catch (error) {
-        setTableMessage(error.message || "Failed to load blogs.");
+        const fragment = document.createDocumentFragment();
+
+        items.forEach((blog) => {
+          const id = blog.id ?? "";
+          const encodedId = id === "" ? "" : encodeURIComponent(id);
+          const statusText = blog.status || "Unknown";
+          const normalizedStatus = statusText.toString().toLowerCase();
+          const isPublished = normalizedStatus === "published";
+          const badgeClass = isPublished
+            ? "inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700"
+            : "inline-flex items-center rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600";
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+          <td class="px-6 py-4 font-semibold text-slate-900">${escapeHtml(id)}</td>
+          <td class="px-6 py-4">${escapeHtml(blog.title || "")}</td>
+          <td class="px-6 py-4"><span class="${badgeClass}">${escapeHtml(statusText)}</span></td>
+          <td class="px-6 py-4">${formatDate(blog.createdAt)}</td>
+          <td class="px-6 py-4">${formatDate(blog.publishedAt)}</td>
+          <td class="px-6 py-4">${escapeHtml(blog.author || blog.authorName || "")}</td>
+          <td class="px-6 py-4 text-right">
+            <div class="flex flex-wrap justify-end gap-2">
+              <a class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50" href="blog-detail.html?id=${encodedId}">View</a>
+              <a class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50" href="blog-edit.html?id=${encodedId}">Edit</a>
+              <button class="rounded-full border border-rose-200 px-3 py-1 text-xs font-semibold text-rose-600 transition hover:bg-rose-50" type="button" data-delete-id="${escapeHtml(id)}">Delete</button>
+            </div>
+          </td>
+        `;
+          fragment.appendChild(row);
+        });
+
+        tableBody.innerHTML = "";
+        tableBody.appendChild(fragment);
       }
-    }
 
-    async function handleDelete(blogId) {
-      if (!blogId) return;
-      if (!confirm("Are you sure you want to delete this blog post?")) return;
+      function renderPagination(totalCount) {
+        if (!hasTotalHeader) {
+          pagination.style.display = "none";
+          return;
+        }
 
-      try {
-        await apiClient.apiFetch(`/api/admin/blogs/${encodeURIComponent(blogId)}`, { method: "DELETE" });
-        await loadBlogs(currentPage);
-      } catch (error) {
-        alert(error.message || "Failed to delete the blog post.");
+        totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
+
+        if (totalPages <= 1) {
+          pagination.style.display = "none";
+          return;
+        }
+
+        pagination.style.display = "flex";
+        paginationInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+        prevBtn.disabled = currentPage <= 1;
+        nextBtn.disabled = currentPage >= totalPages;
       }
-    }
 
-    tableBody.addEventListener("click", (event) => {
-      const deleteBtn = event.target.closest("[data-delete-id]");
-      if (deleteBtn) {
-        handleDelete(deleteBtn.getAttribute("data-delete-id"));
+      async function loadBlogs(page = 1) {
+        const query = new URLSearchParams({
+          page: page.toString(),
+          pageSize: PAGE_SIZE.toString()
+        });
+        if (currentSearch.trim()) {
+          query.set("search", currentSearch.trim());
+        }
+
+        setTableMessage("Loading...");
+
+        try {
+          const response = await apiClient.apiFetch(`/api/admin/blogs?${query.toString()}`);
+          const blogs = await response.json();
+          const totalHeader = response.headers.get("X-Total-Count");
+
+          hasTotalHeader = totalHeader !== null;
+          const totalCount = hasTotalHeader ? Number(totalHeader) || 0 : blogs.length;
+
+          if (Array.isArray(blogs) && blogs.length === 0 && page > 1 && hasTotalHeader && (page - 1) * PAGE_SIZE >= totalCount) {
+            currentPage = page - 1;
+            await loadBlogs(currentPage);
+            return;
+          }
+
+          currentPage = page;
+          renderRows(Array.isArray(blogs) ? blogs : []);
+          renderPagination(totalCount);
+        } catch (error) {
+          setTableMessage(error.message || "Failed to load blogs.");
+        }
       }
-    });
 
-    prevBtn?.addEventListener("click", () => {
-      if (currentPage > 1) {
-        loadBlogs(currentPage - 1);
+      async function handleDelete(blogId) {
+        if (!blogId) return;
+        if (!confirm("Are you sure you want to delete this blog post?")) return;
+
+        try {
+          await apiClient.apiFetch(`/api/admin/blogs/${encodeURIComponent(blogId)}`, { method: "DELETE" });
+          await loadBlogs(currentPage);
+        } catch (error) {
+          alert(error.message || "Failed to delete the blog post.");
+        }
       }
-    });
 
-    nextBtn?.addEventListener("click", () => {
-      if (currentPage < totalPages) {
-        loadBlogs(currentPage + 1);
-      }
-    });
-
-    if (searchInput) {
-      searchInput.addEventListener("input", () => {
-        clearTimeout(searchTimer);
-        searchTimer = setTimeout(() => {
-          currentSearch = searchInput.value || "";
-          loadBlogs(1);
-        }, 300);
+      tableBody.addEventListener("click", (event) => {
+        const deleteBtn = event.target.closest("[data-delete-id]");
+        if (deleteBtn) {
+          handleDelete(deleteBtn.getAttribute("data-delete-id"));
+        }
       });
-    }
 
-    loadBlogs();
-  });
-</script>
+      prevBtn?.addEventListener("click", () => {
+        if (currentPage > 1) {
+          loadBlogs(currentPage - 1);
+        }
+      });
+
+      nextBtn?.addEventListener("click", () => {
+        if (currentPage < totalPages) {
+          loadBlogs(currentPage + 1);
+        }
+      });
+
+      if (searchInput) {
+        searchInput.addEventListener("input", () => {
+          clearTimeout(searchTimer);
+          searchTimer = setTimeout(() => {
+            currentSearch = searchInput.value || "";
+            loadBlogs(1);
+          }, 300);
+        });
+      }
+
+      loadBlogs();
+    });
+  </script>
 </body>
+
 </html>

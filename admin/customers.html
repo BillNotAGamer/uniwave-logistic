@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -7,224 +7,304 @@
   <title data-key="title">UNIWAVE LOGISTICS</title>
   <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
   <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
-  <link rel="stylesheet" href="../css/admin.css">
-  <script src="../js/admin.js" defer></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-</head>
-<body>
-<div class="layout-wrapper">
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <a href="index.html" class="sidebar-logo">
-        <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo" height="30">
-      </a>
-    </div>
-    <ul class="sidebar-nav mt-2">
-      <li><a href="index.html"><i class="bi bi-speedometer2"></i><span>Tong quan</span></a></li>
-      <li><a href="blogs.html"><i class="bi bi-journal-text"></i><span>Quan ly Blog</span></a></li>
-      <li><a href="customers.html" class="active"><i class="bi bi-people"></i><span>Quan ly nguoi dung</span></a></li>
-      <li><a href="orders.html"><i class="bi bi-truck"></i><span>Don hang</span></a></li>
-    </ul>
-    <div class="sidebar-footer">Ac 2025 Uniwave</div>
-  </aside>
-
-  <div class="main-content">
-    <header class="main-header">
-      <div class="logo-text"><span>Uniwave</span> Dashboard</div>
-      <div class="d-flex align-items-center gap-3">
-        <button class="btn btn-outline-secondary d-md-none" id="toggleSidebarBtn">
-          <i class="bi bi-list"></i>
-        </button>
-        <div class="dropdown">
-          <button class="btn btn-light border-0 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle fs-5"></i>
-            <span class="d-none d-sm-inline">Admin</span>
-            <i class="bi bi-caret-down-fill small d-none d-sm-inline"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Ho so Admin</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="#">Dang xuat</a></li>
-          </ul>
-        </div>
-      </div>
-    </header>
-
-    <main class="content-wrapper">
-      <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2 mb-3">
-        <h5 class="mb-0">Danh sach khach hang</h5>
-        <div class="input-group input-group-sm" style="max-width: 260px;">
-          <span class="input-group-text"><i class="bi bi-search"></i></span>
-          <input type="search" class="form-control" placeholder="Search name or email" id="customerSearchInput" aria-label="Search customers">
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-body p-0">
-          <div class="table-responsive">
-            <table class="table mb-0 align-middle" id="customerTable">
-              <thead>
-              <tr>
-                <th>Full name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Tier</th>
-                <th>Created</th>
-                <th class="text-end">Actions</th>
-              </tr>
-              </thead>
-              <tbody id="customerTableBody">
-              <tr><td colspan="6" class="text-center text-muted py-4">Loading...</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="d-flex align-items-center justify-content-between px-3 py-2 border-top" id="customerPagination" style="display:none;">
-            <div class="text-muted small" id="customerPaginationInfo"></div>
-            <div class="btn-group btn-group-sm">
-              <button class="btn btn-outline-secondary" type="button" id="customerPrev">Previous</button>
-              <button class="btn btn-outline-secondary" type="button" id="customerNext">Next</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script defer type="text/javascript" src="../js/api.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const Api = window.UniwaveApi || window.UniwaveAPI;
-    const tbody = document.getElementById("customerTableBody");
-    const searchInput = document.getElementById("customerSearchInput");
-    const pagination = document.getElementById("customerPagination");
-    const paginationInfo = document.getElementById("customerPaginationInfo");
-    const prevBtn = document.getElementById("customerPrev");
-    const nextBtn = document.getElementById("customerNext");
-
-    const PAGE_SIZE = 20;
-    let currentPage = 1;
-    let totalPages = 1;
-    let currentSearch = "";
-    let hasTotalHeader = false;
-    let searchTimer;
-
-    if (!tbody) return;
-
-    if (!Api || typeof Api.apiFetch !== "function") {
-      tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">API client not available.</td></tr>`;
-      return;
-    }
-
-    if (typeof Api.getAccessToken === "function" && !Api.getAccessToken()) {
-      tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">Not authorized. Please log in.</td></tr>`;
-      return;
-    }
-
-    function setMessage(text) {
-      tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">${text}</td></tr>`;
-    }
-
-    function formatDate(value) {
-      const d = new Date(value);
-      if (Number.isNaN(d.getTime())) return "--";
-      return d.toLocaleString("vi-VN");
-    }
-
-    function renderRows(users) {
-      if (!users || users.length === 0) {
-        setMessage("No customers found.");
-        return;
-      }
-
-      const fragment = document.createDocumentFragment();
-      users.forEach((user) => {
-        const id = user.id || user.Id || "";
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${user.fullName || user.FullName || "--"}</td>
-          <td>${user.email || user.Email || "--"}</td>
-          <td>${user.phoneNumber || user.PhoneNumber || "--"}</td>
-          <td><span class="badge bg-light text-dark">${user.tier || user.Tier || "Unknown"}</span></td>
-          <td>${formatDate(user.createdAt || user.CreatedAt)}</td>
-          <td class="text-end">
-            <a class="btn btn-sm btn-outline-primary" href="customer-detail.html?id=${encodeURIComponent(id)}">View</a>
-          </td>
-        `;
-        fragment.appendChild(tr);
-      });
-
-      tbody.innerHTML = "";
-      tbody.appendChild(fragment);
-    }
-
-    function renderPagination(totalCount) {
-      if (!hasTotalHeader) {
-        pagination.style.display = "none";
-        return;
-      }
-
-      totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
-      if (totalPages <= 1) {
-        pagination.style.display = "none";
-        return;
-      }
-
-      pagination.style.display = "flex";
-      paginationInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-      prevBtn.disabled = currentPage <= 1;
-      nextBtn.disabled = currentPage >= totalPages;
-    }
-
-    async function loadCustomers(page = 1) {
-      const query = new URLSearchParams({
-        page: page.toString(),
-        pageSize: PAGE_SIZE.toString()
-      });
-      if (currentSearch.trim()) {
-        query.set("search", currentSearch.trim());
-      }
-
-      setMessage("Loading...");
-
-      try {
-        const res = await Api.apiFetch(`/api/users?${query.toString()}`);
-        const data = await res.json();
-        const totalHeader = res.headers.get("X-Total-Count");
-        hasTotalHeader = totalHeader !== null;
-        const totalCount = hasTotalHeader ? Number(totalHeader) || 0 : data.length;
-
-        currentPage = page;
-        renderRows(Array.isArray(data) ? data : []);
-        renderPagination(totalCount);
-      } catch (error) {
-        if (String(error?.message || "").includes("401") || String(error?.message || "").includes("403")) {
-          setMessage("Not authorized. Please log in.");
-        } else {
-          setMessage(error?.message || "Failed to load customers.");
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ["Space Grotesk", "sans-serif"],
+            body: ["Manrope", "sans-serif"]
+          },
+          boxShadow: {
+            soft: "0 18px 45px rgba(15, 23, 42, 0.12)"
+          }
         }
       }
-    }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/admin.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+</head>
 
-    searchInput?.addEventListener("input", () => {
-      clearTimeout(searchTimer);
-      searchTimer = setTimeout(() => {
-        currentSearch = searchInput.value || "";
-        loadCustomers(1);
-      }, 300);
-    });
+<body class="font-body text-slate-900">
+  <div class="flex min-h-screen">
+    <aside id="sidebar" class="sidebar-panel fixed inset-y-0 left-0 z-40 w-64">
+      <div class="flex h-full flex-col bg-slate-950 text-white">
+        <div class="px-6 py-6">
+          <a href="index.html" class="flex items-center gap-3">
+            <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo"
+              class="h-9 w-auto rounded-lg bg-transparentp p-1" />
+            <div>
+              <p class="font-display text-lg leading-tight">Uniwave</p>
+              <p class="text-xs text-slate-400">Admin Console</p>
+            </div>
+          </a>
+        </div>
+        <nav class="flex-1 px-4">
+          <p class="px-3 text-xs uppercase tracking-[0.25em] text-slate-500">Dashboard</p>
+          <div class="mt-4 space-y-1">
+            <a href="index.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-speedometer2 text-base"></i>
+              Overview
+            </a>
+            <a href="blogs.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-journal-text text-base"></i>
+              Blog posts
+            </a>
+            <a href="customers.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl bg-white/10 px-3 py-2 text-sm font-medium text-white shadow-sm">
+              <i class="bi bi-people text-base"></i>
+              Customers
+            </a>
+            <a href="orders.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-truck text-base"></i>
+              Orders
+            </a>
+          </div>
+        </nav>
+        <div class="border-t border-slate-800 px-6 py-4 text-xs text-slate-400">
+          (c) 2025 Uniwave Logistics
+        </div>
+      </div>
+    </aside>
 
-    prevBtn?.addEventListener("click", () => {
-      if (currentPage > 1) loadCustomers(currentPage - 1);
-    });
-    nextBtn?.addEventListener("click", () => {
-      if (currentPage < totalPages) loadCustomers(currentPage + 1);
-    });
+    <div id="sidebarBackdrop" class="fixed inset-0 z-30 hidden bg-slate-950/40 backdrop-blur-sm lg:hidden"></div>
 
-    loadCustomers();
-  });
-</script>
+    <div class="flex min-h-screen flex-1 flex-col lg:pl-64">
+      <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/80 backdrop-blur">
+        <div class="flex flex-wrap items-center justify-between gap-4 px-6 py-4">
+          <div class="flex items-center gap-3">
+            <button id="toggleSidebarBtn" aria-expanded="false" aria-controls="sidebar"
+              class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 lg:hidden">
+              <i class="bi bi-list text-lg"></i>
+            </button>
+            <div>
+              <p class="text-xs uppercase tracking-[0.25em] text-slate-500">Accounts</p>
+              <h1 class="font-display text-xl">Customer directory</h1>
+            </div>
+          </div>
+          <details class="relative">
+            <summary
+              class="flex cursor-pointer items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:shadow-md">
+              <span class="flex h-8 w-8 items-center justify-center rounded-full bg-teal-600 text-white">A</span>
+              <span class="hidden sm:block">Admin</span>
+              <i class="bi bi-chevron-down chevron text-xs text-slate-500 transition"></i>
+            </summary>
+            <div class="absolute right-0 mt-2 w-48 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
+              <a href="#" class="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">Profile</a>
+              <a href="#" class="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">Settings</a>
+              <div class="my-1 h-px bg-slate-100"></div>
+              <a href="#" class="block rounded-lg px-3 py-2 text-sm text-rose-600 hover:bg-rose-50">Sign out</a>
+            </div>
+          </details>
+        </div>
+      </header>
+
+      <main class="px-6 py-6">
+        <section class="animate-fade rounded-3xl border border-white/70 bg-white/85 p-6 shadow-soft">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p class="text-xs uppercase tracking-[0.25em] text-teal-700">People</p>
+              <h2 class="mt-2 font-display text-2xl">Customer list</h2>
+              <p class="mt-2 text-sm text-slate-500">Review active customers and engagement tiers.</p>
+            </div>
+            <div class="relative">
+              <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+              <input id="customerSearchInput" type="search"
+                class="w-64 rounded-full border border-slate-200 bg-white px-10 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
+                placeholder="Search name or email" aria-label="Search customers" />
+            </div>
+          </div>
+        </section>
+
+        <section class="mt-6">
+          <div class="animate-pop rounded-2xl border border-white/70 bg-white/85 shadow-soft">
+            <div class="border-b border-slate-100 px-6 py-4">
+              <h3 class="font-display text-lg">Customers</h3>
+              <p class="text-sm text-slate-500">Contact and segment your users efficiently.</p>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-sm" id="customerTable">
+                <thead class="bg-slate-50 text-xs uppercase tracking-widest text-slate-500">
+                  <tr>
+                    <th class="px-6 py-3 text-left">Full name</th>
+                    <th class="px-6 py-3 text-left">Email</th>
+                    <th class="px-6 py-3 text-left">Phone</th>
+                    <th class="px-6 py-3 text-left">Tier</th>
+                    <th class="px-6 py-3 text-left">Created</th>
+                    <th class="px-6 py-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="customerTableBody" class="divide-y divide-slate-100 text-slate-700">
+                  <tr>
+                    <td colspan="6" class="px-6 py-6 text-center text-slate-400">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="flex items-center justify-between border-t border-slate-100 px-6 py-3 text-sm text-slate-500"
+              id="customerPagination" style="display:none;">
+              <div id="customerPaginationInfo"></div>
+              <div class="flex items-center gap-2">
+                <button
+                  class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
+                  type="button" id="customerPrev">Previous</button>
+                <button
+                  class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
+                  type="button" id="customerNext">Next</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/admin.js"></script>
+  <script defer type="text/javascript" src="../js/api.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const Api = window.UniwaveApi || window.UniwaveAPI;
+      const tbody = document.getElementById("customerTableBody");
+      const searchInput = document.getElementById("customerSearchInput");
+      const pagination = document.getElementById("customerPagination");
+      const paginationInfo = document.getElementById("customerPaginationInfo");
+      const prevBtn = document.getElementById("customerPrev");
+      const nextBtn = document.getElementById("customerNext");
+
+      const PAGE_SIZE = 20;
+      let currentPage = 1;
+      let totalPages = 1;
+      let currentSearch = "";
+      let hasTotalHeader = false;
+      let searchTimer;
+
+      if (!tbody) return;
+
+      if (!Api || typeof Api.apiFetch !== "function") {
+        tbody.innerHTML = `<tr><td colspan="6" class="px-6 py-6 text-center text-slate-400">API client not available.</td></tr>`;
+        return;
+      }
+
+      if (typeof Api.getAccessToken === "function" && !Api.getAccessToken()) {
+        tbody.innerHTML = `<tr><td colspan="6" class="px-6 py-6 text-center text-slate-400">Not authorized. Please log in.</td></tr>`;
+        return;
+      }
+
+      function setMessage(text) {
+        tbody.innerHTML = `<tr><td colspan="6" class="px-6 py-6 text-center text-slate-400">${text}</td></tr>`;
+      }
+
+      function formatDate(value) {
+        const d = new Date(value);
+        if (Number.isNaN(d.getTime())) return "--";
+        return d.toLocaleString("vi-VN");
+      }
+
+      function renderRows(users) {
+        if (!users || users.length === 0) {
+          setMessage("No customers found.");
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        users.forEach((user) => {
+          const id = user.id || user.Id || "";
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+          <td class="px-6 py-4 font-semibold text-slate-900">${user.fullName || user.FullName || "--"}</td>
+          <td class="px-6 py-4">${user.email || user.Email || "--"}</td>
+          <td class="px-6 py-4">${user.phoneNumber || user.PhoneNumber || "--"}</td>
+          <td class="px-6 py-4">
+            <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">${user.tier || user.Tier || "Unknown"}</span>
+          </td>
+          <td class="px-6 py-4">${formatDate(user.createdAt || user.CreatedAt)}</td>
+          <td class="px-6 py-4 text-right">
+            <a class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50" href="customer-detail.html?id=${encodeURIComponent(id)}">View</a>
+          </td>
+        `;
+          fragment.appendChild(tr);
+        });
+
+        tbody.innerHTML = "";
+        tbody.appendChild(fragment);
+      }
+
+      function renderPagination(totalCount) {
+        if (!hasTotalHeader) {
+          pagination.style.display = "none";
+          return;
+        }
+
+        totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
+        if (totalPages <= 1) {
+          pagination.style.display = "none";
+          return;
+        }
+
+        pagination.style.display = "flex";
+        paginationInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+        prevBtn.disabled = currentPage <= 1;
+        nextBtn.disabled = currentPage >= totalPages;
+      }
+
+      async function loadCustomers(page = 1) {
+        const query = new URLSearchParams({
+          page: page.toString(),
+          pageSize: PAGE_SIZE.toString()
+        });
+        if (currentSearch.trim()) {
+          query.set("search", currentSearch.trim());
+        }
+
+        setMessage("Loading...");
+
+        try {
+          const res = await Api.apiFetch(`/api/users?${query.toString()}`);
+          const data = await res.json();
+          const totalHeader = res.headers.get("X-Total-Count");
+          hasTotalHeader = totalHeader !== null;
+          const totalCount = hasTotalHeader ? Number(totalHeader) || 0 : data.length;
+
+          currentPage = page;
+          renderRows(Array.isArray(data) ? data : []);
+          renderPagination(totalCount);
+        } catch (error) {
+          if (String(error?.message || "").includes("401") || String(error?.message || "").includes("403")) {
+            setMessage("Not authorized. Please log in.");
+          } else {
+            setMessage(error?.message || "Failed to load customers.");
+          }
+        }
+      }
+
+      searchInput?.addEventListener("input", () => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => {
+          currentSearch = searchInput.value || "";
+          loadCustomers(1);
+        }, 300);
+      });
+
+      prevBtn?.addEventListener("click", () => {
+        if (currentPage > 1) loadCustomers(currentPage - 1);
+      });
+      nextBtn?.addEventListener("click", () => {
+        if (currentPage < totalPages) loadCustomers(currentPage + 1);
+      });
+
+      loadCustomers();
+    });
+  </script>
 </body>
+
 </html>

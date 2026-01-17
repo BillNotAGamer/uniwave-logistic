@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -7,246 +7,303 @@
   <title data-key="title">UNIWAVE LOGISTICS</title>
   <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
   <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
-  <link rel="stylesheet" href="../css/admin.css">
-  <script src="../js/admin.js" defer></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-</head>
-<body>
-<div class="layout-wrapper">
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <a href="index.html" class="sidebar-logo">
-        <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo" height="30">
-      </a>
-    </div>
-    <ul class="sidebar-nav mt-2">
-      <li><a href="index.html"><i class="bi bi-speedometer2"></i><span>Tong quan</span></a></li>
-      <li><a href="blogs.html"><i class="bi bi-journal-text"></i><span>Quan ly Blog</span></a></li>
-      <li><a href="customers.html" class="active"><i class="bi bi-people"></i><span>Quan ly nguoi dung</span></a></li>
-      <li><a href="orders.html"><i class="bi bi-truck"></i><span>Don hang</span></a></li>
-    </ul>
-    <div class="sidebar-footer">Ac 2025 Uniwave</div>
-  </aside>
-
-  <div class="main-content">
-    <header class="main-header">
-      <div class="logo-text"><span>Uniwave</span> Dashboard</div>
-      <div class="d-flex align-items-center gap-3">
-        <button class="btn btn-outline-secondary d-md-none" id="toggleSidebarBtn">
-          <i class="bi bi-list"></i>
-        </button>
-        <div class="dropdown">
-          <button class="btn btn-light border-0 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle fs-5"></i>
-            <span class="d-none d-sm-inline">Admin</span>
-            <i class="bi bi-caret-down-fill small d-none d-sm-inline"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Ho so Admin</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="#">Dang xuat</a></li>
-          </ul>
-        </div>
-      </div>
-    </header>
-
-    <main class="content-wrapper">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-          <h5 class="mb-1" id="customerName">Loading...</h5>
-          <div class="text-muted small" id="customerEmail"></div>
-        </div>
-        <a href="customers.html" class="btn btn-outline-secondary btn-sm">
-          <i class="bi bi-arrow-left"></i> Danh sach khach hang
-        </a>
-      </div>
-
-      <div id="detailMessage" class="alert alert-info">Loading...</div>
-
-      <div class="row g-3">
-        <div class="col-md-4">
-          <div class="card h-100">
-            <div class="card-body">
-              <h6 class="mb-3">Thong tin chung</h6>
-              <p class="mb-2">
-                <span class="text-muted small d-block">So dien thoai</span>
-                <span id="customerPhone">--</span>
-              </p>
-              <p class="mb-2">
-                <span class="text-muted small d-block">Dia chi</span>
-                <span id="customerAddress">--</span>
-              </p>
-              <p class="mb-2">
-                <span class="text-muted small d-block">Ngay tham gia</span>
-                <span id="customerCreated">--</span>
-              </p>
-              <p class="mb-2">
-                <span class="text-muted small d-block">Hang thanh vien</span>
-                <span class="badge bg-light text-dark" id="customerTier">--</span>
-              </p>
-              <p class="mb-2">
-                <span class="text-muted small d-block">Trang thai</span>
-                <span class="badge bg-success-subtle text-success border border-success-subtle" id="customerStatus">Hoat dong</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <div class="card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="mb-0">Don hang gan day</h6>
-                <span class="text-muted small" id="ordersSummary"></span>
-              </div>
-              <div class="table-responsive">
-                <table class="table table-sm align-middle mb-0">
-                  <thead>
-                  <tr>
-                    <th>Ma don</th>
-                    <th>Ngay tao</th>
-                    <th>Trang thai</th>
-                    <th class="text-end">Gia</th>
-                    <th class="text-end">Xem</th>
-                  </tr>
-                  </thead>
-                  <tbody id="ordersTableBody">
-                  <tr><td colspan="5" class="text-center text-muted py-3">Loading orders...</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script defer type="text/javascript" src="../js/api.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const Api = window.UniwaveApi || window.UniwaveAPI;
-    const params = new URLSearchParams(window.location.search);
-    const userId = params.get("id");
-
-    const messageEl = document.getElementById("detailMessage");
-    const nameEl = document.getElementById("customerName");
-    const emailEl = document.getElementById("customerEmail");
-    const phoneEl = document.getElementById("customerPhone");
-    const addressEl = document.getElementById("customerAddress");
-    const createdEl = document.getElementById("customerCreated");
-    const tierEl = document.getElementById("customerTier");
-    const statusEl = document.getElementById("customerStatus");
-    const ordersBody = document.getElementById("ordersTableBody");
-    const ordersSummary = document.getElementById("ordersSummary");
-
-    const STATUS_BADGE = {
-      Active: "badge bg-success-subtle text-success border border-success-subtle",
-      Inactive: "badge bg-secondary-subtle text-secondary border border-secondary-subtle"
-    };
-
-    if (!Api || typeof Api.apiFetch !== "function") {
-      setMessage("API client not available.", true);
-      return;
-    }
-
-    if (!userId) {
-      setMessage("Missing customer id.", true);
-      return;
-    }
-
-    if (typeof Api.getAccessToken === "function" && !Api.getAccessToken()) {
-      setMessage("Not authorized. Please log in.", true);
-      return;
-    }
-
-    function setMessage(text, isError = false) {
-      messageEl.textContent = text;
-      messageEl.className = isError ? "alert alert-danger" : "alert alert-info";
-      messageEl.style.display = text ? "block" : "none";
-    }
-
-    function formatDate(value) {
-      const d = new Date(value);
-      if (Number.isNaN(d.getTime())) return "--";
-      return d.toLocaleString("vi-VN");
-    }
-
-    function formatMoney(value) {
-      if (value === null || value === undefined) return "--";
-      const num = Number(value);
-      if (Number.isNaN(num)) return value;
-      return num.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-    }
-
-    async function loadCustomer() {
-      setMessage("Loading...");
-      try {
-        const res = await Api.apiFetch(`/api/users/${encodeURIComponent(userId)}`);
-        const user = await res.json();
-        nameEl.textContent = user.fullName || user.FullName || "--";
-        emailEl.textContent = user.email || user.Email || "";
-        phoneEl.textContent = user.phoneNumber || user.PhoneNumber || "--";
-        addressEl.textContent = user.address || user.Address || "--";
-        createdEl.textContent = formatDate(user.createdAt || user.CreatedAt);
-        tierEl.textContent = user.tier || user.Tier || "Unknown";
-        const isActive = user.isActive ?? user.IsActive ?? true;
-        statusEl.textContent = isActive ? "Hoat dong" : "Tam khoa";
-        statusEl.className = isActive ? STATUS_BADGE.Active : STATUS_BADGE.Inactive;
-        setMessage("");
-      } catch (error) {
-        if (String(error?.message || "").includes("401") || String(error?.message || "").includes("403")) {
-          setMessage("Not authorized. Please log in.", true);
-        } else {
-          setMessage(error?.message || "Failed to load customer.", true);
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ["Space Grotesk", "sans-serif"],
+            body: ["Manrope", "sans-serif"]
+          },
+          boxShadow: {
+            soft: "0 18px 45px rgba(15, 23, 42, 0.12)"
+          }
         }
       }
-    }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/admin.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+</head>
 
-    async function loadOrders() {
-      ordersBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-3">Loading orders...</td></tr>';
-      try {
-        const res = await Api.apiFetch(`/api/orders/admin?userId=${encodeURIComponent(userId)}`);
-        const data = await res.json();
-        const orders = Array.isArray(data) ? data : [];
+<body class="font-body text-slate-900">
+  <div class="flex min-h-screen">
+    <aside id="sidebar" class="sidebar-panel fixed inset-y-0 left-0 z-40 w-64">
+      <div class="flex h-full flex-col bg-slate-950 text-white">
+        <div class="px-6 py-6">
+          <a href="index.html" class="flex items-center gap-3">
+            <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo"
+              class="h-9 w-auto rounded-lg bg-transparent p-1" />
+            <div>
+              <p class="font-display text-lg leading-tight">Uniwave</p>
+              <p class="text-xs text-slate-400">Admin Console</p>
+            </div>
+          </a>
+        </div>
+        <nav class="flex-1 px-4">
+          <p class="px-3 text-xs uppercase tracking-[0.25em] text-slate-500">Dashboard</p>
+          <div class="mt-4 space-y-1">
+            <a href="index.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-speedometer2 text-base"></i>
+              Overview
+            </a>
+            <a href="blogs.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-journal-text text-base"></i>
+              Blog posts
+            </a>
+            <a href="customers.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl bg-white/10 px-3 py-2 text-sm font-medium text-white shadow-sm">
+              <i class="bi bi-people text-base"></i>
+              Customers
+            </a>
+            <a href="orders.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-truck text-base"></i>
+              Orders
+            </a>
+          </div>
+        </nav>
+        <div class="border-t border-slate-800 px-6 py-4 text-xs text-slate-400">
+          (c) 2025 Uniwave Logistics
+        </div>
+      </div>
+    </aside>
 
-        if (!orders.length) {
-          ordersBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-3">No orders.</td></tr>';
-          ordersSummary.textContent = "0 orders";
-          return;
+    <div id="sidebarBackdrop" class="fixed inset-0 z-30 hidden bg-slate-950/40 backdrop-blur-sm lg:hidden"></div>
+
+    <div class="flex min-h-screen flex-1 flex-col lg:pl-64">
+      <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/80 backdrop-blur">
+        <div class="flex flex-wrap items-center justify-between gap-4 px-6 py-4">
+          <div class="flex items-center gap-3">
+            <button id="toggleSidebarBtn" aria-expanded="false" aria-controls="sidebar"
+              class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 lg:hidden">
+              <i class="bi bi-list text-lg"></i>
+            </button>
+            <div>
+              <p class="text-xs uppercase tracking-[0.25em] text-slate-500">Accounts</p>
+              <h1 class="font-display text-xl">Customer profile</h1>
+            </div>
+          </div>
+          <a href="customers.html"
+            class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
+            <i class="bi bi-arrow-left"></i>
+            Back to customers
+          </a>
+        </div>
+      </header>
+
+      <main class="px-6 py-6">
+        <section class="animate-fade rounded-3xl border border-white/70 bg-white/85 p-6 shadow-soft">
+          <p class="text-xs uppercase tracking-[0.25em] text-teal-700">Customer</p>
+          <h2 class="mt-2 font-display text-2xl" id="customerName">Loading...</h2>
+          <p class="mt-2 text-sm text-slate-500" id="customerEmail"></p>
+        </section>
+
+        <div id="detailMessage"
+          class="mt-4 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
+          Loading...
+        </div>
+
+        <section class="mt-6 grid gap-6 lg:grid-cols-[1fr,2fr]">
+          <div class="animate-pop rounded-2xl border border-white/70 bg-white/85 p-6 shadow-soft">
+            <h3 class="font-display text-lg">Customer details</h3>
+            <div class="mt-4 space-y-4 text-sm text-slate-600">
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Phone</p>
+                <p class="mt-1 font-semibold text-slate-700" id="customerPhone">--</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Address</p>
+                <p class="mt-1 font-semibold text-slate-700" id="customerAddress">--</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Joined</p>
+                <p class="mt-1 font-semibold text-slate-700" id="customerCreated">--</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Tier</p>
+                <span
+                  class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600"
+                  id="customerTier">--</span>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Status</p>
+                <span id="customerStatus"
+                  class="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">Active</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="animate-pop rounded-2xl border border-white/70 bg-white/85 p-6 shadow-soft"
+            style="animation-delay:0.1s;">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h3 class="font-display text-lg">Recent orders</h3>
+                <p class="text-sm text-slate-500">Latest shipments for this customer.</p>
+              </div>
+              <span class="text-xs text-slate-400" id="ordersSummary"></span>
+            </div>
+            <div class="mt-4 overflow-x-auto">
+              <table class="min-w-full text-sm">
+                <thead class="bg-slate-50 text-xs uppercase tracking-widest text-slate-500">
+                  <tr>
+                    <th class="px-4 py-3 text-left">Order code</th>
+                    <th class="px-4 py-3 text-left">Created</th>
+                    <th class="px-4 py-3 text-left">Status</th>
+                    <th class="px-4 py-3 text-right">Price</th>
+                    <th class="px-4 py-3 text-right">View</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersTableBody" class="divide-y divide-slate-100 text-slate-700">
+                  <tr>
+                    <td colspan="5" class="px-4 py-5 text-center text-slate-400">Loading orders...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/admin.js"></script>
+  <script defer type="text/javascript" src="../js/api.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const Api = window.UniwaveApi || window.UniwaveAPI;
+      const params = new URLSearchParams(window.location.search);
+      const userId = params.get("id");
+
+      const messageEl = document.getElementById("detailMessage");
+      const nameEl = document.getElementById("customerName");
+      const emailEl = document.getElementById("customerEmail");
+      const phoneEl = document.getElementById("customerPhone");
+      const addressEl = document.getElementById("customerAddress");
+      const createdEl = document.getElementById("customerCreated");
+      const tierEl = document.getElementById("customerTier");
+      const statusEl = document.getElementById("customerStatus");
+      const ordersBody = document.getElementById("ordersTableBody");
+      const ordersSummary = document.getElementById("ordersSummary");
+
+      const STATUS_BADGE = {
+        Active: "inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700",
+        Inactive: "inline-flex items-center rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600"
+      };
+
+      if (!Api || typeof Api.apiFetch !== "function") {
+        setMessage("API client not available.", true);
+        return;
+      }
+
+      if (!userId) {
+        setMessage("Missing customer id.", true);
+        return;
+      }
+
+      if (typeof Api.getAccessToken === "function" && !Api.getAccessToken()) {
+        setMessage("Not authorized. Please log in.", true);
+        return;
+      }
+
+      function setMessage(text, isError = false) {
+        messageEl.textContent = text;
+        messageEl.className = isError
+          ? "mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
+          : "mt-4 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700";
+        messageEl.style.display = text ? "block" : "none";
+      }
+
+      function formatDate(value) {
+        const d = new Date(value);
+        if (Number.isNaN(d.getTime())) return "--";
+        return d.toLocaleString("vi-VN");
+      }
+
+      function formatMoney(value) {
+        if (value === null || value === undefined) return "--";
+        const num = Number(value);
+        if (Number.isNaN(num)) return value;
+        return num.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+      }
+
+      async function loadCustomer() {
+        setMessage("Loading...");
+        try {
+          const res = await Api.apiFetch(`/api/users/${encodeURIComponent(userId)}`);
+          const user = await res.json();
+          nameEl.textContent = user.fullName || user.FullName || "--";
+          emailEl.textContent = user.email || user.Email || "";
+          phoneEl.textContent = user.phoneNumber || user.PhoneNumber || "--";
+          addressEl.textContent = user.address || user.Address || "--";
+          createdEl.textContent = formatDate(user.createdAt || user.CreatedAt);
+          tierEl.textContent = user.tier || user.Tier || "Unknown";
+          const isActive = user.isActive ?? user.IsActive ?? true;
+          statusEl.textContent = isActive ? "Active" : "Inactive";
+          statusEl.className = isActive ? STATUS_BADGE.Active : STATUS_BADGE.Inactive;
+          setMessage("");
+        } catch (error) {
+          if (String(error?.message || "").includes("401") || String(error?.message || "").includes("403")) {
+            setMessage("Not authorized. Please log in.", true);
+          } else {
+            setMessage(error?.message || "Failed to load customer.", true);
+          }
         }
+      }
 
-        ordersSummary.textContent = `${orders.length} orders`;
+      async function loadOrders() {
+        ordersBody.innerHTML = '<tr><td colspan="5" class="px-4 py-5 text-center text-slate-400">Loading orders...</td></tr>';
+        try {
+          const res = await Api.apiFetch(`/api/orders/admin?userId=${encodeURIComponent(userId)}`);
+          const data = await res.json();
+          const orders = Array.isArray(data) ? data : [];
 
-        const fragment = document.createDocumentFragment();
-        orders.forEach((order) => {
-          const orderCode = order.orderCode || order.OrderCode || "";
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${orderCode}</td>
-            <td>${formatDate(order.createdAt || order.CreatedAt)}</td>
-            <td><span class="badge bg-light text-dark">${order.currentStatus || order.CurrentStatus || "Unknown"}</span></td>
-            <td class="text-end">${formatMoney(order.finalPrice ?? order.FinalPrice ?? order.estimatedPrice ?? order.EstimatedPrice)}</td>
-            <td class="text-end">
-              <a class="btn btn-sm btn-outline-primary" href="order-detail.html?id=${encodeURIComponent(order.id || order.Id || "")}&code=${encodeURIComponent(orderCode)}">View</a>
+          if (!orders.length) {
+            ordersBody.innerHTML = '<tr><td colspan="5" class="px-4 py-5 text-center text-slate-400">No orders.</td></tr>';
+            ordersSummary.textContent = "0 orders";
+            return;
+          }
+
+          ordersSummary.textContent = `${orders.length} orders`;
+
+          const fragment = document.createDocumentFragment();
+          orders.forEach((order) => {
+            const orderCode = order.orderCode || order.OrderCode || "";
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+            <td class="px-4 py-4 font-semibold text-slate-900">${orderCode}</td>
+            <td class="px-4 py-4">${formatDate(order.createdAt || order.CreatedAt)}</td>
+            <td class="px-4 py-4">
+              <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">${order.currentStatus || order.CurrentStatus || "Unknown"}</span>
+            </td>
+            <td class="px-4 py-4 text-right">${formatMoney(order.finalPrice ?? order.FinalPrice ?? order.estimatedPrice ?? order.EstimatedPrice)}</td>
+            <td class="px-4 py-4 text-right">
+              <a class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50" href="order-detail.html?id=${encodeURIComponent(order.id || order.Id || "")}&code=${encodeURIComponent(orderCode)}">View</a>
             </td>
           `;
-          fragment.appendChild(tr);
-        });
+            fragment.appendChild(tr);
+          });
 
-        ordersBody.innerHTML = "";
-        ordersBody.appendChild(fragment);
-      } catch (error) {
-        ordersBody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-3">${error?.message || "Failed to load orders."}</td></tr>`;
-        ordersSummary.textContent = "";
+          ordersBody.innerHTML = "";
+          ordersBody.appendChild(fragment);
+        } catch (error) {
+          ordersBody.innerHTML = `<tr><td colspan="5" class="px-4 py-5 text-center text-slate-400">${error?.message || "Failed to load orders."}</td></tr>`;
+          ordersSummary.textContent = "";
+        }
       }
-    }
 
-    loadCustomer();
-    loadOrders();
-  });
-</script>
+      loadCustomer();
+      loadOrders();
+    });
+  </script>
 </body>
+
 </html>

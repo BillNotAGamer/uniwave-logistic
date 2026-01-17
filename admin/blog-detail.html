@@ -1,96 +1,170 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-key="title">UNIWAVE LOGISTICS</title>
-    <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
-    <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
-    <link rel="stylesheet" href="../css/admin.css">
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons (dùng icon người) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-key="title">UNIWAVE LOGISTICS</title>
+  <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
+  <link rel="shortcut icon" href="../image/favicon/uniwave-favicon.png" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ["Space Grotesk", "sans-serif"],
+            body: ["Manrope", "sans-serif"]
+          },
+          boxShadow: {
+            soft: "0 18px 45px rgba(15, 23, 42, 0.12)"
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/admin.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
 </head>
-<body>
-<div class="layout-wrapper">
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <a href="index.html" class="sidebar-logo">
-            <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo" height="30">
-        </a>
+
+<body class="font-body text-slate-900">
+  <div class="flex min-h-screen">
+    <aside id="sidebar" class="sidebar-panel fixed inset-y-0 left-0 z-40 w-64">
+      <div class="flex h-full flex-col bg-slate-950 text-white">
+        <div class="px-6 py-6">
+          <a href="index.html" class="flex items-center gap-3">
+            <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo"
+              class="h-9 w-auto rounded-lg bg-transparentp p-1" />
+            <div>
+              <p class="font-display text-lg leading-tight">Uniwave</p>
+              <p class="text-xs text-slate-400">Admin Console</p>
+            </div>
+          </a>
+        </div>
+        <nav class="flex-1 px-4">
+          <p class="px-3 text-xs uppercase tracking-[0.25em] text-slate-500">Dashboard</p>
+          <div class="mt-4 space-y-1">
+            <a href="index.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-speedometer2 text-base"></i>
+              Overview
+            </a>
+            <a href="blogs.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl bg-white/10 px-3 py-2 text-sm font-medium text-white shadow-sm">
+              <i class="bi bi-journal-text text-base"></i>
+              Blog posts
+            </a>
+            <a href="customers.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-people text-base"></i>
+              Customers
+            </a>
+            <a href="orders.html" data-sidebar-link
+              class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+              <i class="bi bi-truck text-base"></i>
+              Orders
+            </a>
+          </div>
+        </nav>
+        <div class="border-t border-slate-800 px-6 py-4 text-xs text-slate-400">
+          (c) 2025 Uniwave Logistics
+        </div>
+      </div>
+    </aside>
+
+    <div id="sidebarBackdrop" class="fixed inset-0 z-30 hidden bg-slate-950/40 backdrop-blur-sm lg:hidden"></div>
+
+    <div class="flex min-h-screen flex-1 flex-col lg:pl-64">
+      <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/80 backdrop-blur">
+        <div class="flex flex-wrap items-center justify-between gap-4 px-6 py-4">
+          <div class="flex items-center gap-3">
+            <button id="toggleSidebarBtn" aria-expanded="false" aria-controls="sidebar"
+              class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 lg:hidden">
+              <i class="bi bi-list text-lg"></i>
+            </button>
+            <div>
+              <p class="text-xs uppercase tracking-[0.25em] text-slate-500">Content</p>
+              <h1 class="font-display text-xl">Blog details</h1>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <a href="blogs.html"
+              class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
+              <i class="bi bi-arrow-left"></i>
+              Back to posts
+            </a>
+            <a href="blog-edit.html"
+              class="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-4 py-2 text-sm font-semibold text-teal-700 transition hover:bg-teal-100">
+              <i class="bi bi-pencil"></i>
+              Edit post
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <main class="px-6 py-6">
+        <section class="animate-fade rounded-3xl border border-white/70 bg-white/85 p-6 shadow-soft">
+          <p class="text-xs uppercase tracking-[0.25em] text-teal-700">Logistics</p>
+          <h2 class="mt-2 font-display text-2xl">5 tips to optimize transport costs</h2>
+          <div class="mt-3 flex flex-wrap items-center gap-3 text-sm text-slate-500">
+            <span>Published Nov 25, 2025</span>
+            <span class="h-1 w-1 rounded-full bg-slate-300"></span>
+            <span>Author: Uniwave Team</span>
+            <span
+              class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">Published</span>
+          </div>
+        </section>
+
+        <section class="mt-6 grid gap-6 lg:grid-cols-[2fr,1fr]">
+          <div class="animate-pop rounded-2xl border border-white/70 bg-white/85 p-6 shadow-soft">
+            <h3 class="font-display text-lg">Article content</h3>
+            <p class="mt-4 text-sm text-slate-600">
+              Sample content: 5 tips to optimize transport costs for businesses of every size. This draft can be replaced
+              with real content from the backend once it is connected.
+            </p>
+            <p class="mt-4 text-sm text-slate-600">
+              Ensure to keep sections short, include bullet lists when helpful, and highlight key takeaways for faster
+              scanning by readers.
+            </p>
+          </div>
+
+          <div class="animate-pop rounded-2xl border border-white/70 bg-white/85 p-6 shadow-soft"
+            style="animation-delay:0.1s;">
+            <h3 class="font-display text-lg">Post summary</h3>
+            <div class="mt-4 space-y-3 text-sm text-slate-600">
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Status</p>
+                <p class="mt-1 font-semibold text-slate-700">Published</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Category</p>
+                <p class="mt-1 font-semibold text-slate-700">Logistics</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Reading time</p>
+                <p class="mt-1 font-semibold text-slate-700">4 minutes</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Last updated</p>
+                <p class="mt-1 font-semibold text-slate-700">Nov 26, 2025</p>
+              </div>
+            </div>
+            <div class="mt-5 rounded-2xl bg-slate-50 p-4 text-xs text-slate-500">
+              Tip: add supporting images and charts for better engagement.
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
-    <ul class="sidebar-nav mt-2">
-      <li><a href="index.html"><i class="bi bi-speedometer2"></i><span>Tổng quan</span></a></li>
-      <li><a href="blogs.html" class="active"><i class="bi bi-journal-text"></i><span>Quản lý Blog</span></a></li>
-      <li><a href="customers.html"><i class="bi bi-people"></i><span>Quản lý người dùng</span></a></li>
-    </ul>
-    <div class="sidebar-footer">© 2025 Uniwave</div>
-  </aside>
-
-  <div class="main-content">
-    <header class="main-header">
-      <div class="logo-text"><span>Uniwave</span> Dashboard</div>
-      <div class="d-flex align-items-center gap-3">
-        <button class="btn btn-outline-secondary d-md-none" id="toggleSidebarBtn">
-          <i class="bi bi-list"></i>
-        </button>
-        <div class="dropdown">
-          <button class="btn btn-light border-0 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle fs-5"></i>
-            <span class="d-none d-sm-inline">Admin</span>
-            <i class="bi bi-caret-down-fill small d-none d-sm-inline"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Hồ sơ Admin</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="#">Đăng xuất</a></li>
-          </ul>
-        </div>
-      </div>
-    </header>
-
-    <main class="content-wrapper">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-          <h5 class="mb-1">5 tips tối ưu chi phí vận chuyển</h5>
-          <div class="text-muted small">
-            Logistics · 25/11/2025 · Đã xuất bản
-          </div>
-        </div>
-        <div class="d-flex gap-2">
-          <a href="blogs.html" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-arrow-left"></i> Danh sách
-          </a>
-          <a href="blog-edit.html" class="btn btn-outline-primary btn-sm">
-            <i class="bi bi-pencil"></i> Sửa
-          </a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-body">
-          <div class="mb-2">
-            <span class="badge bg-light text-dark">Logistics</span>
-          </div>
-          <p class="text-muted small mb-3">
-            Viết bởi Uniwave Team
-          </p>
-          <p>
-            Nội dung demo: 5 tips tối ưu chi phí vận chuyển cho doanh nghiệp vừa và nhỏ...
-          </p>
-          <p>
-            Bạn có thể thay thế nội dung này bằng nội dung thật từ hệ thống backend sau này.
-          </p>
-        </div>
-      </div>
-    </main>
   </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/admin.js"></script>
-<script defer type="text/javascript" src="js/api.js"></script>
+  <script src="../js/admin.js"></script>
+  <script defer type="text/javascript" src="../js/api.js"></script>
 </body>
+
 </html>
