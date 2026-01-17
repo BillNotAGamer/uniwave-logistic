@@ -156,3 +156,42 @@ body {
     z-index: 1020;
   }
 }
+
+/* Responsive admin sidebar */
+.sidebar-panel {
+  transition: transform 0.25s ease;
+  will-change: transform;
+}
+
+@media (max-width: 1023.98px) {
+  .sidebar-panel {
+    transform: translateX(-100%);
+  }
+
+  .sidebar-panel.show {
+    transform: translateX(0);
+  }
+
+  body.sidebar-open {
+    overflow: hidden;
+  }
+
+  #sidebarBackdrop {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  #sidebarBackdrop.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar-panel {
+    transform: translateX(0);
+  }
+}

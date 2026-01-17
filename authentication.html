@@ -699,6 +699,54 @@
       const errorBox = document.getElementById("login-error-message");
       const defaultButtonText = submitButton ? submitButton.textContent : "";
 
+      const normalizeRoles = (rawRoles) => {
+        if (!rawRoles) return [];
+        if (Array.isArray(rawRoles)) {
+          return rawRoles.map((role) => String(role)).filter(Boolean);
+        }
+        if (typeof rawRoles === "string") {
+          return rawRoles
+            .split(",")
+            .map((role) => role.trim())
+            .filter(Boolean);
+        }
+        return [];
+      };
+
+      const normalizeRedirect = (rawValue) => {
+        if (!rawValue) return "";
+        const value = rawValue.trim();
+        if (!value || value.includes("://") || value.startsWith("//")) {
+          return "";
+        }
+        const normalized = value.startsWith("/") ? value : `/${value}`;
+        const pathOnly = normalized.split(/[?#]/)[0];
+        const isAdminPage =
+          pathOnly.startsWith("/admin/") && pathOnly.endsWith(".html");
+        const isUserDashboard =
+          pathOnly === "/user-dashboard" || pathOnly === "/user-dashboard.html";
+        if (isAdminPage || isUserDashboard) {
+          return normalized;
+        }
+        return "";
+      };
+
+      const resolveRedirectTarget = (roles) => {
+        const params = new URLSearchParams(window.location.search);
+        const requested = normalizeRedirect(params.get("redirect"));
+        if (requested) {
+          return requested;
+        }
+        const lowerRoles = roles.map((role) => String(role).toLowerCase());
+        if (lowerRoles.includes("admin")) {
+          return "/admin/index.html";
+        }
+        if (lowerRoles.includes("contenteditor")) {
+          return "/admin/blogs.html";
+        }
+        return "/user-dashboard";
+      };
+
       const showError = (message) => {
         if (!errorBox) return;
         errorBox.textContent = message || "";
@@ -740,13 +788,16 @@
             throw new Error("Không nhận được access token từ máy chủ.");
           }
 
+          const roles = normalizeRoles(result.roles || result.Roles);
+
           UniwaveAPI.setAuthTokens({
             accessToken: result.accessToken,
             refreshToken: result.refreshToken,
             expiresAt,
+            roles
           });
 
-          window.location.href = "user-dashboard.html";
+          window.location.href = resolveRedirectTarget(roles);
         } catch (error) {
           showError(
             (error && error.message) ||

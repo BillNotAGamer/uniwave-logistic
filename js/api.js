@@ -10,6 +10,7 @@ const BASE_API_URL = window.API_BASE_URL || "https://localhost:7258/";
 const ACCESS_TOKEN_KEY = "uniwave_access_token";
 const REFRESH_TOKEN_KEY = "uniwave_refresh_token";
 const EXPIRES_AT_KEY = "uniwave_token_expires_at";
+const ROLES_KEY = "uniwave_roles";
 
 // Retrieve the stored JWT access token (or null if missing).
 function getAccessToken() {
@@ -21,13 +22,68 @@ function getAccessToken() {
   }
 }
 
+function normalizeRoles(rawRoles) {
+  if (!rawRoles) {
+    return [];
+  }
+
+  if (Array.isArray(rawRoles)) {
+    return rawRoles.map((role) => String(role)).filter(Boolean);
+  }
+
+  if (typeof rawRoles === "string") {
+    return rawRoles
+      .split(",")
+      .map((role) => role.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+}
+
+function getRoles() {
+  try {
+    const stored = localStorage.getItem(ROLES_KEY);
+    if (!stored) {
+      return [];
+    }
+    const parsed = JSON.parse(stored);
+    return normalizeRoles(parsed);
+  } catch (error) {
+    console.warn("Unable to read roles from localStorage", error);
+    return [];
+  }
+}
+
+function hasRole(role) {
+  if (!role) return false;
+  const target = String(role).toLowerCase();
+  return getRoles().some((item) => String(item).toLowerCase() === target);
+}
+
+function isAdmin() {
+  return hasRole("Admin");
+}
+
+function isContentEditor() {
+  return hasRole("ContentEditor");
+}
+
 // Persist tokens and expiration info in localStorage.
-function setAuthTokens({ accessToken, refreshToken, expiresAt } = {}) {
+function setAuthTokens({ accessToken, refreshToken, expiresAt, roles } = {}) {
   try {
     localStorage.setItem(ACCESS_TOKEN_KEY, accessToken || "");
     localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken || "");
     if (expiresAt) {
       localStorage.setItem(EXPIRES_AT_KEY, expiresAt);
+    }
+    if (roles !== undefined) {
+      const normalizedRoles = normalizeRoles(roles);
+      if (normalizedRoles.length) {
+        localStorage.setItem(ROLES_KEY, JSON.stringify(normalizedRoles));
+      } else {
+        localStorage.removeItem(ROLES_KEY);
+      }
     }
   } catch (error) {
     console.error("Unable to save auth tokens to localStorage", error);
@@ -40,6 +96,7 @@ function clearAuthTokens() {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
     localStorage.removeItem(EXPIRES_AT_KEY);
+    localStorage.removeItem(ROLES_KEY);
   } catch (error) {
     console.error("Unable to clear auth tokens from localStorage", error);
   }
@@ -121,7 +178,13 @@ function setupProfileMenu() {
   const bodyEl = document.body;
 
   if (hasToken) {
-    profileLink.setAttribute("href", "/user-dashboard");
+    if (isAdmin()) {
+      profileLink.setAttribute("href", "/admin/index.html");
+    } else if (isContentEditor()) {
+      profileLink.setAttribute("href", "/admin/blogs.html");
+    } else {
+      profileLink.setAttribute("href", "/user-dashboard");
+    }
     if (bodyEl) bodyEl.classList.add("logged-in");
   } else {
     profileLink.setAttribute("href", "/vi/authentication");
@@ -141,6 +204,10 @@ window.UniwaveAPI = {
   BASE_API_URL,
   apiFetch,
   getAccessToken,
+  getRoles,
+  hasRole,
+  isAdmin,
+  isContentEditor,
   setAuthTokens,
   clearAuthTokens,
   setupProfileMenu
