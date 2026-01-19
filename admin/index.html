@@ -259,15 +259,7 @@
       const lastUpdatedEl = document.getElementById("dashboardLastUpdated");
       const recentOrdersBody = document.getElementById("dashboardRecentOrdersBody");
       const recentOrdersLabel = document.getElementById("dashboardRecentOrdersLabel");
-      const signOutLink = document.getElementById("signOutLink");
-
-      if (signOutLink) {
-        signOutLink.addEventListener("click", () => {
-          Api.clearAuthTokens();
-          window.location.href = "/en/authentication";
-        });
-      }
-
+      
       if (!Api || typeof Api.apiFetch !== "function") {
         if (lastUpdatedEl) lastUpdatedEl.textContent = "API client not available.";
         return;
