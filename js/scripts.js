@@ -39,6 +39,218 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
+/**************************************
+ * HEADER SEARCH NAVIGATION (STATIC)
+ **************************************/
+document.addEventListener("DOMContentLoaded", () => {
+  const pages = [
+    { title: "Home", path: "/en", keywords: ["home", "homepage", "start"] },
+    { title: "About Us", path: "/en/introduce", keywords: ["about", "introduce", "company"] },
+    { title: "Services", path: "/en/services", keywords: ["services", "service", "logistics"] },
+    { title: "Domestic Delivery", path: "/en/domestic-delivery-service", keywords: ["domestic", "delivery", "local"] },
+    { title: "International Services", path: "/en/international-services", keywords: ["international", "global", "overseas"] },
+    { title: "Tracking Shipment", path: "/en/tracking-shipment", keywords: ["tracking", "shipment", "track"] },
+    { title: "Price Check", path: "/en/price-check", keywords: ["price", "pricing", "quote"] },
+    { title: "Contact", path: "/en/contact", keywords: ["contact", "support", "help"] },
+    { title: "Authentication", path: "/en/authentication", keywords: ["login", "sign in", "register"] },
+    { title: "User Dashboard", path: "/en/user-dashboard", keywords: ["dashboard", "account", "profile"] },
+    { title: "Trang chu", path: "/vi", keywords: ["trang chu", "home", "homepage"] },
+    { title: "Gioi thieu", path: "/vi/introduce", keywords: ["gioi thieu", "about", "company"] },
+    { title: "Dich vu", path: "/vi/services", keywords: ["dich vu", "services", "logistics"] },
+    { title: "Van chuyen noi dia", path: "/vi/domestic-delivery-service", keywords: ["noi dia", "domestic", "delivery"] },
+    { title: "Dich vu quoc te", path: "/vi/international-services", keywords: ["quoc te", "international", "global"] },
+    { title: "Theo doi don hang", path: "/vi/tracking-shipment", keywords: ["theo doi", "tracking", "don hang"] },
+    { title: "Bao gia", path: "/vi/price-check", keywords: ["bao gia", "price", "quote"] },
+    { title: "Lien he", path: "/vi/contact", keywords: ["lien he", "contact", "support"] },
+    { title: "Dang nhap", path: "/vi/authentication", keywords: ["dang nhap", "login", "register"] },
+    { title: "Tai khoan", path: "/vi/user-dashboard", keywords: ["tai khoan", "dashboard", "account"] }
+  ];
+
+  const searchBars = document.querySelectorAll(".search-bar");
+  if (!searchBars.length) return;
+
+  const normalize = (value) => (value || "").toLowerCase().trim();
+  const filterPages = (term) => {
+    if (!term) return pages.slice();
+    return pages.filter((page) => {
+      const titleMatch = normalize(page.title).includes(term);
+      const keywordMatch = (page.keywords || []).some((keyword) =>
+        normalize(keyword).includes(term)
+      );
+      return titleMatch || keywordMatch;
+    });
+  };
+
+  searchBars.forEach((searchBar) => {
+    const input = searchBar.querySelector("input");
+    const closeButton = searchBar.querySelector(".close-search");
+    const icon = searchBar.querySelector(".search-icon") || searchBar.querySelector("img");
+
+    if (!input || !closeButton || !icon) return;
+
+    icon.classList.add("search-icon");
+    input.setAttribute("autocomplete", "off");
+    input.setAttribute("aria-autocomplete", "list");
+    input.setAttribute("aria-expanded", "false");
+
+    let dropdown = searchBar.querySelector(".search-dropdown");
+    if (!dropdown) {
+      dropdown = document.createElement("div");
+      dropdown.className = "search-dropdown";
+      dropdown.setAttribute("role", "listbox");
+      dropdown.setAttribute("aria-label", "Search suggestions");
+      searchBar.appendChild(dropdown);
+    }
+
+    let activeIndex = -1;
+    let currentResults = [];
+
+    const positionDropdown = () => {
+      const left = input.offsetLeft;
+      const width = input.offsetWidth;
+      dropdown.style.left = `${left}px`;
+      dropdown.style.width = `${width}px`;
+      dropdown.style.right = "auto";
+    };
+
+    const renderSuggestions = () => {
+      const term = normalize(input.value);
+      currentResults = filterPages(term);
+      dropdown.innerHTML = "";
+      activeIndex = -1;
+
+      if (!currentResults.length) {
+        const empty = document.createElement("div");
+        empty.className = "search-empty";
+        empty.textContent = "No pages found";
+        dropdown.appendChild(empty);
+        positionDropdown();
+        return;
+      }
+
+      currentResults.forEach((page, index) => {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "search-suggestion";
+        item.setAttribute("role", "option");
+        item.setAttribute("data-index", String(index));
+
+        const title = document.createElement("span");
+        title.className = "search-suggestion-title";
+        title.textContent = page.title;
+
+        const path = document.createElement("span");
+        path.className = "search-suggestion-path";
+        path.textContent = page.path;
+
+        item.append(title, path);
+        item.addEventListener("click", () => navigateTo(page));
+        dropdown.appendChild(item);
+      });
+
+      positionDropdown();
+    };
+
+    const setActiveIndex = (nextIndex) => {
+      if (!currentResults.length) return;
+
+      const maxIndex = currentResults.length - 1;
+      if (nextIndex < 0) {
+        activeIndex = maxIndex;
+      } else if (nextIndex > maxIndex) {
+        activeIndex = 0;
+      } else {
+        activeIndex = nextIndex;
+      }
+
+      dropdown.querySelectorAll(".search-suggestion").forEach((item, index) => {
+        const isActive = index === activeIndex;
+        item.classList.toggle("is-active", isActive);
+        item.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+    };
+
+    const openSearch = () => {
+      searchBar.classList.add("active");
+      input.setAttribute("aria-expanded", "true");
+      input.focus();
+      renderSuggestions();
+    };
+
+    const closeSearch = () => {
+      searchBar.classList.remove("active");
+      input.setAttribute("aria-expanded", "false");
+      input.value = "";
+      dropdown.innerHTML = "";
+      activeIndex = -1;
+      currentResults = [];
+    };
+
+    const navigateTo = (page) => {
+      if (!page || !page.path) return;
+      closeSearch();
+      window.location.href = page.path;
+    };
+
+    icon.addEventListener("click", (event) => {
+      event.preventDefault();
+      openSearch();
+    });
+
+    input.addEventListener("input", () => {
+      if (!searchBar.classList.contains("active")) return;
+      renderSuggestions();
+    });
+
+    input.addEventListener("keydown", (event) => {
+      if (!searchBar.classList.contains("active")) return;
+
+      if (event.key === "ArrowDown") {
+        if (!currentResults.length) return;
+        event.preventDefault();
+        setActiveIndex(activeIndex + 1);
+        return;
+      }
+
+      if (event.key === "ArrowUp") {
+        if (!currentResults.length) return;
+        event.preventDefault();
+        setActiveIndex(activeIndex - 1);
+        return;
+      }
+
+      if (event.key === "Enter") {
+        if (!currentResults.length) return;
+        event.preventDefault();
+        const targetIndex = activeIndex >= 0 ? activeIndex : 0;
+        navigateTo(currentResults[targetIndex]);
+        return;
+      }
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeSearch();
+      }
+    });
+
+    closeButton.addEventListener("click", () => {
+      closeSearch();
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!searchBar.contains(event.target)) {
+        closeSearch();
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (searchBar.classList.contains("active")) {
+        positionDropdown();
+      }
+    });
+  });
+});
+
 
 // Script cho mở rộng sub-menu trên mobile
 document.addEventListener('DOMContentLoaded', () => {

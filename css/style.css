@@ -671,7 +671,8 @@ video {
   height: 30px;
 }
 
-.search-bar.open {
+.search-bar.open,
+.search-bar.active {
   border-width: 1px;
   border-color: var(--color-gray-300);
   width: 300px;
@@ -687,6 +688,8 @@ video {
   outline-offset: 2px;
 }
 
+.search-bar.open input,
+.search-bar.active input,
 .search-bar input.visible {
   display: block;
   color: #000;
@@ -699,8 +702,63 @@ video {
   display: none;
 }
 
+.search-bar.open .close-search,
+.search-bar.active .close-search,
 .search-bar .close-search.visible {
   display: block;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  display: none;
+  padding: 6px 0;
+  max-height: 280px;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  z-index: 20;
+}
+
+.search-bar.open .search-dropdown,
+.search-bar.active .search-dropdown {
+  display: block;
+}
+
+.search-suggestion {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 8px 12px;
+  border: 0;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+}
+
+.search-suggestion:hover,
+.search-suggestion.is-active {
+  background: #f1f5f9;
+}
+
+.search-suggestion-title {
+  font-weight: 600;
+  color: #111827;
+}
+
+.search-suggestion-path {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.search-empty {
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  color: #6b7280;
 }
 
 .profile-menu > img {
@@ -1066,7 +1124,8 @@ video {
     padding-left: 1rem;
   }
 
-  .search-bar {
+  .search-bar.open,
+  .search-bar.active {
     border-style: none;
     width: 100%;
     padding: 5px;
