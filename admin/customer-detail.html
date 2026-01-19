@@ -193,6 +193,19 @@
       const statusEl = document.getElementById("customerStatus");
       const ordersBody = document.getElementById("ordersTableBody");
       const ordersSummary = document.getElementById("ordersSummary");
+      const DELIVERY_STATUS_LABELS = {
+        0: "Draft",
+        1: "CarrierReceived",
+        2: "InTransit",
+        3: "Delivered",
+        4: "DeliveryFailed",
+        5: "Cancelled"
+      };
+      const TIER_LABELS = {
+        0: "Bronze",
+        1: "Silver",
+        2: "Gold"
+      };
 
       const STATUS_BADGE = {
         Active: "inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700",
@@ -235,20 +248,43 @@
         return num.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
       }
 
+      function formatTier(value) {
+        if (value === null || value === undefined) return "Unknown";
+        if (typeof value === "number") return TIER_LABELS[value] || String(value);
+        const trimmed = String(value).trim();
+        if (/^\d+$/.test(trimmed)) {
+          return TIER_LABELS[Number(trimmed)] || trimmed;
+        }
+        return trimmed;
+      }
+
+      function formatDeliveryStatus(value) {
+        if (value === null || value === undefined) return "Unknown";
+        if (typeof value === "number") return DELIVERY_STATUS_LABELS[value] || String(value);
+        const trimmed = String(value).trim();
+        if (/^\d+$/.test(trimmed)) {
+          return DELIVERY_STATUS_LABELS[Number(trimmed)] || trimmed;
+        }
+        return trimmed;
+      }
+
       async function loadCustomer() {
         setMessage("Loading...");
+        ordersBody.innerHTML = '<tr><td colspan="5" class="px-4 py-5 text-center text-slate-400">Loading orders...</td></tr>';
+        ordersSummary.textContent = "";
         try {
-          const res = await Api.apiFetch(`/api/users/${encodeURIComponent(userId)}`);
+          const res = await Api.apiFetch(`/api/admin/customers/${encodeURIComponent(userId)}`);
           const user = await res.json();
           nameEl.textContent = user.fullName || user.FullName || "--";
           emailEl.textContent = user.email || user.Email || "";
           phoneEl.textContent = user.phoneNumber || user.PhoneNumber || "--";
           addressEl.textContent = user.address || user.Address || "--";
           createdEl.textContent = formatDate(user.createdAt || user.CreatedAt);
-          tierEl.textContent = user.tier || user.Tier || "Unknown";
+          tierEl.textContent = formatTier(user.tier ?? user.Tier);
           const isActive = user.isActive ?? user.IsActive ?? true;
           statusEl.textContent = isActive ? "Active" : "Inactive";
           statusEl.className = isActive ? STATUS_BADGE.Active : STATUS_BADGE.Inactive;
+          renderOrders(user?.orders || user?.Orders || []);
           setMessage("");
         } catch (error) {
           if (String(error?.message || "").includes("401") || String(error?.message || "").includes("403")) {
@@ -256,52 +292,45 @@
           } else {
             setMessage(error?.message || "Failed to load customer.", true);
           }
+          renderOrders([]);
         }
       }
 
-      async function loadOrders() {
-        ordersBody.innerHTML = '<tr><td colspan="5" class="px-4 py-5 text-center text-slate-400">Loading orders...</td></tr>';
-        try {
-          const res = await Api.apiFetch(`/api/orders/admin?userId=${encodeURIComponent(userId)}`);
-          const data = await res.json();
-          const orders = Array.isArray(data) ? data : [];
+      function renderOrders(orders) {
+        const list = Array.isArray(orders) ? orders : [];
+        if (!list.length) {
+          ordersBody.innerHTML = '<tr><td colspan="5" class="px-4 py-5 text-center text-slate-400">No orders.</td></tr>';
+          ordersSummary.textContent = "0 orders";
+          return;
+        }
 
-          if (!orders.length) {
-            ordersBody.innerHTML = '<tr><td colspan="5" class="px-4 py-5 text-center text-slate-400">No orders.</td></tr>';
-            ordersSummary.textContent = "0 orders";
-            return;
-          }
+        ordersSummary.textContent = `${list.length} orders`;
 
-          ordersSummary.textContent = `${orders.length} orders`;
-
-          const fragment = document.createDocumentFragment();
-          orders.forEach((order) => {
-            const orderCode = order.orderCode || order.OrderCode || "";
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
+        const fragment = document.createDocumentFragment();
+        list.forEach((order) => {
+          const orderId = order.id || order.Id || "";
+          const orderCode = order.orderCode || order.OrderCode || "";
+          const statusLabel = formatDeliveryStatus(order.deliveryStatus ?? order.DeliveryStatus);
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
             <td class="px-4 py-4 font-semibold text-slate-900">${orderCode}</td>
             <td class="px-4 py-4">${formatDate(order.createdAt || order.CreatedAt)}</td>
             <td class="px-4 py-4">
-              <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">${order.currentStatus || order.CurrentStatus || "Unknown"}</span>
+              <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">${statusLabel}</span>
             </td>
             <td class="px-4 py-4 text-right">${formatMoney(order.finalPrice ?? order.FinalPrice ?? order.estimatedPrice ?? order.EstimatedPrice)}</td>
             <td class="px-4 py-4 text-right">
-              <a class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50" href="order-detail.html?id=${encodeURIComponent(order.id || order.Id || "")}&code=${encodeURIComponent(orderCode)}">View</a>
+              <a class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50" href="order-detail.html?id=${encodeURIComponent(orderId)}">View</a>
             </td>
           `;
-            fragment.appendChild(tr);
-          });
+          fragment.appendChild(tr);
+        });
 
-          ordersBody.innerHTML = "";
-          ordersBody.appendChild(fragment);
-        } catch (error) {
-          ordersBody.innerHTML = `<tr><td colspan="5" class="px-4 py-5 text-center text-slate-400">${error?.message || "Failed to load orders."}</td></tr>`;
-          ordersSummary.textContent = "";
-        }
+        ordersBody.innerHTML = "";
+        ordersBody.appendChild(fragment);
       }
 
       loadCustomer();
-      loadOrders();
     });
   </script>
 </body>

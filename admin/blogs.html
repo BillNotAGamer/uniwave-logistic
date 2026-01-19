@@ -195,6 +195,11 @@
       let currentSearch = "";
       let hasTotalHeader = false;
       let searchTimer;
+      const STATUS_LABELS = {
+        0: "Draft",
+        1: "Published",
+        2: "Deleted"
+      };
 
       if (!tableBody) {
         console.error("Blog table not found.");
@@ -226,6 +231,21 @@
         return date.toLocaleString("vi-VN");
       }
 
+      function normalizeStatus(value) {
+        if (value === null || value === undefined) {
+          return "Unknown";
+        }
+        if (typeof value === "number") {
+          return STATUS_LABELS[value] || String(value);
+        }
+        const trimmed = String(value).trim();
+        if (/^\d+$/.test(trimmed)) {
+          const mapped = STATUS_LABELS[Number(trimmed)];
+          return mapped || trimmed;
+        }
+        return trimmed;
+      }
+
       function renderRows(items) {
         if (!items || items.length === 0) {
           setTableMessage("No blogs found.");
@@ -237,7 +257,7 @@
         items.forEach((blog) => {
           const id = blog.id ?? "";
           const encodedId = id === "" ? "" : encodeURIComponent(id);
-          const statusText = blog.status || "Unknown";
+          const statusText = normalizeStatus(blog.status ?? blog.Status);
           const normalizedStatus = statusText.toString().toLowerCase();
           const isPublished = normalizedStatus === "published";
           const badgeClass = isPublished
@@ -251,7 +271,7 @@
           <td class="px-6 py-4"><span class="${badgeClass}">${escapeHtml(statusText)}</span></td>
           <td class="px-6 py-4">${formatDate(blog.createdAt)}</td>
           <td class="px-6 py-4">${formatDate(blog.publishedAt)}</td>
-          <td class="px-6 py-4">${escapeHtml(blog.author || blog.authorName || "")}</td>
+          <td class="px-6 py-4">${escapeHtml(blog.authorName || blog.author || "")}</td>
           <td class="px-6 py-4 text-right">
             <div class="flex flex-wrap justify-end gap-2">
               <a class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50" href="blog-detail.html?id=${encodedId}">View</a>
@@ -315,7 +335,12 @@
           renderRows(Array.isArray(blogs) ? blogs : []);
           renderPagination(totalCount);
         } catch (error) {
-          setTableMessage(error.message || "Failed to load blogs.");
+          const message = String(error?.message || "");
+          if (message.includes("401") || message.includes("403")) {
+            setTableMessage("Not authorized. Please log in.");
+          } else {
+            setTableMessage(message || "Failed to load blogs.");
+          }
         }
       }
 
@@ -327,7 +352,12 @@
           await apiClient.apiFetch(`/api/admin/blogs/${encodeURIComponent(blogId)}`, { method: "DELETE" });
           await loadBlogs(currentPage);
         } catch (error) {
-          alert(error.message || "Failed to delete the blog post.");
+          const message = String(error?.message || "");
+          if (message.includes("401") || message.includes("403")) {
+            alert("Not authorized. Please log in.");
+          } else {
+            alert(message || "Failed to delete the blog post.");
+          }
         }
       }
 

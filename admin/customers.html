@@ -187,6 +187,11 @@
       let currentSearch = "";
       let hasTotalHeader = false;
       let searchTimer;
+      const TIER_LABELS = {
+        0: "Bronze",
+        1: "Silver",
+        2: "Gold"
+      };
 
       if (!tbody) return;
 
@@ -210,6 +215,16 @@
         return d.toLocaleString("vi-VN");
       }
 
+      function formatTier(value) {
+        if (value === null || value === undefined) return "Unknown";
+        if (typeof value === "number") return TIER_LABELS[value] || String(value);
+        const trimmed = String(value).trim();
+        if (/^\d+$/.test(trimmed)) {
+          return TIER_LABELS[Number(trimmed)] || trimmed;
+        }
+        return trimmed;
+      }
+
       function renderRows(users) {
         if (!users || users.length === 0) {
           setMessage("No customers found.");
@@ -225,7 +240,7 @@
           <td class="px-6 py-4">${user.email || user.Email || "--"}</td>
           <td class="px-6 py-4">${user.phoneNumber || user.PhoneNumber || "--"}</td>
           <td class="px-6 py-4">
-            <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">${user.tier || user.Tier || "Unknown"}</span>
+            <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">${formatTier(user.tier ?? user.Tier)}</span>
           </td>
           <td class="px-6 py-4">${formatDate(user.createdAt || user.CreatedAt)}</td>
           <td class="px-6 py-4 text-right">
@@ -269,7 +284,7 @@
         setMessage("Loading...");
 
         try {
-          const res = await Api.apiFetch(`/api/users?${query.toString()}`);
+          const res = await Api.apiFetch(`/api/admin/customers?${query.toString()}`);
           const data = await res.json();
           const totalHeader = res.headers.get("X-Total-Count");
           hasTotalHeader = totalHeader !== null;

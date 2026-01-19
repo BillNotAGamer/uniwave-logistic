@@ -101,7 +101,7 @@
       </header>
 
       <main class="px-6 py-6">
-        <form class="space-y-6">
+        <form class="space-y-6" id="blogCreateForm">
           <section class="animate-fade rounded-3xl border border-white/70 bg-white/85 p-6 shadow-soft">
             <div>
               <p class="text-xs uppercase tracking-[0.25em] text-teal-700">Draft</p>
@@ -118,18 +118,21 @@
                   <div>
                     <label class="text-xs uppercase tracking-[0.2em] text-slate-500">Title</label>
                     <input type="text"
+                      id="blogTitleInput"
                       class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
                       placeholder="Enter a strong headline" />
                   </div>
                   <div>
                     <label class="text-xs uppercase tracking-[0.2em] text-slate-500">Short summary</label>
                     <textarea rows="3"
+                      id="blogSummaryInput"
                       class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
                       placeholder="Write a concise summary for the hero section."></textarea>
                   </div>
                   <div>
                     <label class="text-xs uppercase tracking-[0.2em] text-slate-500">Body</label>
                     <textarea rows="10"
+                      id="blogContentInput"
                       class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
                       placeholder="Start writing your content here..."></textarea>
                   </div>
@@ -145,6 +148,7 @@
                   <div>
                     <label class="text-xs uppercase tracking-[0.2em] text-slate-500">Category</label>
                     <select
+                      id="blogCategorySelect"
                       class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-700 focus:border-teal-500 focus:ring-2 focus:ring-teal-200">
                       <option>Logistics</option>
                       <option>Guides</option>
@@ -155,14 +159,16 @@
                   <div>
                     <label class="text-xs uppercase tracking-[0.2em] text-slate-500">Status</label>
                     <select
+                      id="blogStatusSelect"
                       class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-700 focus:border-teal-500 focus:ring-2 focus:ring-teal-200">
-                      <option value="published">Published</option>
-                      <option value="draft">Draft</option>
+                      <option value="1">Published</option>
+                      <option value="0" selected>Draft</option>
                     </select>
                   </div>
                   <div>
                     <label class="text-xs uppercase tracking-[0.2em] text-slate-500">Publish date</label>
                     <input type="date"
+                      id="blogPublishDateInput"
                       class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-700 focus:border-teal-500 focus:ring-2 focus:ring-teal-200" />
                   </div>
                 </div>
@@ -172,8 +178,11 @@
                 style="animation-delay:0.12s;">
                 <h3 class="font-display text-lg">Actions</h3>
                 <p class="mt-2 text-sm text-slate-500">Save changes or return to the blog list.</p>
+                <div id="blogCreateMessage"
+                  class="mt-4 hidden rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                </div>
                 <div class="mt-4 space-y-3">
-                  <button type="submit"
+                  <button type="submit" id="blogCreateSubmitBtn"
                     class="w-full rounded-full bg-teal-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-teal-500/30 transition hover:bg-teal-700">
                     <i class="bi bi-save"></i>
                     Save post
@@ -193,6 +202,86 @@
 
   <script src="../js/admin.js"></script>
   <script defer type="text/javascript" src="../js/api.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const Api = window.UniwaveApi || window.UniwaveAPI;
+      const form = document.getElementById("blogCreateForm");
+      const titleInput = document.getElementById("blogTitleInput");
+      const summaryInput = document.getElementById("blogSummaryInput");
+      const contentInput = document.getElementById("blogContentInput");
+      const statusSelect = document.getElementById("blogStatusSelect");
+      const messageEl = document.getElementById("blogCreateMessage");
+      const submitBtn = document.getElementById("blogCreateSubmitBtn");
+
+      if (!form) return;
+
+      const setMessage = (text, isError = false) => {
+        if (!messageEl) return;
+        messageEl.textContent = text || "";
+        messageEl.className = isError
+          ? "mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
+          : "mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700";
+        messageEl.style.display = text ? "block" : "none";
+      };
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        setMessage("");
+
+        if (!Api || typeof Api.apiFetch !== "function") {
+          setMessage("API client not available.", true);
+          return;
+        }
+
+        const title = titleInput?.value?.trim() || "";
+        const summary = summaryInput?.value?.trim() || "";
+        const contentHtml = contentInput?.value?.trim() || "";
+        const statusValue = statusSelect?.value || "0";
+
+        if (!title || !contentHtml) {
+          setMessage("Title and body are required.", true);
+          return;
+        }
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Saving...";
+        }
+
+        try {
+          const res = await Api.apiFetch("/api/admin/blogs", {
+            method: "POST",
+            body: {
+              title,
+              summary: summary || null,
+              contentHtml,
+              status: Number(statusValue)
+            }
+          });
+          const data = await res.json();
+          const blogId = data?.id ?? data?.Id;
+          setMessage("Blog post created successfully.");
+          if (blogId) {
+            window.location.href = `blog-detail.html?id=${encodeURIComponent(blogId)}`;
+          } else {
+            form.reset();
+          }
+        } catch (error) {
+          const message = String(error?.message || "");
+          if (message.includes("401") || message.includes("403")) {
+            setMessage("Not authorized. Please log in.", true);
+          } else {
+            setMessage(message || "Failed to create blog post.", true);
+          }
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Save post";
+          }
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>

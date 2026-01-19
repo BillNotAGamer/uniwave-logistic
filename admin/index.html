@@ -136,11 +136,11 @@
                 <i class="bi bi-download"></i>
                 Export
               </button>
-              <button
+              <a href="order-create.html"
                 class="inline-flex items-center gap-2 rounded-full bg-teal-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-teal-500/30 transition hover:bg-teal-700">
                 <i class="bi bi-plus-circle"></i>
                 New order
-              </button>
+              </a>
             </div>
           </div>
         </section>
@@ -151,8 +151,8 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Total orders</p>
-                <p class="mt-2 text-2xl font-semibold text-slate-900">1,245</p>
-                <p class="mt-2 text-xs text-emerald-600"><i class="bi bi-arrow-up-right"></i> 12% vs last month</p>
+                <p class="mt-2 text-2xl font-semibold text-slate-900" id="dashboardTotalOrders">--</p>
+                <p class="mt-2 text-xs text-slate-500" id="dashboardOrderTotalNote">All delivery statuses</p>
               </div>
               <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-100 text-teal-700">
                 <i class="bi bi-bag-check text-xl"></i>
@@ -163,9 +163,9 @@
             style="animation-delay:0.12s;">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Completed</p>
-                <p class="mt-2 text-2xl font-semibold text-slate-900">1,050</p>
-                <p class="mt-2 text-xs text-slate-500">Completion rate 84.3%</p>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Delivered</p>
+                <p class="mt-2 text-2xl font-semibold text-slate-900" id="dashboardDeliveredOrders">--</p>
+                <p class="mt-2 text-xs text-slate-500" id="dashboardDeliveredNote">Delivered orders</p>
               </div>
               <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700">
                 <i class="bi bi-check-circle text-xl"></i>
@@ -176,9 +176,9 @@
             style="animation-delay:0.18s;">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">In progress</p>
-                <p class="mt-2 text-2xl font-semibold text-slate-900">132</p>
-                <p class="mt-2 text-xs text-slate-500">Avg. finish time 1.2 days</p>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">In transit</p>
+                <p class="mt-2 text-2xl font-semibold text-slate-900" id="dashboardInTransitOrders">--</p>
+                <p class="mt-2 text-xs text-slate-500" id="dashboardInTransitNote">Active deliveries</p>
               </div>
               <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-amber-700">
                 <i class="bi bi-hourglass-split text-xl"></i>
@@ -195,7 +195,8 @@
                 <h3 class="font-display text-lg">Recent orders</h3>
                 <p class="text-sm text-slate-500">Latest customer activity this month.</p>
               </div>
-              <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">Nov 2025</span>
+              <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600"
+                id="dashboardRecentOrdersLabel">Latest</span>
             </div>
             <div class="overflow-x-auto">
               <table class="min-w-full text-sm">
@@ -208,46 +209,9 @@
                     <th class="px-6 py-3 text-left">Status</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 text-slate-700">
+                <tbody class="divide-y divide-slate-100 text-slate-700" id="dashboardRecentOrdersBody">
                   <tr>
-                    <td class="px-6 py-4 font-semibold">#ORD-10234</td>
-                    <td class="px-6 py-4">Nguyen Van A</td>
-                    <td class="px-6 py-4">29/11/2025</td>
-                    <td class="px-6 py-4">1,250,000 VND</td>
-                    <td class="px-6 py-4">
-                      <span
-                        class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">Completed</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="px-6 py-4 font-semibold">#ORD-10233</td>
-                    <td class="px-6 py-4">Tran Thi B</td>
-                    <td class="px-6 py-4">29/11/2025</td>
-                    <td class="px-6 py-4">890,000 VND</td>
-                    <td class="px-6 py-4">
-                      <span
-                        class="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">In transit</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="px-6 py-4 font-semibold">#ORD-10232</td>
-                    <td class="px-6 py-4">Le Van C</td>
-                    <td class="px-6 py-4">28/11/2025</td>
-                    <td class="px-6 py-4">560,000 VND</td>
-                    <td class="px-6 py-4">
-                      <span
-                        class="inline-flex items-center rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600">Unpaid</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="px-6 py-4 font-semibold">#ORD-10231</td>
-                    <td class="px-6 py-4">Pham Thi D</td>
-                    <td class="px-6 py-4">28/11/2025</td>
-                    <td class="px-6 py-4">2,150,000 VND</td>
-                    <td class="px-6 py-4">
-                      <span
-                        class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">Completed</span>
-                    </td>
+                    <td class="px-6 py-4 text-center text-slate-400" colspan="5">Loading...</td>
                   </tr>
                 </tbody>
               </table>
@@ -257,23 +221,23 @@
           <div class="animate-pop rounded-2xl border border-white/70 bg-white/85 p-6 shadow-soft"
             style="animation-delay:0.2s;">
             <h3 class="font-display text-lg">Operations pulse</h3>
-            <p class="mt-2 text-sm text-slate-500">Daily checklist to keep the flow stable.</p>
+            <p class="mt-2 text-sm text-slate-500">Key admin metrics at a glance.</p>
             <div class="mt-4 space-y-3 text-sm text-slate-600">
               <div class="flex items-start gap-3">
                 <span class="mt-1 h-2.5 w-2.5 rounded-full bg-teal-500"></span>
-                Review high value orders flagged by risk system.
+                <span id="dashboardBlogStats">Blogs: --</span>
               </div>
               <div class="flex items-start gap-3">
                 <span class="mt-1 h-2.5 w-2.5 rounded-full bg-amber-500"></span>
-                Confirm warehouse capacity for next 48 hours.
+                <span id="dashboardCustomerStats">Customers: --</span>
               </div>
               <div class="flex items-start gap-3">
                 <span class="mt-1 h-2.5 w-2.5 rounded-full bg-slate-400"></span>
-                Sync with finance on pending COD settlements.
+                <span id="dashboardOrderStats">Orders: --</span>
               </div>
             </div>
-            <div class="mt-5 rounded-2xl bg-slate-50 p-4 text-xs text-slate-500">
-              Last updated 2 hours ago.
+            <div class="mt-5 rounded-2xl bg-slate-50 p-4 text-xs text-slate-500" id="dashboardLastUpdated">
+              Loading dashboard stats...
             </div>
           </div>
         </section>
@@ -283,6 +247,177 @@
 
   <script src="../js/admin.js"></script>
   <script defer type="text/javascript" src="../js/api.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const Api = window.UniwaveApi || window.UniwaveAPI;
+      const totalOrdersEl = document.getElementById("dashboardTotalOrders");
+      const deliveredEl = document.getElementById("dashboardDeliveredOrders");
+      const inTransitEl = document.getElementById("dashboardInTransitOrders");
+      const blogStatsEl = document.getElementById("dashboardBlogStats");
+      const customerStatsEl = document.getElementById("dashboardCustomerStats");
+      const orderStatsEl = document.getElementById("dashboardOrderStats");
+      const lastUpdatedEl = document.getElementById("dashboardLastUpdated");
+      const recentOrdersBody = document.getElementById("dashboardRecentOrdersBody");
+      const recentOrdersLabel = document.getElementById("dashboardRecentOrdersLabel");
+
+      if (!Api || typeof Api.apiFetch !== "function") {
+        if (lastUpdatedEl) lastUpdatedEl.textContent = "API client not available.";
+        return;
+      }
+
+      const formatNumber = (value) =>
+        new Intl.NumberFormat("vi-VN").format(Number(value || 0));
+
+      const formatMoney = (value) => {
+        if (value === null || value === undefined) return "--";
+        const num = Number(value);
+        if (Number.isNaN(num)) return value;
+        return num.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+      };
+
+      const formatDate = (value) => {
+        if (!value) return "--";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "--";
+        return date.toLocaleDateString("vi-VN");
+      };
+
+      const setText = (el, text) => {
+        if (el) el.textContent = text;
+      };
+
+      const buildOrderStatsLine = (orders) => {
+        const draft = formatNumber(orders?.draft);
+        const carrier = formatNumber(orders?.carrierReceived);
+        const transit = formatNumber(orders?.inTransit);
+        const delivered = formatNumber(orders?.delivered);
+        const failed = formatNumber(orders?.deliveryFailed);
+        const cancelled = formatNumber(orders?.cancelled);
+        return `Orders: Draft ${draft}, CarrierReceived ${carrier}, InTransit ${transit}, Delivered ${delivered}, DeliveryFailed ${failed}, Cancelled ${cancelled}`;
+      };
+
+      const buildBlogStatsLine = (blogs) => {
+        const draft = formatNumber(blogs?.draft);
+        const published = formatNumber(blogs?.published);
+        const deleted = formatNumber(blogs?.deleted);
+        return `Blogs: Draft ${draft}, Published ${published}, Deleted ${deleted}`;
+      };
+
+      const STATUS_LABELS = {
+        0: "Draft",
+        1: "CarrierReceived",
+        2: "InTransit",
+        3: "Delivered",
+        4: "DeliveryFailed",
+        5: "Cancelled"
+      };
+
+      const STATUS_BADGES = {
+        Draft: "inline-flex items-center rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600",
+        CarrierReceived: "inline-flex items-center rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-700",
+        InTransit: "inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700",
+        Delivered: "inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700",
+        DeliveryFailed: "inline-flex items-center rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold text-rose-700",
+        Cancelled: "inline-flex items-center rounded-full bg-slate-300 px-3 py-1 text-xs font-semibold text-slate-700"
+      };
+
+      const normalizeStatus = (value) => {
+        if (value === null || value === undefined) return "Draft";
+        if (typeof value === "number") return STATUS_LABELS[value] || String(value);
+        const trimmed = String(value).trim();
+        if (/^\d+$/.test(trimmed)) {
+          return STATUS_LABELS[Number(trimmed)] || trimmed;
+        }
+        return trimmed;
+      };
+
+      const renderRecentOrders = (orders) => {
+        if (!recentOrdersBody) return;
+        const list = Array.isArray(orders) ? orders : [];
+        if (!list.length) {
+          recentOrdersBody.innerHTML =
+            '<tr><td class="px-6 py-4 text-center text-slate-400" colspan="5">No recent orders.</td></tr>';
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        list.forEach((order) => {
+          const statusLabel = normalizeStatus(order.deliveryStatus ?? order.DeliveryStatus);
+          const badgeClass = STATUS_BADGES[statusLabel] || STATUS_BADGES.Draft;
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td class="px-6 py-4 font-semibold">${order.orderCode || "--"}</td>
+            <td class="px-6 py-4">${order.customerName || order.customerEmail || "--"}</td>
+            <td class="px-6 py-4">${formatDate(order.createdAt)}</td>
+            <td class="px-6 py-4">${formatMoney(order.finalPrice ?? order.estimatedPrice)}</td>
+            <td class="px-6 py-4">
+              <span class="${badgeClass}">${statusLabel}</span>
+            </td>
+          `;
+          fragment.appendChild(tr);
+        });
+
+        recentOrdersBody.innerHTML = "";
+        recentOrdersBody.appendChild(fragment);
+      };
+
+      const loadDashboard = async () => {
+        if (lastUpdatedEl) lastUpdatedEl.textContent = "Loading dashboard stats...";
+        try {
+          const res = await Api.apiFetch("/api/admin/dashboard");
+          const data = await res.json();
+
+          const orders = data?.orders || {};
+          const totalOrders =
+            Number(orders?.draft || 0) +
+            Number(orders?.carrierReceived || 0) +
+            Number(orders?.inTransit || 0) +
+            Number(orders?.delivered || 0) +
+            Number(orders?.deliveryFailed || 0) +
+            Number(orders?.cancelled || 0);
+
+          setText(totalOrdersEl, formatNumber(totalOrders));
+          setText(deliveredEl, formatNumber(orders?.delivered));
+          setText(inTransitEl, formatNumber(orders?.inTransit));
+          setText(blogStatsEl, buildBlogStatsLine(data?.blogs));
+          setText(customerStatsEl, `Customers: ${formatNumber(data?.totalCustomers)}`);
+          setText(orderStatsEl, buildOrderStatsLine(orders));
+          if (lastUpdatedEl) {
+            lastUpdatedEl.textContent = `Last updated ${new Date().toLocaleString("vi-VN")}`;
+          }
+        } catch (error) {
+          setText(blogStatsEl, "Blogs: --");
+          setText(customerStatsEl, "Customers: --");
+          setText(orderStatsEl, "Orders: --");
+          if (lastUpdatedEl) {
+            lastUpdatedEl.textContent = error?.message || "Failed to load dashboard stats.";
+          }
+        }
+      };
+
+      const loadRecentOrders = async () => {
+        if (!recentOrdersBody) return;
+        recentOrdersBody.innerHTML =
+          '<tr><td class="px-6 py-4 text-center text-slate-400" colspan="5">Loading...</td></tr>';
+        try {
+          const query = new URLSearchParams({ page: "1", pageSize: "4" });
+          const res = await Api.apiFetch(`/api/admin/orders?${query.toString()}`);
+          const data = await res.json();
+          renderRecentOrders(Array.isArray(data) ? data : []);
+          if (recentOrdersLabel) {
+            const label = new Date().toLocaleString("en-US", { month: "short", year: "numeric" });
+            recentOrdersLabel.textContent = label;
+          }
+        } catch (error) {
+          recentOrdersBody.innerHTML =
+            `<tr><td class="px-6 py-4 text-center text-slate-400" colspan="5">${error?.message || "Failed to load orders."}</td></tr>`;
+        }
+      };
+
+      loadDashboard();
+      loadRecentOrders();
+    });
+  </script>
 </body>
 
 </html>

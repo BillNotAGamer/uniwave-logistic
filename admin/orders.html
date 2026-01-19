@@ -124,11 +124,9 @@
                   class="w-52 rounded-full border border-slate-200 bg-white px-9 py-2 text-sm text-slate-700 focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
                   aria-label="Filter by status">
                   <option value="all">All status</option>
-                  <option value="Created">Created</option>
-                  <option value="Preparing">Preparing</option>
+                  <option value="Draft">Draft</option>
+                  <option value="CarrierReceived">CarrierReceived</option>
                   <option value="InTransit">InTransit</option>
-                  <option value="AtLocalWarehouse">AtLocalWarehouse</option>
-                  <option value="OutForDelivery">OutForDelivery</option>
                   <option value="Delivered">Delivered</option>
                   <option value="DeliveryFailed">DeliveryFailed</option>
                   <option value="Cancelled">Cancelled</option>
@@ -139,6 +137,11 @@
                 <i class="bi bi-sort-down-alt"></i>
                 Sort: Newest
               </button>
+              <a href="order-create.html"
+                class="inline-flex items-center gap-2 rounded-full bg-teal-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-teal-500/30 transition hover:bg-teal-700">
+                <i class="bi bi-plus-circle"></i>
+                New order
+              </a>
             </div>
           </div>
         </section>
@@ -185,21 +188,17 @@
       const statusFilter = document.getElementById("statusFilter");
       const sortBtn = document.getElementById("sortCreatedBtn");
       const STATUS_MAP = {
-        0: "Created",
-        1: "Preparing",
+        0: "Draft",
+        1: "CarrierReceived",
         2: "InTransit",
-        3: "AtLocalWarehouse",
-        4: "OutForDelivery",
-        5: "Delivered",
-        6: "DeliveryFailed",
-        7: "Cancelled"
+        3: "Delivered",
+        4: "DeliveryFailed",
+        5: "Cancelled"
       };
       const BADGE_CLASS = {
-        Created: "inline-flex items-center rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600",
-        Preparing: "inline-flex items-center rounded-full bg-sky-100 px-2.5 py-1 text-xs font-semibold text-sky-700",
+        Draft: "inline-flex items-center rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600",
+        CarrierReceived: "inline-flex items-center rounded-full bg-sky-100 px-2.5 py-1 text-xs font-semibold text-sky-700",
         InTransit: "inline-flex items-center rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700",
-        AtLocalWarehouse: "inline-flex items-center rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-semibold text-indigo-700",
-        OutForDelivery: "inline-flex items-center rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700",
         Delivered: "inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700",
         DeliveryFailed: "inline-flex items-center rounded-full bg-rose-100 px-2.5 py-1 text-xs font-semibold text-rose-700",
         Cancelled: "inline-flex items-center rounded-full bg-slate-300 px-2.5 py-1 text-xs font-semibold text-slate-700"
@@ -223,13 +222,18 @@
       }
 
       function toStatusLabel(value) {
-        if (typeof value === "string") return value;
-        return STATUS_MAP[value] || "Unknown";
+        if (value === null || value === undefined) return "Unknown";
+        if (typeof value === "number") return STATUS_MAP[value] || String(value);
+        const trimmed = String(value).trim();
+        if (/^\d+$/.test(trimmed)) {
+          return STATUS_MAP[Number(trimmed)] || trimmed;
+        }
+        return trimmed;
       }
 
       function statusBadge(status) {
         const label = toStatusLabel(status);
-        const cls = BADGE_CLASS[label] || BADGE_CLASS.Created;
+        const cls = BADGE_CLASS[label] || BADGE_CLASS.Draft;
         return `<span class="${cls}">${label}</span>`;
       }
 
@@ -251,7 +255,7 @@
         let list = [...ordersData];
 
         if (filterVal !== "all") {
-          list = list.filter((o) => toStatusLabel(o.currentStatus) === filterVal);
+          list = list.filter((o) => toStatusLabel(o.deliveryStatus ?? o.DeliveryStatus) === filterVal);
         }
 
         list.sort((a, b) => {
@@ -277,13 +281,16 @@
           tr.innerHTML = `
           <td class="px-6 py-4 font-semibold text-slate-900">${orderCode || "--"}</td>
           <td class="px-6 py-4">${formatDate(order.createdAt || order.CreatedAt)}</td>
-          <td class="px-6 py-4">${statusBadge(order.currentStatus || order.CurrentStatus)}</td>
+          <td class="px-6 py-4">${statusBadge(order.deliveryStatus ?? order.DeliveryStatus)}</td>
           <td class="px-6 py-4">${order.pickupAddress || order.PickupAddress || "--"}</td>
           <td class="px-6 py-4">${order.dropoffAddress || order.DropoffAddress || "--"}</td>
           <td class="px-6 py-4">${formatMoney(order.estimatedPrice ?? order.EstimatedPrice)}</td>
           <td class="px-6 py-4">${formatMoney(order.finalPrice ?? order.FinalPrice)}</td>
           <td class="px-6 py-4 text-right">
-            <a class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50" href="order-detail.html?id=${encodeURIComponent(orderId || "")}&code=${encodeURIComponent(orderCode)}">View</a>
+            <div class="flex flex-wrap justify-end gap-2">
+              <a class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50" href="order-detail.html?id=${encodeURIComponent(orderId || "")}">View</a>
+              <button class="rounded-full border border-rose-200 px-3 py-1 text-xs font-semibold text-rose-600 transition hover:bg-rose-50" type="button" data-delete-id="${orderId || ""}">Delete</button>
+            </div>
           </td>
         `;
           fragment.appendChild(tr);
@@ -296,7 +303,15 @@
       async function loadOrders() {
         setMessage("Loading...");
         try {
-          const res = await Api.apiFetch("/api/orders/admin");
+          const query = new URLSearchParams({
+            page: "1",
+            pageSize: "50"
+          });
+          const filterValue = statusFilter?.value || "all";
+          if (filterValue !== "all") {
+            query.set("status", filterValue);
+          }
+          const res = await Api.apiFetch(`/api/admin/orders?${query.toString()}`);
           const data = await res.json();
           ordersData = Array.isArray(data) ? data : [];
           applyFilters();
@@ -309,7 +324,33 @@
         }
       }
 
-      statusFilter?.addEventListener("change", applyFilters);
+      async function handleDelete(orderId) {
+        if (!orderId) return;
+        if (!confirm("Are you sure you want to delete this order?")) return;
+
+        try {
+          await Api.apiFetch(`/api/admin/orders/${encodeURIComponent(orderId)}`, { method: "DELETE" });
+          await loadOrders();
+        } catch (error) {
+          const message = String(error?.message || "");
+          if (message.includes("401") || message.includes("403")) {
+            setMessage("Not authorized. Please log in as admin.");
+          } else {
+            setMessage(message || "Failed to delete order.");
+          }
+        }
+      }
+
+      tbody.addEventListener("click", (event) => {
+        const deleteBtn = event.target.closest("[data-delete-id]");
+        if (deleteBtn) {
+          handleDelete(deleteBtn.getAttribute("data-delete-id"));
+        }
+      });
+
+      statusFilter?.addEventListener("change", () => {
+        loadOrders();
+      });
       sortBtn?.addEventListener("click", () => {
         sortDesc = !sortDesc;
         sortBtn.innerHTML = sortDesc

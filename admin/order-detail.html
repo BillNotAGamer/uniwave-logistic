@@ -92,11 +92,18 @@
               <h1 class="font-display text-xl">Order detail</h1>
             </div>
           </div>
-          <a href="orders.html"
-            class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
-            <i class="bi bi-arrow-left"></i>
-            Back to orders
-          </a>
+          <div class="flex flex-wrap items-center gap-2">
+            <a href="orders.html"
+              class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
+              <i class="bi bi-arrow-left"></i>
+              Back to orders
+            </a>
+            <button id="deleteOrderBtn" type="button"
+              class="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-rose-50 px-4 py-2 text-sm font-semibold text-rose-600 transition hover:bg-rose-100">
+              <i class="bi bi-trash"></i>
+              Delete order
+            </button>
+          </div>
         </div>
       </header>
 
@@ -183,11 +190,9 @@
                   class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-700 focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
                   required>
                   <option value="">Select status</option>
-                  <option value="Created">Created</option>
-                  <option value="Preparing">Preparing</option>
+                  <option value="Draft">Draft</option>
+                  <option value="CarrierReceived">CarrierReceived</option>
                   <option value="InTransit">InTransit</option>
-                  <option value="AtLocalWarehouse">AtLocalWarehouse</option>
-                  <option value="OutForDelivery">OutForDelivery</option>
                   <option value="Delivered">Delivered</option>
                   <option value="DeliveryFailed">DeliveryFailed</option>
                   <option value="Cancelled">Cancelled</option>
@@ -236,6 +241,8 @@
       const statusDescription = document.getElementById("statusDescription");
       const statusLocation = document.getElementById("statusLocation");
       const submitBtn = document.getElementById("statusSubmitBtn");
+      const deleteBtn = document.getElementById("deleteOrderBtn");
+      const deleteBtnText = deleteBtn ? deleteBtn.textContent : "";
 
       const statusBadge = document.getElementById("orderStatus");
       const orderCodeEl = document.getElementById("orderCode");
@@ -250,6 +257,22 @@
       const finalEl = document.getElementById("orderFinal");
 
       const STATUS_MAP = {
+        0: "Draft",
+        1: "CarrierReceived",
+        2: "InTransit",
+        3: "Delivered",
+        4: "DeliveryFailed",
+        5: "Cancelled"
+      };
+      const STATUS_VALUE_MAP = {
+        Draft: 0,
+        CarrierReceived: 1,
+        InTransit: 2,
+        Delivered: 3,
+        DeliveryFailed: 4,
+        Cancelled: 5
+      };
+      const ORDER_STATUS_LABELS = {
         0: "Created",
         1: "Preparing",
         2: "InTransit",
@@ -257,14 +280,13 @@
         4: "OutForDelivery",
         5: "Delivered",
         6: "DeliveryFailed",
-        7: "Cancelled"
+        7: "Cancelled",
+        8: "Deleted"
       };
       const BADGE_CLASS = {
-        Created: "inline-flex items-center rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600",
-        Preparing: "inline-flex items-center rounded-full bg-sky-100 px-2.5 py-1 text-xs font-semibold text-sky-700",
+        Draft: "inline-flex items-center rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600",
+        CarrierReceived: "inline-flex items-center rounded-full bg-sky-100 px-2.5 py-1 text-xs font-semibold text-sky-700",
         InTransit: "inline-flex items-center rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700",
-        AtLocalWarehouse: "inline-flex items-center rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-semibold text-indigo-700",
-        OutForDelivery: "inline-flex items-center rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700",
         Delivered: "inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700",
         DeliveryFailed: "inline-flex items-center rounded-full bg-rose-100 px-2.5 py-1 text-xs font-semibold text-rose-700",
         Cancelled: "inline-flex items-center rounded-full bg-slate-300 px-2.5 py-1 text-xs font-semibold text-slate-700"
@@ -272,6 +294,7 @@
 
       let orderId = params.get("id") || "";
       let orderCode = params.get("code") || "";
+      let currentOrder = null;
 
       if (!Api || typeof Api.apiFetch !== "function") {
         setMessage("API client not ready.", true);
@@ -301,8 +324,23 @@
       }
 
       function toStatusLabel(val) {
-        if (typeof val === "string") return val;
-        return STATUS_MAP[val] || "Unknown";
+        if (val === null || val === undefined) return "Unknown";
+        if (typeof val === "number") return STATUS_MAP[val] || String(val);
+        const trimmed = String(val).trim();
+        if (/^\d+$/.test(trimmed)) {
+          return STATUS_MAP[Number(trimmed)] || trimmed;
+        }
+        return trimmed;
+      }
+
+      function toOrderStatusLabel(val) {
+        if (val === null || val === undefined) return "Unknown";
+        if (typeof val === "number") return ORDER_STATUS_LABELS[val] || String(val);
+        const trimmed = String(val).trim();
+        if (/^\d+$/.test(trimmed)) {
+          return ORDER_STATUS_LABELS[Number(trimmed)] || trimmed;
+        }
+        return trimmed;
       }
 
       function formatDate(value) {
@@ -319,8 +357,9 @@
       }
 
       function renderInfo(data) {
-        const statusLabel = toStatusLabel(data.currentStatus || data.CurrentStatus);
-        const badgeClass = BADGE_CLASS[statusLabel] || BADGE_CLASS.Created;
+        currentOrder = data;
+        const statusLabel = toStatusLabel(data.deliveryStatus ?? data.DeliveryStatus);
+        const badgeClass = BADGE_CLASS[statusLabel] || BADGE_CLASS.Draft;
 
         orderId = data.id || data.Id || orderId;
         orderCode = data.orderCode || data.OrderCode || orderCode;
@@ -328,6 +367,7 @@
         orderCodeEl.textContent = orderCode || "--";
         statusBadge.textContent = statusLabel;
         statusBadge.className = badgeClass;
+        if (statusSelect) statusSelect.value = statusLabel;
         createdAtEl.textContent = formatDate(data.createdAt || data.CreatedAt);
         pickupEl.textContent = data.pickupAddress || data.PickupAddress || "--";
         dropoffEl.textContent = data.dropoffAddress || data.DropoffAddress || "--";
@@ -352,13 +392,14 @@
         history
           .sort((a, b) => new Date(b.createdAt || b.time || b.timestamp || 0) - new Date(a.createdAt || a.time || a.timestamp || 0))
           .forEach((item) => {
+            const statusLabel = toOrderStatusLabel(item.status || item.Status);
             const li = document.createElement("li");
             li.className = "py-4";
             li.innerHTML = `
             <div class="flex flex-wrap items-start justify-between gap-2">
               <div>
-                <p class="font-semibold text-slate-900">${item.title || item.status || "Status"}</p>
-                <p class="text-xs text-slate-500">${item.status || ""}</p>
+                <p class="font-semibold text-slate-900">${item.title || statusLabel || "Status"}</p>
+                <p class="text-xs text-slate-500">${statusLabel || ""}</p>
               </div>
               <span class="text-xs text-slate-400">${formatDate(item.createdAt || item.time || item.timestamp)}</span>
             </div>
@@ -372,38 +413,16 @@
         timelineList.appendChild(fragment);
       }
 
-      async function resolveOrderCodeFromAdminList() {
-        if (!orderId || orderCode) return;
-        try {
-          const res = await Api.apiFetch("/api/orders/admin");
-          const list = await res.json();
-          const match = Array.isArray(list) ? list.find((o) => (o.id || o.Id || "").toString() === orderId) : null;
-          if (match) {
-            orderCode = match.orderCode || match.OrderCode || "";
-          }
-        } catch (error) {
-          // Allow downstream error handling to display.
-        }
-      }
-
       async function loadDetail() {
         setMessage("Loading...");
-        if (!orderId && !orderCode) {
-          setMessage("Missing order id or code.", true);
-          disableForm();
-          return;
-        }
-
-        await resolveOrderCodeFromAdminList();
-
-        if (!orderCode) {
-          setMessage("Order not found or missing order code.", true);
+        if (!orderId) {
+          setMessage("Missing order id.", true);
           disableForm();
           return;
         }
 
         try {
-          const res = await Api.apiFetch(`/api/orders/${encodeURIComponent(orderCode)}`);
+          const res = await Api.apiFetch(`/api/admin/orders/${encodeURIComponent(orderId)}`);
           const data = await res.json();
           renderInfo(data);
           setMessage("");
@@ -445,20 +464,39 @@
           setMessage("Please select status.", true);
           return;
         }
+        const statusNumber = STATUS_VALUE_MAP[statusValue] ?? (/^\d+$/.test(statusValue) ? Number(statusValue) : null);
+        if (statusNumber === null || Number.isNaN(statusNumber)) {
+          setMessage("Invalid status value.", true);
+          return;
+        }
+        if (!currentOrder) {
+          setMessage("Order data not loaded yet.", true);
+          return;
+        }
 
         submitBtn.disabled = true;
         submitBtn.textContent = "Saving...";
         setMessage("");
 
         try {
-          await Api.apiFetch(`/api/orders/admin/${encodeURIComponent(orderId)}/status`, {
-            method: "POST",
-            body: {
-              status: statusValue,
-              title: statusTitle.value || null,
-              description: statusDescription.value || null,
-              location: statusLocation.value || null
-            }
+          const payload = {
+            pickupAddress: currentOrder.pickupAddress || currentOrder.PickupAddress || "",
+            dropoffAddress: currentOrder.dropoffAddress || currentOrder.DropoffAddress || "",
+            receiverName: currentOrder.receiverName || currentOrder.ReceiverName || "",
+            receiverPhone: currentOrder.receiverPhone || currentOrder.ReceiverPhone || "",
+            distanceKm: currentOrder.distanceKm ?? currentOrder.DistanceKm ?? 0,
+            vehicleTypeId: currentOrder.vehicleTypeId || currentOrder.VehicleTypeId || 0,
+            estimatedPrice: currentOrder.estimatedPrice ?? currentOrder.EstimatedPrice ?? 0,
+            finalPrice: currentOrder.finalPrice ?? currentOrder.FinalPrice ?? null,
+            status: statusNumber,
+            title: statusTitle.value || null,
+            description: statusDescription.value || null,
+            location: statusLocation.value || null
+          };
+
+          await Api.apiFetch(`/api/admin/orders/${encodeURIComponent(orderId)}`, {
+            method: "PUT",
+            body: payload
           });
           statusDescription.value = "";
           statusTitle.value = "";
@@ -475,6 +513,39 @@
         } finally {
           submitBtn.disabled = false;
           submitBtn.textContent = "Save update";
+        }
+      });
+
+      deleteBtn?.addEventListener("click", async () => {
+        if (!orderId) {
+          setMessage("Missing order id.", true);
+          return;
+        }
+
+        if (!confirm("Are you sure you want to delete this order?")) {
+          return;
+        }
+
+        if (deleteBtn) {
+          deleteBtn.disabled = true;
+          deleteBtn.textContent = "Deleting...";
+        }
+
+        try {
+          await Api.apiFetch(`/api/admin/orders/${encodeURIComponent(orderId)}`, { method: "DELETE" });
+          window.location.href = "orders.html";
+        } catch (error) {
+          if (String(error?.message || "").includes("401") || String(error?.message || "").includes("403")) {
+            setMessage("Not authorized. Please log in as admin.", true);
+            disableForm();
+          } else {
+            setMessage(error?.message || "Failed to delete order.", true);
+          }
+        } finally {
+          if (deleteBtn) {
+            deleteBtn.disabled = false;
+            deleteBtn.textContent = deleteBtnText || "Delete order";
+          }
         }
       });
 
