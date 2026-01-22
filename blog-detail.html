@@ -3,21 +3,21 @@
 
 <head>
   <meta charset="UTF-8" />
+  <base href="/" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title data-key="title">UNIWAVE LOGISTICS</title>
   <link rel="icon" href="./image/favicon/uniwave-favicon.png" type="image/png" />
   <link rel="shortcut icon" href="./image/favicon/uniwave-favicon.png" type="image/x-icon" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css" />
-  <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 
-<body>
+<body data-dynamic-title="true">
   <header class="header-container header-home">
     <button class="menu-toggle animated slide-down"
       style="animation-delay: 0.2s; opacity: 1; background-color: transparent">
@@ -137,226 +137,51 @@
     </div>
   </header>
   <div class="header-space"></div>
+
   <!--Banner start-->
   <div class="section-banner">
-    <img src="./image/long-banner2.png" class="w-100">
+    <img src="./image/long-banner7.png" class="w-100" alt="" />
     <div class="content">
       <div>
-        <p data-key="banner_title_services">Dịch vụ</p>
+        <p data-key="blog_breadcrumb">Blog</p>
       </div>
     </div>
   </div>
   <!--Banner end-->
+
   <!--Breadcrumb start-->
   <div class="navation">
     <div class="container">
       <p id="breadcrumbs" class="mb-0">
-        <span>
-          <span><a href="/index" data-key="home">Trang chủ</a></span>
-          <span id="breadcrumb-arrow">»</span>
-          <span class="breadcrumb_last" aria-current="page" data-key="services">Dịch vụ</span>
-        </span>
+        <span><span><a href="/vi" data-key="breadcrumb_home" data-lang-link>Trang chủ</a></span><span
+            id="breadcrumb-arrow">»</span><span><a href="/vi/blog" data-key="blog_breadcrumb"
+              data-lang-link>Blog</a></span><span id="breadcrumb-arrow">»</span><span class="breadcrumb_last"
+            aria-current="page" id="blogBreadcrumbTitle">Blog detail</span></span>
       </p>
       <div class="clear"></div>
     </div>
   </div>
   <!--Breadcrumb end-->
-  <div class="container">
-    <div class="sidebar-wrapper">
-      <div class="sidebar-toggle">☰</div>
-      <div class="sidebar-service">
-        <div class="sidebar-header" data-key="service_menu_title">Danh mục dịch vụ</div>
-        <div class="menu-menu-dich-vu-container">
-          <ul class="service-menu ml-0 pl-0">
-            <li class="menu-item menu-item-has-children">
-              <a href="/en/domestic-services">
-                <img src="./image/services/icon/domestic.png" alt="Dịch vụ trong nước">
-                <span data-key="domestic_service">Dịch vụ trong nước</span>
-              </a>
-              <ul class="sub-menu">
-                <li class="menu-item">
-                  <a href="/domestic-delivery-service" data-key="domestic_delivery">Vận chuyển nội địa</a>
-                </li>
-                <li class="menu-item">
-                  <a href="/additional-service" data-key="additional_service">Dịch vụ cộng thêm</a>
-                </li>
-              </ul>
-            </li>
-            <li class="menu-item menu-item-has-children">
-              <a href="/en/international-services">
-                <img src="./image/services/icon/international.png" alt="Dịch vụ quốc tế">
-                <span data-key="international_service">Dịch vụ quốc tế</span>
-              </a>
-              <ul class="sub-menu">
-                <li class="menu-item">
-                  <a href="/vietnam-china-transport" data-key="vietnam_china_transport">Vận chuyển Việt - Trung</a>
-                </li>
-                <li class="menu-item">
-                  <a href="/southeast-asia-transport" data-key="southeast_asia_transport">Vận chuyển Đông Nam Á</a>
-                </li>
-                <li class="menu-item">
-                  <a href="/europe-transport" data-key="europe_transport">Vận chuyển Châu Âu</a>
-                </li>
-                <li class="menu-item">
-                  <a href="/us-export" data-key="us_export">Xuất khẩu sang Mỹ</a>
-                </li>
-                <li class="menu-item">
-                  <a href="/australia-export" data-key="australia_export">Xuất khẩu sang Úc</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+
+  <!--Main content begin-->
+  <section class="blog-detail-section">
+    <div class="blog-detail-container">
+      <div class="blog-detail-header">
+        <p class="blog-kicker" data-key="blog_kicker">Insights</p>
+        <h1 id="blogDetailTitle" class="blog-detail-title">Blog</h1>
+        <p id="blogDetailSummary" class="blog-detail-summary"></p>
+        <div id="blogDetailMeta" class="blog-detail-meta"></div>
+      </div>
+      <p id="blogDetailStatus" class="blog-placeholder" role="status" aria-live="polite" data-key="blog_loading">Loading
+        articles...</p>
+      <img id="blogDetailImage" class="blog-detail-image" src="./image/general/img/social-block-img.jpg" alt="" />
+      <div id="blogDetailContent" class="blog-detail-content"></div>
+      <div class="blog-detail-actions">
+        <a class="blog-btn" href="/vi/blog" data-key="blog_back_to_list" data-lang-link>Back to blog</a>
       </div>
     </div>
-  </div>
-  <div class="content-wrapper">
-    <div class="intro-section">
-      <h1 data-key="title_services_page">Dịch vụ của Uniwave Logistics</h1>
-      <p data-key="services_description">Giải pháp logistics toàn diện, hợp nhất mọi mắt xích để doanh nghiệp vận hành
-        hiệu quả, nhanh chóng và an toàn.</p>
-      <a href="/vi/introduce" class="inline-block">
-        <button class="btn-white-outline" data-key="learn_more_uniwave">Tìm hiểu thêm UniWave Logistic
-          <img alt="" loading="lazy" width="28" height="28" decoding="async" data-nimg="1"
-            src="./image/services/icon/icons8-arrow-30.png" style="color: transparent;">
-        </button>
-      </a>
-    </div>
-    <div class="card-container">
-      <div class="service-card">
-        <img src="image/services/img/sea-air-freight.jpg" alt="Vận chuyển quốc tế">
-        <div class="card-content">
-          <h3 class="service-title" data-key="sea_air_freight_title">🚢 Vận chuyển quốc tế – Sea & Air Freight</h3>
-          <div class="service-info">
-            <p data-key="sea_air_freight_description">Chúng tôi cung cấp dịch vụ vận chuyển hàng hóa bằng đường biển và
-              đường hàng không đến và đi từ mọi châu lục, với thời gian linh hoạt, mức giá cạnh tranh và kiểm soát lộ
-              trình minh bạch.</p>
-            <ul>
-              <li data-key="sea_air_freight_item1">FCL / LCL (Full & Less Container Load)</li>
-              <li data-key="sea_air_freight_item2">Air Express / Economy Services</li>
-              <li data-key="sea_air_freight_item3">Door-to-door, port-to-port hoặc theo yêu cầu riêng</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="service-card">
-        <img src="image/services/img/customs-officer.jpg" alt="Khai báo hải quan">
-        <div class="card-content">
-          <h3 class="service-title" data-key="customs_clearance_title">📑 Khai báo hải quan – Customs Clearance</h3>
-          <div class="service-info">
-            <p data-key="customs_clearance_description">Đội ngũ chuyên viên của chúng tôi hỗ trợ trọn gói các thủ tục
-              thông quan, đảm bảo quá trình xuất nhập khẩu diễn ra suôn sẻ và tuân thủ quy định pháp luật.</p>
-            <ul>
-              <li data-key="customs_clearance_item1">Khai báo điện tử</li>
-              <li data-key="customs_clearance_item2">Xử lý C/O, hóa đơn, packing list, kiểm dịch, kiểm định</li>
-              <li data-key="customs_clearance_item3">Đại diện thông quan tại cảng biển, sân bay và khu công nghiệp trên
-                toàn quốc</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="service-card">
-        <img src="image/services/img/inland-transportation.jpg" alt="Vận tải nội địa">
-        <div class="card-content">
-          <h3 class="service-title" data-key="inland_transportation_title">🚚 Vận tải nội địa – Inland Transportation
-          </h3>
-          <div class="service-info">
-            <p data-key="inland_transportation_description">Chúng tôi vận chuyển hàng hóa trong nước bằng nhiều phương
-              tiện (đường bộ, đường sắt, đường thủy), với hệ thống xe tải đa trọng tải và giải pháp vận chuyển linh
-              hoạt.</p>
-            <ul>
-              <li data-key="inland_transportation_item1">Giao nhận toàn quốc</li>
-              <li data-key="inland_transportation_item2">Quản lý vận đơn điện tử</li>
-              <li data-key="inland_transportation_item3">Theo dõi và báo cáo theo thời gian thực</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="service-card">
-        <img src="image/services/img/warehouse-staff.jpg" alt="Dịch vụ kho bãi">
-        <div class="card-content">
-          <h3 class="service-title" data-key="warehousing_title">🏢 Dịch vụ kho bãi – Warehousing & Distribution</h3>
-          <div class="service-info">
-            <p data-key="warehousing_description">Cung cấp giải pháp lưu kho thông minh và phân phối hiệu quả, tích hợp
-              hệ thống quản lý tồn kho (WMS) hiện đại.</p>
-            <ul>
-              <li data-key="warehousing_item1">Kho ngắn hạn và dài hạn</li>
-              <li data-key="warehousing_item2">Xử lý đơn hàng, đóng gói, phân phối</li>
-              <li data-key="warehousing_item3">Kết nối trực tiếp với dịch vụ vận tải trong và ngoài nước</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="service-card">
-        <img src="image/services/img/cargo-handling.jpg" alt="Hàng dự án & siêu trọng">
-        <div class="card-content">
-          <h3 class="service-title" data-key="project_cargo_title">⚙️ Hàng dự án & siêu trọng – Project Cargo Handling
-          </h3>
-          <div class="service-info">
-            <p data-key="project_cargo_description">Chuyên vận chuyển thiết bị công trình, hàng siêu trường – siêu trọng
-              với giải pháp kỹ thuật phù hợp và an toàn tuyệt đối.</p>
-            <ul>
-              <li data-key="project_cargo_item1">Khảo sát & lập phương án vận chuyển</li>
-              <li data-key="project_cargo_item2">Cấp phép lưu thông đặc biệt</li>
-              <li data-key="project_cargo_item3">Giám sát toàn bộ quy trình giao nhận</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="service-card">
-        <img src="image/services/img/consolidation-multi-point-distribution.jpg" alt="Phân phối đa điểm">
-        <div class="card-content">
-          <h3 class="service-title" data-key="multi_point_distribution_title">📦 Phân phối đa điểm – Multi-point
-            Distribution</h3>
-          <div class="service-info">
-            <p data-key="multi_point_distribution_description">Cung cấp giải pháp gom hàng từ nhiều nhà cung cấp và phân
-              phối đến nhiều điểm nhận, giúp tối ưu chi phí vận chuyển và đơn giản hóa quản lý chuỗi cung ứng.</p>
-            <ul>
-              <li data-key="multi_point_distribution_item1">Gom hàng (consolidation) tại kho trung tâm</li>
-              <li data-key="multi_point_distribution_item2">Phân phối linh hoạt đến nhiều địa điểm theo yêu cầu</li>
-              <li data-key="multi_point_distribution_item3">Theo dõi lộ trình từng kiện hàng, cập nhật theo thời gian
-                thực</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="highlight-service-title">
-      <h2 data-key="highlight_services_title">Dịch vụ nổi bật của Uniwave Logistics</h2>
-    </div>
-    <div class="common-service-container">
-      <div class="common-service">
-        <img src="image/services/img/china-warehouse-interior.jpg" alt="">
-        <div class="common-card-content">
-          <a href="/china-import-service">
-            <p class="p1" data-key="china_import_title">Nhập khẩu từ Trung Quốc</p>
-          </a>
-          <p data-key="china_import_description">FCL, LCL, hỗ trợ thanh toán 3 bên</p>
-          <a href="/china-import-service" class="btn-send" data-key="learn_more">Tìm hiểu thêm</a>
-        </div>
-      </div>
-      <div class="common-service">
-        <img src="image/services/img/domestic-delivery.png" alt="">
-        <div class="common-card-content">
-          <a href="/domestic-delivery-service">
-            <p class="p1" data-key="domestic_delivery_title">Giao hàng nội địa</p>
-          </a>
-          <p data-key="domestic_delivery_description">FCL, LCL, hỗ trợ thanh toán 3 bên</p>
-          <a href="/domestic-delivery-service" class="btn-send" data-key="learn_more">Tìm hiểu thêm</a>
-        </div>
-      </div>
-      <div class="common-service">
-        <img src="image/services/img/SEA-export-service.png" alt="">
-        <div class="common-card-content">
-          <a href="/southeast-asia-export">
-            <p class="p1" data-key="southeast_asia_export_title">Xuất khẩu Đông Nam Á</p>
-          </a>
-          <p data-key="southeast_asia_export_description">FCL, LCL, hỗ trợ thanh toán 3 bên</p>
-          <a href="/southeast-asia-export" class="btn-send" data-key="learn_more">Tìm hiểu thêm</a>
-        </div>
-      </div>
-    </div>
-  </div>
+  </section>
+  <!--Main content end-->
 
   <!--Footer start-->
   <footer>
@@ -378,7 +203,8 @@
               <h4 data-key="footer_membership">Là thành viên chính thức của</h4>
               <ul class="vla-fiata-member">
                 <li><img src="./image/general/img/Logo-VLA-High-Quality.png" alt="VLA Logo" style="max-width: 50px;" /></li>
-                <li><img src="./image/general/img/FIATA.PNG" alt="FIATA Logo" style="max-width: 50px; border-radius: 50%;" /></li>
+                <li><img src="./image/general/img/FIATA.PNG" alt="FIATA Logo"
+                    style="max-width: 50px; border-radius: 50%;" /></li>
               </ul>
             </div>
             <br />
@@ -474,16 +300,16 @@
     </section>
   </footer>
   <!--Footer end-->
-  <div id="ml-menu-fixed" class="hidden-xs hidden-sm">
+  <div id="ml-menu-fixed" class="hidden-xs hidden-sm ">
     <ul>
       <li>
-        <a href="price-check.html" target="_blank">
+        <a href="/en/price-check" target="_blank">
           <img src="./image/general/icon/ic-r1.png" alt="" />
           <span data-key="nav_pricing">Ước tính cước phí</span>
         </a>
       </li>
       <li>
-        <a href="tracking-shipment.html" target="_blank">
+        <a href="/en/tracking-shipment" target="_blank">
           <img src="./image/general/icon/ic-r2.png" alt="" />
           <span data-key="nav_tracking">Theo dõi vận đơn</span>
         </a>
@@ -506,7 +332,7 @@
         👉 Cứ nói nha, Laboon luôn sẵn sàng giúp đỡ!</p>
     </div>
     <div class="popup-form" id="popup-form">
-      <button class="close-btn" onclick="togglePopup()">✕</button>
+      <button class="close-btn" onclick="togglePopup()">✖</button>
       <h3 data-key="form_title">Để lại thông tin</h3>
       <form id="contact-form">
         <input type="text" name="name" placeholder="Họ và tên" required data-key="form_name" />
@@ -543,53 +369,57 @@
   <!--Scripts chung-->
   <script defer type="text/javascript" src="js/scripts.js"></script>
   <script defer type="text/javascript" src="js/api.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script defer type="text/javascript" src="js/blogs.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <!--Scripts chung-->
 
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <!--Script gửi thông tin trong popup-->
   <script>
-    const swiper = new Swiper('.swiper', {
-      loop: true,
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      slidesPerView: 1,
-      spaceBetween: 20,
-      breakpoints: {
-        480: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        768: {
-          slidesPerView: 3,
-          spaceBetween: 30,
-        },
-        1024: {
-          slidesPerView: 4,
-          spaceBetween: 40,
-        },
-      },
-    });
-  </script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const popupForm = document.getElementById('contact-form');
+      if (!popupForm) return;
 
- 
-  <!-- Script đóng mở danh mục dịch vụ trang service -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Toggle submenu
-      document.querySelectorAll('.menu-item-has-children > a').forEach(item => {
-        item.addEventListener('click', (e) => {
-          e.preventDefault(); // Ngăn chuyển hướng
-          const parent = item.parentElement;
-          parent.classList.toggle('active');
-        });
+      const API_URL = "https://uniwave-contact-form.vercel.app/api/contact";
+
+      popupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const submitBtn = popupForm.querySelector('button[type="submit"]');
+        const formData = {
+          name: popupForm.querySelector('input[name="name"]').value.trim(),
+          phone: popupForm.querySelector('input[name="phone"]').value.trim(),
+          email: popupForm.querySelector('input[name="email"]').value.trim(),
+          message: popupForm.querySelector('textarea[name="message"]').value.trim(),
+        };
+
+        try {
+          submitBtn.disabled = true;
+          submitBtn.innerText = '...';
+
+          const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+          });
+
+          if (response.ok) {
+            alert('Uniwave đã nhận được thông tin. Chúng tôi sẽ liên hệ bạn sớm nhất!');
+            popupForm.reset();
+            if (typeof togglePopup === "function") togglePopup();
+          } else {
+            alert('Có lỗi xảy ra, vui lòng thử lại.');
+          }
+        } catch (error) {
+          alert('Lỗi kết nối server.');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'Gửi';
+        }
       });
     });
   </script>
-
+  <!--Script gửi thông tin trong popup-->
 </body>
+
+</html>

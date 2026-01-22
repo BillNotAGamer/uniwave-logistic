@@ -153,12 +153,3 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
-
-const signOutLink = document.getElementById("signOutLink");
-
-      if (signOutLink) {
-        signOutLink.addEventListener("click", () => {
-          Api.clearAuthTokens();
-          window.location.href = "/en/authentication";
-        });
-      }

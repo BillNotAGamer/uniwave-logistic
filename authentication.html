@@ -419,13 +419,13 @@
   <div id="ml-menu-fixed" class="hidden-xs hidden-sm">
     <ul>
       <li>
-        <a href="/en/price-check" target="_blank">
+        <a href="price-check.html" target="_blank">
           <img src="./image/general/icon/ic-r1.png" alt="" />
           <span data-key="nav_pricing">Ước tính cước phí</span>
         </a>
       </li>
       <li>
-        <a href="/en/tracking-shipment" target="_blank">
+        <a href="tracking-shipment.html" target="_blank">
           <img src="./image/general/icon/ic-r2.png" alt="" />
           <span data-key="nav_tracking">Theo dõi vận đơn</span>
         </a>
@@ -724,7 +724,7 @@
         const isAdminPage =
           pathOnly.startsWith("/admin/") && pathOnly.endsWith(".html");
         const isUserDashboard =
-          pathOnly === "/en/user-dashboard" || pathOnly === "/user-dashboard.html";
+          pathOnly === "/user-dashboard" || pathOnly === "/user-dashboard.html";
         if (isAdminPage || isUserDashboard) {
           return normalized;
         }
@@ -744,7 +744,7 @@
         if (lowerRoles.includes("contenteditor")) {
           return "/admin/blogs.html";
         }
-        return "/en/user-dashboard";
+        return "/user-dashboard";
       };
 
       const showError = (message) => {

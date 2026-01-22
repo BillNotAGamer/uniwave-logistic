@@ -57,6 +57,22 @@
       "destination": "/contact.html"
     },
     {
+      "source": "/vi/blog",
+      "destination": "/blog.html"
+    },
+    {
+      "source": "/en/blog",
+      "destination": "/blog.html"
+    },
+    {
+      "source": "/vi/blog/:slug",
+      "destination": "/blog-detail.html"
+    },
+    {
+      "source": "/en/blog/:slug",
+      "destination": "/blog-detail.html"
+    },
+    {
       "source": "/vi/authentication",
       "destination": "/authentication.html"
     },
@@ -65,11 +81,7 @@
       "destination": "/authentication.html"
     },
     {
-      "source": "/vi/user-dashboard",
-      "destination": "/user-dashboard.html"
-    },
-    {
-      "source": "/en/user-dashboard",
+      "source": "/user-dashboard",
       "destination": "/user-dashboard.html"
     },
     {
