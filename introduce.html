@@ -613,23 +613,52 @@
       },
     });
   </script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const navbarToggler = document.querySelector(".menu-toggle");
-      const navbarCollapse = document.querySelector(".menu-collapse");
-      const closeButton = document.querySelector(".close-search");
-
-      navbarToggler.addEventListener("click", function () {
-        navbarCollapse.classList.toggle("visible");
-      });
-
-      closeButton.addEventListener("click", function () {
-        navbarCollapse.classList.remove("visible");
-      });
-    });
-  </script>
-  <!--Script gửi thông tin trong popup-->
   
+  <!--Script gửi thông tin trong popup-->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const popupForm = document.getElementById('contact-form');
+    if (!popupForm) return;
+
+    const API_URL = "https://uniwave-contact-form.vercel.app/api/contact";
+
+    popupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitBtn = popupForm.querySelector('button[type="submit"]');
+      const formData = {
+        name: popupForm.querySelector('input[name="name"]').value.trim(),
+        phone: popupForm.querySelector('input[name="phone"]').value.trim(),
+        email: popupForm.querySelector('input[name="email"]').value.trim(),
+        message: popupForm.querySelector('textarea[name="message"]').value.trim(),
+      };
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.innerText = '...';
+
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          alert('Uniwave đã nhận được thông tin. Chúng tôi sẽ liên hệ bạn sớm nhất!');
+          popupForm.reset();
+          if (typeof togglePopup === "function") togglePopup(); // Đóng popup nếu có hàm này
+        } else {
+          alert('Có lỗi xảy ra, vui lòng thử lại.');
+        }
+      } catch (error) {
+        alert('Lỗi kết nối server.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Gửi';
+      }
+    });
+  });
+</script>
   
   <!--Script gửi thông tin trong popup-->
 </body>
