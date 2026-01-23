@@ -48,6 +48,26 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
+  const logoutTriggers = Array.from(document.querySelectorAll("[data-admin-logout]"));
+  const fallbackLogoutTriggers = logoutTriggers.length
+    ? logoutTriggers
+    : Array.from(document.querySelectorAll("a, button")).filter((element) => {
+        const label = (element.textContent || "").trim().toLowerCase();
+        return label === "sign out";
+      });
+
+  if (fallbackLogoutTriggers.length) {
+    fallbackLogoutTriggers.forEach((trigger) => {
+      trigger.addEventListener("click", (event) => {
+        event.preventDefault();
+        if (typeof Api?.clearAuthTokens === "function") {
+          Api.clearAuthTokens();
+        }
+        redirectToAuth();
+      });
+    });
+  }
+
   const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
   const sidebar = document.getElementById('sidebar');
   const backdrop = document.getElementById('sidebarBackdrop');
