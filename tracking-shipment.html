@@ -15,43 +15,230 @@
   <link rel="stylesheet" href="css/style.css" />
   <style>
     .tracking-wrapper {
-      max-width: 960px;
-      margin: 32px auto 64px;
-      padding: 0 16px;
+      --tracking-ink: #101828;
+      --tracking-muted: #667085;
+      --tracking-card: #ffffff;
+      --tracking-border: rgba(15, 23, 42, 0.12);
+      --tracking-accent: #0ea5e9;
+      --tracking-accent-soft: rgba(14, 165, 233, 0.12);
+      --tracking-accent-strong: rgba(14, 165, 233, 0.24);
+      --step-complete: #22c55e;
+      --step-incomplete: #cbd5e1;
+      position: relative;
+      max-width: 1120px;
+      margin: 32px auto 72px;
+      padding: 0 16px 80px;
+      color: var(--tracking-ink);
     }
 
-    .tracking-card,
-    .timeline {
-      background: #0f1c24;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 14px;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+    .tracking-wrapper::before {
+      content: "";
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(960px, 100%);
+      height: 220px;
+      background: radial-gradient(circle at top, rgba(59, 130, 246, 0.18), transparent 65%);
+      z-index: 0;
+      pointer-events: none;
     }
 
-    .tracking-form-inline {
+    .tracking-wrapper::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.12), transparent 70%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .tracking-wrapper > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .tracking-surface {
+      position: relative;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(243, 244, 255, 0.92));
+      border: 1px solid var(--tracking-border);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+      display: grid;
+      gap: 18px;
+      overflow: hidden;
+    }
+
+    .tracking-surface::after {
+      content: "";
+      position: absolute;
+      top: -80px;
+      right: -120px;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(14, 165, 233, 0.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    .tracking-intro {
+      display: grid;
+      gap: 6px;
+    }
+
+    .tracking-eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      font-size: 0.72rem;
+      color: #0f766e;
+      font-weight: 700;
+    }
+
+    .tracking-title {
+      margin: 0;
+      font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+      font-weight: 700;
+      color: var(--tracking-ink);
+    }
+
+    .tracking-subtitle {
+      margin: 0;
+      color: var(--tracking-muted);
+      font-size: 0.98rem;
+    }
+
+    .tracking-form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .tracking-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--tracking-muted);
+      font-weight: 600;
+    }
+
+    .tracking-input-row {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 18px;
+      align-items: center;
     }
 
     .tracking-input {
-      flex: 1 1 320px;
+      flex: 1 1 280px;
       padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--tracking-border);
+      background: #ffffff;
+      color: var(--tracking-ink);
+      font-size: 1rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .tracking-input:focus {
+      outline: none;
+      border-color: var(--tracking-accent);
+      box-shadow: 0 0 0 3px var(--tracking-accent-soft);
+    }
+
+    .captcha-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid var(--tracking-border);
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    .captcha-display {
+      min-height: 46px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--tracking-ink);
+      font-weight: 700;
+      flex-wrap: wrap;
+    }
+
+    .captcha-loading {
+      font-size: 0.85rem;
+      color: var(--tracking-muted);
+    }
+
+    .captcha-image {
+      max-height: 46px;
+      max-width: 220px;
       border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(255, 255, 255, 0.05);
-      color: #eaf3fb;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      display: none;
+    }
+
+    .captcha-text {
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      display: none;
+    }
+
+    .captcha-input {
+      grid-column: 1 / -1;
+    }
+
+    .captcha-refresh {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--tracking-border);
+      background: #ffffff;
+      color: var(--tracking-ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .captcha-refresh:hover:not(:disabled) {
+      border-color: var(--tracking-accent);
+      color: var(--tracking-accent);
+      box-shadow: 0 8px 18px var(--tracking-accent-soft);
+      transform: translateY(-1px);
+    }
+
+    .captcha-refresh:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .captcha-error {
+      min-height: 18px;
+      font-size: 0.85rem;
+      color: #b42318;
+    }
+
+    .captcha-row.is-loading .captcha-display,
+    .captcha-row.is-loading .captcha-refresh {
+      opacity: 0.6;
     }
 
     .tracking-btn {
-      background: linear-gradient(135deg, #ff8e53, #ff6a3d);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       border: none;
-      color: #0f1c24;
-      font-weight: 800;
+      border-radius: 14px;
       padding: 12px 18px;
-      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--tracking-accent), #1d4ed8);
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
@@ -60,160 +247,580 @@
       opacity: 0.6;
       cursor: not-allowed;
       box-shadow: none;
+      transform: none;
     }
 
     .tracking-btn:hover:not(:disabled) {
       transform: translateY(-1px);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.2);
     }
 
-    .tracking-card {
-      padding: 18px 18px 10px;
-      color: #eaf3fb;
-      margin-bottom: 16px;
+    .tracking-message {
+      margin-top: 16px;
+      min-height: 24px;
+      font-size: 0.95rem;
+      color: var(--tracking-muted);
+    }
+
+    .tracking-message.is-error {
+      color: #b42318;
+    }
+
+    .tracking-result {
+      margin-top: 24px;
+      display: grid;
+      gap: 20px;
+    }
+
+    .tracking-result.is-hidden {
       display: none;
     }
 
-    .tracking-card h3 {
-      margin: 0 0 10px;
+    .tracking-card {
+      background: var(--tracking-card);
+      border: 1px solid var(--tracking-border);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      animation: float-in 0.45s ease both;
+    }
+
+    .tracking-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12);
+      border-color: rgba(15, 23, 42, 0.18);
+    }
+
+    .tracking-summary {
+      display: grid;
+      gap: 18px;
+    }
+
+    .summary-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .back-btn {
+      border: 1px solid var(--tracking-border);
+      background: #ffffff;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--tracking-ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-btn:hover {
+      border-color: var(--tracking-accent);
+      box-shadow: 0 8px 18px var(--tracking-accent-soft);
+    }
+
+    .summary-meta {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .order-code {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .order-code .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--tracking-muted);
+      font-weight: 600;
+    }
+
+    .order-code-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--tracking-ink);
+    }
+
+    .copy-btn {
+      border: 1px solid var(--tracking-border);
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 6px 8px;
+      cursor: pointer;
+      color: var(--tracking-ink);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--tracking-accent);
+      transform: translateY(-1px);
+    }
+
+    .copy-hint {
+      font-size: 0.75rem;
+      color: var(--tracking-muted);
+    }
+
+    .copy-hint.is-error {
+      color: #b42318;
     }
 
     .status-badge {
       display: inline-flex;
-      padding: 6px 10px;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
       border-radius: 999px;
+      border: 1px solid var(--tracking-accent);
+      background: var(--tracking-accent-soft);
+      color: var(--tracking-accent);
+      font-size: 0.72rem;
       font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .status-display {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.04), rgba(15, 23, 42, 0.01));
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .status-marker {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--tracking-accent-soft);
+      color: var(--tracking-accent);
+      border: 1px solid var(--tracking-accent-strong);
+      font-size: 1.15rem;
+    }
+
+    .status-label {
+      margin: 0;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--tracking-muted);
+      font-weight: 600;
+    }
+
+    .status-text {
+      margin: 4px 0 0;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--tracking-ink);
+    }
+
+    .status-sub {
+      margin: 4px 0 0;
+      color: var(--tracking-muted);
       font-size: 0.9rem;
-      color: #0f1c24;
     }
 
-    .status-success {
-      background: #82f7c9;
-    }
-
-    .status-warning {
-      background: #ffd08a;
-    }
-
-    .status-info {
-      background: #8acbff;
-    }
-
-    .status-muted {
-      background: #d1d9e0;
-    }
-
-    .tracking-details {
+    .stepper {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 10px;
-      margin-top: 8px;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(160px, 1fr);
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scroll-snap-type: x proximity;
     }
 
-    .detail-item {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
-      padding: 10px 12px;
+    .stepper-item {
+      position: relative;
+      border: 1px dashed var(--tracking-border);
+      border-radius: 16px;
+      padding: 12px;
+      min-height: 92px;
+      background: #ffffff;
+      display: grid;
+      gap: 6px;
+      scroll-snap-align: start;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      animation: rise-in 0.4s ease both;
     }
 
-    .detail-item label {
-      color: #9ab5c6;
+    .stepper-item:hover {
+      transform: translateY(-2px);
+      border-color: rgba(34, 197, 94, 0.4);
+    }
+
+    .stepper-item.is-complete {
+      border-color: rgba(34, 197, 94, 0.6);
+    }
+
+    .stepper-item::after {
+      content: "";
+      position: absolute;
+      top: 26px;
+      right: -12px;
+      width: 24px;
+      height: 2px;
+      background: var(--step-incomplete);
+    }
+
+    .stepper-item.is-complete::after {
+      background: var(--step-complete);
+    }
+
+    .stepper-item:last-child::after {
+      display: none;
+    }
+
+    .stepper-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+
+    .stepper-item.is-complete .stepper-icon {
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--step-complete);
+    }
+
+    .stepper-label {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--tracking-ink);
+    }
+
+    .stepper-time {
+      font-size: 0.8rem;
+      color: var(--tracking-muted);
+    }
+
+    .stepper-empty {
+      color: var(--tracking-muted);
+      font-size: 0.9rem;
+      padding: 4px;
+    }
+
+    .tracking-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card-header h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .card-header p {
+      margin: 6px 0 0;
+      color: var(--tracking-muted);
       font-size: 0.9rem;
     }
 
-    .detail-item div {
+    .detail-grid {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .detail-block {
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 12px 14px;
+      border: 1px solid rgba(15, 23, 42, 0.06);
+    }
+
+    .detail-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--tracking-muted);
+      font-weight: 600;
+    }
+
+    .detail-value {
+      margin: 6px 0 0;
       font-weight: 700;
-      color: #eaf3fb;
+      color: var(--tracking-ink);
+    }
+
+    .vehicle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 12px 14px;
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      margin-bottom: 16px;
     }
 
     .timeline {
-      padding: 18px 18px 10px;
-      color: #eaf3fb;
-      display: none;
       position: relative;
-      overflow: hidden;
+      padding-left: 26px;
+      display: grid;
+      gap: 16px;
     }
 
     .timeline::before {
       content: "";
       position: absolute;
-      left: 22px;
-      top: 20px;
-      bottom: 20px;
+      left: 10px;
+      top: 6px;
+      bottom: 6px;
       width: 2px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(15, 23, 42, 0.08);
     }
 
     .timeline-item {
       position: relative;
-      padding-left: 46px;
-      margin-bottom: 16px;
-      animation: fadeSlide 0.3s ease forwards;
-      opacity: 0;
+      padding-left: 8px;
+      display: grid;
+      gap: 6px;
+      animation: fade-up 0.4s ease both;
     }
 
     .timeline-dot {
       position: absolute;
-      left: 14px;
-      top: 4px;
-      width: 16px;
-      height: 16px;
+      left: -17px;
+      top: 8px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      background: #ff8e53;
-      box-shadow: 0 0 0 4px rgba(255, 142, 83, 0.2);
+      background: #cbd5e1;
+      box-shadow: 0 0 0 6px #f8fafc;
     }
 
-    .timeline-time {
-      color: #9ab5c6;
-      font-size: 0.9rem;
+    .timeline-item.is-current .timeline-dot {
+      background: var(--tracking-accent);
+      box-shadow: 0 0 0 6px var(--tracking-accent-soft);
+    }
+
+    .timeline-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .timeline-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--tracking-ink);
     }
 
     .timeline-status {
-      font-weight: 800;
-      margin: 2px 0;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--tracking-muted);
+      font-weight: 600;
+    }
+
+    .timeline-time {
+      font-size: 0.8rem;
+      color: var(--tracking-muted);
     }
 
     .timeline-desc {
-      color: #cfe2ef;
       margin: 0;
-    }
-
-    .timeline-location {
-      color: #9ab5c6;
+      color: #475467;
       font-size: 0.9rem;
     }
 
-    .timeline-toggle {
+    .timeline-location {
+      font-size: 0.8rem;
+      color: var(--tracking-muted);
+    }
+
+    .timeline-empty {
+      color: var(--tracking-muted);
+      font-size: 0.9rem;
+    }
+
+    .tracking-skeleton {
       display: none;
-      text-align: center;
-      margin-top: 4px;
-      color: #ffbe94;
-      cursor: pointer;
+      margin-top: 24px;
     }
 
-    .tracking-message {
-      text-align: center;
-      color: #eaf3fb;
-      margin-top: 10px;
-      min-height: 22px;
+    .skeleton-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
     }
 
-    .loading-indicator .spinner-border {
-      width: 1.8rem;
-      height: 1.8rem;
-      border-width: 0.2rem;
+    .skeleton-line,
+    .skeleton-pill,
+    .skeleton-circle,
+    .skeleton-block {
+      background: linear-gradient(90deg, #eef2f7 0%, #f6f7fb 50%, #eef2f7 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
     }
 
-    @keyframes fadeSlide {
-      from {
+    .skeleton-line {
+      height: 12px;
+      border-radius: 999px;
+      width: 100%;
+    }
+
+    .skeleton-pill {
+      height: 26px;
+      border-radius: 999px;
+      width: 140px;
+    }
+
+    .skeleton-circle {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+    }
+
+    .skeleton-block {
+      height: 54px;
+      border-radius: 14px;
+      width: 100%;
+    }
+
+    .skeleton-stepper {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(160px, 1fr);
+      gap: 12px;
+      overflow: hidden;
+    }
+
+    .skeleton-step {
+      border-radius: 16px;
+      border: 1px dashed #e2e8f0;
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .skeleton-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .w-80 {
+      width: 80px;
+    }
+
+    .w-120 {
+      width: 120px;
+    }
+
+    .w-180 {
+      width: 180px;
+    }
+
+    .w-240 {
+      width: 240px;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 200% 50%;
+      }
+    }
+
+    @keyframes float-in {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes rise-in {
+      0% {
         opacity: 0;
         transform: translateY(6px);
       }
-
-      to {
+      100% {
         opacity: 1;
         transform: translateY(0);
+      }
+    }
+
+    @keyframes fade-up {
+      0% {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .tracking-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-meta {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .tracking-surface {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .tracking-wrapper {
+        margin-top: 24px;
+      }
+
+      .status-display {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .summary-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .tracking-btn {
+        width: 100%;
+        justify-content: center;
       }
     }
   </style>
@@ -367,47 +974,178 @@
 
     <!--Main content start-->
   <div class="tracking-wrapper">
-    <form id="tracking-form" class="tracking-form-inline">
-      <input id="tracking-code" class="tracking-input" type="text" placeholder="Nhap ma don / ma theo doi" required />
-      <button id="tracking-submit" class="tracking-btn" type="submit">Tra cuu</button>
-    </form>
-    <div class="tracking-message" id="tracking-message"></div>
-    <div class="tracking-card" id="tracking-card">
-      <h3>Thong tin don hang</h3>
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-        <div><strong>Ma don:</strong> <span id="info-order-code">--</span></div>
-        <div><span id="info-status" class="status-badge status-muted">--</span></div>
+    <div class="tracking-surface">
+      <div class="tracking-intro">
+        <span class="tracking-eyebrow">Shipment tracking</span>
+        <h2 class="tracking-title">Track your shipment in real time</h2>
+        <p class="tracking-subtitle">
+          Enter the order code from your confirmation to see the latest status, route, and updates.
+        </p>
       </div>
-      <div class="tracking-details">
-        <div class="detail-item">
-          <label>Nguoi nhan</label>
-          <div id="info-receiver">--</div>
+      <form id="tracking-form" class="tracking-form">
+        <label class="tracking-label" for="tracking-code">Order code</label>
+        <div class="tracking-input-row">
+          <input id="tracking-code" class="tracking-input" type="text" placeholder="VN-LOCAL-20251128-ABCD"
+            autocomplete="off" required />
+          <button id="tracking-submit" class="tracking-btn" type="submit">
+            <span>Track shipment</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
         </div>
-        <div class="detail-item">
-          <label>So dien thoai</label>
-          <div id="info-phone">--</div>
+        <div class="captcha-row" id="captcha-row">
+          <div class="captcha-display" id="captcha-display" aria-live="polite">
+            <span class="captcha-loading" id="captcha-loading">Loading captcha...</span>
+            <img class="captcha-image" id="captcha-image" alt="Captcha challenge" />
+            <span class="captcha-text" id="captcha-text"></span>
+          </div>
+          <button class="captcha-refresh" id="captcha-refresh" type="button" aria-label="Refresh captcha">
+            <i class="fa-solid fa-rotate"></i>
+          </button>
+          <input id="captcha-code" class="tracking-input captcha-input" type="text" placeholder="Enter captcha"
+            autocomplete="off" required />
         </div>
-        <div class="detail-item">
-          <label>Dia chi giao</label>
-          <div id="info-dropoff">--</div>
-        </div>
-        <div class="detail-item">
-          <label>Dia chi lay</label>
-          <div id="info-pickup">--</div>
-        </div>
-        <div class="detail-item">
-          <label>Loai xe</label>
-          <div id="info-vehicle">--</div>
-        </div>
-        <div class="detail-item">
-          <label>Khoang cach du kien</label>
-          <div id="info-distance">--</div>
-        </div>
-      </div>
+        <div class="captcha-error" id="captcha-error" role="alert" aria-live="polite"></div>
+      </form>
     </div>
 
-    <div class="timeline" id="timeline"></div>
-    <div class="timeline-toggle" id="timeline-toggle">Xem them</div>
+    <div class="tracking-message" id="tracking-message" role="status" aria-live="polite"></div>
+
+    <section id="tracking-skeleton" class="tracking-skeleton" aria-hidden="true">
+      <div class="tracking-card tracking-summary">
+        <div class="skeleton-row">
+          <div class="skeleton-pill w-120"></div>
+          <div class="skeleton-pill w-180"></div>
+        </div>
+        <div class="skeleton-row">
+          <div class="skeleton-circle"></div>
+          <div class="skeleton-line w-240"></div>
+        </div>
+        <div class="skeleton-stepper">
+          <div class="skeleton-step">
+            <div class="skeleton-circle"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line w-120"></div>
+          </div>
+          <div class="skeleton-step">
+            <div class="skeleton-circle"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line w-120"></div>
+          </div>
+          <div class="skeleton-step">
+            <div class="skeleton-circle"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line w-120"></div>
+          </div>
+          <div class="skeleton-step">
+            <div class="skeleton-circle"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line w-120"></div>
+          </div>
+        </div>
+      </div>
+      <div class="tracking-grid">
+        <div class="tracking-card">
+          <div class="skeleton-stack">
+            <div class="skeleton-line w-180"></div>
+            <div class="skeleton-block"></div>
+            <div class="skeleton-block"></div>
+          </div>
+        </div>
+        <div class="tracking-card">
+          <div class="skeleton-stack">
+            <div class="skeleton-line w-180"></div>
+            <div class="skeleton-block"></div>
+            <div class="skeleton-block"></div>
+            <div class="skeleton-block"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tracking-result" class="tracking-result is-hidden" aria-live="polite">
+      <div class="tracking-card tracking-summary">
+        <div class="summary-header">
+          <button id="tracking-back" class="back-btn" type="button">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back
+          </button>
+          <div class="summary-meta">
+            <div class="order-code">
+              <span class="label">Order code</span>
+              <div class="order-code-row">
+                <span id="order-code">--</span>
+                <button id="copy-order-code" class="copy-btn" type="button" aria-label="Copy order code">
+                  <i class="fa-regular fa-copy"></i>
+                </button>
+                <span id="copy-hint" class="copy-hint" aria-live="polite"></span>
+              </div>
+            </div>
+            <span id="status-badge" class="status-badge">
+              <i id="status-badge-icon" class="fa-solid fa-circle"></i>
+              <span id="status-badge-text">--</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="status-display">
+          <div class="status-marker">
+            <i id="status-display-icon" class="fa-solid fa-circle"></i>
+          </div>
+          <div>
+            <p class="status-label">Current status</p>
+            <p id="status-display-text" class="status-text">--</p>
+            <p id="current-status" class="status-sub">--</p>
+          </div>
+        </div>
+
+        <div id="tracking-steps" class="stepper"></div>
+      </div>
+
+      <div class="tracking-grid">
+        <section class="tracking-card">
+          <div class="card-header">
+            <h3>Delivery details</h3>
+            <p>Shipment route and receiver contact.</p>
+          </div>
+          <div class="detail-grid">
+            <div class="detail-block">
+              <span class="detail-label">Pickup address</span>
+              <p id="pickup-address" class="detail-value">--</p>
+            </div>
+            <div class="detail-block">
+              <span class="detail-label">Dropoff address</span>
+              <p id="dropoff-address" class="detail-value">--</p>
+            </div>
+          </div>
+          <div class="detail-grid">
+            <div class="detail-block">
+              <span class="detail-label">Receiver name</span>
+              <p id="receiver-name" class="detail-value">--</p>
+            </div>
+            <div class="detail-block">
+              <span class="detail-label">Receiver phone</span>
+              <p id="receiver-phone" class="detail-value">--</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="tracking-card">
+          <div class="card-header">
+            <h3>Vehicle and updates</h3>
+            <p>Live events from the tracking timeline.</p>
+          </div>
+          <div class="vehicle-row">
+            <div>
+              <span class="detail-label">Vehicle</span>
+              <p id="vehicle-name" class="detail-value">--</p>
+            </div>
+          </div>
+          <div id="tracking-history" class="timeline">
+            <div class="timeline-empty">No tracking history.</div>
+          </div>
+        </section>
+      </div>
+    </section>
   </div>
 <!--Main content end-->
 
@@ -607,133 +1345,571 @@
       const input = document.getElementById("tracking-code");
       const submitBtn = document.getElementById("tracking-submit");
       const messageBox = document.getElementById("tracking-message");
-      const card = document.getElementById("tracking-card");
-      const infoCode = document.getElementById("info-order-code");
-      const infoStatus = document.getElementById("info-status");
-      const infoReceiver = document.getElementById("info-receiver");
-      const infoPhone = document.getElementById("info-phone");
-      const infoDropoff = document.getElementById("info-dropoff");
-      const infoPickup = document.getElementById("info-pickup");
-      const infoVehicle = document.getElementById("info-vehicle");
-      const infoDistance = document.getElementById("info-distance");
-      const timelineEl = document.getElementById("timeline");
-      const timelineToggle = document.getElementById("timeline-toggle");
-      const MAX_VISIBLE = 5;
-      let fullHistory = [];
-      let collapsed = true;
+      const skeleton = document.getElementById("tracking-skeleton");
+      const result = document.getElementById("tracking-result");
+      const backBtn = document.getElementById("tracking-back");
+      const orderCodeEl = document.getElementById("order-code");
+      const copyBtn = document.getElementById("copy-order-code");
+      const copyHint = document.getElementById("copy-hint");
+      const statusBadge = document.getElementById("status-badge");
+      const statusBadgeIcon = document.getElementById("status-badge-icon");
+      const statusBadgeText = document.getElementById("status-badge-text");
+      const statusDisplayIcon = document.getElementById("status-display-icon");
+      const statusDisplayText = document.getElementById("status-display-text");
+      const currentStatusEl = document.getElementById("current-status");
+      const stepsEl = document.getElementById("tracking-steps");
+      const pickupEl = document.getElementById("pickup-address");
+      const dropoffEl = document.getElementById("dropoff-address");
+      const receiverNameEl = document.getElementById("receiver-name");
+      const receiverPhoneEl = document.getElementById("receiver-phone");
+      const vehicleEl = document.getElementById("vehicle-name");
+      const historyEl = document.getElementById("tracking-history");
+      const captchaRow = document.getElementById("captcha-row");
+      const captchaDisplay = document.getElementById("captcha-display");
+      const captchaLoading = document.getElementById("captcha-loading");
+      const captchaImage = document.getElementById("captcha-image");
+      const captchaText = document.getElementById("captcha-text");
+      const captchaInput = document.getElementById("captcha-code");
+      const captchaRefreshBtn = document.getElementById("captcha-refresh");
+      const captchaError = document.getElementById("captcha-error");
+
+      const captchaApiBase = "https://captcha-api-ca46.onrender.com";
+
+      let hasData = false;
+      let currentController = null;
+      let isTrackingLoading = false;
+      let isCaptchaLoading = false;
+      let isCaptchaVerifying = false;
+      let captchaToken = null;
+      let captchaId = null;
+      let captchaVerifyUrl = null;
+      let captchaChallengeLoaded = false;
+
+      const captchaEnabled = Boolean(captchaRow && captchaInput && captchaRefreshBtn);
+
+      const updateSubmitState = () => {
+        if (!submitBtn) return;
+        submitBtn.disabled = isTrackingLoading || isCaptchaLoading || isCaptchaVerifying;
+      };
 
       const setMessage = (text, isError = false) => {
+        if (!messageBox) return;
         messageBox.textContent = text || "";
-        messageBox.style.color = isError ? "#ffb199" : "#eaf3fb";
+        messageBox.classList.toggle("is-error", Boolean(isError));
       };
 
       const setLoading = (isLoading) => {
-        submitBtn.disabled = isLoading;
-        submitBtn.textContent = isLoading ? "Dang tra cuu..." : "Tra cuu";
+        isTrackingLoading = isLoading;
+        if (skeleton) {
+          skeleton.style.display = isLoading ? "block" : "none";
+        }
+        if (result) {
+          result.classList.toggle("is-hidden", isLoading || !hasData);
+          result.setAttribute("aria-busy", isLoading ? "true" : "false");
+        }
+        updateSubmitState();
       };
 
-      const statusClass = (status) => {
-        const key = (status || "").toLowerCase();
-        if (key.includes("giao") || key.includes("delivered")) return "status-success";
-        if (key.includes("v?n") || key.includes("shipping") || key.includes("transit")) return "status-warning";
-        if (key.includes("t?o") || key.includes("created")) return "status-muted";
-        return "status-info";
+      // Captcha integration (self-contained to swap/remove later).
+      const setCaptchaError = (text) => {
+        if (!captchaError) return;
+        captchaError.textContent = text || "";
       };
 
-      const formatTime = (value) => {
+      const setCaptchaBusyState = (loading, verifying) => {
+        isCaptchaLoading = loading;
+        isCaptchaVerifying = verifying;
+        if (captchaRow) {
+          captchaRow.classList.toggle("is-loading", loading || verifying);
+        }
+        if (captchaDisplay) {
+          captchaDisplay.setAttribute("aria-busy", loading || verifying ? "true" : "false");
+        }
+        if (captchaRefreshBtn) {
+          captchaRefreshBtn.disabled = loading || verifying;
+        }
+        if (captchaLoading) {
+          const message = loading ? "Loading captcha..." : verifying ? "Verifying captcha..." : "";
+          captchaLoading.textContent = message;
+          captchaLoading.style.display = message ? "inline-flex" : "none";
+        }
+        updateSubmitState();
+      };
+
+      const normalizeCaptchaImage = (value) => {
+        if (!value) return "";
+        const trimmed = String(value).trim();
+        if (!trimmed) return "";
+        if (/^data:image\//i.test(trimmed) || /^https?:\/\//i.test(trimmed)) {
+          return trimmed;
+        }
+        return `data:image/png;base64,${trimmed}`;
+      };
+
+      const resolveCaptchaVerifyUrl = (value) => {
+        if (!value) return "";
+        const trimmed = String(value).trim();
+        if (!trimmed) return "";
+        if (/^https?:\/\//i.test(trimmed)) return trimmed;
+        const suffix = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+        return `${captchaApiBase}${suffix}`;
+      };
+
+      const renderCaptcha = ({ image, text }) => {
+        const imageSrc = normalizeCaptchaImage(image);
+        const textValue = String(text || "").trim();
+        const showText = Boolean(textValue) && !imageSrc;
+
+        captchaChallengeLoaded = Boolean(imageSrc || textValue);
+
+        if (captchaImage) {
+          captchaImage.src = imageSrc;
+          captchaImage.style.display = imageSrc ? "block" : "none";
+        }
+        if (captchaText) {
+          captchaText.textContent = showText ? textValue : "";
+          captchaText.style.display = showText ? "inline-flex" : "none";
+        }
+      };
+
+      const readJsonSafe = async (response) => {
+        try {
+          return await response.json();
+        } catch (_) {
+          return null;
+        }
+      };
+
+      const parseVerifyResult = (data) => {
+        if (data === true) return true;
+        if (typeof data === "string") {
+          const status = data.trim().toLowerCase();
+          return status === "ok" || status === "success" || status === "valid" || status === "verified";
+        }
+        if (!data || typeof data !== "object") return false;
+        if (data.success === true || data.valid === true || data.verified === true) return true;
+        const status = String(data.status || data.result || "").toLowerCase();
+        return status === "ok" || status === "success" || status === "valid" || status === "verified";
+      };
+
+      const requestCaptcha = async () => {
+        if (!captchaEnabled) return;
+        captchaToken = null;
+        captchaId = null;
+        captchaVerifyUrl = null;
+        captchaChallengeLoaded = false;
+        setCaptchaError("");
+        if (captchaInput) captchaInput.value = "";
+
+        setCaptchaBusyState(true, false);
+        try {
+          const response = await fetch(`${captchaApiBase}/captcha`, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error("Captcha request failed.");
+          }
+          const data = await readJsonSafe(response);
+          captchaVerifyUrl = data?.verifyUrl || data?.verificationUrl || null;
+          const image = data?.image || data?.imageBase64 || data?.captchaImage || data?.imageUrl || data?.img;
+          const text = data?.text || data?.challenge || data?.question || data?.captcha || data?.code;
+          captchaToken = data?.token || data?.captchaToken || data?.key || data?.id || data?.captchaId || null;
+          captchaId = data?.captchaId || data?.id || captchaToken;
+          renderCaptcha({ image, text });
+
+          if (!captchaChallengeLoaded) {
+            throw new Error("Captcha payload missing.");
+          }
+        } catch (_) {
+          renderCaptcha({ image: "", text: "" });
+          setCaptchaError("Unable to load captcha. Please refresh.");
+        } finally {
+          setCaptchaBusyState(false, false);
+        }
+      };
+
+      const verifyCaptchaRequest = async (url, payload) => {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (response.status === 404 || response.status === 405) {
+          return { ok: false, retry: true };
+        }
+        if (!response.ok) {
+          return { ok: false, retry: false };
+        }
+        if (response.status === 204) {
+          return { ok: true, retry: false };
+        }
+        const data = await readJsonSafe(response);
+        return { ok: parseVerifyResult(data), retry: false };
+      };
+
+      const verifyCaptcha = async () => {
+        if (!captchaEnabled) return true;
+        const value = captchaInput?.value?.trim();
+
+        if (!value) {
+          setCaptchaError("Please enter the captcha code.");
+          return false;
+        }
+        if (!captchaChallengeLoaded) {
+          setCaptchaError("Captcha is not ready. Please refresh.");
+          return false;
+        }
+
+        setCaptchaError("");
+        setCaptchaBusyState(false, true);
+
+        const payload = {
+          code: value,
+          answer: value,
+          captcha: value,
+          token: captchaToken,
+          captchaToken,
+          captchaId
+        };
+        const primaryUrl = captchaVerifyUrl
+          ? resolveCaptchaVerifyUrl(captchaVerifyUrl)
+          : `${captchaApiBase}/captcha/verify`;
+
+        try {
+          let result = await verifyCaptchaRequest(primaryUrl, payload);
+          if (result.retry && !captchaVerifyUrl) {
+            result = await verifyCaptchaRequest(`${captchaApiBase}/verify`, payload);
+          }
+          if (!result.ok) {
+            setCaptchaError("Captcha incorrect. Please try again.");
+            await requestCaptcha();
+            return false;
+          }
+          return true;
+        } catch (_) {
+          setCaptchaError("Unable to verify captcha. Please try again.");
+          await requestCaptcha();
+          return false;
+        } finally {
+          setCaptchaBusyState(false, false);
+        }
+      };
+
+      const normalizeHex = (value) => {
+        if (!value) return null;
+        const trimmed = String(value).trim();
+        if (/^#([0-9a-fA-F]{3}){1,2}$/.test(trimmed)) return trimmed;
+        return null;
+      };
+
+      const hexToRgb = (hex) => {
+        const cleaned = hex.replace("#", "");
+        const normalized = cleaned.length === 3
+          ? cleaned.split("").map((ch) => ch + ch).join("")
+          : cleaned;
+        const intVal = parseInt(normalized, 16);
+        if (Number.isNaN(intVal)) return null;
+        return {
+          r: (intVal >> 16) & 255,
+          g: (intVal >> 8) & 255,
+          b: intVal & 255
+        };
+      };
+
+      const toRgba = (hex, alpha) => {
+        const rgb = hexToRgb(hex);
+        if (!rgb) return "";
+        return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
+      };
+
+      const resolveIcon = (key) => {
+        const map = {
+          "check-circle": "fa-circle-check",
+          "check": "fa-circle-check",
+          "document": "fa-file-lines",
+          "wallet": "fa-wallet",
+          "truck": "fa-truck",
+          "box": "fa-box",
+          "location": "fa-location-dot",
+          "clock": "fa-clock",
+          "alert": "fa-triangle-exclamation"
+        };
+        const normalized = String(key || "").toLowerCase();
+        return map[normalized] || "fa-circle";
+      };
+
+      const formatDateTime = (value) => {
         if (!value) return "--";
-        const d = new Date(value);
-        if (Number.isNaN(d.getTime())) return value;
-        const pad = (n) => (n < 10 ? `0${n}` : `${n}`);
-        return `${pad(d.getHours())}:${pad(d.getMinutes())} ${pad(d.getDate())}-${pad(d.getMonth() + 1)}-${d.getFullYear()}`;
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "--";
+        return new Intl.DateTimeFormat("en-GB", {
+          dateStyle: "medium",
+          timeStyle: "short"
+        }).format(date);
       };
 
-      const renderInfo = (data) => {
-        infoCode.textContent = data.orderCode || "--";
-        const status = data.currentStatus || "--";
-        infoStatus.textContent = status;
-        infoStatus.className = `status-badge ${statusClass(status)}`;
-        infoReceiver.textContent = data.receiverName || "--";
-        infoPhone.textContent = data.receiverPhone || "--";
-        infoDropoff.textContent = data.dropoffAddress || "--";
-        infoPickup.textContent = data.pickupAddress || "--";
-        infoVehicle.textContent = data.vehicleName || "--";
-        const dist = data.distanceKm ?? data.distance ?? null;
-        infoDistance.textContent = dist ? `${Number(dist).toFixed(2)} km` : "--";
-        card.style.display = "block";
+      const renderStatusDisplay = (statusDisplay) => {
+        const displayText = statusDisplay?.text || "--";
+        const iconKey = statusDisplay?.icon || "";
+        const accent = normalizeHex(statusDisplay?.color) || "#0ea5e9";
+        const soft = toRgba(accent, 0.12) || "rgba(14, 165, 233, 0.12)";
+        const strong = toRgba(accent, 0.24) || "rgba(14, 165, 233, 0.24)";
+
+        if (statusBadgeText) statusBadgeText.textContent = displayText;
+        if (statusDisplayText) statusDisplayText.textContent = displayText;
+        if (statusBadgeIcon) statusBadgeIcon.className = `fa-solid ${resolveIcon(iconKey)}`;
+        if (statusDisplayIcon) statusDisplayIcon.className = `fa-solid ${resolveIcon(iconKey)}`;
+
+        if (result) {
+          result.style.setProperty("--tracking-accent", accent);
+          result.style.setProperty("--tracking-accent-soft", soft);
+          result.style.setProperty("--tracking-accent-strong", strong);
+        }
+
+        if (statusBadge) {
+          statusBadge.style.borderColor = accent;
+          statusBadge.style.backgroundColor = soft;
+          statusBadge.style.color = accent;
+        }
       };
 
-      const renderTimeline = () => {
-        timelineEl.innerHTML = "";
-        const items = collapsed ? fullHistory.slice(0, MAX_VISIBLE) : fullHistory;
-        items.forEach((item, idx) => {
-          const node = document.createElement("div");
-          node.className = "timeline-item";
-          node.style.animationDelay = `${idx * 40}ms`;
-          node.innerHTML = `
-            <div class="timeline-dot"></div>
-            <div class="timeline-time">${formatTime(item.time || item.timestamp)}</div>
-            <div class="timeline-status">${item.status || "Trang thai"}</div>
-            <p class="timeline-desc">${item.title || item.description || ""}</p>
-            <div class="timeline-location">${item.location || ""}</div>
-          `;
-          timelineEl.appendChild(node);
+      const renderSteps = (steps) => {
+        if (!stepsEl) return;
+        stepsEl.innerHTML = "";
+        const list = Array.isArray(steps) ? steps : [];
+        if (!list.length) {
+          const empty = document.createElement("div");
+          empty.className = "stepper-empty";
+          empty.textContent = "No steps available.";
+          stepsEl.appendChild(empty);
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        list.forEach((step, index) => {
+          const item = document.createElement("div");
+          item.className = `stepper-item${step?.completed ? " is-complete" : ""}`;
+          item.style.animationDelay = `${index * 60}ms`;
+
+          const icon = document.createElement("div");
+          icon.className = "stepper-icon";
+          const iconEl = document.createElement("i");
+          iconEl.className = `fa-solid ${resolveIcon(step?.icon)}`;
+          icon.appendChild(iconEl);
+
+          const label = document.createElement("div");
+          label.className = "stepper-label";
+          label.textContent = step?.label || step?.key || "--";
+
+          const time = document.createElement("div");
+          time.className = "stepper-time";
+          time.textContent = formatDateTime(step?.completedAt);
+
+          item.appendChild(icon);
+          item.appendChild(label);
+          item.appendChild(time);
+          fragment.appendChild(item);
         });
 
-        if (fullHistory.length > MAX_VISIBLE) {
-          timelineToggle.style.display = "block";
-          timelineToggle.textContent = collapsed ? "Xem them" : "Rut gon";
-        } else {
-          timelineToggle.style.display = "none";
-        }
-        timelineEl.style.display = items.length ? "block" : "none";
+        stepsEl.appendChild(fragment);
       };
 
-      const handleFetch = async (code) => {
-        setLoading(true);
-        setMessage("Dang tra cuu...");
-        card.style.display = "none";
-        timelineEl.style.display = "none";
-        timelineToggle.style.display = "none";
-        fullHistory = [];
+      const renderTimeline = (history) => {
+        if (!historyEl) return;
+        historyEl.innerHTML = "";
+        const list = Array.isArray(history) ? history : [];
+        if (!list.length) {
+          const empty = document.createElement("div");
+          empty.className = "timeline-empty";
+          empty.textContent = "No tracking history.";
+          historyEl.appendChild(empty);
+          return;
+        }
+
+        const sorted = [...list].sort(
+          (a, b) => new Date(b?.createdAt || 0) - new Date(a?.createdAt || 0)
+        );
+
+        const fragment = document.createDocumentFragment();
+        sorted.forEach((item, index) => {
+          const entry = document.createElement("div");
+          entry.className = `timeline-item${index === 0 ? " is-current" : ""}`;
+          entry.style.animationDelay = `${index * 60}ms`;
+
+          const dot = document.createElement("div");
+          dot.className = "timeline-dot";
+
+          const header = document.createElement("div");
+          header.className = "timeline-header";
+
+          const titleWrap = document.createElement("div");
+          const title = document.createElement("div");
+          title.className = "timeline-title";
+          title.textContent = item?.title || item?.status || "Status update";
+
+          const status = document.createElement("div");
+          status.className = "timeline-status";
+          status.textContent = item?.status || "--";
+
+          titleWrap.appendChild(title);
+          titleWrap.appendChild(status);
+
+          const time = document.createElement("div");
+          time.className = "timeline-time";
+          time.textContent = formatDateTime(item?.createdAt);
+
+          header.appendChild(titleWrap);
+          header.appendChild(time);
+
+          entry.appendChild(dot);
+          entry.appendChild(header);
+
+          if (item?.description) {
+            const desc = document.createElement("p");
+            desc.className = "timeline-desc";
+            desc.textContent = item.description;
+            entry.appendChild(desc);
+          }
+
+          if (item?.location) {
+            const location = document.createElement("div");
+            location.className = "timeline-location";
+            location.textContent = item.location;
+            entry.appendChild(location);
+          }
+
+          fragment.appendChild(entry);
+        });
+
+        historyEl.appendChild(fragment);
+      };
+
+      const renderTracking = (data) => {
+        hasData = true;
+        if (result) result.classList.remove("is-hidden");
+        if (orderCodeEl) orderCodeEl.textContent = data?.orderCode || "--";
+        if (currentStatusEl) currentStatusEl.textContent = data?.currentStatus || "--";
+        if (pickupEl) pickupEl.textContent = data?.pickupAddress || "--";
+        if (dropoffEl) dropoffEl.textContent = data?.dropoffAddress || "--";
+        if (receiverNameEl) receiverNameEl.textContent = data?.receiverName || "--";
+        if (receiverPhoneEl) receiverPhoneEl.textContent = data?.receiverPhone || "--";
+        if (vehicleEl) vehicleEl.textContent = data?.vehicleName || "--";
+        renderStatusDisplay(data?.statusDisplay || {});
+        renderSteps(data?.steps || []);
+        renderTimeline(data?.history || []);
+      };
+
+      const copyToClipboard = async (value) => {
+        if (!value) return false;
         try {
-          const res = await Api.apiFetch(`/api/tracking/${encodeURIComponent(code)}`);
-          const data = await res.json();
-          renderInfo(data);
-          fullHistory = Array.isArray(data.history) ? [...data.history] : [];
-          fullHistory.sort((a, b) => {
-            const da = new Date(a.time || a.timestamp || 0).getTime();
-            const db = new Date(b.time || b.timestamp || 0).getTime();
-            return db - da;
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(value);
+            return true;
+          }
+        } catch (_) {
+          // fall through
+        }
+
+        try {
+          const temp = document.createElement("textarea");
+          temp.value = value;
+          temp.setAttribute("readonly", "");
+          temp.style.position = "absolute";
+          temp.style.left = "-9999px";
+          document.body.appendChild(temp);
+          temp.select();
+          const ok = document.execCommand("copy");
+          document.body.removeChild(temp);
+          return ok;
+        } catch (_) {
+          return false;
+        }
+      };
+
+      const handleCopy = async () => {
+        if (!orderCodeEl || !copyHint) return;
+        const text = orderCodeEl.textContent?.trim();
+        if (!text || text === "--") return;
+
+        const success = await copyToClipboard(text);
+        copyHint.textContent = success ? "Copied" : "Copy failed";
+        copyHint.classList.toggle("is-error", !success);
+        setTimeout(() => {
+          copyHint.textContent = "";
+          copyHint.classList.remove("is-error");
+        }, 2000);
+      };
+
+      const fetchTracking = async (code) => {
+        if (!Api || typeof Api.apiFetch !== "function") {
+          setMessage("API client not available.", true);
+          return;
+        }
+        if (!code) return;
+
+        if (currentController) currentController.abort();
+        currentController = new AbortController();
+
+        setLoading(true);
+        setMessage("");
+
+        try {
+          const res = await Api.apiFetch(`/api/tracking/${encodeURIComponent(code)}`, {
+            signal: currentController.signal
           });
-          renderTimeline();
+          const data = await res.json();
+          renderTracking(data);
           setMessage("");
         } catch (error) {
-          const message = error?.message || "";
-          if (message.includes("404")) {
-            setMessage("Ma theo doi khong ton tai", true);
-          } else {
-            setMessage(message || "Khong the tra cuu. Vui long thu lai.", true);
-          }
+          if (error?.name === "AbortError") return;
+          hasData = false;
+          if (result) result.classList.add("is-hidden");
+          const message = error?.message || "Unable to load tracking details.";
+          setMessage(message, true);
         } finally {
           setLoading(false);
         }
       };
 
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const code = input.value.trim();
+      form?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const code = input?.value?.trim();
         if (!code) {
-          setMessage("Vui long nhap ma theo doi", true);
+          setMessage("Please enter an order code.", true);
           return;
         }
-        handleFetch(code);
+        const captchaOk = await verifyCaptcha();
+        if (!captchaOk) return;
+        await fetchTracking(code);
+        if (captchaEnabled) {
+          requestCaptcha();
+        }
       });
 
-      timelineToggle.addEventListener("click", () => {
-        collapsed = !collapsed;
-        renderTimeline();
+      captchaRefreshBtn?.addEventListener("click", () => {
+        requestCaptcha();
       });
+
+      captchaInput?.addEventListener("input", () => {
+        setCaptchaError("");
+      });
+
+      copyBtn?.addEventListener("click", handleCopy);
+
+      backBtn?.addEventListener("click", () => {
+        window.history.back();
+      });
+
+      if (captchaEnabled) {
+        requestCaptcha();
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const prefillCode = params.get("orderCode") || params.get("code");
+      if (prefillCode && input) {
+        input.value = prefillCode;
+        if (!captchaEnabled) {
+          fetchTracking(prefillCode);
+        }
+      }
     });
   </script>
 </body>
