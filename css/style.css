@@ -3401,12 +3401,6 @@ video {
   flex: 1;
 }
 
-/* Ô nhập mã xác nhận */
-.div-tracking-cap {
-  width: 40% !important;
-  flex: 1;
-}
-
 /* Ô nhập liệu */
 .input-tracking {
   background: #fff;
@@ -3426,49 +3420,6 @@ video {
 .input-tracking:focus {
   transform: scale(1.02);
   /* Phóng to nhẹ khi focus */
-}
-
-/* Khu vực captcha */
-.with-tracking {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
-}
-
-.img-cap {
-  width: 32% !important;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.output-code {
-  background: #dcdadb;
-  border-radius: 4px;
-  padding: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-#custom-captcha {
-  height: 28px;
-  margin-right: 5px;
-}
-
-.reload-captcha {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-.reload-captcha:hover {
-  transform: rotate(360deg);
 }
 
 /* Nút Theo dõi */
@@ -3557,21 +3508,6 @@ video {
     min-width: 90%;
   }
 
-  .div-tracking-cap {
-    width: 50% !important;
-    min-width: 50%;
-  }
-
-  .with-tracking {
-    width: 90% !important;
-    min-width: 90%;
-  }
-
-  .img-cap {
-    width: 50% !important;
-    margin: 0 auto;
-  }
-
   .button-tracking {
     width: 90%;
   }
@@ -3604,15 +3540,6 @@ video {
     font-size: 12px;
     height: 36px;
     padding: 2px 15px;
-  }
-
-  #tra-cuu-captcha {
-    height: 24px;
-  }
-
-  .reload-captcha {
-    width: 16px;
-    height: 16px;
   }
 }
 

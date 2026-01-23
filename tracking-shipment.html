@@ -147,87 +147,6 @@
       box-shadow: 0 0 0 3px var(--tracking-accent-soft);
     }
 
-    .captcha-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
-      padding: 12px;
-      border-radius: 16px;
-      border: 1px solid var(--tracking-border);
-      background: rgba(255, 255, 255, 0.75);
-    }
-
-    .captcha-display {
-      min-height: 46px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--tracking-ink);
-      font-weight: 700;
-      flex-wrap: wrap;
-    }
-
-    .captcha-loading {
-      font-size: 0.85rem;
-      color: var(--tracking-muted);
-    }
-
-    .captcha-image {
-      max-height: 46px;
-      max-width: 220px;
-      border-radius: 10px;
-      border: 1px solid rgba(15, 23, 42, 0.08);
-      display: none;
-    }
-
-    .captcha-text {
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      display: none;
-    }
-
-    .captcha-input {
-      grid-column: 1 / -1;
-    }
-
-    .captcha-refresh {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      border: 1px solid var(--tracking-border);
-      background: #ffffff;
-      color: var(--tracking-ink);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease,
-        transform 0.2s ease;
-    }
-
-    .captcha-refresh:hover:not(:disabled) {
-      border-color: var(--tracking-accent);
-      color: var(--tracking-accent);
-      box-shadow: 0 8px 18px var(--tracking-accent-soft);
-      transform: translateY(-1px);
-    }
-
-    .captcha-refresh:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .captcha-error {
-      min-height: 18px;
-      font-size: 0.85rem;
-      color: #b42318;
-    }
-
-    .captcha-row.is-loading .captcha-display,
-    .captcha-row.is-loading .captcha-refresh {
-      opacity: 0.6;
-    }
-
     .tracking-btn {
       display: inline-flex;
       align-items: center;
@@ -992,19 +911,6 @@
             <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
-        <div class="captcha-row" id="captcha-row">
-          <div class="captcha-display" id="captcha-display" aria-live="polite">
-            <span class="captcha-loading" id="captcha-loading">Loading captcha...</span>
-            <img class="captcha-image" id="captcha-image" alt="Captcha challenge" />
-            <span class="captcha-text" id="captcha-text"></span>
-          </div>
-          <button class="captcha-refresh" id="captcha-refresh" type="button" aria-label="Refresh captcha">
-            <i class="fa-solid fa-rotate"></i>
-          </button>
-          <input id="captcha-code" class="tracking-input captcha-input" type="text" placeholder="Enter captcha"
-            autocomplete="off" required />
-        </div>
-        <div class="captcha-error" id="captcha-error" role="alert" aria-live="polite"></div>
       </form>
     </div>
 
@@ -1364,32 +1270,14 @@
       const receiverPhoneEl = document.getElementById("receiver-phone");
       const vehicleEl = document.getElementById("vehicle-name");
       const historyEl = document.getElementById("tracking-history");
-      const captchaRow = document.getElementById("captcha-row");
-      const captchaDisplay = document.getElementById("captcha-display");
-      const captchaLoading = document.getElementById("captcha-loading");
-      const captchaImage = document.getElementById("captcha-image");
-      const captchaText = document.getElementById("captcha-text");
-      const captchaInput = document.getElementById("captcha-code");
-      const captchaRefreshBtn = document.getElementById("captcha-refresh");
-      const captchaError = document.getElementById("captcha-error");
-
-      const captchaApiBase = "https://captcha-api-ca46.onrender.com";
 
       let hasData = false;
       let currentController = null;
       let isTrackingLoading = false;
-      let isCaptchaLoading = false;
-      let isCaptchaVerifying = false;
-      let captchaToken = null;
-      let captchaId = null;
-      let captchaVerifyUrl = null;
-      let captchaChallengeLoaded = false;
-
-      const captchaEnabled = Boolean(captchaRow && captchaInput && captchaRefreshBtn);
 
       const updateSubmitState = () => {
         if (!submitBtn) return;
-        submitBtn.disabled = isTrackingLoading || isCaptchaLoading || isCaptchaVerifying;
+        submitBtn.disabled = isTrackingLoading;
       };
 
       const setMessage = (text, isError = false) => {
@@ -1408,189 +1296,6 @@
           result.setAttribute("aria-busy", isLoading ? "true" : "false");
         }
         updateSubmitState();
-      };
-
-      // Captcha integration (self-contained to swap/remove later).
-      const setCaptchaError = (text) => {
-        if (!captchaError) return;
-        captchaError.textContent = text || "";
-      };
-
-      const setCaptchaBusyState = (loading, verifying) => {
-        isCaptchaLoading = loading;
-        isCaptchaVerifying = verifying;
-        if (captchaRow) {
-          captchaRow.classList.toggle("is-loading", loading || verifying);
-        }
-        if (captchaDisplay) {
-          captchaDisplay.setAttribute("aria-busy", loading || verifying ? "true" : "false");
-        }
-        if (captchaRefreshBtn) {
-          captchaRefreshBtn.disabled = loading || verifying;
-        }
-        if (captchaLoading) {
-          const message = loading ? "Loading captcha..." : verifying ? "Verifying captcha..." : "";
-          captchaLoading.textContent = message;
-          captchaLoading.style.display = message ? "inline-flex" : "none";
-        }
-        updateSubmitState();
-      };
-
-      const normalizeCaptchaImage = (value) => {
-        if (!value) return "";
-        const trimmed = String(value).trim();
-        if (!trimmed) return "";
-        if (/^data:image\//i.test(trimmed) || /^https?:\/\//i.test(trimmed)) {
-          return trimmed;
-        }
-        return `data:image/png;base64,${trimmed}`;
-      };
-
-      const resolveCaptchaVerifyUrl = (value) => {
-        if (!value) return "";
-        const trimmed = String(value).trim();
-        if (!trimmed) return "";
-        if (/^https?:\/\//i.test(trimmed)) return trimmed;
-        const suffix = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
-        return `${captchaApiBase}${suffix}`;
-      };
-
-      const renderCaptcha = ({ image, text }) => {
-        const imageSrc = normalizeCaptchaImage(image);
-        const textValue = String(text || "").trim();
-        const showText = Boolean(textValue) && !imageSrc;
-
-        captchaChallengeLoaded = Boolean(imageSrc || textValue);
-
-        if (captchaImage) {
-          captchaImage.src = imageSrc;
-          captchaImage.style.display = imageSrc ? "block" : "none";
-        }
-        if (captchaText) {
-          captchaText.textContent = showText ? textValue : "";
-          captchaText.style.display = showText ? "inline-flex" : "none";
-        }
-      };
-
-      const readJsonSafe = async (response) => {
-        try {
-          return await response.json();
-        } catch (_) {
-          return null;
-        }
-      };
-
-      const parseVerifyResult = (data) => {
-        if (data === true) return true;
-        if (typeof data === "string") {
-          const status = data.trim().toLowerCase();
-          return status === "ok" || status === "success" || status === "valid" || status === "verified";
-        }
-        if (!data || typeof data !== "object") return false;
-        if (data.success === true || data.valid === true || data.verified === true) return true;
-        const status = String(data.status || data.result || "").toLowerCase();
-        return status === "ok" || status === "success" || status === "valid" || status === "verified";
-      };
-
-      const requestCaptcha = async () => {
-        if (!captchaEnabled) return;
-        captchaToken = null;
-        captchaId = null;
-        captchaVerifyUrl = null;
-        captchaChallengeLoaded = false;
-        setCaptchaError("");
-        if (captchaInput) captchaInput.value = "";
-
-        setCaptchaBusyState(true, false);
-        try {
-          const response = await fetch(`${captchaApiBase}/captcha`, { cache: "no-store" });
-          if (!response.ok) {
-            throw new Error("Captcha request failed.");
-          }
-          const data = await readJsonSafe(response);
-          captchaVerifyUrl = data?.verifyUrl || data?.verificationUrl || null;
-          const image = data?.image || data?.imageBase64 || data?.captchaImage || data?.imageUrl || data?.img;
-          const text = data?.text || data?.challenge || data?.question || data?.captcha || data?.code;
-          captchaToken = data?.token || data?.captchaToken || data?.key || data?.id || data?.captchaId || null;
-          captchaId = data?.captchaId || data?.id || captchaToken;
-          renderCaptcha({ image, text });
-
-          if (!captchaChallengeLoaded) {
-            throw new Error("Captcha payload missing.");
-          }
-        } catch (_) {
-          renderCaptcha({ image: "", text: "" });
-          setCaptchaError("Unable to load captcha. Please refresh.");
-        } finally {
-          setCaptchaBusyState(false, false);
-        }
-      };
-
-      const verifyCaptchaRequest = async (url, payload) => {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        if (response.status === 404 || response.status === 405) {
-          return { ok: false, retry: true };
-        }
-        if (!response.ok) {
-          return { ok: false, retry: false };
-        }
-        if (response.status === 204) {
-          return { ok: true, retry: false };
-        }
-        const data = await readJsonSafe(response);
-        return { ok: parseVerifyResult(data), retry: false };
-      };
-
-      const verifyCaptcha = async () => {
-        if (!captchaEnabled) return true;
-        const value = captchaInput?.value?.trim();
-
-        if (!value) {
-          setCaptchaError("Please enter the captcha code.");
-          return false;
-        }
-        if (!captchaChallengeLoaded) {
-          setCaptchaError("Captcha is not ready. Please refresh.");
-          return false;
-        }
-
-        setCaptchaError("");
-        setCaptchaBusyState(false, true);
-
-        const payload = {
-          code: value,
-          answer: value,
-          captcha: value,
-          token: captchaToken,
-          captchaToken,
-          captchaId
-        };
-        const primaryUrl = captchaVerifyUrl
-          ? resolveCaptchaVerifyUrl(captchaVerifyUrl)
-          : `${captchaApiBase}/captcha/verify`;
-
-        try {
-          let result = await verifyCaptchaRequest(primaryUrl, payload);
-          if (result.retry && !captchaVerifyUrl) {
-            result = await verifyCaptchaRequest(`${captchaApiBase}/verify`, payload);
-          }
-          if (!result.ok) {
-            setCaptchaError("Captcha incorrect. Please try again.");
-            await requestCaptcha();
-            return false;
-          }
-          return true;
-        } catch (_) {
-          setCaptchaError("Unable to verify captcha. Please try again.");
-          await requestCaptcha();
-          return false;
-        } finally {
-          setCaptchaBusyState(false, false);
-        }
       };
 
       const normalizeHex = (value) => {
@@ -1876,20 +1581,7 @@
           setMessage("Please enter an order code.", true);
           return;
         }
-        const captchaOk = await verifyCaptcha();
-        if (!captchaOk) return;
         await fetchTracking(code);
-        if (captchaEnabled) {
-          requestCaptcha();
-        }
-      });
-
-      captchaRefreshBtn?.addEventListener("click", () => {
-        requestCaptcha();
-      });
-
-      captchaInput?.addEventListener("input", () => {
-        setCaptchaError("");
       });
 
       copyBtn?.addEventListener("click", handleCopy);
@@ -1898,17 +1590,11 @@
         window.history.back();
       });
 
-      if (captchaEnabled) {
-        requestCaptcha();
-      }
-
       const params = new URLSearchParams(window.location.search);
       const prefillCode = params.get("orderCode") || params.get("code");
       if (prefillCode && input) {
         input.value = prefillCode;
-        if (!captchaEnabled) {
-          fetchTracking(prefillCode);
-        }
+        fetchTracking(prefillCode);
       }
     });
   </script>
