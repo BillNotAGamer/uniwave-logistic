@@ -56,7 +56,8 @@
                     data-key="nav_domestic_delivery">Vận chuyển nội địa</a>
                 </li>
                 <li class="secondary-nav-item expandable">
-                  <a class="secondary-nav-link clickable" href="/en/international-services" data-key="nav_international">Dịch vụ quốc tế<div></div>
+                  <a class="secondary-nav-link clickable" href="/en/international-services"
+                    data-key="nav_international">Dịch vụ quốc tế<div></div>
                   </a>
                   <ul class="tertiary-nav">
                     <li>
@@ -210,29 +211,29 @@
         </div>
       </div>
       <div class="auth-form" id="forgot-form">
-  <h1 class="auth-title">Bạn quên mật khẩu?</h1>
+        <h1 class="auth-title">Bạn quên mật khẩu?</h1>
 
-  <form id="forgot-request-form">
-    <div class="login-form-group">
-      <input type="email" id="forgot-email" placeholder=" " required />
-      <label for="forgot-email">Email</label>
-    </div>
+        <form id="forgot-request-form">
+          <div class="login-form-group">
+            <input type="email" id="forgot-email" placeholder=" " required />
+            <label for="forgot-email">Email</label>
+          </div>
 
-    <button type="submit" class="login-btn">Gửi link đặt lại mật khẩu</button>
+          <button type="submit" class="login-btn">Gửi link đặt lại mật khẩu</button>
 
-    <div id="forgot-request-error" class="text-danger mt-2" role="alert" aria-live="polite"></div>
-    <div id="forgot-request-success" class="text-success mt-2" role="status" aria-live="polite"></div>
+          <div id="forgot-request-error" class="text-danger mt-2" role="alert" aria-live="polite"></div>
+          <div id="forgot-request-success" class="text-success mt-2" role="status" aria-live="polite"></div>
 
-    <p class="mt-3" style="color:#fff; text-align:center; font-size: 14px;">
-      Nếu email tồn tại trong hệ thống, bạn sẽ nhận được đường link đặt lại mật khẩu.
-    </p>
-  </form>
+          <p class="mt-3" style="color:#fff; text-align:center; font-size: 14px;">
+            Nếu email tồn tại trong hệ thống, bạn sẽ nhận được đường link đặt lại mật khẩu.
+          </p>
+        </form>
 
-  <div class="login-link">
-    Remembered your password?
-    <a href="#" class="auth-switch" data-form="login-form">Back to login</a>
-  </div>
-</div>
+        <div class="login-link">
+          Remembered your password?
+          <a href="#" class="auth-switch" data-form="login-form">Back to login</a>
+        </div>
+      </div>
 
     </div>
   </div>
@@ -702,22 +703,31 @@
         const pathOnly = normalized.split(/[?#]/)[0];
         const isAdminPage =
           pathOnly.startsWith("/admin/") && pathOnly.endsWith(".html");
-          const isUserDashboard =
-            pathOnly === "/user-dashboard" ||
-            pathOnly === "/en/user-dashboard" ||
-            pathOnly === "/vi/user-dashboard";
+        const isUserDashboard =
+          pathOnly === "/user-dashboard" ||
+          pathOnly === "/en/user-dashboard" ||
+          pathOnly === "/vi/user-dashboard";
         if (isAdminPage || isUserDashboard) {
           return normalized;
         }
         return "";
       };
 
+      const getCurrentLang = () => {
+        const path = window.location.pathname;
+        if (path.startsWith("/vi")) return "vi";
+        return "en"; // default
+      };
+
       const resolveRedirectTarget = (roles) => {
+        const lang = getCurrentLang();
+
         const params = new URLSearchParams(window.location.search);
         const requested = normalizeRedirect(params.get("redirect"));
         if (requested) {
           return requested;
         }
+
         const lowerRoles = roles.map((role) => String(role).toLowerCase());
         if (lowerRoles.includes("admin")) {
           return "/admin/index.html";
@@ -725,8 +735,10 @@
         if (lowerRoles.includes("contenteditor")) {
           return "/admin/blogs.html";
         }
+
         return `/${lang}/user-dashboard`;
       };
+
 
       const showError = (message) => {
         if (!errorBox) return;
@@ -796,63 +808,63 @@
 
   <!--Script fetch for forgot password-->
   <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const Api = window.UniwaveAPI || window.UniwaveApi;
-    const requestForm = document.getElementById("forgot-request-form");
-    if (!Api?.apiFetch || !requestForm) return;
+    document.addEventListener("DOMContentLoaded", () => {
+      const Api = window.UniwaveAPI || window.UniwaveApi;
+      const requestForm = document.getElementById("forgot-request-form");
+      if (!Api?.apiFetch || !requestForm) return;
 
-    const requestEmailInput = document.getElementById("forgot-email");
-    const requestError = document.getElementById("forgot-request-error");
-    const requestSuccess = document.getElementById("forgot-request-success");
+      const requestEmailInput = document.getElementById("forgot-email");
+      const requestError = document.getElementById("forgot-request-error");
+      const requestSuccess = document.getElementById("forgot-request-success");
 
-    const clearMessages = () => {
-      if (requestError) requestError.textContent = "";
-      if (requestSuccess) requestSuccess.textContent = "";
-    };
+      const clearMessages = () => {
+        if (requestError) requestError.textContent = "";
+        if (requestSuccess) requestSuccess.textContent = "";
+      };
 
-    requestForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      clearMessages();
+      requestForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        clearMessages();
 
-      const email = requestEmailInput ? requestEmailInput.value.trim() : "";
-      if (!email) {
-        if (requestError) requestError.textContent = "Vui lòng nhập email.";
-        return;
-      }
-
-      const submitButton = requestForm.querySelector(".login-btn");
-      const originalText = submitButton ? submitButton.textContent : "";
-
-      if (submitButton) {
-        submitButton.disabled = true;
-        submitButton.textContent = "Đang gửi...";
-      }
-
-      try {
-        await Api.apiFetch("api/Auth/forgot-password", {
-          method: "POST",
-          body: { email },
-        });
-
-        // Backend trả message chung -> FE cũng hiển thị chung
-        if (requestSuccess) {
-          requestSuccess.textContent =
-            "Nếu email tồn tại trong hệ thống, link đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra hộp thư (và Spam).";
+        const email = requestEmailInput ? requestEmailInput.value.trim() : "";
+        if (!email) {
+          if (requestError) requestError.textContent = "Vui lòng nhập email.";
+          return;
         }
-      } catch (error) {
-        if (requestError) {
-          requestError.textContent =
-            error?.message || "Không thể gửi email. Vui lòng thử lại.";
-        }
-      } finally {
+
+        const submitButton = requestForm.querySelector(".login-btn");
+        const originalText = submitButton ? submitButton.textContent : "";
+
         if (submitButton) {
-          submitButton.disabled = false;
-          submitButton.textContent = originalText || "Gửi link đặt lại mật khẩu";
+          submitButton.disabled = true;
+          submitButton.textContent = "Đang gửi...";
         }
-      }
+
+        try {
+          await Api.apiFetch("api/Auth/forgot-password", {
+            method: "POST",
+            body: { email },
+          });
+
+          // Backend trả message chung -> FE cũng hiển thị chung
+          if (requestSuccess) {
+            requestSuccess.textContent =
+              "Nếu email tồn tại trong hệ thống, link đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra hộp thư (và Spam).";
+          }
+        } catch (error) {
+          if (requestError) {
+            requestError.textContent =
+              error?.message || "Không thể gửi email. Vui lòng thử lại.";
+          }
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = originalText || "Gửi link đặt lại mật khẩu";
+          }
+        }
+      });
     });
-  });
-</script>
+  </script>
 
   <!--Script gửi thông tin trong popup-->
   <script>
