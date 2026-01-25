@@ -702,8 +702,10 @@
         const pathOnly = normalized.split(/[?#]/)[0];
         const isAdminPage =
           pathOnly.startsWith("/admin/") && pathOnly.endsWith(".html");
-        const isUserDashboard =
-          pathOnly === "/user-dashboard" || pathOnly === "/user-dashboard.html";
+          const isUserDashboard =
+            pathOnly === "/user-dashboard" ||
+            pathOnly === "/en/user-dashboard" ||
+            pathOnly === "/vi/user-dashboard";
         if (isAdminPage || isUserDashboard) {
           return normalized;
         }
@@ -723,7 +725,7 @@
         if (lowerRoles.includes("contenteditor")) {
           return "/admin/blogs.html";
         }
-        return "/user-dashboard";
+        return `/${lang}/user-dashboard`;
       };
 
       const showError = (message) => {

@@ -81,7 +81,11 @@
       "destination": "/authentication.html"
     },
     {
-      "source": "/user-dashboard",
+      "source": "/vi/user-dashboard",
+      "destination": "/user-dashboard.html"
+    },
+    {
+      "source": "/en/user-dashboard",
       "destination": "/user-dashboard.html"
     },
     {
