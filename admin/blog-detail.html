@@ -127,6 +127,9 @@
         <section class="mt-6 grid gap-6 lg:grid-cols-[2fr,1fr]">
           <div class="animate-pop rounded-2xl border border-white/70 bg-white/85 p-6 shadow-soft">
             <h3 class="font-display text-lg">Article content</h3>
+            <div id="blogThumbnailWrap" class="mt-4 hidden rounded-2xl border border-slate-200 bg-slate-50 p-3">
+              <img id="blogThumbnail" class="h-56 w-full rounded-xl object-cover" alt="Blog thumbnail" loading="lazy" />
+            </div>
             <div class="mt-4 text-sm text-slate-600" id="blogContent">Loading content...</div>
           </div>
 
@@ -169,6 +172,8 @@
       const blogId = params.get("id");
       const titleEl = document.getElementById("blogTitle");
       const contentEl = document.getElementById("blogContent");
+      const thumbnailWrapEl = document.getElementById("blogThumbnailWrap");
+      const thumbnailEl = document.getElementById("blogThumbnail");
       const publishedAtEl = document.getElementById("blogPublishedAt");
       const authorEl = document.getElementById("blogAuthor");
       const statusBadgeEl = document.getElementById("blogStatusBadge");
@@ -211,6 +216,21 @@
         messageEl.style.display = text ? "block" : "none";
       };
 
+      const resolveImageUrl = (rawValue) => {
+        if (!rawValue) return "";
+        const trimmed = String(rawValue).trim();
+        if (!trimmed) return "";
+        if (/^https?:\/\//i.test(trimmed)) return trimmed;
+        if (Api?.BASE_API_URL) {
+          try {
+            return new URL(trimmed, Api.BASE_API_URL).toString();
+          } catch (_) {
+            return trimmed;
+          }
+        }
+        return trimmed;
+      };
+
       const loadBlog = async () => {
         if (!blogId) {
           setMessage("Missing blog id.", true);
@@ -226,9 +246,19 @@
           const res = await Api.apiFetch(`/api/admin/blogs/${encodeURIComponent(blogId)}`);
           const data = await res.json();
           const statusLabel = normalizeStatus(data?.status ?? (data?.publishedAt ? 1 : 0));
+          const thumbnailUrl = resolveImageUrl(data?.thumbnailUrl);
 
           if (titleEl) titleEl.textContent = data?.title || "--";
           if (contentEl) contentEl.innerHTML = data?.contentHtml || "<p>No content.</p>";
+          if (thumbnailWrapEl && thumbnailEl) {
+            if (thumbnailUrl) {
+              thumbnailEl.src = thumbnailUrl;
+              thumbnailEl.alt = data?.title ? `Thumbnail for ${data.title}` : "Blog thumbnail";
+              thumbnailWrapEl.classList.remove("hidden");
+            } else {
+              thumbnailWrapEl.classList.add("hidden");
+            }
+          }
           if (publishedAtEl) {
             publishedAtEl.textContent = data?.publishedAt
               ? `Published ${formatDate(data.publishedAt)}`
