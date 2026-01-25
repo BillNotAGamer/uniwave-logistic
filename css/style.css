@@ -6157,6 +6157,20 @@ video {
     padding: 8px 15px;
   }
 }
+.form-group {
+      position: relative;
+    }
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #aaa;
+    }
+    .toggle-password:hover {
+      color: #333;
+    }
 /*Fully custom sign-up page end*/
 
 /*Footer styles start*/

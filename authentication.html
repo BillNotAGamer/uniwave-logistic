@@ -16,6 +16,10 @@
   <link rel="stylesheet" href="css/style.css" />
   <!-- Swiper CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <!-- Added styles for password toggle -->
+  <style>
+    
+  </style>
 </head>
 
 <body>
@@ -164,9 +168,10 @@
             <input type="email" id="reg-email" placeholder=" " required />
             <label for="reg-email">Email</label>
           </div>
-          <div class="reg-form-group">
+          <div class="reg-form-group form-group">
             <input type="password" id="reg-password" placeholder=" " required />
             <label for="reg-password">Mật khẩu</label>
+            <span class="toggle-password" data-target="reg-password"><i class="fas fa-eye"></i></span>
           </div>
           <div class="reg-checkbox-group">
             <input type="checkbox" id="reg-terms" required />
@@ -188,9 +193,10 @@
             <input type="text" id="login-email" placeholder=" " required />
             <label for="login-email">Email</label>
           </div>
-          <div class="login-form-group">
+          <div class="login-form-group form-group">
             <input type="password" id="login-password" placeholder=" " required />
             <label for="login-password">Mật khẩu</label>
+            <span class="toggle-password" data-target="login-password"><i class="fas fa-eye"></i></span>
           </div>
           <div class="login-checkbox-group">
             <input type="checkbox" id="login-remember" />
@@ -900,6 +906,29 @@
     });
   </script>
   <!--Script gửi thông tin trong popup-->
+
+  <!-- Added script for password toggle functionality -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggles = document.querySelectorAll(".toggle-password");
+      toggles.forEach((toggle) => {
+        toggle.addEventListener("click", () => {
+          const targetId = toggle.dataset.target;
+          const input = document.getElementById(targetId);
+          const icon = toggle.querySelector("i");
+          if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+          } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+          }
+        });
+      });
+    });
+  </script>
 </body>
 
 </html>
