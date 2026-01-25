@@ -163,7 +163,9 @@ async function apiFetch(path, options = {}) {
     }
 
     console.error(`API error: ${errorMessage}`); // Thêm log lỗi
-    throw new Error(errorMessage);
+    const apiError = new Error(errorMessage);
+    apiError.status = response.status;
+    throw apiError;
   }
 
   return response;

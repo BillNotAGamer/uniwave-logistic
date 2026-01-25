@@ -170,6 +170,93 @@
       word-break: break-word;
     }
 
+    .profile-field input,
+    .profile-field textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      color: #eef5fb;
+      font-weight: 700;
+      font-size: 0.98rem;
+      padding: 0;
+      outline: none;
+      resize: vertical;
+    }
+
+    .profile-edit-form[data-editing="false"] .profile-field input,
+    .profile-edit-form[data-editing="false"] .profile-field textarea {
+      border-bottom-color: transparent;
+    }
+
+    .profile-field textarea {
+      min-height: 64px;
+    }
+
+    .profile-field input:disabled,
+    .profile-field textarea:disabled {
+      color: #eef5fb;
+      opacity: 1;
+      cursor: default;
+    }
+
+    .profile-edit-form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .profile-edit-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-start;
+    }
+
+    .profile-action-btn {
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .profile-action-btn.primary {
+      background: #ff8e53;
+      color: #0f1c24;
+    }
+
+    .profile-action-btn.ghost {
+      background: transparent;
+      border-color: rgba(255, 255, 255, 0.24);
+      color: #eef5fb;
+    }
+
+    .profile-action-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .profile-password {
+      margin-top: 6px;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px dashed rgba(255, 255, 255, 0.16);
+      background: rgba(8, 18, 26, 0.6);
+    }
+
+    .profile-password h4 {
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .password-hint {
+      margin: 6px 0 0;
+      color: #9fb7c6;
+      font-size: 0.85rem;
+    }
+
     .profile-completion {
       margin-top: 16px;
       padding: 14px;
@@ -464,48 +551,62 @@
           <span class="spinner"></span>Đang tải hồ sơ...
         </div>
         <div id="profile-error" class="error-box" style="display: none;"></div>
-        <div class="profile-grid" id="profile-content">
+        <form id="profile-edit-form" class="profile-edit-form" data-editing="false">
+          <div class="profile-grid" id="profile-content">
           <div class="profile-field">
             <label>Họ và tên</label>
-            <span id="profile-name">-</span>
+            <input id="profile-name" type="text" autocomplete="name" disabled />
           </div>
           <div class="profile-field">
             <label>Email</label>
-            <span id="profile-email">-</span>
+            <input id="profile-email" type="email" autocomplete="email" readonly disabled />
           </div>
           <div class="profile-field">
             <label>Số điện thoại</label>
-            <span id="profile-phone">-</span>
+            <input id="profile-phone" type="tel" autocomplete="tel" disabled />
           </div>
           <div class="profile-field">
             <label>Địa chỉ</label>
-            <span id="profile-address">-</span>
+            <textarea id="profile-address" rows="2" autocomplete="street-address" disabled></textarea>
           </div>
           <div class="profile-field">
             <label>Hạng (Tier)</label>
-            <span id="profile-tier-detail">-</span>
+            <input id="profile-tier-detail" type="text" readonly disabled />
           </div>
-        </div>
+          </div>
+          <div class="profile-edit-actions">
+            <button id="profile-edit-toggle" class="profile-action-btn ghost" type="button">Edit profile</button>
+            <button id="profile-save-btn" class="profile-action-btn primary" type="submit" disabled>
+              <span id="profile-save-spinner" class="spinner" style="display: none;"></span>
+              Save changes
+            </button>
+            <button id="profile-cancel-btn" class="profile-action-btn ghost" type="button" disabled>Cancel</button>
+          </div>
+          <div id="profile-password-section" class="profile-password" style="display: none;">
+            <h4>Change password (optional)</h4>
+            <div class="profile-grid">
+              <div class="profile-field">
+                <label>Current password</label>
+                <input id="profile-current-password" type="password" autocomplete="current-password" disabled />
+              </div>
+              <div class="profile-field">
+                <label>New password</label>
+                <input id="profile-new-password" type="password" autocomplete="new-password" disabled />
+              </div>
+              <div class="profile-field">
+                <label>Confirm new password</label>
+                <input id="profile-confirm-password" type="password" autocomplete="new-password" disabled />
+              </div>
+            </div>
+            <p class="password-hint">Leave password fields empty if you only want to update your profile.</p>
+          </div>
+          <div id="profile-edit-error" class="error-box" style="display: none;"></div>
+          <div id="profile-edit-success" class="empty-box" style="display: none;"></div>
+        </form>
         <div id="profile-completion" class="profile-completion" style="display: none;">
           <h4>Complete your profile</h4>
           <p id="profile-completion-hint">Please complete your profile to continue.</p>
-          <form id="profile-completion-form">
-            <div>
-              <label for="profile-fullname-input">Full name</label>
-              <input id="profile-fullname-input" type="text" autocomplete="name" required />
-            </div>
-            <div>
-              <label for="profile-phone-input">Phone number</label>
-              <input id="profile-phone-input" type="tel" autocomplete="tel" required />
-            </div>
-            <div>
-              <label for="profile-address-input">Address</label>
-              <textarea id="profile-address-input" rows="2" autocomplete="street-address" required></textarea>
-            </div>
-            <button id="profile-save-btn" type="submit">Save profile</button>
-            <div id="profile-completion-error" class="error-box" style="display: none;"></div>
-            <div id="profile-completion-success" class="empty-box" style="display: none;"></div>
-          </form>
+          <button id="profile-completion-edit" type="button">Complete now</button>
         </div>
       </article>
 
@@ -734,29 +835,37 @@
 
       const welcomeTitle = document.getElementById("welcome-title");
       const welcomeSubtitle = document.getElementById("welcome-subtitle");
-      const profileName = document.getElementById("profile-name");
-      const profileEmail = document.getElementById("profile-email");
-      const profilePhone = document.getElementById("profile-phone");
-      const profileAddress = document.getElementById("profile-address");
+      const profileNameInput = document.getElementById("profile-name");
+      const profileEmailInput = document.getElementById("profile-email");
+      const profilePhoneInput = document.getElementById("profile-phone");
+      const profileAddressInput = document.getElementById("profile-address");
       const profileTier = document.getElementById("profile-tier");
       const profileTierDetail = document.getElementById("profile-tier-detail");
       const profileLoading = document.getElementById("profile-loading");
       const profileError = document.getElementById("profile-error");
-      const profileCompletion = document.getElementById("profile-completion");
-      const profileCompletionForm = document.getElementById("profile-completion-form");
-      const profileCompletionHint = document.getElementById("profile-completion-hint");
-      const profileCompletionError = document.getElementById("profile-completion-error");
-      const profileCompletionSuccess = document.getElementById("profile-completion-success");
-      const profileFullNameInput = document.getElementById("profile-fullname-input");
-      const profilePhoneInput = document.getElementById("profile-phone-input");
-      const profileAddressInput = document.getElementById("profile-address-input");
+      const profileEditForm = document.getElementById("profile-edit-form");
+      const profileEditToggle = document.getElementById("profile-edit-toggle");
+      const profileCancelBtn = document.getElementById("profile-cancel-btn");
       const profileSaveBtn = document.getElementById("profile-save-btn");
+      const profileSaveSpinner = document.getElementById("profile-save-spinner");
+      const profileEditError = document.getElementById("profile-edit-error");
+      const profileEditSuccess = document.getElementById("profile-edit-success");
+      const profilePasswordSection = document.getElementById("profile-password-section");
+      const profileCurrentPasswordInput = document.getElementById("profile-current-password");
+      const profileNewPasswordInput = document.getElementById("profile-new-password");
+      const profileConfirmPasswordInput = document.getElementById("profile-confirm-password");
+      const profileCompletion = document.getElementById("profile-completion");
+      const profileCompletionHint = document.getElementById("profile-completion-hint");
+      const profileCompletionEditBtn = document.getElementById("profile-completion-edit");
 
       const ordersLoading = document.getElementById("orders-loading");
       const ordersError = document.getElementById("orders-error");
       const ordersEmpty = document.getElementById("orders-empty");
       const ordersTableWrapper = document.getElementById("orders-table-wrapper");
       const ordersBody = document.getElementById("orders-body");
+
+      let currentProfile = null;
+      let isEditing = false;
 
       const logoutBtn = document.getElementById("logout-btn");
       if (logoutBtn) {
@@ -765,6 +874,22 @@
           window.location.href = "authentication.html";
         });
       }
+
+      const redirectToLogin = () => {
+        Api.clearAuthTokens();
+        window.location.href = "authentication.html";
+      };
+
+      const apiFetchWithAuth = async (path, options) => {
+        try {
+          return await Api.apiFetch(path, options);
+        } catch (error) {
+          if (error?.status === 401) {
+            redirectToLogin();
+          }
+          throw error;
+        }
+      };
 
       const formatDate = (value) => {
         if (!value) return "-";
@@ -812,16 +937,85 @@
         }
       };
 
+      const clearProfileMessages = () => {
+        if (profileEditError) profileEditError.style.display = "none";
+        if (profileEditSuccess) profileEditSuccess.style.display = "none";
+      };
+
+      const clearPasswordFields = () => {
+        if (profileCurrentPasswordInput) profileCurrentPasswordInput.value = "";
+        if (profileNewPasswordInput) profileNewPasswordInput.value = "";
+        if (profileConfirmPasswordInput) profileConfirmPasswordInput.value = "";
+      };
+
+      const setProfileSaving = (isSaving) => {
+        if (profileSaveSpinner) {
+          profileSaveSpinner.style.display = isSaving ? "inline-block" : "none";
+        }
+        if (profileSaveBtn) {
+          profileSaveBtn.disabled = isSaving || !isEditing;
+        }
+        if (profileEditToggle) {
+          profileEditToggle.disabled = isSaving;
+        }
+        if (profileCancelBtn) {
+          profileCancelBtn.disabled = isSaving || !isEditing;
+        }
+      };
+
+      const setEditMode = (enabled) => {
+        isEditing = enabled;
+
+        if (profileEditForm) {
+          profileEditForm.dataset.editing = enabled ? "true" : "false";
+        }
+
+        if (profileNameInput) profileNameInput.disabled = !enabled;
+        if (profilePhoneInput) profilePhoneInput.disabled = !enabled;
+        if (profileAddressInput) profileAddressInput.disabled = !enabled;
+        if (profileEmailInput) profileEmailInput.disabled = true;
+        if (profileTierDetail) profileTierDetail.disabled = true;
+
+        if (profilePasswordSection) {
+          profilePasswordSection.style.display = enabled ? "block" : "none";
+        }
+
+        if (profileCurrentPasswordInput) profileCurrentPasswordInput.disabled = !enabled;
+        if (profileNewPasswordInput) profileNewPasswordInput.disabled = !enabled;
+        if (profileConfirmPasswordInput) profileConfirmPasswordInput.disabled = !enabled;
+
+        if (profileEditToggle) {
+          profileEditToggle.textContent = enabled ? "Exit edit mode" : "Edit profile";
+        }
+
+        if (profileSaveBtn) profileSaveBtn.disabled = !enabled;
+        if (profileCancelBtn) profileCancelBtn.disabled = !enabled;
+
+        clearProfileMessages();
+        clearPasswordFields();
+      };
+
+      const resetProfileForm = (profile) => {
+        if (!profile) return;
+        if (profileNameInput) profileNameInput.value = profile?.fullName || profile?.name || "";
+        if (profilePhoneInput) profilePhoneInput.value = profile?.phoneNumber || profile?.phone || "";
+        if (profileAddressInput) profileAddressInput.value = profile?.address || "";
+        if (profileEmailInput) profileEmailInput.value = profile?.email || "";
+        if (profileTierDetail) {
+          profileTierDetail.value = profile?.tier || profile?.membership || "";
+        }
+      };
+
       const renderProfile = (profile) => {
-        const name = profile?.fullName || profile?.name || "-";
-        profileName.textContent = name;
-        profileEmail.textContent = profile?.email || "-";
-        profilePhone.textContent = profile?.phoneNumber || profile?.phone || "-";
-        profileAddress.textContent = profile?.address || "-";
+        currentProfile = profile;
+        const name = profile?.fullName || profile?.name || "";
+        const email = profile?.email || "";
 
         const tier = profile?.tier || profile?.membership || "-";
         profileTier.textContent = tier;
-        profileTierDetail.textContent = tier;
+        if (profileTierDetail) {
+          profileTierDetail.value = tier;
+        }
 
         const requiresCompletion =
           profile?.requiresProfileCompletion === true || profile?.isProfileComplete === false;
@@ -831,19 +1025,13 @@
           if (profileCompletionHint) {
             profileCompletionHint.textContent = buildMissingFieldsText(profile?.missingFields);
           }
-          if (profileFullNameInput) {
-            profileFullNameInput.value = profile?.fullName || "";
-          }
-          if (profilePhoneInput) {
-            profilePhoneInput.value = profile?.phoneNumber || "";
-          }
-          if (profileAddressInput) {
-            profileAddressInput.value = profile?.address || "";
-          }
-          if (!requiresCompletion) {
-            if (profileCompletionError) profileCompletionError.style.display = "none";
-            if (profileCompletionSuccess) profileCompletionSuccess.style.display = "none";
-          }
+        }
+
+        if (!isEditing) {
+          resetProfileForm(profile);
+        } else {
+          if (profileEmailInput) profileEmailInput.value = email;
+          if (profileTierDetail) profileTierDetail.value = tier;
         }
 
         welcomeTitle.textContent = name && name !== "-" ? `Xin chào, ${name}!` : "Xin chào!";
@@ -900,30 +1088,31 @@
         ordersEmpty.style.display = "none";
       };
 
-      const showProfileCompletionError = (message) => {
-        if (!profileCompletionError) return;
-        profileCompletionError.textContent = message || "Unable to update profile.";
-        profileCompletionError.style.display = "block";
-        if (profileCompletionSuccess) {
-          profileCompletionSuccess.style.display = "none";
+      const showProfileEditError = (message) => {
+        if (!profileEditError) return;
+        profileEditError.textContent = message || "Unable to update profile.";
+        profileEditError.style.display = "block";
+        if (profileEditSuccess) {
+          profileEditSuccess.style.display = "none";
         }
       };
 
-      const showProfileCompletionSuccess = (message) => {
-        if (!profileCompletionSuccess) return;
-        profileCompletionSuccess.textContent = message || "Profile updated.";
-        profileCompletionSuccess.style.display = "block";
-        if (profileCompletionError) {
-          profileCompletionError.style.display = "none";
+      const showProfileEditSuccess = (message) => {
+        if (!profileEditSuccess) return;
+        profileEditSuccess.textContent = message || "Profile updated.";
+        profileEditSuccess.style.display = "block";
+        if (profileEditError) {
+          profileEditError.style.display = "none";
         }
       };
 
       const loadProfile = async () => {
         setProfileLoading(true);
         try {
-          const res = await Api.apiFetch("/api/Auth/me");
+          const res = await apiFetchWithAuth("/api/Auth/me");
           const data = await res.json();
           renderProfile(data);
+          setEditMode(false);
           return data;
         } catch (error) {
           showProfileError(error?.message || "Không thể tải hồ sơ.");
@@ -936,7 +1125,7 @@
       const loadOrders = async () => {
         setOrdersLoading(true);
         try {
-          const res = await Api.apiFetch("/api/orders/my");
+          const res = await apiFetchWithAuth("/api/orders/my");
           const data = await res.json();
           renderOrders(data);
         } catch (error) {
@@ -946,35 +1135,88 @@
         }
       };
 
-      if (profileCompletionForm) {
-        profileCompletionForm.addEventListener("submit", async (event) => {
+      const getTrimmedValue = (input) => (input?.value || "").trim();
+
+      if (profileEditToggle) {
+        profileEditToggle.addEventListener("click", () => {
+          const nextMode = !isEditing;
+          setEditMode(nextMode);
+          if (!nextMode) {
+            resetProfileForm(currentProfile);
+          } else if (profileNameInput) {
+            profileNameInput.focus();
+          }
+        });
+      }
+
+      if (profileCancelBtn) {
+        profileCancelBtn.addEventListener("click", () => {
+          resetProfileForm(currentProfile);
+          setEditMode(false);
+        });
+      }
+
+      if (profileCompletionEditBtn) {
+        profileCompletionEditBtn.addEventListener("click", () => {
+          setEditMode(true);
+          if (profileNameInput) {
+            profileNameInput.focus();
+          }
+        });
+      }
+
+      if (profileEditForm) {
+        profileEditForm.addEventListener("submit", async (event) => {
           event.preventDefault();
-          if (!Api?.apiFetch) return;
+          if (!isEditing) return;
+
+          clearProfileMessages();
 
           const payload = {
-            fullName: profileFullNameInput?.value?.trim() || "",
-            phoneNumber: profilePhoneInput?.value?.trim() || "",
-            address: profileAddressInput?.value?.trim() || ""
+            fullName: getTrimmedValue(profileNameInput),
+            phoneNumber: getTrimmedValue(profilePhoneInput),
+            address: getTrimmedValue(profileAddressInput)
           };
 
           if (!payload.fullName || !payload.phoneNumber || !payload.address) {
-            showProfileCompletionError("Please fill out all required fields.");
+            showProfileEditError("Please fill out all required fields.");
             return;
           }
 
-          if (profileSaveBtn) {
-            profileSaveBtn.disabled = true;
-            profileSaveBtn.textContent = "Saving...";
+          const currentPassword = profileCurrentPasswordInput?.value || "";
+          const newPassword = profileNewPasswordInput?.value || "";
+          const confirmPassword = profileConfirmPasswordInput?.value || "";
+          const wantsPasswordChange = currentPassword || newPassword || confirmPassword;
+
+          if (wantsPasswordChange) {
+            if (!currentPassword) {
+              showProfileEditError("Current password is required to change your password.");
+              return;
+            }
+            if (!newPassword) {
+              showProfileEditError("New password is required.");
+              return;
+            }
+            if (newPassword !== confirmPassword) {
+              showProfileEditError("New password and confirmation do not match.");
+              return;
+            }
+
+            payload.currentPassword = currentPassword;
+            payload.newPassword = newPassword;
           }
 
+          setProfileSaving(true);
+
           try {
-            const res = await Api.apiFetch("/api/Auth/profile", {
+            const res = await apiFetchWithAuth("/api/Auth/profile", {
               method: "PUT",
               body: payload
             });
             const updated = await res.json();
             renderProfile(updated);
-            showProfileCompletionSuccess("Profile updated.");
+            showProfileEditSuccess("Profile updated.");
+            setEditMode(false);
 
             const stillIncomplete =
               updated?.requiresProfileCompletion === true || updated?.isProfileComplete === false;
@@ -983,14 +1225,13 @@
                 ordersError.style.display = "none";
               }
               await loadOrders();
+            } else {
+              showOrdersError("Please complete your profile to view orders.");
             }
           } catch (error) {
-            showProfileCompletionError(error?.message || "Unable to update profile.");
+            showProfileEditError(error?.message || "Unable to update profile.");
           } finally {
-            if (profileSaveBtn) {
-              profileSaveBtn.disabled = false;
-              profileSaveBtn.textContent = "Save profile";
-            }
+            setProfileSaving(false);
           }
         });
       }
