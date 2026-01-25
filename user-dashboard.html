@@ -871,13 +871,13 @@
       if (logoutBtn) {
         logoutBtn.addEventListener("click", () => {
           Api.clearAuthTokens();
-          window.location.href = "authentication.html";
+          window.location.href = "/en/authentication" || "/vi/authentication";
         });
       }
 
       const redirectToLogin = () => {
         Api.clearAuthTokens();
-        window.location.href = "authentication.html";
+        window.location.href = "/en/authentication" || "/vi/authentication";
       };
 
       const apiFetchWithAuth = async (path, options) => {

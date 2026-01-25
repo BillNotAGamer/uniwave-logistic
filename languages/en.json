@@ -17,6 +17,7 @@
   "nav_tracking": "Track Shipment",
   "nav_pricing": "Get Quote",
   "nav_contact": "Contact",
+  "nav_blog": "Blog",
   "blog_home_title": "Latest Insights",
   "blog_home_subtitle": "Industry updates, logistics tips, and stories from the Uniwave team.",
   "blog_view_all": "View all articles",
@@ -183,6 +184,8 @@
   "placeholder_width": "Width",
   "placeholder_height": "Height",
   "button_price_check": "Estimate Shipping Cost",
+
+
 
   "banner_contact": "Contact",
   "breadcrumb_home_contact": "Home",
