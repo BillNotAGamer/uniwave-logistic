@@ -710,7 +710,11 @@
           pathOnly === "/user-dashboard" ||
           pathOnly === "/en/user-dashboard" ||
           pathOnly === "/vi/user-dashboard";
-        if (isAdminPage || isUserDashboard) {
+        const isPriceCheck =
+          pathOnly === "/price-check" ||
+          pathOnly === "/en/price-check" ||
+          pathOnly === "/vi/price-check";
+        if (isAdminPage || isUserDashboard || isPriceCheck) {
           return normalized;
         }
         return "";

@@ -245,9 +245,133 @@
       margin-top: 4px;
     }
 
-    .gx-price {
+     .gx-price {
       margin-top: 8px;
       font-size: 18px;
+      font-weight: 900;
+      color: #111827;
+    }
+
+    .gx-order-actions {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 24, 39, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 2000;
+    }
+
+    .modal-overlay.is-open {
+      display: flex;
+    }
+
+    .modal {
+      width: min(520px, 100%);
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .modal h4 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .modal p {
+      margin: 0 0 12px;
+      color: #6b7280;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn-secondary,
+    .btn-estimate {
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .btn-secondary {
+      border: 1px solid #e5e7eb;
+      background: #f3f4f6;
+      color: #374151;
+    }
+
+    .btn-estimate {
+      border: none;
+      background: #1f8fd6;
+      color: #fff;
+    }
+
+    .btn-estimate:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .error {
+      margin-top: 8px;
+      color: #d64545;
+      font-weight: 700;
+    }
+
+    .order-vehicle-list {
+      display: grid;
+      gap: 10px;
+      max-height: 280px;
+      overflow: auto;
+    }
+
+    .order-vehicle-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      cursor: pointer;
+    }
+
+    .order-vehicle-item.is-selected {
+      border-color: #1f8fd6;
+      box-shadow: 0 0 0 2px rgba(31, 143, 214, 0.15);
+    }
+
+    .order-vehicle-item input {
+      margin: 0 6px 0 0;
+    }
+
+    .order-vehicle-info {
+      flex: 1;
+    }
+
+    .order-vehicle-name {
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .order-vehicle-meta {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .order-vehicle-price {
       font-weight: 900;
       color: #111827;
     }
@@ -472,6 +596,11 @@
         </div>
 
         <div id="vehicles-grid" class="gx-grid"></div>
+        <div id="order-actions" class="gx-order-actions" style="display: none">
+          <button id="order-btn" type="button" class="gx-btn">
+            Đặt hàng
+          </button>
+        </div>
       </div>
     </section>
   </div>
@@ -496,12 +625,46 @@
     </div>
   </div>
 
+  <!-- Login required modal -->
+  <div id="login-required-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="login-required-title">
+    <div class="modal">
+      <h4 id="login-required-title">Bạn cần đăng nhập</h4>
+      <p>Vui lòng đăng nhập để đặt hàng.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" id="login-cancel">
+          Hủy
+        </button>
+        <button type="button" class="btn-estimate" id="login-redirect">
+          Đăng nhập
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order lead modal -->
+  <div id="order-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="order-modal-title">
+    <div class="modal">
+      <h4 id="order-modal-title">Xác nhận đặt hàng</h4>
+      <p>Chọn loại xe phù hợp và xác nhận yêu cầu đặt hàng.</p>
+      <div id="order-vehicle-list" class="order-vehicle-list"></div>
+      <div id="order-error" class="error" aria-live="polite"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" id="order-cancel">
+          Hủy
+        </button>
+        <button type="button" class="btn-estimate" id="order-confirm">
+          Xác nhận
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Thank you modal -->
   <div id="thankyou-modal" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal">
-      <h4>Cảm ơn bạn!</h4>
+      <h4>Cảm ơn quý khách!</h4>
       <p style="margin: 0 0 10px; color: #9ab5c6">
-        Chúng tôi đã nhận được yêu cầu đặt hàng và sẽ liên hệ sớm.
+        Cảm ơn quý khách đã liên hệ đặt hàng bên chúng tôi, chúng tôi sẽ liên hệ sớm nhất để tư vấn quý khách. Trân trọng!
       </p>
       <div class="modal-actions" style="justify-content: center">
         <button type="button" class="btn-estimate" id="thankyou-close">
@@ -788,12 +951,27 @@
       const elLoading = document.getElementById("estimate-loading");
       const elEmpty = document.getElementById("vehicles-empty");
       const elGrid = document.getElementById("vehicles-grid");
+      const elOrderActions = document.getElementById("order-actions");
+      const btnOrder = document.getElementById("order-btn");
+      const loginModal = document.getElementById("login-required-modal");
+      const loginCancel = document.getElementById("login-cancel");
+      const loginRedirect = document.getElementById("login-redirect");
+      const orderModal = document.getElementById("order-modal");
+      const orderVehicleList = document.getElementById("order-vehicle-list");
+      const orderError = document.getElementById("order-error");
+      const orderCancel = document.getElementById("order-cancel");
+      const orderConfirm = document.getElementById("order-confirm");
+      const thankyouModal = document.getElementById("thankyou-modal");
+      const thankyouClose = document.getElementById("thankyou-close");
 
       // ========= STATE =========
       const state = {
         pickup: null, // { address, lat, lon }
         dropoff: null, // { address, lat, lon }
         route: null, // { distanceKm, durationMin, polylineLatLngs }
+        estimateVehicles: [],
+        selectedVehicleIndex: null,
+        userEmail: null,
       };
 
       // ========= HELPERS =========
@@ -810,13 +988,66 @@
         elLoading.style.display = isLoading ? "block" : "none";
         btnEstimate.disabled = isLoading;
       };
+      const setOrderActionsVisible = (visible) => {
+        if (!elOrderActions) return;
+        elOrderActions.style.display = visible ? "flex" : "none";
+      };
+      const resetOrderState = () => {
+        state.estimateVehicles = [];
+        state.selectedVehicleIndex = null;
+        if (orderVehicleList) orderVehicleList.innerHTML = "";
+        if (orderError) orderError.textContent = "";
+        setOrderActionsVisible(false);
+      };
       const clearResults = () => {
         elGrid.innerHTML = "";
         elEmpty.style.display = "none";
+        resetOrderState();
       };
       const showEmpty = (msg) => {
+        resetOrderState();
         elEmpty.style.display = "block";
         elEmpty.textContent = msg || "Chưa có dữ liệu gì.";
+      };
+      const openModal = (modal) => {
+        if (!modal) return;
+        modal.classList.add("is-open");
+      };
+      const closeModal = (modal) => {
+        if (!modal) return;
+        modal.classList.remove("is-open");
+      };
+      const bindModalDismiss = (modal) => {
+        if (!modal) return;
+        modal.addEventListener("click", (event) => {
+          if (event.target === modal) {
+            closeModal(modal);
+          }
+        });
+      };
+      const getCurrentLang = () => {
+        if (typeof getCurrentLanguageFromURL === "function") {
+          return getCurrentLanguageFromURL();
+        }
+        const path = window.location.pathname || "";
+        if (path.startsWith("/vi")) return "vi";
+        return "en";
+      };
+      const buildLoginUrl = () => {
+        const lang = getCurrentLang();
+        const redirectTarget = `/${lang}/price-check`;
+        return `/${lang}/authentication?redirect=${encodeURIComponent(redirectTarget)}`;
+      };
+      const ensureEstimateReady = () => {
+        if (!state.pickup || !state.dropoff || !state.route) {
+          setError("Vui lòng nhập đầy đủ địa chỉ trước khi đặt hàng.");
+          return false;
+        }
+        if (!state.estimateVehicles.length) {
+          setError("Vui lòng ước tính giá trước khi đặt hàng.");
+          return false;
+        }
+        return true;
       };
 
       // ========= MAP (Leaflet + OSM tiles) =========
@@ -1100,6 +1331,79 @@
         return `image/price-check/image/${filename}`;
       }
 
+      function buildVehicleMeta(vehicle) {
+        const parts = [];
+        if (vehicle.lengthM && vehicle.widthM && vehicle.heightM) {
+          parts.push(`${vehicle.lengthM} x ${vehicle.widthM} x ${vehicle.heightM} m`);
+        }
+        if (vehicle.capacityKg) {
+          parts.push(`${vehicle.capacityKg}kg`);
+        }
+        return parts.join(" • ");
+      }
+
+      function updateSelectedVehicle(index) {
+        state.selectedVehicleIndex = index;
+        if (orderError) orderError.textContent = "";
+        if (!orderVehicleList) return;
+        orderVehicleList
+          .querySelectorAll(".order-vehicle-item")
+          .forEach((item, idx) => {
+            item.classList.toggle("is-selected", idx === index);
+          });
+      }
+
+      function renderOrderVehicleOptions(vehicles) {
+        if (!orderVehicleList) return;
+        orderVehicleList.innerHTML = "";
+        if (orderError) orderError.textContent = "";
+        state.selectedVehicleIndex = null;
+
+        vehicles.forEach((vehicle, index) => {
+          const label = document.createElement("label");
+          label.className = "order-vehicle-item";
+
+          const radio = document.createElement("input");
+          radio.type = "radio";
+          radio.name = "order-vehicle";
+          radio.value = String(
+            vehicle.vehicleTypeId || vehicle.vehicleCode || index
+          );
+          radio.addEventListener("change", () => updateSelectedVehicle(index));
+
+          const info = document.createElement("div");
+          info.className = "order-vehicle-info";
+
+          const name = document.createElement("div");
+          name.className = "order-vehicle-name";
+          name.textContent = vehicle.vehicleName || "Loại xe";
+
+          const meta = document.createElement("div");
+          meta.className = "order-vehicle-meta";
+          meta.textContent = buildVehicleMeta(vehicle);
+
+          info.appendChild(name);
+          if (meta.textContent) {
+            info.appendChild(meta);
+          }
+
+          const price = document.createElement("div");
+          price.className = "order-vehicle-price";
+          price.textContent = fmtVND(vehicle.estimatedPrice);
+
+          label.append(radio, info, price);
+          orderVehicleList.appendChild(label);
+        });
+
+        const firstInput = orderVehicleList.querySelector(
+          "input[name='order-vehicle']"
+        );
+        if (firstInput) {
+          firstInput.checked = true;
+          updateSelectedVehicle(0);
+        }
+      }
+
       // ========= RENDER VEHICLES =========
       function renderVehicles(estimateResponse) {
         const vehicles =
@@ -1113,10 +1417,7 @@
         elGrid.innerHTML = "";
 
         vehicles.forEach((v) => {
-          const sizeText =
-            v.lengthM && v.widthM && v.heightM
-              ? `${v.lengthM} x ${v.widthM} x ${v.heightM} m`
-              : "";
+          const sizeText = buildVehicleMeta(v);
 
           const imgSrc = vehicleImageFromCode(v.vehicleCode, v.imageUrl);
 
@@ -1126,13 +1427,155 @@
         <img src="${imgSrc}" alt="${v.vehicleName || ""
             }" onerror="this.style.display='none'" />
         <div class="gx-name">${v.vehicleName || ""}</div>
-        <div class="gx-size">
-          ${sizeText}
-          ${v.capacityKg ? ` • ${v.capacityKg}kg` : ""}
-        </div>
+        <div class="gx-size">${sizeText}</div>
         <div class="gx-price">Từ ${fmtVND(v.estimatedPrice)}</div>
       `;
           elGrid.appendChild(card);
+        });
+
+        state.estimateVehicles = vehicles;
+        setOrderActionsVisible(true);
+        renderOrderVehicleOptions(vehicles);
+      }
+
+      const getApi = () => window.UniwaveAPI || window.UniwaveApi;
+
+      const openLoginModal = () => {
+        if (loginRedirect) {
+          loginRedirect.dataset.loginUrl = buildLoginUrl();
+        }
+        openModal(loginModal);
+      };
+
+      const openOrderModal = () => {
+        renderOrderVehicleOptions(state.estimateVehicles);
+        openModal(orderModal);
+      };
+
+      const handleAuthExpired = () => {
+        state.userEmail = null;
+        const Api = getApi();
+        Api?.clearAuthTokens?.();
+        closeModal(orderModal);
+        openLoginModal();
+      };
+
+      const getAuthenticatedEmail = async () => {
+        if (state.userEmail) {
+          return state.userEmail;
+        }
+        const Api = getApi();
+        if (!Api?.apiFetch) {
+          throw new Error("Không thể kết nối đến máy chủ.");
+        }
+        const res = await Api.apiFetch("/api/Auth/me");
+        const data = await res.json();
+        const email = data?.email || data?.Email;
+        if (!email) {
+          throw new Error("Không tìm thấy email đăng nhập.");
+        }
+        state.userEmail = email;
+        return email;
+      };
+
+      const submitOrderLead = async () => {
+        if (!ensureEstimateReady()) return;
+
+        if (state.selectedVehicleIndex == null) {
+          if (orderError) {
+            orderError.textContent = "Vui lòng chọn loại xe.";
+          }
+          return;
+        }
+
+        const Api = getApi();
+        if (!Api?.apiFetch) {
+          if (orderError) {
+            orderError.textContent = "Không thể kết nối đến máy chủ.";
+          }
+          return;
+        }
+
+        if (orderError) orderError.textContent = "";
+        const defaultText = orderConfirm ? orderConfirm.textContent : "";
+        if (orderConfirm) {
+          orderConfirm.disabled = true;
+          orderConfirm.textContent = "Đang gửi...";
+        }
+
+        try {
+          const email = await getAuthenticatedEmail();
+          const payload = {
+            email,
+            pickupAddress: state.pickup.address,
+            dropoffAddress: state.dropoff.address,
+            distanceKm: Number(state.route.distanceKm.toFixed(3)),
+          };
+
+          const response = await Api.apiFetch("/api/Quote/lead", {
+            method: "POST",
+            body: payload,
+          });
+          await response.json().catch(() => null);
+
+          closeModal(orderModal);
+          openModal(thankyouModal);
+        } catch (error) {
+          if (error?.status === 401) {
+            handleAuthExpired();
+            return;
+          }
+          if (orderError) {
+            orderError.textContent =
+              error?.message || "Không thể gửi yêu cầu đặt hàng.";
+          }
+        } finally {
+          if (orderConfirm) {
+            orderConfirm.disabled = false;
+            orderConfirm.textContent = defaultText || "Xác nhận";
+          }
+        }
+      };
+
+      bindModalDismiss(loginModal);
+      bindModalDismiss(orderModal);
+      bindModalDismiss(thankyouModal);
+
+      if (loginCancel) {
+        loginCancel.addEventListener("click", () => closeModal(loginModal));
+      }
+
+      if (loginRedirect) {
+        loginRedirect.addEventListener("click", () => {
+          const url = loginRedirect.dataset.loginUrl || buildLoginUrl();
+          window.location.href = url;
+        });
+      }
+
+      if (orderCancel) {
+        orderCancel.addEventListener("click", () => closeModal(orderModal));
+      }
+
+      if (orderConfirm) {
+        orderConfirm.addEventListener("click", submitOrderLead);
+      }
+
+      if (thankyouClose) {
+        thankyouClose.addEventListener("click", () => closeModal(thankyouModal));
+      }
+
+      if (btnOrder) {
+        btnOrder.addEventListener("click", () => {
+          if (!ensureEstimateReady()) return;
+
+          const Api = getApi();
+          const token = Api?.getAccessToken ? Api.getAccessToken() : null;
+          if (!token) {
+            openLoginModal();
+            return;
+          }
+
+          openOrderModal();
         });
       }
 
