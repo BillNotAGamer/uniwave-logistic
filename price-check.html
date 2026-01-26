@@ -973,7 +973,7 @@
         route: null, // { distanceKm, durationMin, polylineLatLngs }
         estimateVehicles: [],
         selectedVehicleIndex: null,
-        userEmail: null,
+        userProfile: null,
       };
 
       // ========= HELPERS =========
@@ -1455,16 +1455,16 @@
       };
 
       const handleAuthExpired = () => {
-        state.userEmail = null;
+        state.userProfile = null;
         const Api = getApi();
         Api?.clearAuthTokens?.();
         closeModal(orderModal);
         openLoginModal();
       };
 
-      const getAuthenticatedEmail = async () => {
-        if (state.userEmail) {
-          return state.userEmail;
+      const getAuthenticatedProfile = async () => {
+        if (state.userProfile) {
+          return state.userProfile;
         }
         const Api = getApi();
         if (!Api?.apiFetch) {
@@ -1472,12 +1472,14 @@
         }
         const res = await Api.apiFetch("/api/Auth/me");
         const data = await res.json();
-        const email = data?.email || data?.Email;
+        const email = (data?.email || data?.Email || "").trim();
+        const fullName = (data?.fullName || data?.FullName || "").trim();
         if (!email) {
           throw new Error("Không tìm thấy email đăng nhập.");
         }
-        state.userEmail = email;
-        return email;
+        const profile = { email, fullName };
+        state.userProfile = profile;
+        return profile;
       };
 
       const submitOrderLead = async () => {
@@ -1506,12 +1508,25 @@
         }
 
         try {
-          const email = await getAuthenticatedEmail();
+          const profile = await getAuthenticatedProfile();
+          const selectedVehicle = state.estimateVehicles[state.selectedVehicleIndex];
+          const selectedVehicleTypeId = selectedVehicle?.vehicleTypeId;
+          if (!selectedVehicleTypeId) {
+            if (orderError) {
+              orderError.textContent = "Không tìm thấy loại xe đã chọn.";
+            }
+            return;
+          }
+
+          const customerEmail = profile.email.trim();
+          const customerName = (profile.fullName || profile.email).trim();
           const payload = {
-            email,
+            customerName,
+            customerEmail,
             pickupAddress: state.pickup.address,
             dropoffAddress: state.dropoff.address,
             distanceKm: Number(state.route.distanceKm.toFixed(3)),
+            selectedVehicleTypeId,
           };
 
           const response = await Api.apiFetch("/api/Quote/lead", {
@@ -1582,7 +1597,7 @@
           btnOrder.textContent = "Đang kiểm tra...";
 
           try {
-            await getAuthenticatedEmail();
+            await getAuthenticatedProfile();
             openOrderModal();
           } catch (error) {
             if (error?.status === 401) {
@@ -1653,3 +1668,5 @@
 </body>
 
 </html>
+
+
