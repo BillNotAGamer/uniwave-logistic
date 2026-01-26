@@ -1567,7 +1567,7 @@
       }
 
       if (btnOrder) {
-        btnOrder.addEventListener("click", () => {
+        btnOrder.addEventListener("click", async () => {
           if (!ensureEstimateReady()) return;
 
           const Api = getApi();
@@ -1577,7 +1577,23 @@
             return;
           }
 
-          openOrderModal();
+          const defaultText = btnOrder.textContent;
+          btnOrder.disabled = true;
+          btnOrder.textContent = "Đang kiểm tra...";
+
+          try {
+            await getAuthenticatedEmail();
+            openOrderModal();
+          } catch (error) {
+            if (error?.status === 401) {
+              handleAuthExpired();
+              return;
+            }
+            setError(error?.message || "Không thể xác thực đăng nhập.");
+          } finally {
+            btnOrder.disabled = false;
+            btnOrder.textContent = defaultText || "Đặt hàng";
+          }
         });
       }
 
