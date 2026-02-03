@@ -492,7 +492,7 @@
                 </li>
               </ul>
             </div>
-            <div class="profile-menu" title="customer-profile">
+            <div class="profile-menu" title="customer-profile" data-key="common_profile_title" data-i18n-attr="title">
               <a href="/en/authentication">
                 <img id="profile-icon-black" alt="profile" loading="lazy" width="30" height="30" decoding="async"
                   data-nimg="1" style="color: transparent" src="./image/general/icon/profile_light.79437222.png" />
@@ -522,7 +522,7 @@
     <div class="container">
       <p id="breadcrumbs" class="mb-0">
         <span><span><a href="/en" data-key="breadcrumb_home_price">Trang chủ</a></span><span
-            id="breadcrumb-arrow">»</span><span class="breadcrumb_last" aria-current="page"
+            id="breadcrumb-arrow" data-key="breadcrumb_arrow">»</span><span class="breadcrumb_last" aria-current="page"
             data-key="breadcrumb_price_check">Báo giá</span></span>
       </p>
       <div class="clear"></div>
@@ -538,12 +538,14 @@
           <div class="gx-point">
             <div class="gx-marker gx-marker-from"></div>
             <div class="gx-content">
-              <div class="gx-label">Từ</div>
+              <div class="gx-label" data-key="price_label_from_short">Từ</div>
               <div class="gx-input-row">
                 <div style="position: relative; width: 100%">
-                  <input id="pickupInput" type="text" placeholder="Nhập địa chỉ lấy hàng" autocomplete="off" />
+                  <input id="pickupInput" type="text" placeholder="Nhập địa chỉ lấy hàng" autocomplete="off"
+                    data-key="placeholder_pickup_address" />
                 </div>
-                <button class="gx-trash" type="button" data-clear="pickup" aria-label="Xóa">
+                <button class="gx-trash" type="button" data-clear="pickup" aria-label="Xóa" data-key="common_clear"
+                  data-i18n-attr="aria-label">
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </div>
@@ -555,12 +557,14 @@
           <div class="gx-point">
             <div class="gx-marker gx-marker-to"></div>
             <div class="gx-content">
-              <div class="gx-label">Đến</div>
+              <div class="gx-label" data-key="price_label_to_short">Đến</div>
               <div class="gx-input-row">
                 <div style="position: relative; width: 100%">
-                  <input id="dropoffInput" type="text" placeholder="Nhập địa chỉ giao hàng" autocomplete="off" />
+                  <input id="dropoffInput" type="text" placeholder="Nhập địa chỉ giao hàng" autocomplete="off"
+                    data-key="placeholder_delivery_address" />
                 </div>
-                <button class="gx-trash" type="button" data-clear="dropoff" aria-label="Xóa">
+                <button class="gx-trash" type="button" data-clear="dropoff" aria-label="Xóa" data-key="common_clear"
+                  data-i18n-attr="aria-label">
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </div>
@@ -568,7 +572,7 @@
           </div>
 
           <button id="estimate-btn" type="button" class="gx-btn">
-            Chi phí ước tính
+            <span data-key="price_estimate_button">Chi phí ước tính</span>
           </button>
           <div id="form-error" class="gx-error" aria-live="polite"></div>
         </div>
@@ -580,27 +584,28 @@
       </div>
 
       <div class="gx-distance">
-        <div>Khoảng cách: <strong id="distance-value">--</strong></div>
+        <div><span data-key="price_distance_label">Khoảng cách:</span> <strong id="distance-value"
+            data-key="common_placeholder_dash">--</strong></div>
         <div id="route-status" class="gx-status">
-          Nhập địa chỉ để nhận được tính.
+          <span data-key="price_route_prompt">Nhập địa chỉ để nhận được tính.</span>
         </div>
       </div>
 
       <div class="gx-results">
-        <h2 class="gx-title">Đây là chi phí ước tính</h2>
+        <h2 class="gx-title" data-key="price_estimate_title">Đây là chi phí ước tính</h2>
 
         <div id="estimate-loading" class="gx-loading" style="display: none">
-          <span class="gx-spinner"></span>Đang tính toán, vui lòng chờ...
+          <span class="gx-spinner"></span><span data-key="price_estimate_loading">Đang tính toán, vui lòng chờ...</span>
         </div>
 
-        <div id="vehicles-empty" class="gx-empty" style="display: none">
+        <div id="vehicles-empty" class="gx-empty" style="display: none" data-key="price_estimate_empty">
           Chưa có dữ liệu gì. Vui lòng thử lại.
         </div>
 
         <div id="vehicles-grid" class="gx-grid"></div>
         <div id="order-actions" class="gx-order-actions" style="display: none">
           <button id="order-btn" type="button" class="gx-btn">
-            Đặt hàng
+            <span data-key="price_order_button">Đặt hàng</span>
           </button>
         </div>
       </div>
@@ -610,18 +615,18 @@
   <!-- Email modal -->
   <div id="email-modal" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal">
-      <h4>Nhập email để nhận báo giá</h4>
+      <h4 data-key="price_email_title">Nhập email để nhận báo giá</h4>
       <p style="margin: 0 0 10px; color: #9ab5c6">
-        Chúng tôi sẽ gửi báo giá và xác nhận thông tin.
+        <span data-key="price_email_desc">Chúng tôi sẽ gửi báo giá và xác nhận thông tin.</span>
       </p>
-      <input type="email" id="email-input" placeholder="you@example.com" />
+      <input type="email" id="email-input" placeholder="you@example.com" data-key="price_email_placeholder" />
       <div id="email-error" class="error"></div>
       <div class="modal-actions">
         <button type="button" class="btn-secondary" id="email-cancel">
-          Hủy
+          <span data-key="common_cancel">Hủy</span>
         </button>
         <button type="button" class="btn-estimate" id="email-confirm">
-          Xác nhận
+          <span data-key="common_confirm">Xác nhận</span>
         </button>
       </div>
     </div>
@@ -630,14 +635,14 @@
   <!-- Login required modal -->
   <div id="login-required-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="login-required-title">
     <div class="modal">
-      <h4 id="login-required-title">Bạn cần đăng nhập</h4>
-      <p>Vui lòng đăng nhập để đặt hàng.</p>
+      <h4 id="login-required-title" data-key="price_login_required_title">Bạn cần đăng nhập</h4>
+      <p data-key="price_login_required_desc">Vui lòng đăng nhập để đặt hàng.</p>
       <div class="modal-actions">
         <button type="button" class="btn-secondary" id="login-cancel">
-          Hủy
+          <span data-key="common_cancel">Hủy</span>
         </button>
         <button type="button" class="btn-estimate" id="login-redirect">
-          Đăng nhập
+          <span data-key="common_login">Đăng nhập</span>
         </button>
       </div>
     </div>
@@ -646,16 +651,16 @@
   <!-- Order lead modal -->
   <div id="order-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="order-modal-title">
     <div class="modal">
-      <h4 id="order-modal-title">Xác nhận đặt hàng</h4>
-      <p>Chọn loại xe phù hợp và xác nhận yêu cầu đặt hàng.</p>
+      <h4 id="order-modal-title" data-key="price_order_confirm_title">Xác nhận đặt hàng</h4>
+      <p data-key="price_order_confirm_desc">Chọn loại xe phù hợp và xác nhận yêu cầu đặt hàng.</p>
       <div id="order-vehicle-list" class="order-vehicle-list"></div>
       <div id="order-error" class="error" aria-live="polite"></div>
       <div class="modal-actions">
         <button type="button" class="btn-secondary" id="order-cancel">
-          Hủy
+          <span data-key="common_cancel">Hủy</span>
         </button>
         <button type="button" class="btn-estimate" id="order-confirm">
-          Xác nhận
+          <span data-key="common_confirm">Xác nhận</span>
         </button>
       </div>
     </div>
@@ -664,13 +669,13 @@
   <!-- Thank you modal -->
   <div id="thankyou-modal" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal">
-      <h4>Cảm ơn quý khách!</h4>
+      <h4 data-key="price_thank_you_title">Cảm ơn quý khách!</h4>
       <p style="margin: 0 0 10px; color: #9ab5c6">
-        Cảm ơn quý khách đã liên hệ đặt hàng bên chúng tôi, chúng tôi sẽ liên hệ sớm nhất để tư vấn quý khách. Trân trọng!
+        <span data-key="price_thank_you_desc">Cảm ơn quý khách đã liên hệ đặt hàng bên chúng tôi, chúng tôi sẽ liên hệ sớm nhất để tư vấn quý khách. Trân trọng!</span>
       </p>
       <div class="modal-actions" style="justify-content: center">
         <button type="button" class="btn-estimate" id="thankyou-close">
-          Đóng
+          <span data-key="common_close">Đóng</span>
         </button>
       </div>
     </div>
@@ -683,7 +688,7 @@
         <div class="row position-relative" style="background: #212d33">
           <div class="col-md-4">
             <div>
-              <h4>UNIWAVE LOGISTICS COMPANY LIMITED</h4>
+              <h4 data-key="common_company_name">UNIWAVE LOGISTICS COMPANY LIMITED</h4>
               <h3 data-key="footer_slogan">"Ship Smart. Move Fast"</h3>
               <p style="padding-top: 5px" data-key="footer_company_info">
                 Giấy chứng nhận Đăng ký Kinh doanh số: 0318948734 do Sở KHDT
@@ -715,19 +720,22 @@
               <h4 data-key="footer_connect">Kết nối cùng UNIWAVE</h4>
               <ul class="social">
                 <li>
-                  <a href="https://www.facebook.com/Uniwavelogistics" title="Facebook"><img
+                  <a href="https://www.facebook.com/Uniwavelogistics" title="Facebook" data-key="common_social_facebook"
+                    data-i18n-attr="title"><img
                       src="./image/general/icon/fb1.png" alt="Facebook" /></a>
                 </li>
                 <li>
-                  <a href="mailto:sales@uniwavelogistics.com" title="Email"><img src="./image/general/icon/Vector-4.png"
-                      alt="Email" /></a>
+                  <a href="mailto:sales@uniwavelogistics.com" title="Email" data-key="common_social_email"
+                    data-i18n-attr="title"><img src="./image/general/icon/Vector-4.png" alt="Email" /></a>
                 </li>
                 <li>
-                  <a href="https://zalo.me/3419211667593921528" title="Zalo"><img
+                  <a href="https://zalo.me/3419211667593921528" title="Zalo" data-key="common_social_zalo"
+                    data-i18n-attr="title"><img
                       src="./image/general/icon/Group-5897.png" alt="Zalo" /></a>
                 </li>
                 <li>
-                  <a href="https://www.linkedin.com/company/uniwave-logistic/" title="LinkedIn"><img
+                  <a href="https://www.linkedin.com/company/uniwave-logistic/" title="LinkedIn"
+                    data-key="common_social_linkedin" data-i18n-attr="title"><img
                       src="./image/general/icon/in1.png" alt="LinkedIn" /></a>
                 </li>
               </ul>
@@ -802,7 +810,8 @@
                         gap: 10px;
                       ">
                     <a href="https://www.dmca.com/Protection/Status.aspx?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
-                      title="DMCA.com Protection Status" class="dmca-badge">
+                      title="DMCA.com Protection Status" class="dmca-badge" data-key="common_dmca_status"
+                      data-i18n-attr="title">
                       <img
                         src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
                         alt="DMCA.com Protection Status" />
@@ -866,7 +875,7 @@
       </p>
     </div>
     <div class="popup-form" id="popup-form">
-      <button class="close-btn" onclick="togglePopup()">✕</button>
+      <button class="close-btn" onclick="togglePopup()" data-key="common_close_icon">✕</button>
       <h3 data-key="form_title">Để lại thông tin</h3>
       <form id="contact-form">
         <input type="text" name="name" placeholder="Họ và tên" required data-key="form_name" />

@@ -519,7 +519,7 @@
                 </li>
               </ul>
             </div>
-            <div class="profile-menu" title="customer-profile">
+            <div class="profile-menu" title="customer-profile" data-key="common_profile_title" data-i18n-attr="title">
               <a href="/en/authentication">
                 <img id="profile-icon-black" alt="profile" loading="lazy" width="30" height="30" decoding="async"
                   data-nimg="1" style="color: transparent" src="./image/general/icon/profile_light.79437222.png" />
@@ -537,10 +537,10 @@
   <main class="dashboard-hero">
     <div class="dashboard-shell">
       <div class="dashboard-actions">
-        <button id="logout-btn" class="logout-btn" type="button">Đăng xuất</button>
+        <button id="logout-btn" class="logout-btn" type="button" data-key="dashboard_logout">Đăng xuất</button>
       </div>
-      <h1 id="welcome-title">Xin chào!</h1>
-      <p id="welcome-subtitle">Đang tải thông tin tài khoản của bạn...</p>
+      <h1 id="welcome-title" data-key="dashboard_welcome_title">Xin chào!</h1>
+      <p id="welcome-subtitle" data-key="dashboard_welcome_subtitle">Đang tải thông tin tài khoản của bạn...</p>
     </div>
   </main>
 
@@ -548,89 +548,91 @@
     <div class="dashboard-grid">
       <article class="dashboard-card" id="profile-card">
         <div class="card-header">
-          <h3>Hồ sơ khách hàng</h3>
-          <span class="badge-tier" id="profile-tier">-</span>
+          <h3 data-key="dashboard_profile_title">Hồ sơ khách hàng</h3>
+          <span class="badge-tier" id="profile-tier" data-key="common_placeholder_single_dash">-</span>
         </div>
         <div id="profile-loading" class="loading-box" style="display: none;">
-          <span class="spinner"></span>Đang tải hồ sơ...
+          <span class="spinner"></span><span data-key="dashboard_profile_loading">Đang tải hồ sơ...</span>
         </div>
         <div id="profile-error" class="error-box" style="display: none;"></div>
         <form id="profile-edit-form" class="profile-edit-form" data-editing="false">
           <div class="profile-grid" id="profile-content">
           <div class="profile-field">
-            <label>Họ và tên</label>
+            <label data-key="dashboard_label_full_name">Họ và tên</label>
             <input id="profile-name" type="text" autocomplete="name" disabled />
           </div>
           <div class="profile-field">
-            <label>Email</label>
+            <label data-key="dashboard_label_email">Email</label>
             <input id="profile-email" type="email" autocomplete="email" readonly disabled />
           </div>
           <div class="profile-field">
-            <label>Số điện thoại</label>
+            <label data-key="dashboard_label_phone">Số điện thoại</label>
             <input id="profile-phone" type="tel" autocomplete="tel" disabled />
           </div>
           <div class="profile-field">
-            <label>Địa chỉ</label>
+            <label data-key="dashboard_label_address">Địa chỉ</label>
             <textarea id="profile-address" rows="2" autocomplete="street-address" disabled></textarea>
           </div>
           <div class="profile-field">
-            <label>Hạng (Tier)</label>
+            <label data-key="dashboard_label_tier">Hạng (Tier)</label>
             <input id="profile-tier-detail" type="text" readonly disabled />
           </div>
           </div>
           <div class="profile-edit-actions">
-            <button id="profile-edit-toggle" class="profile-action-btn ghost" type="button">Edit profile</button>
+            <button id="profile-edit-toggle" class="profile-action-btn ghost" type="button"
+              data-key="dashboard_edit_profile">Edit profile</button>
             <button id="profile-save-btn" class="profile-action-btn primary" type="submit" disabled>
               <span id="profile-save-spinner" class="spinner" style="display: none;"></span>
-              Save changes
+              <span data-key="dashboard_save_changes">Save changes</span>
             </button>
-            <button id="profile-cancel-btn" class="profile-action-btn ghost" type="button" disabled>Cancel</button>
+            <button id="profile-cancel-btn" class="profile-action-btn ghost" type="button" disabled
+              data-key="common_cancel">Cancel</button>
           </div>
           <div id="profile-password-section" class="profile-password" style="display: none;">
-            <h4>Change password (optional)</h4>
+            <h4 data-key="dashboard_password_title">Change password (optional)</h4>
             <div class="profile-grid">
               <div class="profile-field">
-                <label>Current password</label>
+                <label data-key="dashboard_label_current_password">Current password</label>
                 <input id="profile-current-password" type="password" autocomplete="current-password" disabled />
               </div>
               <div class="profile-field">
-                <label>New password</label>
+                <label data-key="dashboard_label_new_password">New password</label>
                 <input id="profile-new-password" type="password" autocomplete="new-password" disabled />
               </div>
               <div class="profile-field">
-                <label>Confirm new password</label>
+                <label data-key="dashboard_label_confirm_password">Confirm new password</label>
                 <input id="profile-confirm-password" type="password" autocomplete="new-password" disabled />
               </div>
             </div>
-            <p class="password-hint">Leave password fields empty if you only want to update your profile.</p>
+            <p class="password-hint" data-key="dashboard_password_hint">Leave password fields empty if you only want to update your profile.</p>
           </div>
           <div id="profile-edit-error" class="error-box" style="display: none;"></div>
           <div id="profile-edit-success" class="empty-box" style="display: none;"></div>
         </form>
         <div id="profile-completion" class="profile-completion" style="display: none;">
-          <h4>Complete your profile</h4>
-          <p id="profile-completion-hint">Please complete your profile to continue.</p>
-          <button id="profile-completion-edit" type="button">Complete now</button>
+          <h4 data-key="dashboard_complete_profile_title">Complete your profile</h4>
+          <p id="profile-completion-hint" data-key="dashboard_complete_profile_desc">Please complete your profile to continue.</p>
+          <button id="profile-completion-edit" type="button" data-key="dashboard_complete_profile_cta">Complete now</button>
         </div>
       </article>
 
       <article class="dashboard-card" id="orders-card" style="grid-column: 1/-1;">
         <div class="card-header">
-          <h3>Đơn hàng gần đây</h3>
+          <h3 data-key="dashboard_recent_orders_title">Đơn hàng gần đây</h3>
         </div>
         <div id="orders-loading" class="loading-box">
-          <span class="spinner"></span>Đang tải danh sách đơn hàng...
+          <span class="spinner"></span><span data-key="dashboard_orders_loading">Đang tải danh sách đơn hàng...</span>
         </div>
         <div id="orders-error" class="error-box" style="display: none;"></div>
-        <div id="orders-empty" class="empty-box" style="display: none;">Chưa có đơn hàng nào.</div>
+        <div id="orders-empty" class="empty-box" style="display: none;" data-key="dashboard_orders_empty">Chưa có đơn hàng nào.</div>
         <div id="orders-table-wrapper" style="overflow-x: auto; display: none;">
           <table class="orders-table">
             <thead>
               <tr>
-                <th>Mã đơn</th>
-                <th>Ngày tạo</th>
-                <th>Trạng thái</th>
-                <th>Giá ước tính / cuối</th>
+                <th data-key="dashboard_table_order_code">Mã đơn</th>
+                <th data-key="dashboard_table_created_at">Ngày tạo</th>
+                <th data-key="dashboard_table_status">Trạng thái</th>
+                <th data-key="dashboard_table_price">Giá ước tính / cuối</th>
               </tr>
             </thead>
             <tbody id="orders-body"></tbody>
@@ -648,7 +650,7 @@
         <div class="row position-relative" style="background: #212d33">
           <div class="col-md-4">
             <div>
-              <h4>UNIWAVE LOGISTICS COMPANY LIMITED</h4>
+              <h4 data-key="common_company_name">UNIWAVE LOGISTICS COMPANY LIMITED</h4>
               <h3 data-key="footer_slogan">"Ship Smart. Move Fast"</h3>
               <p style="padding-top: 5px" data-key="footer_company_info">Giấy chứng nhận Đăng ký Kinh doanh số:
                 0318948734 do Sở KHDT thành phố Hồ Chí Minh cấp lần đầu ngày 13/05/2025</p>
@@ -668,19 +670,23 @@
               <h4 data-key="footer_connect">Kết nối cùng UNIWAVE</h4>
               <ul class="social">
                 <li>
-                  <a href="https://www.facebook.com/Uniwavelogistics" title="Facebook"><img
+                  <a href="https://www.facebook.com/Uniwavelogistics" title="Facebook" data-key="common_social_facebook"
+                    data-i18n-attr="title"><img
                       src="./image/general/icon/fb1.png" alt="Facebook" /></a>
                 </li>
                 <li>
-                  <a href="mailto:sales@uniwavelogistics.com" title="Email"><img
+                  <a href="mailto:sales@uniwavelogistics.com" title="Email" data-key="common_social_email"
+                    data-i18n-attr="title"><img
                       src="./image/general/icon/Vector-4.png" alt="Email" /></a>
                 </li>
                 <li>
-                  <a href="https://zalo.me/3419211667593921528" title="Zalo"><img
+                  <a href="https://zalo.me/3419211667593921528" title="Zalo" data-key="common_social_zalo"
+                    data-i18n-attr="title"><img
                       src="./image/general/icon/Group-5897.png" alt="Zalo" /></a>
                 </li>
                 <li>
-                  <a href="https://www.linkedin.com/company/uniwave-logistic/" title="LinkedIn"><img
+                  <a href="https://www.linkedin.com/company/uniwave-logistic/" title="LinkedIn"
+                    data-key="common_social_linkedin" data-i18n-attr="title"><img
                       src="./image/general/icon/in1.png" alt="LinkedIn" /></a>
                 </li>
               </ul>
@@ -732,7 +738,8 @@
                   <div class="badge-container"
                     style="padding-top: 5px; padding-bottom: 5px; display: flex; align-items: center; gap: 10px;">
                     <a href="https://www.dmca.com/Protection/Status.aspx?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
-                      title="DMCA.com Protection Status" class="dmca-badge">
+                      title="DMCA.com Protection Status" class="dmca-badge" data-key="common_dmca_status"
+                      data-i18n-attr="title">
                       <img
                         src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
                         alt="DMCA.com Protection Status" />
@@ -788,7 +795,7 @@
         👉 Cứ nói nha, Laboon luôn sẵn sàng giúp đỡ!</p>
     </div>
     <div class="popup-form" id="popup-form">
-      <button class="close-btn" onclick="togglePopup()">✕</button>
+      <button class="close-btn" onclick="togglePopup()" data-key="common_close_icon">✕</button>
       <h3 data-key="form_title">Để lại thông tin</h3>
       <form id="contact-form">
         <input type="text" name="name" placeholder="Họ và tên" required data-key="form_name" />

@@ -857,7 +857,7 @@
                 </li>
               </ul>
             </div>
-            <div class="profile-menu" title="customer-profile">
+            <div class="profile-menu" title="customer-profile" data-key="common_profile_title" data-i18n-attr="title">
               <a href="/en/authentication">
                 <img id="profile-icon-black" alt="profile" loading="lazy" width="30" height="30" decoding="async"
                   data-nimg="1" style="color: transparent" src="./image/general/icon/profile_light.79437222.png" />
@@ -887,7 +887,7 @@
     <div class="container">
       <p id="breadcrumbs" class="mb-0">
         <span><span><a href="index.html" data-key="breadcrumb_home">Trang chủ</a></span><span
-            id="breadcrumb-arrow">»</span><span class="breadcrumb_last" aria-current="page"
+            id="breadcrumb-arrow" data-key="breadcrumb_arrow">»</span><span class="breadcrumb_last" aria-current="page"
             data-key="breadcrumb_tracking">Theo dõi đơn hàng</span></span>
       </p>
       <div class="clear"></div>
@@ -899,19 +899,19 @@
   <div class="tracking-wrapper">
     <div class="tracking-surface">
       <div class="tracking-intro">
-        <span class="tracking-eyebrow">Shipment tracking</span>
-        <h2 class="tracking-title">Track your shipment in real time</h2>
-        <p class="tracking-subtitle">
+        <span class="tracking-eyebrow" data-key="tracking_eyebrow">Shipment tracking</span>
+        <h2 class="tracking-title" data-key="tracking_title">Track your shipment in real time</h2>
+        <p class="tracking-subtitle" data-key="tracking_subtitle">
           Enter the order code from your confirmation to see the latest status, route, and updates.
         </p>
       </div>
       <form id="tracking-form" class="tracking-form">
-        <label class="tracking-label" for="tracking-code">Order code</label>
+        <label class="tracking-label" for="tracking-code" data-key="tracking_order_code_label">Order code</label>
         <div class="tracking-input-row">
           <input id="tracking-code" class="tracking-input" type="text" placeholder="VN-LOCAL-20251128-ABCD"
-            autocomplete="off" required />
+            autocomplete="off" required data-key="tracking_code_placeholder_example" />
           <button id="tracking-submit" class="tracking-btn" type="submit">
-            <span>Track shipment</span>
+            <span data-key="tracking_submit">Track shipment</span>
             <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
@@ -977,14 +977,15 @@
         <div class="summary-header">
           <button id="tracking-back" class="back-btn" type="button">
             <i class="fa-solid fa-arrow-left"></i>
-            Back
+            <span data-key="tracking_back">Back</span>
           </button>
           <div class="summary-meta">
             <div class="order-code">
-              <span class="label">Order code</span>
+              <span class="label" data-key="tracking_order_code_label">Order code</span>
               <div class="order-code-row">
-                <span id="order-code">--</span>
-                <button id="copy-order-code" class="copy-btn" type="button" aria-label="Copy order code">
+                <span id="order-code" data-key="common_placeholder_dash">--</span>
+                <button id="copy-order-code" class="copy-btn" type="button" aria-label="Copy order code"
+                  data-key="tracking_copy_order_code" data-i18n-attr="aria-label">
                   <i class="fa-regular fa-copy"></i>
                 </button>
                 <span id="copy-hint" class="copy-hint" aria-live="polite"></span>
@@ -992,7 +993,7 @@
             </div>
             <span id="status-badge" class="status-badge">
               <i id="status-badge-icon" class="fa-solid fa-circle"></i>
-              <span id="status-badge-text">--</span>
+              <span id="status-badge-text" data-key="common_placeholder_dash">--</span>
             </span>
           </div>
         </div>
@@ -1002,9 +1003,9 @@
             <i id="status-display-icon" class="fa-solid fa-circle"></i>
           </div>
           <div>
-            <p class="status-label">Current status</p>
-            <p id="status-display-text" class="status-text">--</p>
-            <p id="current-status" class="status-sub">--</p>
+            <p class="status-label" data-key="tracking_current_status_label">Current status</p>
+            <p id="status-display-text" class="status-text" data-key="common_placeholder_dash">--</p>
+            <p id="current-status" class="status-sub" data-key="common_placeholder_dash">--</p>
           </div>
         </div>
 
@@ -1014,44 +1015,44 @@
       <div class="tracking-grid">
         <section class="tracking-card">
           <div class="card-header">
-            <h3>Delivery details</h3>
-            <p>Shipment route and receiver contact.</p>
+            <h3 data-key="tracking_delivery_details_title">Delivery details</h3>
+            <p data-key="tracking_delivery_details_desc">Shipment route and receiver contact.</p>
           </div>
           <div class="detail-grid">
             <div class="detail-block">
-              <span class="detail-label">Pickup address</span>
-              <p id="pickup-address" class="detail-value">--</p>
+              <span class="detail-label" data-key="tracking_pickup_label">Pickup address</span>
+              <p id="pickup-address" class="detail-value" data-key="common_placeholder_dash">--</p>
             </div>
             <div class="detail-block">
-              <span class="detail-label">Dropoff address</span>
-              <p id="dropoff-address" class="detail-value">--</p>
+              <span class="detail-label" data-key="tracking_dropoff_label">Dropoff address</span>
+              <p id="dropoff-address" class="detail-value" data-key="common_placeholder_dash">--</p>
             </div>
           </div>
           <div class="detail-grid">
             <div class="detail-block">
-              <span class="detail-label">Receiver name</span>
-              <p id="receiver-name" class="detail-value">--</p>
+              <span class="detail-label" data-key="tracking_receiver_name_label">Receiver name</span>
+              <p id="receiver-name" class="detail-value" data-key="common_placeholder_dash">--</p>
             </div>
             <div class="detail-block">
-              <span class="detail-label">Receiver phone</span>
-              <p id="receiver-phone" class="detail-value">--</p>
+              <span class="detail-label" data-key="tracking_receiver_phone_label">Receiver phone</span>
+              <p id="receiver-phone" class="detail-value" data-key="common_placeholder_dash">--</p>
             </div>
           </div>
         </section>
 
         <section class="tracking-card">
           <div class="card-header">
-            <h3>Vehicle and updates</h3>
-            <p>Live events from the tracking timeline.</p>
+            <h3 data-key="tracking_vehicle_updates_title">Vehicle and updates</h3>
+            <p data-key="tracking_vehicle_updates_desc">Live events from the tracking timeline.</p>
           </div>
           <div class="vehicle-row">
             <div>
-              <span class="detail-label">Vehicle</span>
-              <p id="vehicle-name" class="detail-value">--</p>
+              <span class="detail-label" data-key="tracking_vehicle_label">Vehicle</span>
+              <p id="vehicle-name" class="detail-value" data-key="common_placeholder_dash">--</p>
             </div>
           </div>
           <div id="tracking-history" class="timeline">
-            <div class="timeline-empty">No tracking history.</div>
+            <div class="timeline-empty" data-key="tracking_no_history">No tracking history.</div>
           </div>
         </section>
       </div>
@@ -1068,7 +1069,7 @@
         <div class="row position-relative" style="background: #212d33">
           <div class="col-md-4">
             <div>
-              <h4>UNIWAVE LOGISTICS COMPANY LIMITED</h4>
+              <h4 data-key="common_company_name">UNIWAVE LOGISTICS COMPANY LIMITED</h4>
               <h3 data-key="footer_slogan">"Ship Smart. Move Fast"</h3>
               <p style="padding-top: 5px" data-key="footer_company_info">Giấy chứng nhận Đăng ký Kinh doanh số:
                 0318948734 do Sở KHDT thành phố Hồ Chí Minh cấp lần đầu ngày 13/05/2025</p>
@@ -1088,19 +1089,23 @@
               <h4 data-key="footer_connect">Kết nối cùng UNIWAVE</h4>
               <ul class="social">
                 <li>
-                  <a href="https://www.facebook.com/Uniwavelogistics" title="Facebook"><img
+                  <a href="https://www.facebook.com/Uniwavelogistics" title="Facebook" data-key="common_social_facebook"
+                    data-i18n-attr="title"><img
                       src="./image/general/icon/fb1.png" alt="Facebook" /></a>
                 </li>
                 <li>
-                  <a href="mailto:sales@uniwavelogistics.com" title="Email"><img
+                  <a href="mailto:sales@uniwavelogistics.com" title="Email" data-key="common_social_email"
+                    data-i18n-attr="title"><img
                       src="./image/general/icon/Vector-4.png" alt="Email" /></a>
                 </li>
                 <li>
-                  <a href="https://zalo.me/3419211667593921528" title="Zalo"><img
+                  <a href="https://zalo.me/3419211667593921528" title="Zalo" data-key="common_social_zalo"
+                    data-i18n-attr="title"><img
                       src="./image/general/icon/Group-5897.png" alt="Zalo" /></a>
                 </li>
                 <li>
-                  <a href="https://www.linkedin.com/company/uniwave-logistic/" title="LinkedIn"><img
+                  <a href="https://www.linkedin.com/company/uniwave-logistic/" title="LinkedIn"
+                    data-key="common_social_linkedin" data-i18n-attr="title"><img
                       src="./image/general/icon/in1.png" alt="LinkedIn" /></a>
                 </li>
               </ul>
@@ -1152,7 +1157,8 @@
                   <div class="badge-container"
                     style="padding-top: 5px; padding-bottom: 5px; display: flex; align-items: center; gap: 10px;">
                     <a href="https://www.dmca.com/Protection/Status.aspx?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
-                      title="DMCA.com Protection Status" class="dmca-badge">
+                      title="DMCA.com Protection Status" class="dmca-badge" data-key="common_dmca_status"
+                      data-i18n-attr="title">
                       <img
                         src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
                         alt="DMCA.com Protection Status" />
@@ -1208,7 +1214,7 @@
         👉 Cứ nói nha, Laboon luôn sẵn sàng giúp đỡ!</p>
     </div>
     <div class="popup-form" id="popup-form">
-      <button class="close-btn" onclick="togglePopup()">✕</button>
+      <button class="close-btn" onclick="togglePopup()" data-key="common_close_icon">✕</button>
       <h3 data-key="form_title">Để lại thông tin</h3>
       <form id="contact-form">
         <input type="text" name="name" placeholder="Họ và tên" required data-key="form_name" />

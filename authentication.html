@@ -128,7 +128,7 @@
                 </li>
               </ul>
             </div>
-            <div class="profile-menu" title="customer-profile">
+            <div class="profile-menu" title="customer-profile" data-key="common_profile_title" data-i18n-attr="title">
               <a href="/en/authentication">
                 <img id="profile-icon-black" alt="profile" loading="lazy" width="30" height="30" decoding="async"
                   data-nimg="1" style="color: transparent" src="./image/general/icon/profile_light.79437222.png" />
@@ -153,88 +153,91 @@
     <div class="shooting-star"></div>
     <div class="auth-container">
       <div class="auth-tabs">
-        <button class="auth-tab active" data-form="reg-form">Đăng Ký</button>
-        <button class="auth-tab" data-form="login-form">Đăng Nhập</button>
+        <button class="auth-tab active" data-form="reg-form" data-key="auth_tab_register">Đăng Ký</button>
+        <button class="auth-tab" data-form="login-form" data-key="auth_tab_login">Đăng Nhập</button>
         <div class="auth-tab-slider"></div>
       </div>
       <div class="auth-form active" id="reg-form">
-        <h1 class="auth-title">Đăng Ký</h1>
+        <h1 class="auth-title" data-key="auth_register_title">Đăng Ký</h1>
         <form id="reg-auth-form">
           <div class="reg-form-group">
             <input type="text" id="reg-fullname" placeholder=" " required />
-            <label for="reg-fullname">Họ Tên</label>
+            <label for="reg-fullname" data-key="auth_label_full_name">Họ Tên</label>
           </div>
           <div class="reg-form-group">
             <input type="email" id="reg-email" placeholder=" " required />
-            <label for="reg-email">Email</label>
+            <label for="reg-email" data-key="auth_label_email">Email</label>
           </div>
           <div class="reg-form-group form-group">
             <input type="password" id="reg-password" placeholder=" " required />
-            <label for="reg-password">Mật khẩu</label>
+            <label for="reg-password" data-key="auth_label_password">Mật khẩu</label>
             <span class="toggle-password" data-target="reg-password"><i class="fas fa-eye"></i></span>
           </div>
           <div class="reg-checkbox-group">
             <input type="checkbox" id="reg-terms" required />
-            <label for="reg-terms">Tôi đồng ý với
-              <a href="#" style="color: #ff8e53">chính sách bảo mật</a> và
-              <a href="#" style="color: #ff8e53">điều khoản</a></label>
+            <label for="reg-terms">
+              <span data-key="auth_terms_prefix">Tôi đồng ý với</span>
+              <a href="#" style="color: #ff8e53" data-key="auth_terms_policy">chính sách bảo mật</a>
+              <span data-key="auth_terms_and">và</span>
+              <a href="#" style="color: #ff8e53" data-key="auth_terms_conditions">điều khoản</a>
+            </label>
           </div>
-          <button type="submit" class="reg-btn">Đăng Ký Ngay</button>
+          <button type="submit" class="reg-btn" data-key="auth_register_submit">Đăng Ký Ngay</button>
         </form>
         <div class="reg-link">
-          Đã có tài khoản?
-          <a href="#" class="auth-switch" data-form="login-form">Đăng nhập</a>
+          <span data-key="auth_have_account">Đã có tài khoản?</span>
+          <a href="#" class="auth-switch" data-form="login-form" data-key="auth_switch_login">Đăng nhập</a>
         </div>
       </div>
       <div class="auth-form" id="login-form">
-        <h1 class="auth-title">Đăng Nhập</h1>
+        <h1 class="auth-title" data-key="auth_login_title">Đăng Nhập</h1>
         <form id="login-auth-form">
           <div class="login-form-group">
             <input type="text" id="login-email" placeholder=" " required />
-            <label for="login-email">Email</label>
+            <label for="login-email" data-key="auth_label_email">Email</label>
           </div>
           <div class="login-form-group form-group">
             <input type="password" id="login-password" placeholder=" " required />
-            <label for="login-password">Mật khẩu</label>
+            <label for="login-password" data-key="auth_label_password">Mật khẩu</label>
             <span class="toggle-password" data-target="login-password"><i class="fas fa-eye"></i></span>
           </div>
           <div class="login-checkbox-group">
             <input type="checkbox" id="login-remember" />
-            <label for="login-remember">Ghi nhớ đăng nhập</label>
+            <label for="login-remember" data-key="auth_remember_me">Ghi nhớ đăng nhập</label>
           </div>
           <div class="login-link">
-            <a href="#" class="auth-switch" data-form="forgot-form">Quên mật khẩu?</a>
+            <a href="#" class="auth-switch" data-form="forgot-form" data-key="auth_forgot_password">Quên mật khẩu?</a>
           </div>
-          <button type="submit" class="login-btn">Đăng Nhập</button>
+          <button type="submit" class="login-btn" data-key="auth_login_submit">Đăng Nhập</button>
           <div id="login-error-message" class="text-danger mt-2" role="alert" aria-live="polite"></div>
         </form>
         <div class="login-link">
-          Chưa có tài khoản?
-          <a href="#" class="auth-switch" data-form="reg-form">Đăng ký</a>
+          <span data-key="auth_no_account">Chưa có tài khoản?</span>
+          <a href="#" class="auth-switch" data-form="reg-form" data-key="auth_switch_register">Đăng ký</a>
         </div>
       </div>
       <div class="auth-form" id="forgot-form">
-        <h1 class="auth-title">Bạn quên mật khẩu?</h1>
+        <h1 class="auth-title" data-key="auth_forgot_title">Bạn quên mật khẩu?</h1>
 
         <form id="forgot-request-form">
           <div class="login-form-group">
             <input type="email" id="forgot-email" placeholder=" " required />
-            <label for="forgot-email">Email</label>
+            <label for="forgot-email" data-key="auth_label_email">Email</label>
           </div>
 
-          <button type="submit" class="login-btn">Gửi link đặt lại mật khẩu</button>
+          <button type="submit" class="login-btn" data-key="auth_forgot_submit">Gửi link đặt lại mật khẩu</button>
 
           <div id="forgot-request-error" class="text-danger mt-2" role="alert" aria-live="polite"></div>
           <div id="forgot-request-success" class="text-success mt-2" role="status" aria-live="polite"></div>
 
-          <p class="mt-3" style="color:#fff; text-align:center; font-size: 14px;">
+          <p class="mt-3" style="color:#fff; text-align:center; font-size: 14px;" data-key="auth_forgot_note">
             Nếu email tồn tại trong hệ thống, bạn sẽ nhận được đường link đặt lại mật khẩu.
           </p>
         </form>
 
         <div class="login-link">
-          Remembered your password?
-          <a href="#" class="auth-switch" data-form="login-form">Back to login</a>
+          <span data-key="auth_remembered_password">Đã nhớ mật khẩu?</span>
+          <a href="#" class="auth-switch" data-form="login-form" data-key="auth_back_to_login">Quay lại đăng nhập</a>
         </div>
       </div>
 
@@ -250,7 +253,7 @@
         <div class="row position-relative" style="background: #212d33">
           <div class="col-md-4">
             <div>
-              <h4>UNIWAVE LOGISTICS COMPANY LIMITED</h4>
+              <h4 data-key="common_company_name">UNIWAVE LOGISTICS COMPANY LIMITED</h4>
               <h3 data-key="footer_slogan">"Ship Smart. Move Fast"</h3>
               <p style="padding-top: 5px" data-key="footer_company_info">
                 Giấy chứng nhận Đăng ký Kinh doanh số: 0318948734 do Sở KHDT
@@ -282,20 +285,21 @@
               <h4 data-key="footer_connect">Kết nối cùng UNIWAVE</h4>
               <ul class="social">
                 <li>
-                  <a href="https://www.facebook.com/Uniwavelogistics" title="Facebook"><img
-                      src="./image/general/icon/fb1.png" alt="Facebook" /></a>
+                  <a href="https://www.facebook.com/Uniwavelogistics" title="Facebook" data-key="common_social_facebook"
+                    data-i18n-attr="title"><img src="./image/general/icon/fb1.png" alt="Facebook" /></a>
                 </li>
                 <li>
-                  <a href="mailto:sales@uniwavelogistics.com" title="Email"><img src="./image/general/icon/Vector-4.png"
-                      alt="Email" /></a>
+                  <a href="mailto:sales@uniwavelogistics.com" title="Email" data-key="common_social_email"
+                    data-i18n-attr="title"><img src="./image/general/icon/Vector-4.png" alt="Email" /></a>
                 </li>
                 <li>
-                  <a href="https://zalo.me/3419211667593921528" title="Zalo"><img
-                      src="./image/general/icon/Group-5897.png" alt="Zalo" /></a>
+                  <a href="https://zalo.me/3419211667593921528" title="Zalo" data-key="common_social_zalo"
+                    data-i18n-attr="title"><img src="./image/general/icon/Group-5897.png" alt="Zalo" /></a>
                 </li>
                 <li>
-                  <a href="https://www.linkedin.com/company/uniwave-logistic/" title="LinkedIn"><img
-                      src="./image/general/icon/in1.png" alt="LinkedIn" /></a>
+                  <a href="https://www.linkedin.com/company/uniwave-logistic/" title="LinkedIn"
+                    data-key="common_social_linkedin" data-i18n-attr="title"><img src="./image/general/icon/in1.png"
+                      alt="LinkedIn" /></a>
                 </li>
               </ul>
             </div>
@@ -369,7 +373,8 @@
                         gap: 10px;
                       ">
                     <a href="https://www.dmca.com/Protection/Status.aspx?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
-                      title="DMCA.com Protection Status" class="dmca-badge">
+                      title="DMCA.com Protection Status" class="dmca-badge" data-key="common_dmca_status"
+                      data-i18n-attr="title">
                       <img
                         src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
                         alt="DMCA.com Protection Status" />
@@ -433,7 +438,7 @@
       </p>
     </div>
     <div class="popup-form" id="popup-form">
-      <button class="close-btn" onclick="togglePopup()">✕</button>
+      <button class="close-btn" onclick="togglePopup()" data-key="common_close_icon">✕</button>
       <h3 data-key="form_title">Để lại thông tin</h3>
       <form id="contact-form">
         <input type="text" name="name" placeholder="Họ và tên" required data-key="form_name" />
