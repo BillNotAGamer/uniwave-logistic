@@ -5,7 +5,7 @@
  *   <script>window.API_BASE_URL = "https://api.example.com";</script>
  *   <script src="js/api.js"></script>
  */
-const BASE_API_URL = window.API_BASE_URL || "http://127.0.0.1:8000";
+const BASE_API_URL = window.API_BASE_URL || "https://uniwave-logistics-server-1.onrender.com/";
 
 const ACCESS_TOKEN_KEY = "uniwave_access_token";
 const REFRESH_TOKEN_KEY = "uniwave_refresh_token";
