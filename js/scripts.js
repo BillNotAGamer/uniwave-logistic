@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { title: "Contact", path: "/en/contact", keywords: ["contact", "support", "help"] },
     { title: "Blog", path: "/en/blog", keywords: ["blog", "insights", "news"] },
     { title: "Authentication", path: "/en/authentication", keywords: ["login", "sign in", "register"] },
-    { title: "User Dashboard", path: "/user-dashboard", keywords: ["dashboard", "account", "profile"] },
+    { title: "User Dashboard", path: "/en/user-dashboard", keywords: ["dashboard", "account", "profile"] },
     { title: "Trang chu", path: "/vi", keywords: ["trang chu", "home", "homepage"] },
     { title: "Gioi thieu", path: "/vi/introduce", keywords: ["gioi thieu", "about", "company"] },
     { title: "Dich vu", path: "/vi/services", keywords: ["dich vu", "services", "logistics"] },
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { title: "Lien he", path: "/vi/contact", keywords: ["lien he", "contact", "support"] },
     { title: "Blog", path: "/vi/blog", keywords: ["blog", "tin tuc", "bai viet"] },
     { title: "Dang nhap", path: "/vi/authentication", keywords: ["dang nhap", "login", "register"] },
-    { title: "Tai khoan", path: "/user-dashboard", keywords: ["tai khoan", "dashboard", "account"] }
+    { title: "Tai khoan", path: "/vi/user-dashboard", keywords: ["tai khoan", "dashboard", "account"] }
   ];
 
   const searchBars = document.querySelectorAll(".search-bar");
