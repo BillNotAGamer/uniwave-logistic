@@ -1237,7 +1237,7 @@
               }
               await loadOrders();
             } else {
-              showOrdersError("Please complete your profile to view orders.");
+              showOrdersError("Please complete your profile to view members.");
             }
           } catch (error) {
             showProfileEditError(error?.message || "Unable to update profile.");
@@ -1259,7 +1259,7 @@
 
         if (requiresCompletion) {
           setOrdersLoading(false);
-          showOrdersError("Please complete your profile to view orders.");
+          showOrdersError("Please complete your profile to view members.");
           return;
         }
 
