@@ -308,6 +308,7 @@
   "dashboard_label_email": "Email",
   "dashboard_label_phone": "Phone number",
   "dashboard_label_address": "Address",
+  "dashboard_label_nationality": "Nationality",
   "dashboard_label_tier": "Tier",
   "dashboard_edit_profile": "Edit profile",
   "dashboard_save_changes": "Save changes",
