@@ -11,7 +11,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css" />
   <style>
     /* Page-scoped styling for the dashboard */
@@ -447,7 +448,8 @@
                     data-key="nav_domestic_delivery">Vận chuyển nội địa</a>
                 </li>
                 <li class="secondary-nav-item expandable">
-                  <a class="secondary-nav-link clickable" href="/en/international-services" data-key="nav_international">Dịch vụ quốc tế<div></div>
+                  <a class="secondary-nav-link clickable" href="/en/international-services"
+                    data-key="nav_international">Dịch vụ quốc tế<div></div>
                   </a>
                   <ul class="tertiary-nav">
                     <li>
@@ -557,26 +559,26 @@
         <div id="profile-error" class="error-box" style="display: none;"></div>
         <form id="profile-edit-form" class="profile-edit-form" data-editing="false">
           <div class="profile-grid" id="profile-content">
-          <div class="profile-field">
-            <label data-key="dashboard_label_full_name">Họ và tên</label>
-            <input id="profile-name" type="text" autocomplete="name" disabled />
-          </div>
-          <div class="profile-field">
-            <label data-key="dashboard_label_email">Email</label>
-            <input id="profile-email" type="email" autocomplete="email" readonly disabled />
-          </div>
-          <div class="profile-field">
-            <label data-key="dashboard_label_phone">Số điện thoại</label>
-            <input id="profile-phone" type="tel" autocomplete="tel" disabled />
-          </div>
-          <div class="profile-field">
-            <label data-key="dashboard_label_address">Địa chỉ</label>
-            <textarea id="profile-address" rows="2" autocomplete="street-address" disabled></textarea>
-          </div>
-          <div class="profile-field">
-            <label data-key="dashboard_label_tier">Hạng (Tier)</label>
-            <input id="profile-tier-detail" type="text" readonly disabled />
-          </div>
+            <div class="profile-field">
+              <label data-key="dashboard_label_full_name">Họ và tên</label>
+              <input id="profile-name" type="text" autocomplete="name" disabled />
+            </div>
+            <div class="profile-field">
+              <label data-key="dashboard_label_email">Email</label>
+              <input id="profile-email" type="email" autocomplete="email" readonly disabled />
+            </div>
+            <div class="profile-field">
+              <label data-key="dashboard_label_phone">Số điện thoại</label>
+              <input id="profile-phone" type="tel" autocomplete="tel" disabled />
+            </div>
+            <div class="profile-field">
+              <label data-key="dashboard_label_address">Địa chỉ</label>
+              <textarea id="profile-address" rows="2" autocomplete="street-address" disabled></textarea>
+            </div>
+            <div class="profile-field">
+              <label data-key="dashboard_label_tier">Hạng (Tier)</label>
+              <input id="profile-tier-detail" type="text" readonly disabled />
+            </div>
           </div>
           <div class="profile-edit-actions">
             <button id="profile-edit-toggle" class="profile-action-btn ghost" type="button"
@@ -604,15 +606,18 @@
                 <input id="profile-confirm-password" type="password" autocomplete="new-password" disabled />
               </div>
             </div>
-            <p class="password-hint" data-key="dashboard_password_hint">Leave password fields empty if you only want to update your profile.</p>
+            <p class="password-hint" data-key="dashboard_password_hint">Leave password fields empty if you only want to
+              update your profile.</p>
           </div>
           <div id="profile-edit-error" class="error-box" style="display: none;"></div>
           <div id="profile-edit-success" class="empty-box" style="display: none;"></div>
         </form>
         <div id="profile-completion" class="profile-completion" style="display: none;">
           <h4 data-key="dashboard_complete_profile_title">Complete your profile</h4>
-          <p id="profile-completion-hint" data-key="dashboard_complete_profile_desc">Please complete your profile to continue.</p>
-          <button id="profile-completion-edit" type="button" data-key="dashboard_complete_profile_cta">Complete now</button>
+          <p id="profile-completion-hint" data-key="dashboard_complete_profile_desc">Please complete your profile to
+            continue.</p>
+          <button id="profile-completion-edit" type="button" data-key="dashboard_complete_profile_cta">Complete
+            now</button>
         </div>
       </article>
 
@@ -624,7 +629,8 @@
           <span class="spinner"></span><span data-key="dashboard_orders_loading">Đang tải danh sách đơn hàng...</span>
         </div>
         <div id="orders-error" class="error-box" style="display: none;"></div>
-        <div id="orders-empty" class="empty-box" style="display: none;" data-key="dashboard_orders_empty">Chưa có đơn hàng nào.</div>
+        <div id="orders-empty" class="empty-box" style="display: none;" data-key="dashboard_orders_empty">Chưa có đơn
+          hàng nào.</div>
         <div id="orders-table-wrapper" style="overflow-x: auto; display: none;">
           <table class="orders-table">
             <thead>
@@ -655,14 +661,17 @@
               <p style="padding-top: 5px" data-key="footer_company_info">Giấy chứng nhận Đăng ký Kinh doanh số:
                 0318948734 do Sở KHDT thành phố Hồ Chí Minh cấp lần đầu ngày 13/05/2025</p>
               <p style="padding-top: 5px"><i class="fa fa-paper-plane"></i><a style="color: #ffff; padding: 5px;"
-                  href="https://www.uniwave-logistics.com/image/license/VLA.pdf" target="_blank" data-key="footer_fiata">Giấy phép FIATA</a></p>
+                  href="https://www.uniwave-logistics.com/image/license/VLA.pdf" target="_blank"
+                  data-key="footer_fiata">Giấy phép FIATA</a></p>
             </div>
             <br />
             <div>
               <h4 data-key="footer_membership">Là thành viên chính thức của</h4>
               <ul class="vla-fiata-member">
-                <li><img src="./image/general/img/Logo-VLA-High-Quality.png" alt="VLA Logo" style="max-width: 50px;" /></li>
-                <li><img src="./image/general/img/FIATA.PNG" alt="FIATA Logo" style="max-width: 50px; border-radius: 50%;" /></li>
+                <li><img src="./image/general/img/Logo-VLA-High-Quality.png" alt="VLA Logo" style="max-width: 50px;" />
+                </li>
+                <li><img src="./image/general/img/FIATA.PNG" alt="FIATA Logo"
+                    style="max-width: 50px; border-radius: 50%;" /></li>
               </ul>
             </div>
             <br />
@@ -670,23 +679,19 @@
               <h4 data-key="footer_connect">Kết nối cùng UNIWAVE</h4>
               <ul class="social">
                 <li>
-                  <a href="https://www.facebook.com/Uniwavelogistics" title="Facebook" data-key="common_social_facebook"
-                    data-i18n-attr="title"><img
+                  <a href="https://www.facebook.com/Uniwavelogistics" title="Facebook"><img
                       src="./image/general/icon/fb1.png" alt="Facebook" /></a>
                 </li>
                 <li>
-                  <a href="mailto:sales@uniwavelogistics.com" title="Email" data-key="common_social_email"
-                    data-i18n-attr="title"><img
-                      src="./image/general/icon/Vector-4.png" alt="Email" /></a>
+                  <a href="mailto:sales@uniwavelogistics.com" title="Email"><img src="./image/general/icon/Vector-4.png"
+                      alt="Email" /></a>
                 </li>
                 <li>
-                  <a href="https://zalo.me/3419211667593921528" title="Zalo" data-key="common_social_zalo"
-                    data-i18n-attr="title"><img
+                  <a href="https://zalo.me/3419211667593921528" title="Zalo"><img
                       src="./image/general/icon/Group-5897.png" alt="Zalo" /></a>
                 </li>
                 <li>
-                  <a href="https://www.linkedin.com/company/uniwave-logistic/" title="LinkedIn"
-                    data-key="common_social_linkedin" data-i18n-attr="title"><img
+                  <a href="https://www.linkedin.com/company/uniwave-logistic/" title="LinkedIn"><img
                       src="./image/general/icon/in1.png" alt="LinkedIn" /></a>
                 </li>
               </ul>
@@ -714,7 +719,8 @@
                       style="padding-left: 5px;">Trụ sở công ty: T2-26 The Manhattan – Vinhomes Grand Park, 512 Nguyễn
                       Xiển, Long Bình, TP. Thủ Đức.</span></p>
                   <p id="sec-office-address"><i class="fa fa-map-marker"></i><span data-key="footer_office_address"
-                      style="padding-left: 5px;">Văn phòng: 441 Võ Nguyên Giáp, xã Phú Minh, huyện Sóc Sơn, Hà Nội.</span></p>
+                      style="padding-left: 5px;">Văn phòng: 441 Võ Nguyên Giáp, xã Phú Minh, huyện Sóc Sơn, Hà
+                      Nội.</span></p>
                   <p id="comp-mail"><i class="fa fa-envelope"></i><a data-key="footer_email"
                       style="color: white; padding-left: 5px;"
                       href="mailto:info@uniwave-logistics.com">info@uniwave-logistics.com</a></p>
@@ -738,8 +744,7 @@
                   <div class="badge-container"
                     style="padding-top: 5px; padding-bottom: 5px; display: flex; align-items: center; gap: 10px;">
                     <a href="https://www.dmca.com/Protection/Status.aspx?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
-                      title="DMCA.com Protection Status" class="dmca-badge" data-key="common_dmca_status"
-                      data-i18n-attr="title">
+                      title="DMCA.com Protection Status" class="dmca-badge">
                       <img
                         src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=0d1a9562-265c-42ce-8af8-b0acaadd2ba0"
                         alt="DMCA.com Protection Status" />
@@ -817,8 +822,7 @@
       <li>
         <a href="https://api.whatsapp.com/send?phone=%2B84775764586&context=AffwBgBqo1894NOEVfp1pgqQyQevjJmSxfHBrfAO8o13dBn_os7LDX1m3lPxsLDNasPQyjVgPqc1wGVRYdm5_k0MXhKf7ly0zOr2R5CBfICOHLQQY4pHti_sGHqK5DkNoZfou8Hl6SddSybp3br_omT7HA&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwY2xjawKeqkFleHRuA2FlbQIxMABicmlkETFlQ1pTVkVUeUR3R01VYUt0AR4pN1Wf8tFMyGYwc5zA2BHI981cMiWbPfasHGcVlXJUXBkwMUJF2-0UQp3rjw_aem_R7-NxHXZhcLsEGOFDuiv3g"
           target="_blank">
-          <img src="./image/general/icon/whatsapp-icon.png"
-            style="width: 48px; height: 48px; border-radius: 50%" />
+          <img src="./image/general/icon/whatsapp-icon.png" style="width: 48px; height: 48px; border-radius: 50%" />
         </a>
       </li>
       <li>
@@ -832,7 +836,9 @@
   <!--Scripts chung-->
   <script defer type="text/javascript" src="js/scripts.js"></script>
   <script defer type="text/javascript" src="js/api.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
   <!--Scripts chung-->
 
   <script>
