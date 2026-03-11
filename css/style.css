@@ -4958,10 +4958,6 @@ video {
 
 .solution-block {
   max-width: 1500px;
-  background-image: url("image/services/img/transportation-domestic-service.jpg");
-  background-size: cover;    
-  background-position: center;
-  background-repeat: no-repeat;
   margin: 0 auto 40px;
   padding: 40px 20px;
   background: #f9fafb;
@@ -4969,26 +4965,6 @@ video {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden;
-}
-
-/* Lớp overlay mờ (để chữ và bảng dễ đọc) */
-.solution-block::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.45);       /* độ mờ 45% (có thể chỉnh 0.3 ~ 0.6) */
-  z-index: 1;
-}
-
-/* Nội dung (h2 + table) nằm trên nền */
-.solution-block > * {
-  position: relative;
-  z-index: 2;
-  color: white;
 }
 
 .solution-block h2 {
@@ -5032,7 +5008,6 @@ video {
   background: #e6eef5;
   transition: background 0.3s ease;
 }
-
 
 @media (max-width: 1024px) {
   .header-block {
