@@ -246,7 +246,6 @@
   "button_track": "Track",
 
   "common_company_name": "UNIWAVE LOGISTICS COMPANY LIMITED",
-  "common_dmca_status": "DMCA.com Protection Status",
   "common_placeholder_dash": "--",
   "search_placeholder": "Search",
   "tracking_back": "Back",
@@ -273,20 +272,16 @@
   "breadcrumb_home_price": "Home",
   "breadcrumb_price_check": "Price Quote",
   "main_title_price_check": "Estimate Shipping Cost",
-  "label_from": "From",
-  "label_to": "To",
-  "label_trongluong": "Weight (kg)",
+  "price_label_from_short": "From",
+  "price_label_to_short": "To",
+  
   "label_pickup_address": "Pickup Address",
   "label_delivery_address": "Delivery Address",
   "label_size": "Dimensions (cm)",
   "placeholder_pickup_address": "Enter pickup address...",
   "placeholder_delivery_address": "Enter delivery address...",
-  "placeholder_length": "Length",
-  "placeholder_width": "Width",
-  "placeholder_height": "Height",
-  "button_price_check": "Estimate Shipping Cost",
-
-
+  "price_estimate_button": "Estimate Shipping Cost",
+  "price_order_button": "Place Order",
 
   "banner_contact": "Contact",
   "breadcrumb_home_contact": "Home",
