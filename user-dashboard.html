@@ -576,6 +576,10 @@
               <textarea id="profile-address" rows="2" autocomplete="street-address" disabled></textarea>
             </div>
             <div class="profile-field">
+              <label>Quốc tịch</label>
+              <input id="profile-nationality" type="text" autocomplete="country-name" disabled />
+            </div>
+            <div class="profile-field">
               <label data-key="dashboard_label_tier">Hạng (Tier)</label>
               <input id="profile-tier-detail" type="text" readonly disabled />
             </div>
@@ -856,6 +860,7 @@
       const profileEmailInput = document.getElementById("profile-email");
       const profilePhoneInput = document.getElementById("profile-phone");
       const profileAddressInput = document.getElementById("profile-address");
+      const profileNationalityInput = document.getElementById("profile-nationality");
       const profileTier = document.getElementById("profile-tier");
       const profileTierDetail = document.getElementById("profile-tier-detail");
       const profileLoading = document.getElementById("profile-loading");
@@ -990,6 +995,7 @@
         if (profileNameInput) profileNameInput.disabled = !enabled;
         if (profilePhoneInput) profilePhoneInput.disabled = !enabled;
         if (profileAddressInput) profileAddressInput.disabled = !enabled;
+        if (profileNationalityInput) profileNationalityInput.disabled = !enabled;
         if (profileEmailInput) profileEmailInput.disabled = true;
         if (profileTierDetail) profileTierDetail.disabled = true;
 
@@ -1017,6 +1023,7 @@
         if (profileNameInput) profileNameInput.value = profile?.fullName || profile?.name || "";
         if (profilePhoneInput) profilePhoneInput.value = profile?.phoneNumber || profile?.phone || "";
         if (profileAddressInput) profileAddressInput.value = profile?.address || "";
+        if (profileNationalityInput) profileNationalityInput.value = profile?.nationality || "";
         if (profileEmailInput) profileEmailInput.value = profile?.email || "";
         if (profileTierDetail) {
           profileTierDetail.value = profile?.tier || profile?.membership || "";
@@ -1192,7 +1199,8 @@
           const payload = {
             fullName: getTrimmedValue(profileNameInput),
             phoneNumber: getTrimmedValue(profilePhoneInput),
-            address: getTrimmedValue(profileAddressInput)
+            address: getTrimmedValue(profileAddressInput),
+            nationality: getTrimmedValue(profileNationalityInput) || null
           };
 
           if (!payload.fullName || !payload.phoneNumber || !payload.address) {

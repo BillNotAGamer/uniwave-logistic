@@ -169,6 +169,10 @@
             <input type="email" id="reg-email" placeholder=" " required />
             <label for="reg-email" data-key="auth_label_email">Email</label>
           </div>
+          <div class="reg-form-group">
+            <input type="text" id="reg-nationality" placeholder=" " />
+            <label for="reg-nationality">Quốc tịch</label>
+          </div>
           <div class="reg-form-group form-group">
             <input type="password" id="reg-password" placeholder=" " required />
             <label for="reg-password" data-key="auth_label_password">Mật khẩu</label>
@@ -579,6 +583,7 @@
 
         const fullName = document.getElementById("reg-fullname").value.trim();
         const email = document.getElementById("reg-email").value.trim();
+        const nationality = document.getElementById("reg-nationality").value.trim();
         const password = document.getElementById("reg-password").value.trim();
         const terms = document.getElementById("reg-terms").checked;
         const submitButton = e.target.querySelector(".reg-btn");
@@ -613,8 +618,12 @@
           errorBox.textContent = "Email không được vượt quá 100 ký tự!";
           return;
         }
+        if (nationality.length > 120) {
+          errorBox.textContent = "Quốc tịch không được vượt quá 120 ký tự!";
+          return;
+        }
 
-        const data = { fullName, email, password };
+        const data = { fullName, email, password, nationality: nationality || null };
 
         submitButton.disabled = true;
         submitButton.textContent = "Đang xử lý...";
