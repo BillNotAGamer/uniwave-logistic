@@ -853,3 +853,31 @@ startAutoplay();
 document.querySelector('.uniwaveunique-hero-banner').addEventListener('mouseenter', () => clearInterval(interval));
 document.querySelector('.uniwaveunique-hero-banner').addEventListener('mouseleave', startAutoplay);
 /***** Slider banner trang home *****/
+
+// ===============================================
+// WAKE BACKEND RENDER FREE (không loading screen)
+// ===============================================
+const BACKEND_URL = "https://uniwave-logistics-server-1.onrender.com/";
+
+async function wakeBackend() {
+    try {
+        const res = await fetch(`${BACKEND_URL}/ping`, {
+            method: "GET",
+            cache: "no-store",
+            headers: { "Accept": "application/json" }
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            console.log("✅ Backend đã awake:", data);
+        }
+    } catch (err) {
+        // Render đang sleep → thử lại sau 10 giây (tối đa 2-3 lần là tỉnh)
+        console.log("Backend đang khởi động, thử lại sau 10 giây...");
+        setTimeout(wakeBackend, 10000);
+    }
+}
+
+// Gọi ngay khi trang load (chạy trên mọi trang)
+document.addEventListener('DOMContentLoaded', wakeBackend);
+// Hoặc dùng window.addEventListener('load', wakeBackend); nếu muốn chắc chắn hơn
