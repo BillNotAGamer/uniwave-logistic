@@ -169,6 +169,10 @@
             <input type="email" id="reg-email" placeholder=" " required />
             <label for="reg-email" data-key="auth_label_email">Email</label>
           </div>
+          <div class="reg-form-group">
+            <input type="text" id="reg-nationality" placeholder=" " />
+            <label for="reg-nationality">Quốc tịch</label>
+          </div>
           <div class="reg-form-group form-group">
             <input type="password" id="reg-password" placeholder=" " required />
             <label for="reg-password" data-key="auth_label_password">Mật khẩu</label>
@@ -579,7 +583,7 @@
 
         const fullName = document.getElementById("reg-fullname").value.trim();
         const email = document.getElementById("reg-email").value.trim();
-        
+        const nationality = document.getElementById("reg-nationality").value.trim();
         const password = document.getElementById("reg-password").value.trim();
         const terms = document.getElementById("reg-terms").checked;
         const submitButton = e.target.querySelector(".reg-btn");
@@ -676,8 +680,30 @@
         }
         const normalized = value.startsWith("/") ? value : `/${value}`;
         const pathOnly = normalized.split(/[?#]/)[0];
+        const suffix = normalized.slice(pathOnly.length);
+        const lowerPath = pathOnly.toLowerCase();
+        const adminRouteMap = {
+          "/admin": "/admin/dashboard",
+          "/admin/index": "/admin/dashboard",
+          "/admin/index.html": "/admin/dashboard",
+          "/admin/dashboard.html": "/admin/dashboard",
+          "/admin/orders.html": "/admin/orders",
+          "/admin/order-create.html": "/admin/order-create",
+          "/admin/order-detail.html": "/admin/order-detail",
+          "/admin/customers.html": "/admin/customers",
+          "/admin/customer-detail.html": "/admin/customer-detail",
+          "/admin/blogs.html": "/admin/blogs",
+          "/admin/blog-create.html": "/admin/blog-create",
+          "/admin/blog-edit.html": "/admin/blog-edit",
+          "/admin/blog-detail.html": "/admin/blog-detail",
+          "/admin/vehicles.html": "/admin/vehicles"
+        };
+        let normalizedAdminPath = adminRouteMap[lowerPath] || pathOnly;
+        if (lowerPath.startsWith("/admin/") && lowerPath.endsWith(".html")) {
+          normalizedAdminPath = lowerPath.slice(0, -5);
+        }
         const isAdminPage =
-          pathOnly.startsWith("/admin/") && pathOnly.endsWith(".html");
+          lowerPath === "/admin" || lowerPath.startsWith("/admin/");
         const isUserDashboard =
           pathOnly === "/user-dashboard" ||
           pathOnly === "/en/user-dashboard" ||
@@ -686,7 +712,10 @@
           pathOnly === "/price-check" ||
           pathOnly === "/en/price-check" ||
           pathOnly === "/vi/price-check";
-        if (isAdminPage || isUserDashboard || isPriceCheck) {
+        if (isAdminPage) {
+          return `${normalizedAdminPath}${suffix}`;
+        }
+        if (isUserDashboard || isPriceCheck) {
           return normalized;
         }
         return "";
@@ -709,10 +738,10 @@
 
         const lowerRoles = roles.map((role) => String(role).toLowerCase());
         if (lowerRoles.includes("admin")) {
-          return "/admin/index.html";
+          return "/admin/dashboard";
         }
         if (lowerRoles.includes("contenteditor")) {
-          return "/admin/blogs.html";
+          return "/admin/blogs";
         }
 
         return `/${lang}/user-dashboard`;

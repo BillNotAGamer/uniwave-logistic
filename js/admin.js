@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return normalized.slice(adminIndex);
     }
     const filename = normalized.split("/").pop();
-    return filename ? `/admin/${filename}` : "/admin/index.html";
+    return filename ? `/admin/${filename}` : "/admin/dashboard";
   })();
 
   const redirectToAuth = function () {
@@ -32,10 +32,10 @@ document.addEventListener('DOMContentLoaded', function () {
       : roles.some((role) => String(role).toLowerCase() === "contenteditor");
   const pageName = currentPath.split("/").pop() || "";
   const contentEditorPages = new Set([
-    "blogs.html",
-    "blog-create.html",
-    "blog-edit.html",
-    "blog-detail.html"
+    "blogs",
+    "blog-create",
+    "blog-edit",
+    "blog-detail"
   ]);
 
   if (!hasToken || !roles.length || (!isAdminUser && !isContentEditorUser)) {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   if (!isAdminUser && isContentEditorUser && !contentEditorPages.has(pageName)) {
-    window.location.href = "blogs.html";
+    window.location.href = "/admin/blogs";
     return;
   }
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -37,7 +37,7 @@
     <aside id="sidebar" class="sidebar-panel fixed inset-y-0 left-0 z-40 w-64">
       <div class="flex h-full flex-col bg-slate-950 text-white">
         <div class="px-6 py-6">
-          <a href="index.html" class="flex items-center gap-3">
+          <a href="/admin/dashboard" class="flex items-center gap-3">
             <img src="../image/general/img/Uniwave-Logo-on-Cream.png" alt="Uniwave Logo"
               class="h-9 w-auto rounded-lg bg-transparentp p-1" />
             <div>
@@ -49,22 +49,22 @@
         <nav class="flex-1 px-4">
           <p class="px-3 text-xs uppercase tracking-[0.25em] text-slate-500">Dashboard</p>
           <div class="mt-4 space-y-1">
-            <a href="index.html" data-sidebar-link
+            <a href="/admin/dashboard" data-sidebar-link
               class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
               <i class="bi bi-speedometer2 text-base"></i>
               Overview
             </a>
-            <a href="blogs.html" data-sidebar-link
+            <a href="/admin/blogs" data-sidebar-link
               class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
               <i class="bi bi-journal-text text-base"></i>
               Blog posts
             </a>
-            <a href="customers.html" data-sidebar-link
+            <a href="/admin/customers" data-sidebar-link
               class="flex items-center gap-3 rounded-xl bg-white/10 px-3 py-2 text-sm font-medium text-white shadow-sm">
               <i class="bi bi-people text-base"></i>
               Customers
             </a>
-            <a href="orders.html" data-sidebar-link
+            <a href="/admin/orders" data-sidebar-link
               class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
               <i class="bi bi-truck text-base"></i>
               Orders
@@ -244,7 +244,7 @@
           </td>
           <td class="px-6 py-4">${formatDate(user.createdAt || user.CreatedAt)}</td>
           <td class="px-6 py-4 text-right">
-            <a class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50" href="customer-detail.html?id=${encodeURIComponent(id)}">View</a>
+            <a class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50" href="/admin/customer-detail?id=${encodeURIComponent(id)}">View</a>
           </td>
         `;
           fragment.appendChild(tr);
@@ -323,3 +323,4 @@
 </body>
 
 </html>
+

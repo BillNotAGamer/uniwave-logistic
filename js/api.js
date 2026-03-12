@@ -181,9 +181,9 @@ function setupProfileMenu() {
 
   if (hasToken) {
     if (isAdmin()) {
-      profileLink.setAttribute("href", "/admin/index.html");
+      profileLink.setAttribute("href", "/admin/dashboard");
     } else if (isContentEditor()) {
-      profileLink.setAttribute("href", "/admin/blogs.html");
+      profileLink.setAttribute("href", "/admin/blogs");
     } else {
       profileLink.setAttribute("href", "/user-dashboard");
     }
