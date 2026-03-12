@@ -1,6 +1,54 @@
 {
   "rewrites": [
     {
+      "source": "/admin",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/admin/dashboard",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/admin/orders",
+      "destination": "/admin/orders.html"
+    },
+    {
+      "source": "/admin/order-create",
+      "destination": "/admin/order-create.html"
+    },
+    {
+      "source": "/admin/order-detail",
+      "destination": "/admin/order-detail.html"
+    },
+    {
+      "source": "/admin/customers",
+      "destination": "/admin/customers.html"
+    },
+    {
+      "source": "/admin/customer-detail",
+      "destination": "/admin/customer-detail.html"
+    },
+    {
+      "source": "/admin/blogs",
+      "destination": "/admin/blogs.html"
+    },
+    {
+      "source": "/admin/blog-create",
+      "destination": "/admin/blog-create.html"
+    },
+    {
+      "source": "/admin/blog-edit",
+      "destination": "/admin/blog-edit.html"
+    },
+    {
+      "source": "/admin/blog-detail",
+      "destination": "/admin/blog-detail.html"
+    },
+    {
+      "source": "/admin/vehicles",
+      "destination": "/admin/vehicles.html"
+    },
+    {
       "source": "/vi",
       "destination": "/index.html"
     },
