@@ -49,6 +49,10 @@
       "destination": "/admin/vehicles.html"
     },
     {
+      "source": "/authentication",
+      "destination": "/authentication.html"
+    },
+    {
       "source": "/vi",
       "destination": "/index.html"
     },

@@ -11,15 +11,164 @@ const ACCESS_TOKEN_KEY = "uniwave_access_token";
 const REFRESH_TOKEN_KEY = "uniwave_refresh_token";
 const EXPIRES_AT_KEY = "uniwave_token_expires_at";
 const ROLES_KEY = "uniwave_roles";
+const AUTHENTICATION_PATH = "/authentication";
+
+function readFromStorage(storage, key) {
+  try {
+    return storage.getItem(key);
+  } catch (_) {
+    return null;
+  }
+}
+
+function writeToStorage(storage, key, value) {
+  try {
+    storage.setItem(key, value);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
+function removeFromStorage(storage, key) {
+  try {
+    storage.removeItem(key);
+  } catch (_) {
+    // ignore storage cleanup errors
+  }
+}
+
+function getStoredAuthValue(key) {
+  const sessionValue = readFromStorage(sessionStorage, key);
+  if (sessionValue) {
+    return sessionValue;
+  }
+  return readFromStorage(localStorage, key);
+}
+
+function removeAuthKeysFromStorage(storage) {
+  removeFromStorage(storage, ACCESS_TOKEN_KEY);
+  removeFromStorage(storage, REFRESH_TOKEN_KEY);
+  removeFromStorage(storage, EXPIRES_AT_KEY);
+  removeFromStorage(storage, ROLES_KEY);
+}
+
+function getTargetAuthStorage(rememberMe) {
+  return rememberMe ? localStorage : sessionStorage;
+}
 
 // Retrieve the stored JWT access token (or null if missing).
 function getAccessToken() {
-  try {
-    return localStorage.getItem(ACCESS_TOKEN_KEY);
-  } catch (error) {
-    console.warn("Unable to read access token from localStorage", error);
+  return getStoredAuthValue(ACCESS_TOKEN_KEY);
+}
+
+function decodeJwtPayload(token) {
+  if (!token || typeof token !== "string") {
     return null;
   }
+
+  const tokenParts = token.split(".");
+  if (tokenParts.length < 2 || !tokenParts[1]) {
+    return null;
+  }
+
+  const normalizedBase64 = tokenParts[1].replace(/-/g, "+").replace(/_/g, "/");
+  const paddedBase64 = normalizedBase64.padEnd(Math.ceil(normalizedBase64.length / 4) * 4, "=");
+
+  try {
+    const decodedPayload = atob(paddedBase64);
+    const parsedPayload = JSON.parse(decodedPayload);
+    return parsedPayload && typeof parsedPayload === "object" ? parsedPayload : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+function getTokenExpiryDate(token) {
+  const payload = decodeJwtPayload(token);
+  if (!payload) {
+    return null;
+  }
+
+  const exp = typeof payload.exp === "number" ? payload.exp : Number(payload.exp);
+  if (!Number.isFinite(exp) || exp <= 0) {
+    return null;
+  }
+
+  return new Date(exp * 1000);
+}
+
+function isAccessTokenExpired(token, leewaySeconds = 0) {
+  if (!token) {
+    return true;
+  }
+
+  const expiresAt = getTokenExpiryDate(token);
+  if (!expiresAt) {
+    return false;
+  }
+
+  const skewMs = Number.isFinite(leewaySeconds) ? Math.max(0, leewaySeconds) * 1000 : 0;
+  return Date.now() >= expiresAt.getTime() - skewMs;
+}
+
+function getCurrentPathWithQuery() {
+  if (typeof window === "undefined") {
+    return "";
+  }
+  return `${window.location.pathname || ""}${window.location.search || ""}`;
+}
+
+function isAdminPagePath(pathname) {
+  const normalized = String(pathname || "").toLowerCase();
+  return normalized === "/admin" || normalized.startsWith("/admin/");
+}
+
+function isAuthPagePath(pathname) {
+  const normalized = String(pathname || "").toLowerCase();
+  return (
+    normalized === "/authentication" ||
+    normalized === "/authentication.html" ||
+    normalized === "/en/authentication" ||
+    normalized === "/vi/authentication"
+  );
+}
+
+function isAdminApiPath(path) {
+  const normalized = String(path || "").toLowerCase();
+  return (
+    normalized.startsWith("/api/admin/") ||
+    normalized.startsWith("api/admin/") ||
+    normalized.includes("/api/admin/")
+  );
+}
+
+function shouldEnforceAdminAuth(path) {
+  if (typeof window === "undefined") {
+    return isAdminApiPath(path);
+  }
+  return isAdminPagePath(window.location.pathname) || isAdminApiPath(path);
+}
+
+function buildAuthenticationUrl(redirectTarget = "") {
+  if (!redirectTarget) {
+    return AUTHENTICATION_PATH;
+  }
+  const params = new URLSearchParams({ redirect: redirectTarget });
+  return `${AUTHENTICATION_PATH}?${params.toString()}`;
+}
+
+function redirectToAuthentication(redirectTarget = "") {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  if (isAuthPagePath(window.location.pathname)) {
+    return;
+  }
+
+  const target = redirectTarget || getCurrentPathWithQuery();
+  window.location.href = buildAuthenticationUrl(target);
 }
 
 function normalizeRoles(rawRoles) {
@@ -43,14 +192,14 @@ function normalizeRoles(rawRoles) {
 
 function getRoles() {
   try {
-    const stored = localStorage.getItem(ROLES_KEY);
+    const stored = getStoredAuthValue(ROLES_KEY);
     if (!stored) {
       return [];
     }
     const parsed = JSON.parse(stored);
     return normalizeRoles(parsed);
   } catch (error) {
-    console.warn("Unable to read roles from localStorage", error);
+    console.warn("Unable to read roles from storage", error);
     return [];
   }
 }
@@ -69,36 +218,46 @@ function isContentEditor() {
   return hasRole("ContentEditor");
 }
 
-// Persist tokens and expiration info in localStorage.
-function setAuthTokens({ accessToken, refreshToken, expiresAt, roles } = {}) {
+// Persist auth data using localStorage when rememberMe=true, otherwise sessionStorage.
+function setAuthTokens({ accessToken, refreshToken, expiresAt, roles, rememberMe = true } = {}) {
   try {
-    localStorage.setItem(ACCESS_TOKEN_KEY, accessToken || "");
-    localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken || "");
-    if (expiresAt) {
-      localStorage.setItem(EXPIRES_AT_KEY, expiresAt);
+    const targetStorage = getTargetAuthStorage(rememberMe);
+
+    // Keep only one active auth storage target to avoid stale precedence conflicts.
+    removeAuthKeysFromStorage(localStorage);
+    removeAuthKeysFromStorage(sessionStorage);
+
+    if (accessToken) {
+      writeToStorage(targetStorage, ACCESS_TOKEN_KEY, accessToken);
     }
+
+    if (refreshToken) {
+      writeToStorage(targetStorage, REFRESH_TOKEN_KEY, refreshToken);
+    }
+
+    const resolvedExpiresAt = expiresAt || getTokenExpiryDate(accessToken)?.toISOString();
+    if (resolvedExpiresAt) {
+      writeToStorage(targetStorage, EXPIRES_AT_KEY, resolvedExpiresAt);
+    }
+
     if (roles !== undefined) {
       const normalizedRoles = normalizeRoles(roles);
       if (normalizedRoles.length) {
-        localStorage.setItem(ROLES_KEY, JSON.stringify(normalizedRoles));
-      } else {
-        localStorage.removeItem(ROLES_KEY);
+        writeToStorage(targetStorage, ROLES_KEY, JSON.stringify(normalizedRoles));
       }
     }
   } catch (error) {
-    console.error("Unable to save auth tokens to localStorage", error);
+    console.error("Unable to save auth tokens to storage", error);
   }
 }
 
-// Remove all stored auth-related keys.
+// Remove all stored auth-related keys from both session and local storage.
 function clearAuthTokens() {
   try {
-    localStorage.removeItem(ACCESS_TOKEN_KEY);
-    localStorage.removeItem(REFRESH_TOKEN_KEY);
-    localStorage.removeItem(EXPIRES_AT_KEY);
-    localStorage.removeItem(ROLES_KEY);
+    removeAuthKeysFromStorage(sessionStorage);
+    removeAuthKeysFromStorage(localStorage);
   } catch (error) {
-    console.error("Unable to clear auth tokens from localStorage", error);
+    console.error("Unable to clear auth tokens from storage", error);
   }
 }
 
@@ -141,6 +300,11 @@ async function apiFetch(path, options = {}) {
   }
 
   if (!response.ok) {
+    if (response.status === 401 && shouldEnforceAdminAuth(path)) {
+      clearAuthTokens();
+      redirectToAuthentication();
+    }
+
     let errorMessage = `Request failed with status ${response.status}`;
     try {
       const errorData = await response.clone().json();
@@ -206,6 +370,9 @@ window.UniwaveAPI = {
   BASE_API_URL,
   apiFetch,
   getAccessToken,
+  decodeJwtPayload,
+  isAccessTokenExpired,
+  redirectToAuthentication,
   getRoles,
   hasRole,
   isAdmin,

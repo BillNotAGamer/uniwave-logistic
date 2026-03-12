@@ -646,9 +646,11 @@
 
       const loginInput = document.getElementById("login-email");
       const passwordInput = document.getElementById("login-password");
+      const rememberCheckbox = document.getElementById("login-remember");
       const submitButton = loginForm.querySelector(".login-btn");
       const errorBox = document.getElementById("login-error-message");
       const defaultButtonText = submitButton ? submitButton.textContent : "";
+
 
       const normalizeRoles = (rawRoles) => {
         if (!rawRoles) return [];
@@ -751,6 +753,8 @@
 
         const loginValue = loginInput ? loginInput.value.trim() : ""; // Email
         const password = passwordInput ? passwordInput.value.trim() : "";
+        const rememberMe = !!(rememberCheckbox && rememberCheckbox.checked);
+
 
         if (!loginValue || !password) {
           showError("Vui lòng nhập email/tên người dùng và mật khẩu.");
@@ -787,7 +791,8 @@
             accessToken: result.accessToken,
             refreshToken: result.refreshToken,
             expiresAt,
-            roles
+            roles,
+            rememberMe
           });
 
           window.location.href = resolveRedirectTarget(roles);
