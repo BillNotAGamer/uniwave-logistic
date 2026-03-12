@@ -1251,6 +1251,23 @@ video {
   }
 }
 
+@media (max-width:991px){
+
+  .profile-menu img{
+    width:20px;
+    height:20px;
+  }
+
+  #profile-icon-black{
+    display:none;
+  }
+
+  #profile-icon-white{
+    display:block;
+  }
+
+}
+
 @media only screen and (min-width: 991px) and (max-width: 1199px) {
   .primary-nav-item.selected-desktop .primary-nav-link:before,
   .primary-nav-item:hover .primary-nav-link:before {
