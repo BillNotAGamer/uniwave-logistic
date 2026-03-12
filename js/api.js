@@ -12,6 +12,8 @@ const REFRESH_TOKEN_KEY = "uniwave_refresh_token";
 const EXPIRES_AT_KEY = "uniwave_token_expires_at";
 const ROLES_KEY = "uniwave_roles";
 const AUTHENTICATION_PATH = "/authentication";
+const REFRESH_ENDPOINT_PATH = "/api/auth/refresh";
+let refreshAccessTokenPromise = null;
 
 function readFromStorage(storage, key) {
   try {
@@ -39,11 +41,34 @@ function removeFromStorage(storage, key) {
 }
 
 function getStoredAuthValue(key) {
+  const entry = getStoredAuthEntry(key);
+  return entry.value;
+}
+
+function getStoredAuthEntry(key) {
   const sessionValue = readFromStorage(sessionStorage, key);
   if (sessionValue) {
-    return sessionValue;
+    return {
+      value: sessionValue,
+      storage: sessionStorage,
+      rememberMe: false
+    };
   }
-  return readFromStorage(localStorage, key);
+
+  const localValue = readFromStorage(localStorage, key);
+  if (localValue) {
+    return {
+      value: localValue,
+      storage: localStorage,
+      rememberMe: true
+    };
+  }
+
+  return {
+    value: null,
+    storage: null,
+    rememberMe: true
+  };
 }
 
 function removeAuthKeysFromStorage(storage) {
@@ -60,6 +85,10 @@ function getTargetAuthStorage(rememberMe) {
 // Retrieve the stored JWT access token (or null if missing).
 function getAccessToken() {
   return getStoredAuthValue(ACCESS_TOKEN_KEY);
+}
+
+function getRefreshToken() {
+  return getStoredAuthValue(REFRESH_TOKEN_KEY);
 }
 
 function decodeJwtPayload(token) {
@@ -169,6 +198,138 @@ function redirectToAuthentication(redirectTarget = "") {
 
   const target = redirectTarget || getCurrentPathWithQuery();
   window.location.href = buildAuthenticationUrl(target);
+}
+
+function isAuthApiPath(path) {
+  const normalized = String(path || "").toLowerCase();
+  return normalized.startsWith("/api/auth/") || normalized.startsWith("api/auth/");
+}
+
+function shouldSkipRefreshForPath(path) {
+  const normalized = String(path || "").toLowerCase();
+  return (
+    normalized.startsWith("/api/auth/login") ||
+    normalized.startsWith("api/auth/login") ||
+    normalized.startsWith("/api/auth/refresh") ||
+    normalized.startsWith("api/auth/refresh")
+  );
+}
+
+function getRememberMeFromStoredAuth() {
+  const refreshEntry = getStoredAuthEntry(REFRESH_TOKEN_KEY);
+  if (refreshEntry.value) {
+    return refreshEntry.rememberMe;
+  }
+
+  const accessEntry = getStoredAuthEntry(ACCESS_TOKEN_KEY);
+  if (accessEntry.value) {
+    return accessEntry.rememberMe;
+  }
+
+  return true;
+}
+
+function buildExpiresAtFromPayload(payload, fallbackToken) {
+  const expiresIn = Number(payload?.expiresIn);
+  if (Number.isFinite(expiresIn) && expiresIn > 0) {
+    return new Date(Date.now() + expiresIn * 1000).toISOString();
+  }
+
+  const explicitExpiry =
+    payload?.expiresAt ||
+    payload?.expiration ||
+    payload?.expires;
+  if (explicitExpiry) {
+    return explicitExpiry;
+  }
+
+  return getTokenExpiryDate(fallbackToken)?.toISOString();
+}
+
+function handleRefreshFailure(requestPath = "") {
+  clearAuthTokens();
+  if (!isAuthApiPath(requestPath)) {
+    redirectToAuthentication();
+  }
+}
+
+async function requestAccessTokenRefresh(refreshToken) {
+  const response = await fetch(new URL(REFRESH_ENDPOINT_PATH, BASE_API_URL).toString(), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ refreshToken })
+  });
+
+  if (!response.ok) {
+    return null;
+  }
+
+  try {
+    return await response.json();
+  } catch (_) {
+    return null;
+  }
+}
+
+async function refreshAccessToken({ requestPath = "", redirectOnFail = true } = {}) {
+  if (refreshAccessTokenPromise) {
+    return refreshAccessTokenPromise;
+  }
+
+  refreshAccessTokenPromise = (async () => {
+    const refreshEntry = getStoredAuthEntry(REFRESH_TOKEN_KEY);
+    const refreshToken = refreshEntry.value;
+    if (!refreshToken) {
+      if (redirectOnFail && (getAccessToken() || shouldEnforceAdminAuth(requestPath))) {
+        handleRefreshFailure(requestPath);
+      }
+      return null;
+    }
+
+    const payload = await requestAccessTokenRefresh(refreshToken);
+    const refreshedAccessToken = payload?.accessToken;
+    if (!refreshedAccessToken) {
+      if (redirectOnFail) {
+        handleRefreshFailure(requestPath);
+      }
+      return null;
+    }
+
+    const refreshTokenNext = payload?.refreshToken || refreshToken;
+    const roles = getRoles();
+    const expiresAt = buildExpiresAtFromPayload(payload, refreshedAccessToken);
+
+    setAuthTokens({
+      accessToken: refreshedAccessToken,
+      refreshToken: refreshTokenNext,
+      expiresAt,
+      roles,
+      rememberMe: getRememberMeFromStoredAuth()
+    });
+
+    return refreshedAccessToken;
+  })();
+
+  try {
+    return await refreshAccessTokenPromise;
+  } finally {
+    refreshAccessTokenPromise = null;
+  }
+}
+
+async function ensureValidAccessToken(path = "") {
+  const token = getAccessToken();
+  if (token && !isAccessTokenExpired(token, 5)) {
+    return token;
+  }
+
+  if (shouldSkipRefreshForPath(path)) {
+    return token;
+  }
+
+  return await refreshAccessToken({ requestPath: path, redirectOnFail: true });
 }
 
 function normalizeRoles(rawRoles) {
@@ -283,24 +444,44 @@ async function apiFetch(path, options = {}) {
     fetchOptions.body = JSON.stringify(fetchOptions.body);
   }
 
-  // Attach Bearer token when available.
-  const token = getAccessToken();
-  if (token) {
-    headers.set("Authorization", `Bearer ${token}`);
-  }
-
   fetchOptions.headers = headers;
+
+  const sendRequest = async (token) => {
+    const requestHeaders = new Headers(fetchOptions.headers || {});
+    if (token) {
+      requestHeaders.set("Authorization", `Bearer ${token}`);
+    } else {
+      requestHeaders.delete("Authorization");
+    }
+
+    return await fetch(url, {
+      ...fetchOptions,
+      headers: requestHeaders
+    });
+  };
 
   let response;
   try {
-    response = await fetch(url, fetchOptions);
+    const initialToken = await ensureValidAccessToken(path);
+    response = await sendRequest(initialToken);
   } catch (error) {
-    console.error(`Network error while calling ${url}: ${error.message}`); // Thêm log
+    console.error(`Network error while calling ${url}: ${error.message}`);
     throw new Error(`Network error while calling ${url}: ${error.message}`);
   }
 
+  if (response.status === 401 && !shouldSkipRefreshForPath(path)) {
+    const refreshedToken = await refreshAccessToken({
+      requestPath: path,
+      redirectOnFail: true
+    });
+
+    if (refreshedToken) {
+      response = await sendRequest(refreshedToken);
+    }
+  }
+
   if (!response.ok) {
-    if (response.status === 401 && shouldEnforceAdminAuth(path)) {
+    if (response.status === 401 && (shouldEnforceAdminAuth(path) || getAccessToken() || getRefreshToken())) {
       clearAuthTokens();
       redirectToAuthentication();
     }
@@ -326,7 +507,7 @@ async function apiFetch(path, options = {}) {
       }
     }
 
-    console.error(`API error: ${errorMessage}`); // Thêm log lỗi
+    console.error(`API error: ${errorMessage}`);
     const apiError = new Error(errorMessage);
     apiError.status = response.status;
     throw apiError;
@@ -370,8 +551,11 @@ window.UniwaveAPI = {
   BASE_API_URL,
   apiFetch,
   getAccessToken,
+  getRefreshToken,
   decodeJwtPayload,
   isAccessTokenExpired,
+  ensureValidAccessToken,
+  refreshAccessToken,
   redirectToAuthentication,
   getRoles,
   hasRole,
@@ -384,3 +568,4 @@ window.UniwaveAPI = {
 
 // Backwards-compatible alias.
 window.UniwaveApi = window.UniwaveAPI;
+
