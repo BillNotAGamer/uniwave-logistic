@@ -282,6 +282,9 @@
   "placeholder_delivery_address": "Enter delivery address...",
   "price_estimate_button": "Estimate Shipping Cost",
   "price_order_button": "Place Order",
+  "price_distance_label": "Distance",
+  "price_route_prompt": "Enter addresses to estimate shipping cost.",
+  "price_estimate_title": "This is the estimated shipping cost",
 
   "banner_contact": "Contact",
   "breadcrumb_home_contact": "Home",

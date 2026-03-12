@@ -286,6 +286,9 @@
   "placeholder_delivery_address": "Nhập địa chỉ nhận hàng...",
   "price_estimate_button": "Ước tính cước phí",
   "price_order_button": "Đặt hàng",
+  "price_distance_label": "Khoảng cách",
+  "price_route_prompt": "Nhập địa chỉ ước tính cước.",
+  "price_estimate_title": "Đây là chi phí ước tính",
 
   "banner_contact": "Liên hệ",
   "breadcrumb_home_contact": "Trang chủ",
