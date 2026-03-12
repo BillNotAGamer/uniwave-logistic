@@ -613,12 +613,9 @@
           errorBox.textContent = "Email không được vượt quá 100 ký tự!";
           return;
         }
-        if (nationality.length > 120) {
-          errorBox.textContent = "Quốc tịch không được vượt quá 120 ký tự!";
-          return;
-        }
+        
 
-        const data = { fullName, email, password, nationality: nationality || null };
+        const data = { fullName, email, password  };
 
         submitButton.disabled = true;
         submitButton.textContent = "Đang xử lý...";
