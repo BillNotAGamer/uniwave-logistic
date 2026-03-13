@@ -1692,6 +1692,15 @@ video {
   }
 }
 
+.uniwaveunique-hero-title,
+.uniwaveunique-hero-subtitle,
+.uniwaveunique-hero-description,
+.uniwaveunique-intro-text,
+.uniwaveunique-hero-tagline,
+.uniwaveunique-btn {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
 
 .uniwaveunique-slider-nav {
   position: absolute;
@@ -4348,132 +4357,227 @@ video {
   background-color: #f5f5f5;
 }
 
-/* Điều chỉnh container-about cho phần Thông tin liên hệ */
-.container-about {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--spacing-md);
-}
-
+/* ============================= */
+/* CONTACT CARD introduce.html */
+/* ============================= */
 .container_about_contact {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 24px;
 }
 
 .contact_card_wrapper {
-  position: relative;
-  text-align: center;
-  max-width: 800px;
+  max-width: 920px;
   margin: 0 auto;
-  height: 600px;
-  background-color: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.contact_card_wrapper a {
+.contact_card_link {
+  position: relative;
+  display: block;
+  min-height: 560px;
+  border-radius: 24px;
+  overflow: hidden;
   text-decoration: none;
   color: inherit;
-  display: block;
+  background: #0b1f44;
+  box-shadow: 0 20px 45px rgba(12, 26, 58, 0.14);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.contact_card_link:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 56px rgba(12, 26, 58, 0.18);
 }
 
 .container_img_contact {
-  position: relative; /* Làm tham chiếu cho các phần tử con */
-  width: 100%;
-  height: 600px; /* Chiều cao cố định, có thể điều chỉnh */
-  border-radius: 15px;
-  overflow: hidden;
+  position: absolute;
+  inset: 0;
+}
+
+.container_img_contact::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(7, 19, 44, 0.08) 0%,
+      rgba(7, 19, 44, 0.18) 28%,
+      rgba(7, 19, 44, 0.55) 62%,
+      rgba(7, 19, 44, 0.88) 100%
+    );
+  z-index: 1;
 }
 
 .container_img_contact img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
-  position: absolute; /* Hình ảnh làm nền */
-  top: 0;
-  left: 0;
-  z-index: 0; /* Đặt hình ảnh ở dưới cùng */
+  display: block;
+  transform: scale(1);
+  transition: transform 0.7s ease;
 }
 
-.contact_card_wrapper {
-  position: relative; /* Đảm bảo các phần tử con được định vị */
-  border-radius: 15px;
-  overflow: hidden;
-}
-
-.title_section {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #e3e3e3;
-  margin: 15px 0 10px;
-  padding: 10px 20px;
-  opacity: 1;
-  z-index: 1; /* Đưa chữ lên trên hình ảnh */
-  position: absolute; /* Chồng lên hình ảnh */
-  bottom: 140px;
-  left: 0;
-  background: #1e3799; 
-  border-radius: 5px;
-  width: calc(100% - 450px); /* Chiều rộng trừ padding */
-}
-
-.contact_description {
-  font-size: 1rem;
-  line-height: 1.6;
-  font-weight: 800;
-  color: #e3e3e3;
-  padding: 10px 20px;
-  margin: 0;
-  opacity: 1;
-  z-index: 1; 
-  position: absolute; 
-  bottom: 50px; 
-  background: transparent;
-  border-radius: 5px;
-}
-
-.read_more {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #e3e3e3;
-  padding: 10px 20px;
-  background-color: transparent;
-  margin: 0;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-  opacity: 1;
-  z-index: 1; /* Đưa nút lên trên hình ảnh */
-  position: absolute; /* Chồng lên hình ảnh */
-  bottom: 20px; /* Đặt ở dưới cùng */
-  right: 10%;
-  transform: translateX(50%); /* Điều chỉnh vị trí chính xác */
-  text-decoration: none; /* Loại bỏ gạch chân */
-}
-
-.read_more img {
-  width: 15px; /* Điều chỉnh kích thước icon */
-  height: 15px;
-  transition: transform 0.3s ease;
-}
-
-.read_more:hover img {
-  transform: translateX(5px); /* Di chuyển icon sang phải khi hover */
-}
-
-.contact_card_wrapper:hover .container_img_contact img {
+.contact_card_link:hover .container_img_contact img {
   transform: scale(1.05);
 }
 
+.contact_card_content {
+  position: relative;
+  z-index: 2;
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: clamp(24px, 4vw, 40px);
+  gap: 14px;
+}
 
+.title_section {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 12px 18px;
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #ffffff;
+  background: linear-gradient(135deg, #163d8f 0%, #2458c6 100%);
+  border-radius: 14px;
+  box-shadow: 0 12px 28px rgba(18, 46, 102, 0.28);
+  max-width: min(100%, 380px);
+}
+
+.contact_description {
+  max-width: 680px;
+  margin: 0;
+  font-size: clamp(0.96rem, 1.4vw, 1.05rem);
+  line-height: 1.75;
+  font-weight: 500;
+  color: rgba(245, 248, 255, 0.96);
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+}
+
+.read_more {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.read_more svg {
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.contact_card_link:hover .read_more {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.36);
+}
+
+.contact_card_link:hover .read_more svg {
+  transform: translateX(4px);
+}
+
+/* ============================= */
+/* TABLET */
+/* ============================= */
+
+@media (max-width: 992px) {
+  .container_about_contact {
+    padding: 20px;
+  }
+
+  .contact_card_link,
+  .contact_card_content {
+    min-height: 500px;
+  }
+
+  .contact_description {
+    max-width: 100%;
+  }
+}
+
+/* ============================= */
+/* MOBILE */
+/* ============================= */
+
+@media (max-width: 768px) {
+  .container_about_contact {
+    padding: 16px;
+  }
+
+  .contact_card_link,
+  .contact_card_content {
+    min-height: 440px;
+  }
+
+  .contact_card_content {
+    padding: 22px 18px;
+    gap: 12px;
+  }
+
+  .title_section {
+    max-width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px;
+  }
+
+  .contact_description {
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .read_more {
+    padding: 11px 16px;
+    font-size: 0.95rem;
+  }
+}
+
+/* ============================= */
+/* SMALL MOBILE */
+/* ============================= */
+
+@media (max-width: 480px) {
+  .contact_card_link,
+  .contact_card_content {
+    min-height: 380px;
+  }
+
+  .contact_card_content {
+    padding: 18px 16px;
+  }
+
+  .title_section {
+    font-size: 1rem;
+  }
+
+  .contact_description {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .read_more {
+    width: auto;
+    max-width: 100%;
+  }
+}
+
+/* ============================= */
+/* CONTACT CARD introduce.html */
+/* ============================= */
 
 /* Responsive */
 @media (max-width: 1280px) {
