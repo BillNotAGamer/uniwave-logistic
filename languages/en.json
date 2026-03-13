@@ -31,7 +31,16 @@
   "blog_next": "Next",
   "blog_kicker": "Insights",
   
-  "banner_slogan": "FAST, RELIABLE, BORDERLESS SHIPPING",
+  "home_hero_intro": "Intelligent Solutions for Smarter Logistics",
+  "home_hero_title": "Ship Smart. Move Fast",
+  "home_hero_desc": "The timeframe for results can vary depending on the specific services required",
+  "home_hero_cta": "Let's get started now",
+  "home_hero_tagline": "THE BEST LOGISTICS SERVICES & SOLUTION",
+  "home_hero_title_two": "One-Stop Solutions for Freight",
+  "home_hero_subtitle_two": "Customs & Documentation",
+  "home_hero_desc_two": "A comprehensive system integrating transportation, customs, and supply chain processes.",
+  "home_hero_services_cta": "See all our services",
+
   "banner_pricing": "Get Quote",
   "banner_tracking": "Track Shipment",
   "banner_title_about": "About Us",
