@@ -851,7 +851,7 @@
       const Api = window.UniwaveAPI || window.UniwaveApi;
       const token = Api?.getAccessToken ? Api.getAccessToken() : null;
       if (!token) {
-        window.location.href = "authentication.html";
+        window.location.href = "/en/authentication" || "/vi/authentication";
         return;
       }
 

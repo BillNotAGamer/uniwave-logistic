@@ -149,6 +149,18 @@
       "destination": "/international-services.html"
     },
     {
+      "source": "/reset-password",
+      "destination": "/reset-password.html"
+    },
+    {
+      "source": "/vi/reset-password",
+      "destination": "/reset-password.html"
+    },
+    {
+      "source": "/en/reset-password",
+      "destination": "/reset-password.html"
+    },
+    {
       "source": "/vi/languages/:path*",
       "destination": "/languages/:path*"
     },
@@ -188,7 +200,6 @@
       "source": "/en/css/:path*",
       "destination": "uni-content/css/:path*"
     }
-    
   ],
   "redirects": [
     {
