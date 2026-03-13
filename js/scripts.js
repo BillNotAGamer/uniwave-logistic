@@ -791,68 +791,276 @@ document.addEventListener("DOMContentLoaded", () => {
  * JS phần utilities *
  *********************/
 
-/***** Slider banner trang home *****/
-// JS nâng cao: Custom slider với animation trigger, autoplay, swipe support
-const slides = document.querySelectorAll('.uniwaveunique-slide');
-const prevBtn = document.querySelector('.prev');
-const nextBtn = document.querySelector('.next');
-const pagination = document.querySelector('.uniwaveunique-pagination');
-let currentIndex = 0;
-let interval;
+/***** Slider banner trang home (Banner V2) *****/
+(() => {
+  const hero = document.querySelector('.uniwaveunique-hero-banner');
+  if (!hero) return;
 
-// Tạo dots pagination
-slides.forEach((_, index) => {
-  const dot = document.createElement('div');
-  dot.classList.add('uniwaveunique-dot');
-  dot.addEventListener('click', () => goToSlide(index));
-  pagination.appendChild(dot);
-});
-const dots = document.querySelectorAll('.uniwaveunique-dot');
+  const slides = Array.from(hero.querySelectorAll('.uniwaveunique-slide'));
+  const prevBtn = hero.querySelector('.uniwaveunique-nav-btn--prev');
+  const nextBtn = hero.querySelector('.uniwaveunique-nav-btn--next');
+  const pagination = hero.querySelector('.uniwaveunique-pagination');
 
-function goToSlide(index) {
-  slides[currentIndex].classList.remove('active');
-  currentIndex = (index + slides.length) % slides.length;
-  slides[currentIndex].classList.add('active');
-  dots.forEach(d => d.classList.remove('active'));
-  dots[currentIndex].classList.add('active');
-  resetAnimations(); // Reset và trigger animations mới
-}
+  if (!slides.length || !pagination) return;
 
-function resetAnimations() {
-  const layers = slides[currentIndex].querySelectorAll('.uniwaveunique-layer');
-  layers.forEach(layer => {
-    layer.style.animation = 'none';
-    layer.offsetHeight; // Trigger reflow
-    layer.style.animation = '';
+  const AUTOPLAY_DELAY = 5000;
+  const SWIPE_THRESHOLD = 50;
+  const loadedSlides = new Set();
+  const dots = [];
+
+  let currentIndex = slides.findIndex((slide) => slide.classList.contains('is-active'));
+  let autoplayTimer = null;
+  let touchStartX = 0;
+  let touchDeltaX = 0;
+  let isHovering = false;
+
+  if (currentIndex < 0) currentIndex = 0;
+
+  const normalizedIndex = (index) => (index + slides.length) % slides.length;
+
+  // Escape only characters that can break a CSS url("...") string.
+  const escapeCssUrl = (url) => url.replace(/["\\]/g, '\\$&');
+
+  function setAccessibilityState() {
+    slides.forEach((slide, index) => {
+      slide.setAttribute('aria-hidden', index === currentIndex ? 'false' : 'true');
+    });
+  }
+
+  function loadSlideBackground(index) {
+    const safeIndex = normalizedIndex(index);
+    const slide = slides[safeIndex];
+    const media = slide.querySelector('.uniwaveunique-slide-media');
+    const source = slide.dataset.bg;
+
+    if (!media || loadedSlides.has(safeIndex)) return Promise.resolve();
+
+    if (media.style.backgroundImage) {
+      loadedSlides.add(safeIndex);
+      return Promise.resolve();
+    }
+
+    if (!source) {
+      loadedSlides.add(safeIndex);
+      return Promise.resolve();
+    }
+
+    return new Promise((resolve) => {
+      const image = new Image();
+      image.decoding = 'async';
+      image.src = source;
+      image.onload = image.onerror = () => {
+        media.style.backgroundImage = `url("${escapeCssUrl(source)}")`;
+        loadedSlides.add(safeIndex);
+        resolve();
+      };
+    });
+  }
+
+  function preloadAdjacentSlides(index) {
+    loadSlideBackground(index + 1);
+    loadSlideBackground(index - 1);
+  }
+
+  function updateDots() {
+    dots.forEach((dot, dotIndex) => {
+      const isActive = dotIndex === currentIndex;
+      dot.classList.toggle('is-active', isActive);
+      dot.setAttribute('aria-selected', String(isActive));
+      dot.tabIndex = isActive ? 0 : -1;
+    });
+  }
+
+  async function goToSlide(index) {
+    const nextIndex = normalizedIndex(index);
+    if (nextIndex === currentIndex) return;
+
+    await loadSlideBackground(nextIndex);
+
+    const currentSlide = slides[currentIndex];
+    const nextSlide = slides[nextIndex];
+
+    currentSlide.classList.remove('is-active');
+    currentSlide.classList.add('is-exiting');
+
+    nextSlide.classList.remove('is-exiting');
+    nextSlide.classList.add('is-active');
+
+    currentIndex = nextIndex;
+    setAccessibilityState();
+    updateDots();
+    preloadAdjacentSlides(currentIndex);
+  }
+
+  function nextSlide() {
+    goToSlide(currentIndex + 1);
+  }
+
+  function prevSlide() {
+    goToSlide(currentIndex - 1);
+  }
+
+  function stopAutoplay() {
+    if (autoplayTimer !== null) {
+      window.clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    if (slides.length < 2 || isHovering) return;
+    autoplayTimer = window.setInterval(nextSlide, AUTOPLAY_DELAY);
+  }
+
+  // Build dots once to keep runtime DOM updates minimal.
+  pagination.textContent = '';
+  slides.forEach((slide, index) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'uniwaveunique-dot';
+    dot.setAttribute('role', 'tab');
+    dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+    dot.addEventListener('click', () => {
+      goToSlide(index);
+      startAutoplay();
+    });
+    pagination.appendChild(dot);
+    dots.push(dot);
+
+    slide.addEventListener('transitionend', (event) => {
+      if (event.propertyName !== 'opacity') return;
+      if (!slide.classList.contains('is-active')) {
+        slide.classList.remove('is-exiting');
+      }
+    });
   });
-}
 
-// Autoplay
-function startAutoplay() {
-  interval = setInterval(() => goToSlide(currentIndex + 1), 6000); // 6s như demo
-}
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      prevSlide();
+      startAutoplay();
+    });
+  }
 
-// Swipe support cho mobile
-let touchStartX = 0;
-document.querySelector('.uniwaveunique-hero-banner').addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
-document.querySelector('.uniwaveunique-hero-banner').addEventListener('touchend', e => {
-  const touchEndX = e.changedTouches[0].screenX;
-  if (touchStartX - touchEndX > 50) goToSlide(currentIndex + 1);
-  if (touchEndX - touchStartX > 50) goToSlide(currentIndex - 1);
-});
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      nextSlide();
+      startAutoplay();
+    });
+  }
 
-// Events
-prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
-nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+  hero.addEventListener('mouseenter', () => {
+    isHovering = true;
+    stopAutoplay();
+  });
 
-// Khởi động
-goToSlide(0);
-startAutoplay();
+  hero.addEventListener('mouseleave', () => {
+    isHovering = false;
+    startAutoplay();
+  });
 
-// Pause autoplay khi hover (nâng cao)
-document.querySelector('.uniwaveunique-hero-banner').addEventListener('mouseenter', () => clearInterval(interval));
-document.querySelector('.uniwaveunique-hero-banner').addEventListener('mouseleave', startAutoplay);
-/***** Slider banner trang home *****/
+  hero.addEventListener('focusin', stopAutoplay);
+  hero.addEventListener('focusout', (event) => {
+    if (hero.contains(event.relatedTarget)) return;
+    startAutoplay();
+  });
+
+  hero.addEventListener('touchstart', (event) => {
+    if (event.touches.length !== 1) return;
+    touchStartX = event.touches[0].clientX;
+    touchDeltaX = 0;
+  }, { passive: true });
+
+  hero.addEventListener('touchmove', (event) => {
+    if (event.touches.length !== 1) return;
+    touchDeltaX = event.touches[0].clientX - touchStartX;
+  }, { passive: true });
+
+  hero.addEventListener('touchend', () => {
+    if (Math.abs(touchDeltaX) < SWIPE_THRESHOLD) return;
+    if (touchDeltaX < 0) {
+      nextSlide();
+    } else {
+      prevSlide();
+    }
+    startAutoplay();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+
+    const activeElement = document.activeElement;
+    if (
+      activeElement &&
+      (
+        activeElement.tagName === 'INPUT' ||
+        activeElement.tagName === 'TEXTAREA' ||
+        activeElement.tagName === 'SELECT' ||
+        activeElement.isContentEditable
+      )
+    ) {
+      return;
+    }
+
+    const heroRect = hero.getBoundingClientRect();
+    const heroInView = heroRect.bottom > 0 && heroRect.top < window.innerHeight;
+    if (!heroInView) return;
+
+    if (event.key === 'ArrowRight') {
+      nextSlide();
+    } else {
+      prevSlide();
+    }
+    startAutoplay();
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopAutoplay();
+      return;
+    }
+    startAutoplay();
+  });
+
+  slides.forEach((slide, index) => {
+    slide.classList.toggle('is-active', index === currentIndex);
+    slide.classList.remove('is-exiting');
+  });
+  setAccessibilityState();
+
+  loadSlideBackground(currentIndex).then(() => {
+    updateDots();
+    preloadAdjacentSlides(currentIndex);
+    startAutoplay();
+  });
+
+  if ('IntersectionObserver' in window) {
+    const lazyObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        preloadAdjacentSlides(currentIndex);
+
+        for (let index = 0; index < slides.length; index += 1) {
+          const skipNext = normalizedIndex(currentIndex + 1);
+          if (index === currentIndex || index === skipNext) continue;
+          loadSlideBackground(index);
+        }
+
+        observer.disconnect();
+      });
+    }, { rootMargin: '200px 0px' });
+
+    lazyObserver.observe(hero);
+  } else {
+    preloadAdjacentSlides(currentIndex);
+    for (let index = 0; index < slides.length; index += 1) {
+      if (index === currentIndex) continue;
+      loadSlideBackground(index);
+    }
+  }
+})();
+/***** Slider banner trang home (Banner V2) *****/
 
 // ===============================================
 // WAKE BACKEND RENDER FREE (không loading screen)

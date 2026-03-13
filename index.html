@@ -145,48 +145,73 @@
   <div class="header-space"></div>
   <!--Main content begin-->
   <!-- 1. Banner đầu trang -->
-  <section class="uniwaveunique-hero-banner">
+  <section class="uniwaveunique-hero-banner" aria-label="Uniwave enterprise banner slider">
     <div class="uniwaveunique-slides">
-      <!-- Slide 1: Custom Logistics - Căn phải, text giống ảnh 1 -->
-      <div class="uniwaveunique-slide uniwaveunique-slide1"
-        style="background-image: url('image/home/banner-cont-ship-bg.png');">
-        <div class="uniwaveunique-overlay">
-          <p class="uniwaveunique-intro-text uniwaveunique-layer" data-key="home_hero_intro">Intelligent Solutions for
-            Smarter Logistics</p>
-          <h1 class="uniwaveunique-hero-title uniwaveunique-layer" data-key="home_hero_title">Ship Smart. Move Fast</h1>
-          <p class="uniwaveunique-hero-description uniwaveunique-layer" data-key="home_hero_desc">The timeframe for
-            results can vary depending on the specific services required</p>
-          <a href="/en/price-check" class="uniwaveunique-btn uniwaveunique-layer" data-key="home_hero_cta">Let’s get
-            started now</a>
+      <article class="uniwaveunique-slide is-active" data-bg="./image/home/banner-cont-ship-bg.png" aria-hidden="false">
+        <div class="uniwaveunique-slide-media" style="background-image: url('./image/home/banner-cont-ship-bg.png');"></div>
+        <div class="uniwaveunique-slide-content">
+          <div class="uniwaveunique-overlay">
+            <p class="uniwaveunique-intro-text uniwaveunique-layer" style="--reveal-delay: 0.2s;"
+              data-key="home_hero_intro">
+              Intelligent Solutions for Smarter Logistics
+            </p>
+            <h1 class="uniwaveunique-hero-title uniwaveunique-layer" style="--reveal-delay: 0.4s;"
+              data-key="home_hero_title">
+              Ship Smart. Move Fast
+            </h1>
+            <p class="uniwaveunique-hero-description uniwaveunique-layer" style="--reveal-delay: 0.6s;"
+              data-key="home_hero_desc">
+              The timeframe for results can vary depending on the specific services required
+            </p>
+            <div class="uniwaveunique-actions uniwaveunique-layer" style="--reveal-delay: 0.8s;">
+              <a href="/en/price-check" class="uniwaveunique-btn" data-key="home_hero_cta">Let's get started now</a>
+            </div>
+          </div>
         </div>
-      </div>
-      <!-- Slide 2: Custom Logistics - Căn trái, text giống ảnh 2 -->
-      <div class="uniwaveunique-slide uniwaveunique-slide2"
-        style="background-image: url('image/home/banner2.png');">
-        <div class="uniwaveunique-overlay">
-          <p class="uniwaveunique-hero-tagline uniwaveunique-layer" data-key="home_hero_tagline">THE BEST LOGISTICS
-            SERVICES & SOLUTION</p>
-          <h1 class="uniwaveunique-hero-title uniwaveunique-layer" data-key="home_hero_title_two">One-Stop Solutions for
-            Freight,</h1>
-          <h2 class="uniwaveunique-hero-subtitle uniwaveunique-layer" data-key="home_hero_subtitle_two"> Customs &
-            Documentation.</h2>
-          <p class="uniwaveunique-hero-description uniwaveunique-layer" data-key="home_hero_desc_two">A comprehensive
-            system integrating transportation, customs, and supply chain processes.</p>
-          <a href="/en/services" class="uniwaveunique-btn uniwaveunique-layer" data-key="home_hero_services_cta">See all
-            our services</a>
-          <a href="tel:+84775764586" class="uniwaveunique-phone-link uniwaveunique-layer" data-key="footer_hotline">+84
-            775 764 586</a>
+      </article>
+
+      <article class="uniwaveunique-slide" data-bg="./image/home/banner2.png" aria-hidden="true">
+        <div class="uniwaveunique-slide-media"></div>
+        <div class="uniwaveunique-slide-content">
+          <div class="uniwaveunique-overlay">
+            <p class="uniwaveunique-hero-tagline uniwaveunique-layer" style="--reveal-delay: 0.2s;"
+              data-key="home_hero_tagline">
+              THE BEST LOGISTICS SERVICES & SOLUTION
+            </p>
+            <h2 class="uniwaveunique-hero-title uniwaveunique-layer" style="--reveal-delay: 0.4s;"
+              data-key="home_hero_title_two">
+              One-Stop Solutions for Freight
+            </h2>
+            <h3 class="uniwaveunique-hero-subtitle uniwaveunique-layer" style="--reveal-delay: 0.6s;"
+              data-key="home_hero_subtitle_two">
+              Customs & Documentation.
+            </h3>
+            <p class="uniwaveunique-hero-description uniwaveunique-layer" style="--reveal-delay: 0.8s;"
+              data-key="home_hero_desc_two">
+              A comprehensive system integrating transportation, customs, and supply chain processes.
+            </p>
+            <div class="uniwaveunique-actions uniwaveunique-layer" style="--reveal-delay: 1s;">
+              <a href="/en/services" class="uniwaveunique-btn" data-key="home_hero_services_cta">See all our services</a>
+              <a href="tel:+84775764586" class="uniwaveunique-btn uniwaveunique-btn--ghost uniwaveunique-phone-link"
+                data-key="footer_hotline">+84 775 764 586</a>
+            </div>
+          </div>
         </div>
-      </div>
+      </article>
     </div>
-    <!-- Navigation arrows -->
-    <div class="uniwaveunique-slider-nav">
-      <button class="uniwaveunique-nav-btn prev" data-key="common_slider_prev">&lt;</button>
-      <button class="uniwaveunique-nav-btn next" data-key="common_slider_next">&gt;</button>
+
+    <div class="uniwaveunique-slider-nav" aria-label="Hero slider navigation">
+      <button class="uniwaveunique-nav-btn uniwaveunique-nav-btn--prev" type="button" aria-label="Previous slide">
+        <span aria-hidden="true">&#10094;</span>
+      </button>
+      <button class="uniwaveunique-nav-btn uniwaveunique-nav-btn--next" type="button" aria-label="Next slide">
+        <span aria-hidden="true">&#10095;</span>
+      </button>
     </div>
-    <!-- Pagination dots -->
-    <div class="uniwaveunique-pagination"></div>
-  </section>
+
+    <div class="uniwaveunique-pagination" role="tablist" aria-label="Hero slides"></div>
+  </section> 
+
 
   <!-- 2. Về chúng tôi -->
   <section class="uw_section_container">
