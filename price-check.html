@@ -856,37 +856,6 @@
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
   <!--Scripts chung-->
-
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script>
-    const swiper = new Swiper(".swiper", {
-      loop: true,
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      slidesPerView: 1,
-      spaceBetween: 20,
-      breakpoints: {
-        480: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        768: {
-          slidesPerView: 3,
-          spaceBetween: 30,
-        },
-        1024: {
-          slidesPerView: 4,
-          spaceBetween: 40,
-        },
-      },
-    });
-  </script>
   <script>
   (() => {
     const elPickup = document.getElementById("pickupInput");
@@ -923,18 +892,11 @@
     let map = null;
     let pickupMarker = null;
     let dropoffMarker = null;
+    let directionsService = null;
+    let directionsRenderer = null;
     let pickupAutocomplete = null;
     let dropoffAutocomplete = null;
-    let routePolylines = [];
     let googleMapsLoaded = false;
-
-    const mapLib = {
-      Map: null,
-      LatLngBounds: null,
-      ControlPosition: null,
-      AdvancedMarkerElement: null,
-      Route: null,
-    };
 
     const fmtVND = (n) => {
       const x = Number(n);
@@ -942,10 +904,17 @@
       return (n ?? "") + "đ";
     };
 
-    const setError = (msg) => (elError.textContent = msg || "");
-    const setRouteStatus = (msg) => (elRouteStatus.textContent = msg || "");
-    const setDistanceUI = (km) =>
-      (elDistance.textContent = km == null ? "--" : `${km.toFixed(1)} km`);
+    const setError = (msg) => {
+      elError.textContent = msg || "";
+    };
+
+    const setRouteStatus = (msg) => {
+      elRouteStatus.textContent = msg || "";
+    };
+
+    const setDistanceUI = (km) => {
+      elDistance.textContent = km == null ? "--" : `${km.toFixed(1)} km`;
+    };
 
     const setLoading = (isLoading) => {
       elLoading.style.display = isLoading ? "block" : "none";
@@ -974,7 +943,7 @@
     const showEmpty = (msg) => {
       resetOrderState();
       elEmpty.style.display = "block";
-      elEmpty.textContent = msg || "Chưa có dữ liệu gì.";
+      elEmpty.textContent = msg || "No data available.";
     };
 
     const openModal = (modal) => {
@@ -1011,11 +980,11 @@
 
     const ensureEstimateReady = () => {
       if (!state.pickup || !state.dropoff || !state.route) {
-        setError("Vui lòng nhập đầy đủ địa chỉ trước khi đặt hàng.");
+        setError("Please enter both addresses before ordering.");
         return false;
       }
       if (!state.estimateVehicles.length) {
-        setError("Vui lòng ước tính giá trước khi đặt hàng.");
+        setError("Please estimate the shipping cost before ordering.");
         return false;
       }
       return true;
@@ -1028,14 +997,14 @@
 
       if (!res.ok) {
         const text = await res.text().catch(() => "");
-        throw new Error(`Không tải được cấu hình Google Maps từ máy chủ. ${text}`.trim());
+        throw new Error(`Cannot load Google Maps config from server. ${text}`.trim());
       }
 
       const data = await res.json();
       const key = data?.googleMapsApiKey?.trim();
 
       if (!key) {
-        throw new Error("Thiếu GOOGLE_MAPS_API_KEY trên máy chủ.");
+        throw new Error("Missing GOOGLE_MAPS_API_KEY on the server.");
       }
 
       return key;
@@ -1043,7 +1012,7 @@
 
     function loadGoogleMapsScript(apiKey) {
       return new Promise((resolve, reject) => {
-        if (window.google?.maps?.importLibrary) {
+        if (window.google && window.google.maps && window.google.maps.Map) {
           resolve();
           return;
         }
@@ -1051,133 +1020,28 @@
         const existing = document.querySelector('script[data-google-maps="true"]');
         if (existing) {
           existing.addEventListener("load", () => resolve(), { once: true });
-          existing.addEventListener(
-            "error",
-            () => reject(new Error("Không tải được Google Maps script.")),
-            { once: true }
-          );
+          existing.addEventListener("error", () => reject(new Error("Failed to load Google Maps script.")), { once: true });
           return;
         }
 
         const lang = getCurrentLang() === "vi" ? "vi" : "en";
-
         const script = document.createElement("script");
         script.src =
           `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}` +
-          `&loading=async&v=weekly&libraries=places,routes,marker` +
+          `&v=weekly&libraries=places&loading=async` +
           `&language=${encodeURIComponent(lang)}&region=VN`;
         script.async = true;
         script.defer = true;
         script.dataset.googleMaps = "true";
 
         script.onload = () => resolve();
-        script.onerror = () => reject(new Error("Không tải được Google Maps script."));
+        script.onerror = () => reject(new Error("Failed to load Google Maps script."));
         document.head.appendChild(script);
       });
     }
 
-    function getInputHost(inputEl) {
-      return inputEl?.parentElement || null;
-    }
-
-    function styleAutocompleteElement(el, placeholderText) {
-      el.placeholder = placeholderText || "";
-      el.includedRegionCodes = ["vn"];
-      el.style.display = "block";
-      el.style.width = "100%";
-      el.style.minHeight = "40px";
-    }
-
-    function clearNativeInputVisual(inputEl) {
-      if (!inputEl) return;
-      inputEl.value = "";
-      inputEl.style.display = "none";
-      inputEl.setAttribute("aria-hidden", "true");
-      inputEl.tabIndex = -1;
-    }
-
-    async function createAutocomplete(kind) {
-      const host = getInputHost(kind === "pickup" ? elPickup : elDropoff);
-      const nativeInput = kind === "pickup" ? elPickup : elDropoff;
-
-      if (!host || !window.google?.maps?.places?.PlaceAutocompleteElement) {
-        throw new Error("Không thể tạo ô gợi ý địa chỉ.");
-      }
-
-      const autocomplete = new google.maps.places.PlaceAutocompleteElement({});
-      styleAutocompleteElement(autocomplete, nativeInput?.getAttribute("placeholder") || "");
-
-      host.innerHTML = "";
-      host.appendChild(autocomplete);
-
-      autocomplete.addEventListener("gmp-select", async ({ placePrediction }) => {
-        try {
-          setError("");
-          if (!placePrediction) {
-            throw new Error("Không lấy được địa điểm đã chọn.");
-          }
-
-          const place = placePrediction.toPlace();
-          await place.fetchFields({
-            fields: ["displayName", "formattedAddress", "location"],
-          });
-
-          const location = place.location;
-          if (!location) {
-            throw new Error("Không lấy được tọa độ từ địa chỉ đã chọn.");
-          }
-
-          const lat =
-            typeof location.lat === "function" ? location.lat() : Number(location.lat);
-          const lon =
-            typeof location.lng === "function" ? location.lng() : Number(location.lng);
-
-          if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
-            throw new Error("Tọa độ địa chỉ không hợp lệ.");
-          }
-
-          const address = place.formattedAddress || place.displayName || "";
-
-          if (kind === "pickup") {
-            state.pickup = { address, lat, lon };
-            setMarker("pickup", lat, lon);
-          } else {
-            state.dropoff = { address, lat, lon };
-            setMarker("dropoff", lat, lon);
-          }
-
-          clearRoute();
-          clearResults();
-          await tryBuildRoute();
-        } catch (error) {
-          setError(error?.message || "Không thể xử lý địa chỉ đã chọn.");
-        }
-      });
-
-      return autocomplete;
-    }
-
-    async function setupAutocompleteWidgets() {
-      clearNativeInputVisual(elPickup);
-      clearNativeInputVisual(elDropoff);
-
-      pickupAutocomplete = await createAutocomplete("pickup");
-      dropoffAutocomplete = await createAutocomplete("dropoff");
-    }
-
-    async function initMap() {
-      const maps = await google.maps.importLibrary("maps");
-      const marker = await google.maps.importLibrary("marker");
-      await google.maps.importLibrary("places");
-      await google.maps.importLibrary("routes");
-
-      mapLib.Map = maps.Map;
-      mapLib.LatLngBounds = maps.LatLngBounds;
-      mapLib.ControlPosition = maps.ControlPosition;
-      mapLib.AdvancedMarkerElement = marker.AdvancedMarkerElement;
-      mapLib.Route = google.maps.routes.Route;
-
-      map = new mapLib.Map(document.getElementById("map"), {
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: 10.7758, lng: 106.7004 },
         zoom: 12,
         mapTypeControl: false,
@@ -1186,7 +1050,36 @@
         gestureHandling: "greedy",
       });
 
-      await setupAutocompleteWidgets();
+      directionsService = new google.maps.DirectionsService();
+      directionsRenderer = new google.maps.DirectionsRenderer({
+        map,
+        suppressMarkers: true,
+        polylineOptions: {
+          strokeColor: "#1f8fd6",
+          strokeOpacity: 0.9,
+          strokeWeight: 6,
+        },
+      });
+
+      pickupAutocomplete = new google.maps.places.Autocomplete(elPickup, {
+        componentRestrictions: { country: "vn" },
+        fields: ["formatted_address", "geometry", "name"],
+      });
+
+      dropoffAutocomplete = new google.maps.places.Autocomplete(elDropoff, {
+        componentRestrictions: { country: "vn" },
+        fields: ["formatted_address", "geometry", "name"],
+      });
+
+      pickupAutocomplete.addListener("place_changed", () => {
+        const place = pickupAutocomplete.getPlace();
+        handlePlaceSelected("pickup", place);
+      });
+
+      dropoffAutocomplete.addListener("place_changed", () => {
+        const place = dropoffAutocomplete.getPlace();
+        handlePlaceSelected("dropoff", place);
+      });
 
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -1197,77 +1090,36 @@
             });
             map.setZoom(13);
           },
-          () => {},
+          () => {
+            // keep default center silently
+          },
           { enableHighAccuracy: false, timeout: 4000 }
         );
       }
     }
 
-    function setMarker(type, lat, lon) {
-      const position = { lat, lng: lon };
-
-      if (type === "pickup") {
-        if (pickupMarker) {
-          pickupMarker.map = null;
-        }
-        pickupMarker = new mapLib.AdvancedMarkerElement({
-          map,
-          position,
-          title: "Điểm lấy hàng",
-        });
-      } else {
-        if (dropoffMarker) {
-          dropoffMarker.map = null;
-        }
-        dropoffMarker = new mapLib.AdvancedMarkerElement({
-          map,
-          position,
-          title: "Điểm giao hàng",
-        });
-      }
-
-      fitMapToThings();
-    }
-
-    function clearMarker(type) {
-      if (type === "pickup" && pickupMarker) {
-        pickupMarker.map = null;
-        pickupMarker = null;
-      }
-
-      if (type === "dropoff" && dropoffMarker) {
-        dropoffMarker.map = null;
-        dropoffMarker = null;
-      }
-    }
-
-    function clearRoutePolylines() {
-      routePolylines.forEach((polyline) => {
-        if (polyline) polyline.setMap(null);
-      });
-      routePolylines = [];
-    }
-
-    function clearRoute() {
-      state.route = null;
-      setDistanceUI(null);
-      setRouteStatus("Nhập địa chỉ để nhận được tính.");
-      clearRoutePolylines();
-    }
-
     function fitMapToThings() {
-      if (!map || !mapLib.LatLngBounds) return;
+      if (!map) return;
 
-      const bounds = new mapLib.LatLngBounds();
+      const bounds = new google.maps.LatLngBounds();
       let hasPoint = false;
 
-      if (pickupMarker?.position) {
-        bounds.extend(pickupMarker.position);
+      const pickupPos =
+        pickupMarker && typeof pickupMarker.getPosition === "function"
+          ? pickupMarker.getPosition()
+          : null;
+      const dropoffPos =
+        dropoffMarker && typeof dropoffMarker.getPosition === "function"
+          ? dropoffMarker.getPosition()
+          : null;
+
+      if (pickupPos) {
+        bounds.extend(pickupPos);
         hasPoint = true;
       }
 
-      if (dropoffMarker?.position) {
-        bounds.extend(dropoffMarker.position);
+      if (dropoffPos) {
+        bounds.extend(dropoffPos);
         hasPoint = true;
       }
 
@@ -1276,43 +1128,106 @@
       }
     }
 
-    async function buildRoute(pickup, dropoff) {
-      setRouteStatus("Đang tính tuyến đường...");
-      clearRoutePolylines();
+    function setMarker(type, lat, lon) {
+      const position = { lat, lng: lon };
 
-      const { routes } = await mapLib.Route.computeRoutes({
-        origin: { location: { latLng: { latitude: pickup.lat, longitude: pickup.lon } } },
-        destination: { location: { latLng: { latitude: dropoff.lat, longitude: dropoff.lon } } },
-        travelMode: "DRIVE",
-        routingPreference: "TRAFFIC_AWARE",
-        polylineQuality: "HIGH_QUALITY",
-        fields: ["path", "distanceMeters", "durationMillis", "viewport", "legs"],
-      });
-
-      if (!routes || !routes.length) {
-        throw new Error("Không tính được tuyến đường.");
-      }
-
-      const route = routes[0];
-
-      routePolylines = route.createPolylines({
-        strokeColor: "#1f8fd6",
-        strokeOpacity: 0.9,
-        strokeWeight: 6,
-      });
-
-      routePolylines.forEach((polyline) => polyline.setMap(map));
-
-      if (route.viewport) {
-        map.fitBounds(route.viewport, 60);
+      if (type === "pickup") {
+        if (pickupMarker) pickupMarker.setMap(null);
+        pickupMarker = new google.maps.Marker({
+          position,
+          map,
+          title: "Pickup point",
+        });
       } else {
-        fitMapToThings();
+        if (dropoffMarker) dropoffMarker.setMap(null);
+        dropoffMarker = new google.maps.Marker({
+          position,
+          map,
+          title: "Dropoff point",
+        });
       }
 
-      const distanceKm = Number(route.distanceMeters || 0) / 1000;
-      const durationMin = Number(route.durationMillis || 0) / 60000;
+      fitMapToThings();
+    }
 
-      return { distanceKm, durationMin };
+    function clearMarker(type) {
+      if (type === "pickup" && pickupMarker) {
+        pickupMarker.setMap(null);
+        pickupMarker = null;
+      }
+
+      if (type === "dropoff" && dropoffMarker) {
+        dropoffMarker.setMap(null);
+        dropoffMarker = null;
+      }
+    }
+
+    function clearRoute() {
+      state.route = null;
+      setDistanceUI(null);
+      setRouteStatus("Enter addresses to estimate shipping cost.");
+
+      if (directionsRenderer) {
+        directionsRenderer.set("directions", null);
+      }
+    }
+
+    function handlePlaceSelected(type, place) {
+      setError("");
+
+      if (!place || !place.geometry || !place.geometry.location) {
+        setError("Cannot get coordinates from the selected address.");
+        return;
+      }
+
+      const lat = place.geometry.location.lat();
+      const lon = place.geometry.location.lng();
+      const address = place.formatted_address || place.name || "";
+
+      if (type === "pickup") {
+        state.pickup = { address, lat, lon };
+        setMarker("pickup", lat, lon);
+      } else {
+        state.dropoff = { address, lat, lon };
+        setMarker("dropoff", lat, lon);
+      }
+
+      clearRoute();
+      clearResults();
+      tryBuildRoute();
+    }
+
+    async function buildRoute(pickup, dropoff) {
+      setRouteStatus("Calculating route...");
+
+      return new Promise((resolve, reject) => {
+        directionsService.route(
+          {
+            origin: { lat: pickup.lat, lng: pickup.lon },
+            destination: { lat: dropoff.lat, lng: dropoff.lon },
+            travelMode: google.maps.TravelMode.DRIVING,
+          },
+          (result, status) => {
+            if (status !== "OK" || !result || !result.routes || !result.routes.length) {
+              reject(new Error("Cannot calculate route."));
+              return;
+            }
+
+            directionsRenderer.setDirections(result);
+
+            const leg = result.routes[0]?.legs?.[0];
+            if (!leg) {
+              reject(new Error("No route leg data returned."));
+              return;
+            }
+
+            resolve({
+              distanceKm: (leg.distance?.value || 0) / 1000,
+              durationMin: (leg.duration?.value || 0) / 60,
+            });
+          }
+        );
+      });
     }
 
     async function tryBuildRoute() {
@@ -1322,10 +1237,10 @@
         const r = await buildRoute(state.pickup, state.dropoff);
         state.route = r;
         setDistanceUI(r.distanceKm);
-        setRouteStatus(`Ước tính thời gian: ~ ${Math.round(r.durationMin)} phút`);
+        setRouteStatus(`Estimated time: ~ ${Math.round(r.durationMin)} minutes`);
       } catch (e) {
         clearRoute();
-        setError(e?.message || "Không tính được tuyến đường.");
+        setError(e?.message || "Cannot calculate route.");
       }
     }
 
@@ -1392,7 +1307,7 @@
 
         const name = document.createElement("div");
         name.className = "order-vehicle-name";
-        name.textContent = vehicle.vehicleName || "Loại xe";
+        name.textContent = vehicle.vehicleName || "Vehicle type";
 
         const meta = document.createElement("div");
         meta.className = "order-vehicle-meta";
@@ -1420,7 +1335,7 @@
       const vehicles = (estimateResponse && estimateResponse.vehicles) || [];
 
       if (!vehicles.length) {
-        showEmpty("Chưa có dữ liệu gì. Vui lòng thử lại.");
+        showEmpty("No quote data returned. Please try again.");
         return;
       }
 
@@ -1437,7 +1352,7 @@
           <img src="${imgSrc}" alt="${v.vehicleName || ""}" onerror="this.style.display='none'" />
           <div class="gx-name">${v.vehicleName || ""}</div>
           <div class="gx-size">${sizeText}</div>
-          <div class="gx-price">Từ ${fmtVND(v.estimatedPrice)}</div>
+          <div class="gx-price">From ${fmtVND(v.estimatedPrice)}</div>
         `;
         elGrid.appendChild(card);
       });
@@ -1474,7 +1389,7 @@
 
       const Api = getApi();
       if (!Api?.apiFetch) {
-        throw new Error("Không thể kết nối đến máy chủ.");
+        throw new Error("Cannot connect to the server.");
       }
 
       const res = await Api.apiFetch("/api/Auth/me");
@@ -1484,7 +1399,7 @@
       const fullName = (data?.fullName || data?.FullName || "").trim();
 
       if (!email) {
-        throw new Error("Không tìm thấy email đăng nhập.");
+        throw new Error("Cannot find logged-in user email.");
       }
 
       const profile = { email, fullName };
@@ -1496,13 +1411,13 @@
       if (!ensureEstimateReady()) return;
 
       if (state.selectedVehicleIndex == null) {
-        if (orderError) orderError.textContent = "Vui lòng chọn loại xe.";
+        if (orderError) orderError.textContent = "Please choose a vehicle type.";
         return;
       }
 
       const Api = getApi();
       if (!Api?.apiFetch) {
-        if (orderError) orderError.textContent = "Không thể kết nối đến máy chủ.";
+        if (orderError) orderError.textContent = "Cannot connect to the server.";
         return;
       }
 
@@ -1511,7 +1426,7 @@
 
       if (orderConfirm) {
         orderConfirm.disabled = true;
-        orderConfirm.textContent = "Đang gửi...";
+        orderConfirm.textContent = "Sending...";
       }
 
       try {
@@ -1520,7 +1435,7 @@
         const selectedVehicleTypeId = selectedVehicle?.vehicleTypeId;
 
         if (!selectedVehicleTypeId) {
-          if (orderError) orderError.textContent = "Không tìm thấy loại xe đã chọn.";
+          if (orderError) orderError.textContent = "Cannot find selected vehicle type.";
           return;
         }
 
@@ -1553,12 +1468,12 @@
 
         if (orderError) {
           orderError.textContent =
-            error?.message || "Không thể gửi yêu cầu đặt hàng.";
+            error?.message || "Cannot submit order request.";
         }
       } finally {
         if (orderConfirm) {
           orderConfirm.disabled = false;
-          orderConfirm.textContent = defaultText || "Xác nhận";
+          orderConfirm.textContent = defaultText || "Confirm";
         }
       }
     };
@@ -1572,17 +1487,17 @@
         await new Promise((r) => setTimeout(r, 120));
       }
 
-      throw new Error("Không thể khởi tạo API client.");
+      throw new Error("Cannot initialize API client.");
     }
 
     async function callEstimateApi() {
       if (!state.pickup || !state.dropoff) {
-        setError("Vui lòng chọn đầy đủ địa chỉ Từ và Đến.");
+        setError("Please choose both pickup and delivery addresses.");
         return;
       }
 
       if (!state.route) {
-        setError("Chưa tính được tuyến đường. Vui lòng chọn lại địa chỉ.");
+        setError("Route has not been calculated yet. Please choose the addresses again.");
         return;
       }
 
@@ -1607,49 +1522,44 @@
         const json = await res.json();
         renderVehicles(json);
       } catch (e) {
-        showEmpty(e?.message || "Không lấy được dữ liệu báo giá.");
+        showEmpty(e?.message || "Cannot load estimate data.");
       } finally {
         setLoading(false);
       }
     }
 
-    async function rebuildAutocomplete(kind) {
-      if (kind === "pickup") {
-        pickupAutocomplete = await createAutocomplete("pickup");
+    function resetInput(type) {
+      if (type === "pickup") {
+        elPickup.value = "";
+        state.pickup = null;
+        clearMarker("pickup");
       } else {
-        dropoffAutocomplete = await createAutocomplete("dropoff");
+        elDropoff.value = "";
+        state.dropoff = null;
+        clearMarker("dropoff");
       }
+
+      clearRoute();
+      clearResults();
+      fitMapToThings();
     }
 
     async function bootGoogleMaps() {
       try {
         const apiKey = await fetchMapsConfig();
         await loadGoogleMapsScript(apiKey);
-        await initMap();
+        initMap();
         googleMapsLoaded = true;
       } catch (error) {
-        setError(error?.message || "Không thể khởi tạo Google Maps.");
+        setError(error?.message || "Cannot initialize Google Maps.");
         console.error(error);
       }
     }
 
     document.querySelectorAll(".gx-trash").forEach((btn) => {
-      btn.addEventListener("click", async () => {
+      btn.addEventListener("click", () => {
         const type = btn.getAttribute("data-clear");
-
-        if (type === "pickup") {
-          state.pickup = null;
-          clearMarker("pickup");
-          await rebuildAutocomplete("pickup");
-        } else {
-          state.dropoff = null;
-          clearMarker("dropoff");
-          await rebuildAutocomplete("dropoff");
-        }
-
-        clearRoute();
-        clearResults();
-        fitMapToThings();
+        resetInput(type);
       });
     });
 
@@ -1694,7 +1604,7 @@
 
         const defaultText = btnOrder.textContent;
         btnOrder.disabled = true;
-        btnOrder.textContent = "Đang kiểm tra...";
+        btnOrder.textContent = "Checking...";
 
         try {
           await getAuthenticatedProfile();
@@ -1704,17 +1614,17 @@
             handleAuthExpired();
             return;
           }
-          setError(error?.message || "Không thể xác thực đăng nhập.");
+          setError(error?.message || "Cannot verify login.");
         } finally {
           btnOrder.disabled = false;
-          btnOrder.textContent = defaultText || "Đặt hàng";
+          btnOrder.textContent = defaultText || "Order";
         }
       });
     }
 
     btnEstimate.addEventListener("click", async () => {
       if (!googleMapsLoaded) {
-        setError("Google Maps chưa sẵn sàng. Vui lòng thử lại.");
+        setError("Google Maps is not ready yet. Please try again.");
         return;
       }
       await callEstimateApi();
@@ -1728,5 +1638,4 @@
   })();
 </script>
 </body>
-
 </html>
