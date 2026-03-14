@@ -857,785 +857,822 @@
     crossorigin="anonymous"></script>
   <!--Scripts chung-->
   <script>
-  (() => {
-    const elPickup = document.getElementById("pickupInput");
-    const elDropoff = document.getElementById("dropoffInput");
-    const btnEstimate = document.getElementById("estimate-btn");
-    const elError = document.getElementById("form-error");
-    const elDistance = document.getElementById("distance-value");
-    const elRouteStatus = document.getElementById("route-status");
-    const elLoading = document.getElementById("estimate-loading");
-    const elEmpty = document.getElementById("vehicles-empty");
-    const elGrid = document.getElementById("vehicles-grid");
-    const elOrderActions = document.getElementById("order-actions");
-    const btnOrder = document.getElementById("order-btn");
-    const loginModal = document.getElementById("login-required-modal");
-    const loginCancel = document.getElementById("login-cancel");
-    const loginRedirect = document.getElementById("login-redirect");
-    const orderModal = document.getElementById("order-modal");
-    const orderVehicleList = document.getElementById("order-vehicle-list");
-    const orderError = document.getElementById("order-error");
-    const orderCancel = document.getElementById("order-cancel");
-    const orderConfirm = document.getElementById("order-confirm");
-    const thankyouModal = document.getElementById("thankyou-modal");
-    const thankyouClose = document.getElementById("thankyou-close");
+    (() => {
+      const elPickup = document.getElementById("pickupInput");
+      const elDropoff = document.getElementById("dropoffInput");
+      const btnEstimate = document.getElementById("estimate-btn");
+      const elError = document.getElementById("form-error");
+      const elDistance = document.getElementById("distance-value");
+      const elRouteStatus = document.getElementById("route-status");
+      const elLoading = document.getElementById("estimate-loading");
+      const elEmpty = document.getElementById("vehicles-empty");
+      const elGrid = document.getElementById("vehicles-grid");
+      const elOrderActions = document.getElementById("order-actions");
+      const btnOrder = document.getElementById("order-btn");
+      const loginModal = document.getElementById("login-required-modal");
+      const loginCancel = document.getElementById("login-cancel");
+      const loginRedirect = document.getElementById("login-redirect");
+      const orderModal = document.getElementById("order-modal");
+      const orderVehicleList = document.getElementById("order-vehicle-list");
+      const orderError = document.getElementById("order-error");
+      const orderCancel = document.getElementById("order-cancel");
+      const orderConfirm = document.getElementById("order-confirm");
+      const thankyouModal = document.getElementById("thankyou-modal");
+      const thankyouClose = document.getElementById("thankyou-close");
 
-    const state = {
-      pickup: null,
-      dropoff: null,
-      route: null,
-      estimateVehicles: [],
-      selectedVehicleIndex: null,
-      userProfile: null,
-    };
-
-    let map = null;
-    let pickupMarker = null;
-    let dropoffMarker = null;
-    let directionsService = null;
-    let directionsRenderer = null;
-    let pickupAutocomplete = null;
-    let dropoffAutocomplete = null;
-    let googleMapsLoaded = false;
-
-    const fmtVND = (n) => {
-      const x = Number(n);
-      if (Number.isFinite(x)) return x.toLocaleString("vi-VN") + "đ";
-      return (n ?? "") + "đ";
-    };
-
-    const setError = (msg) => {
-      elError.textContent = msg || "";
-    };
-
-    const setRouteStatus = (msg) => {
-      elRouteStatus.textContent = msg || "";
-    };
-
-    const setDistanceUI = (km) => {
-      elDistance.textContent = km == null ? "--" : `${km.toFixed(1)} km`;
-    };
-
-    const setLoading = (isLoading) => {
-      elLoading.style.display = isLoading ? "block" : "none";
-      btnEstimate.disabled = isLoading;
-    };
-
-    const setOrderActionsVisible = (visible) => {
-      if (!elOrderActions) return;
-      elOrderActions.style.display = visible ? "flex" : "none";
-    };
-
-    const resetOrderState = () => {
-      state.estimateVehicles = [];
-      state.selectedVehicleIndex = null;
-      if (orderVehicleList) orderVehicleList.innerHTML = "";
-      if (orderError) orderError.textContent = "";
-      setOrderActionsVisible(false);
-    };
-
-    const clearResults = () => {
-      elGrid.innerHTML = "";
-      elEmpty.style.display = "none";
-      resetOrderState();
-    };
-
-    const showEmpty = (msg) => {
-      resetOrderState();
-      elEmpty.style.display = "block";
-      elEmpty.textContent = msg || "No data available.";
-    };
-
-    const openModal = (modal) => {
-      if (!modal) return;
-      modal.classList.add("is-open");
-    };
-
-    const closeModal = (modal) => {
-      if (!modal) return;
-      modal.classList.remove("is-open");
-    };
-
-    const bindModalDismiss = (modal) => {
-      if (!modal) return;
-      modal.addEventListener("click", (event) => {
-        if (event.target === modal) closeModal(modal);
-      });
-    };
-
-    const getCurrentLang = () => {
-      if (typeof getCurrentLanguageFromURL === "function") {
-        return getCurrentLanguageFromURL();
-      }
-      const path = window.location.pathname || "";
-      if (path.startsWith("/vi")) return "vi";
-      return "en";
-    };
-
-    const buildLoginUrl = () => {
-      const lang = getCurrentLang();
-      const redirectTarget = `/${lang}/price-check`;
-      return `/${lang}/authentication?redirect=${encodeURIComponent(redirectTarget)}`;
-    };
-
-    const ensureEstimateReady = () => {
-      if (!state.pickup || !state.dropoff || !state.route) {
-        setError("Please enter both addresses before ordering.");
-        return false;
-      }
-      if (!state.estimateVehicles.length) {
-        setError("Please estimate the shipping cost before ordering.");
-        return false;
-      }
-      return true;
-    };
-
-    async function fetchMapsConfig() {
-      const res = await fetch("/api/maps-config", {
-        headers: { Accept: "application/json" },
-      });
-
-      if (!res.ok) {
-        const text = await res.text().catch(() => "");
-        throw new Error(`Cannot load Google Maps config from server. ${text}`.trim());
-      }
-
-      const data = await res.json();
-      const key = data?.googleMapsApiKey?.trim();
-
-      if (!key) {
-        throw new Error("Missing GOOGLE_MAPS_API_KEY on the server.");
-      }
-
-      return key;
-    }
-
-    function loadGoogleMapsScript(apiKey) {
-      return new Promise((resolve, reject) => {
-        if (window.google && window.google.maps && window.google.maps.Map) {
-          resolve();
-          return;
-        }
-
-        const existing = document.querySelector('script[data-google-maps="true"]');
-        if (existing) {
-          existing.addEventListener("load", () => resolve(), { once: true });
-          existing.addEventListener("error", () => reject(new Error("Failed to load Google Maps script.")), { once: true });
-          return;
-        }
-
-        const lang = getCurrentLang() === "vi" ? "vi" : "en";
-        const script = document.createElement("script");
-        script.src =
-          `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}` +
-          `&v=weekly&libraries=places&loading=async` +
-          `&language=${encodeURIComponent(lang)}&region=VN`;
-        script.async = true;
-        script.defer = true;
-        script.dataset.googleMaps = "true";
-
-        script.onload = () => resolve();
-        script.onerror = () => reject(new Error("Failed to load Google Maps script."));
-        document.head.appendChild(script);
-      });
-    }
-
-    function initMap() {
-      map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: 10.7758, lng: 106.7004 },
-        zoom: 12,
-        mapTypeControl: false,
-        streetViewControl: false,
-        fullscreenControl: false,
-        gestureHandling: "greedy",
-      });
-
-      directionsService = new google.maps.DirectionsService();
-      directionsRenderer = new google.maps.DirectionsRenderer({
-        map,
-        suppressMarkers: true,
-        polylineOptions: {
-          strokeColor: "#1f8fd6",
-          strokeOpacity: 0.9,
-          strokeWeight: 6,
-        },
-      });
-
-      pickupAutocomplete = new google.maps.places.Autocomplete(elPickup, {
-        componentRestrictions: { country: "vn" },
-        fields: ["formatted_address", "geometry", "name"],
-      });
-
-      dropoffAutocomplete = new google.maps.places.Autocomplete(elDropoff, {
-        componentRestrictions: { country: "vn" },
-        fields: ["formatted_address", "geometry", "name"],
-      });
-
-      pickupAutocomplete.addListener("place_changed", () => {
-        const place = pickupAutocomplete.getPlace();
-        handlePlaceSelected("pickup", place);
-      });
-
-      dropoffAutocomplete.addListener("place_changed", () => {
-        const place = dropoffAutocomplete.getPlace();
-        handlePlaceSelected("dropoff", place);
-      });
-
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            map.setCenter({
-              lat: pos.coords.latitude,
-              lng: pos.coords.longitude,
-            });
-            map.setZoom(13);
-          },
-          () => {
-            // keep default center silently
-          },
-          { enableHighAccuracy: false, timeout: 4000 }
-        );
-      }
-    }
-
-    function fitMapToThings() {
-      if (!map) return;
-
-      const bounds = new google.maps.LatLngBounds();
-      let hasPoint = false;
-
-      const pickupPos =
-        pickupMarker && typeof pickupMarker.getPosition === "function"
-          ? pickupMarker.getPosition()
-          : null;
-      const dropoffPos =
-        dropoffMarker && typeof dropoffMarker.getPosition === "function"
-          ? dropoffMarker.getPosition()
-          : null;
-
-      if (pickupPos) {
-        bounds.extend(pickupPos);
-        hasPoint = true;
-      }
-
-      if (dropoffPos) {
-        bounds.extend(dropoffPos);
-        hasPoint = true;
-      }
-
-      if (hasPoint) {
-        map.fitBounds(bounds, 50);
-      }
-    }
-
-    function setMarker(type, lat, lon) {
-      const position = { lat, lng: lon };
-
-      if (type === "pickup") {
-        if (pickupMarker) pickupMarker.setMap(null);
-        pickupMarker = new google.maps.Marker({
-          position,
-          map,
-          title: "Pickup point",
-        });
-      } else {
-        if (dropoffMarker) dropoffMarker.setMap(null);
-        dropoffMarker = new google.maps.Marker({
-          position,
-          map,
-          title: "Dropoff point",
-        });
-      }
-
-      fitMapToThings();
-    }
-
-    function clearMarker(type) {
-      if (type === "pickup" && pickupMarker) {
-        pickupMarker.setMap(null);
-        pickupMarker = null;
-      }
-
-      if (type === "dropoff" && dropoffMarker) {
-        dropoffMarker.setMap(null);
-        dropoffMarker = null;
-      }
-    }
-
-    function clearRoute() {
-      state.route = null;
-      setDistanceUI(null);
-      setRouteStatus("Enter addresses to estimate shipping cost.");
-
-      if (directionsRenderer) {
-        directionsRenderer.set("directions", null);
-      }
-    }
-
-    function handlePlaceSelected(type, place) {
-      setError("");
-
-      if (!place || !place.geometry || !place.geometry.location) {
-        setError("Cannot get coordinates from the selected address.");
-        return;
-      }
-
-      const lat = place.geometry.location.lat();
-      const lon = place.geometry.location.lng();
-      const address = place.formatted_address || place.name || "";
-
-      if (type === "pickup") {
-        state.pickup = { address, lat, lon };
-        setMarker("pickup", lat, lon);
-      } else {
-        state.dropoff = { address, lat, lon };
-        setMarker("dropoff", lat, lon);
-      }
-
-      clearRoute();
-      clearResults();
-      tryBuildRoute();
-    }
-
-    async function buildRoute(pickup, dropoff) {
-      setRouteStatus("Calculating route...");
-
-      return new Promise((resolve, reject) => {
-        directionsService.route(
-          {
-            origin: { lat: pickup.lat, lng: pickup.lon },
-            destination: { lat: dropoff.lat, lng: dropoff.lon },
-            travelMode: google.maps.TravelMode.DRIVING,
-          },
-          (result, status) => {
-            if (status !== "OK" || !result || !result.routes || !result.routes.length) {
-              reject(new Error("Cannot calculate route."));
-              return;
-            }
-
-            directionsRenderer.setDirections(result);
-
-            const leg = result.routes[0]?.legs?.[0];
-            if (!leg) {
-              reject(new Error("No route leg data returned."));
-              return;
-            }
-
-            resolve({
-              distanceKm: (leg.distance?.value || 0) / 1000,
-              durationMin: (leg.duration?.value || 0) / 60,
-            });
-          }
-        );
-      });
-    }
-
-    async function tryBuildRoute() {
-      if (!state.pickup || !state.dropoff) return;
-
-      try {
-        const r = await buildRoute(state.pickup, state.dropoff);
-        state.route = r;
-        setDistanceUI(r.distanceKm);
-        setRouteStatus(`Estimated time: ~ ${Math.round(r.durationMin)} minutes`);
-      } catch (e) {
-        clearRoute();
-        setError(e?.message || "Cannot calculate route.");
-      }
-    }
-
-    function vehicleImageFromCode(code, imageUrl) {
-      if (imageUrl && String(imageUrl).trim()) return imageUrl;
-
-      const mapByCode = {
-        MOTORCYCLE: "motorcycle.svg",
-        TRICYCLE: "tricycle.svg",
-        VAN_500KG: "van500.svg",
-        VAN_1T: "van1000.svg",
-        TRUCK_500KG: "truck500.svg",
-        TRUCK_1T: "truck1000.svg",
-        TRUCK_1_5T: "truck1500.svg",
-        TRUCK_2T: "truck2000.svg",
+      const state = {
+        pickup: null,
+        dropoff: null,
+        route: null,
+        estimateVehicles: [],
+        selectedVehicleIndex: null,
+        userProfile: null,
       };
 
-      const filename = mapByCode[code] || "truck1000.svg";
-      return `image/price-check/image/${filename}`;
-    }
+      let map = null;
+      let pickupMarker = null;
+      let dropoffMarker = null;
+      let directionsService = null;
+      let directionsRenderer = null;
+      let pickupAutocomplete = null;
+      let dropoffAutocomplete = null;
+      let googleMapsLoaded = false;
 
-    function buildVehicleMeta(vehicle) {
-      const parts = [];
-      if (vehicle.lengthM && vehicle.widthM && vehicle.heightM) {
-        parts.push(`${vehicle.lengthM} x ${vehicle.widthM} x ${vehicle.heightM} m`);
-      }
-      if (vehicle.capacityKg) {
-        parts.push(`${vehicle.capacityKg}kg`);
-      }
-      return parts.join(" • ");
-    }
+      const fmtVND = (n) => {
+        const x = Number(n);
+        if (Number.isFinite(x)) return x.toLocaleString("vi-VN") + "đ";
+        return (n ?? "") + "đ";
+      };
 
-    function updateSelectedVehicle(index) {
-      state.selectedVehicleIndex = index;
-      if (orderError) orderError.textContent = "";
+      const setError = (msg) => {
+        elError.textContent = msg || "";
+      };
 
-      if (!orderVehicleList) return;
-      orderVehicleList
-        .querySelectorAll(".order-vehicle-item")
-        .forEach((item, idx) => {
-          item.classList.toggle("is-selected", idx === index);
+      const setRouteStatus = (msg) => {
+        elRouteStatus.textContent = msg || "";
+      };
+
+      const setDistanceUI = (km) => {
+        elDistance.textContent = km == null ? "--" : `${km.toFixed(1)} km`;
+      };
+
+      const setLoading = (isLoading) => {
+        elLoading.style.display = isLoading ? "block" : "none";
+        btnEstimate.disabled = isLoading;
+      };
+
+      const setOrderActionsVisible = (visible) => {
+        if (!elOrderActions) return;
+        elOrderActions.style.display = visible ? "flex" : "none";
+      };
+
+      const resetOrderState = () => {
+        state.estimateVehicles = [];
+        state.selectedVehicleIndex = null;
+        if (orderVehicleList) orderVehicleList.innerHTML = "";
+        if (orderError) orderError.textContent = "";
+        setOrderActionsVisible(false);
+      };
+
+      const clearResults = () => {
+        elGrid.innerHTML = "";
+        elEmpty.style.display = "none";
+        resetOrderState();
+      };
+
+      const showEmpty = (msg) => {
+        resetOrderState();
+        elEmpty.style.display = "block";
+        elEmpty.textContent = msg || "No data available.";
+      };
+
+      const openModal = (modal) => {
+        if (!modal) return;
+        modal.classList.add("is-open");
+      };
+
+      const closeModal = (modal) => {
+        if (!modal) return;
+        modal.classList.remove("is-open");
+      };
+
+      const bindModalDismiss = (modal) => {
+        if (!modal) return;
+        modal.addEventListener("click", (event) => {
+          if (event.target === modal) closeModal(modal);
         });
-    }
+      };
 
-    function renderOrderVehicleOptions(vehicles) {
-      if (!orderVehicleList) return;
+      const getCurrentLang = () => {
+        if (typeof getCurrentLanguageFromURL === "function") {
+          return getCurrentLanguageFromURL();
+        }
+        const path = window.location.pathname || "";
+        if (path.startsWith("/vi")) return "vi";
+        return "en";
+      };
 
-      orderVehicleList.innerHTML = "";
-      if (orderError) orderError.textContent = "";
-      state.selectedVehicleIndex = null;
+      const buildLoginUrl = () => {
+        const lang = getCurrentLang();
+        const redirectTarget = `/${lang}/price-check`;
+        return `/${lang}/authentication?redirect=${encodeURIComponent(redirectTarget)}`;
+      };
 
-      vehicles.forEach((vehicle, index) => {
-        const label = document.createElement("label");
-        label.className = "order-vehicle-item";
+      const ensureEstimateReady = () => {
+        if (!state.pickup || !state.dropoff || !state.route) {
+          setError("Please enter both addresses before ordering.");
+          return false;
+        }
+        if (!state.estimateVehicles.length) {
+          setError("Please estimate the shipping cost before ordering.");
+          return false;
+        }
+        return true;
+      };
 
-        const radio = document.createElement("input");
-        radio.type = "radio";
-        radio.name = "order-vehicle";
-        radio.value = String(vehicle.vehicleTypeId || vehicle.vehicleCode || index);
-        radio.addEventListener("change", () => updateSelectedVehicle(index));
+      async function fetchMapsConfig() {
+        const res = await fetch("/api/maps-config", {
+          headers: { Accept: "application/json" },
+        });
 
-        const info = document.createElement("div");
-        info.className = "order-vehicle-info";
+        if (!res.ok) {
+          const text = await res.text().catch(() => "");
+          throw new Error(`Cannot load Google Maps config from server. ${text}`.trim());
+        }
 
-        const name = document.createElement("div");
-        name.className = "order-vehicle-name";
-        name.textContent = vehicle.vehicleName || "Vehicle type";
+        const data = await res.json();
+        const key = data?.googleMapsApiKey?.trim();
 
-        const meta = document.createElement("div");
-        meta.className = "order-vehicle-meta";
-        meta.textContent = buildVehicleMeta(vehicle);
+        if (!key) {
+          throw new Error("Missing GOOGLE_MAPS_API_KEY on the server.");
+        }
 
-        info.appendChild(name);
-        if (meta.textContent) info.appendChild(meta);
-
-        const price = document.createElement("div");
-        price.className = "order-vehicle-price";
-        price.textContent = fmtVND(vehicle.estimatedPrice);
-
-        label.append(radio, info, price);
-        orderVehicleList.appendChild(label);
-      });
-
-      const firstInput = orderVehicleList.querySelector("input[name='order-vehicle']");
-      if (firstInput) {
-        firstInput.checked = true;
-        updateSelectedVehicle(0);
+        return key;
       }
-    }
+      
+      function loadGoogleMapsScript(apiKey) {
+        return new Promise((resolve, reject) => {
+          if (window.google && window.google.maps && typeof window.google.maps.Map === "function") {
+            resolve();
+            return;
+          }
 
-    function renderVehicles(estimateResponse) {
-      const vehicles = (estimateResponse && estimateResponse.vehicles) || [];
+          if (window.__googleMapsInitPromise) {
+            window.__googleMapsInitPromise.then(resolve).catch(reject);
+            return;
+          }
 
-      if (!vehicles.length) {
-        showEmpty("No quote data returned. Please try again.");
-        return;
+          window.__googleMapsInitPromise = new Promise((innerResolve, innerReject) => {
+            const callbackName = "__initGoogleMapsCallback";
+
+            window[callbackName] = () => {
+              try {
+                if (
+                  window.google &&
+                  window.google.maps &&
+                  typeof window.google.maps.Map === "function"
+                ) {
+                  innerResolve();
+                } else {
+                  innerReject(new Error("Google Maps loaded but Map constructor is unavailable."));
+                }
+              } catch (e) {
+                innerReject(e);
+              } finally {
+                try {
+                  delete window[callbackName];
+                } catch (_) {
+                  window[callbackName] = undefined;
+                }
+              }
+            };
+
+            const existing = document.querySelector('script[data-google-maps="true"]');
+            if (existing) {
+              return;
+            }
+
+            const lang = getCurrentLang() === "vi" ? "vi" : "en";
+            const script = document.createElement("script");
+            script.src =
+              `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}` +
+              `&v=weekly&libraries=places&loading=async` +
+              `&callback=${callbackName}` +
+              `&language=${encodeURIComponent(lang)}&region=VN`;
+
+            script.async = true;
+            script.defer = true;
+            script.dataset.googleMaps = "true";
+
+            script.onerror = () => {
+              innerReject(new Error("Failed to load Google Maps script."));
+            };
+
+            document.head.appendChild(script);
+          });
+
+          window.__googleMapsInitPromise.then(resolve).catch(reject);
+        });
       }
 
-      elEmpty.style.display = "none";
-      elGrid.innerHTML = "";
 
-      vehicles.forEach((v) => {
-        const sizeText = buildVehicleMeta(v);
-        const imgSrc = vehicleImageFromCode(v.vehicleCode, v.imageUrl);
+      function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: { lat: 10.7758, lng: 106.7004 },
+          zoom: 12,
+          mapTypeControl: false,
+          streetViewControl: false,
+          fullscreenControl: false,
+          gestureHandling: "greedy",
+        });
 
-        const card = document.createElement("div");
-        card.className = "gx-card";
-        card.innerHTML = `
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer({
+          map,
+          suppressMarkers: true,
+          polylineOptions: {
+            strokeColor: "#1f8fd6",
+            strokeOpacity: 0.9,
+            strokeWeight: 6,
+          },
+        });
+
+        pickupAutocomplete = new google.maps.places.Autocomplete(elPickup, {
+          componentRestrictions: { country: "vn" },
+          fields: ["formatted_address", "geometry", "name"],
+        });
+
+        dropoffAutocomplete = new google.maps.places.Autocomplete(elDropoff, {
+          componentRestrictions: { country: "vn" },
+          fields: ["formatted_address", "geometry", "name"],
+        });
+
+        pickupAutocomplete.addListener("place_changed", () => {
+          const place = pickupAutocomplete.getPlace();
+          handlePlaceSelected("pickup", place);
+        });
+
+        dropoffAutocomplete.addListener("place_changed", () => {
+          const place = dropoffAutocomplete.getPlace();
+          handlePlaceSelected("dropoff", place);
+        });
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              map.setCenter({
+                lat: pos.coords.latitude,
+                lng: pos.coords.longitude,
+              });
+              map.setZoom(13);
+            },
+            () => {
+              // keep default center silently
+            },
+            { enableHighAccuracy: false, timeout: 4000 }
+          );
+        }
+      }
+
+      function fitMapToThings() {
+        if (!map) return;
+
+        const bounds = new google.maps.LatLngBounds();
+        let hasPoint = false;
+
+        const pickupPos =
+          pickupMarker && typeof pickupMarker.getPosition === "function"
+            ? pickupMarker.getPosition()
+            : null;
+        const dropoffPos =
+          dropoffMarker && typeof dropoffMarker.getPosition === "function"
+            ? dropoffMarker.getPosition()
+            : null;
+
+        if (pickupPos) {
+          bounds.extend(pickupPos);
+          hasPoint = true;
+        }
+
+        if (dropoffPos) {
+          bounds.extend(dropoffPos);
+          hasPoint = true;
+        }
+
+        if (hasPoint) {
+          map.fitBounds(bounds, 50);
+        }
+      }
+
+      function setMarker(type, lat, lon) {
+        const position = { lat, lng: lon };
+
+        if (type === "pickup") {
+          if (pickupMarker) pickupMarker.setMap(null);
+          pickupMarker = new google.maps.Marker({
+            position,
+            map,
+            title: "Pickup point",
+          });
+        } else {
+          if (dropoffMarker) dropoffMarker.setMap(null);
+          dropoffMarker = new google.maps.Marker({
+            position,
+            map,
+            title: "Dropoff point",
+          });
+        }
+
+        fitMapToThings();
+      }
+
+      function clearMarker(type) {
+        if (type === "pickup" && pickupMarker) {
+          pickupMarker.setMap(null);
+          pickupMarker = null;
+        }
+
+        if (type === "dropoff" && dropoffMarker) {
+          dropoffMarker.setMap(null);
+          dropoffMarker = null;
+        }
+      }
+
+      function clearRoute() {
+        state.route = null;
+        setDistanceUI(null);
+        setRouteStatus("Enter addresses to estimate shipping cost.");
+
+        if (directionsRenderer) {
+          directionsRenderer.set("directions", null);
+        }
+      }
+
+      function handlePlaceSelected(type, place) {
+        setError("");
+
+        if (!place || !place.geometry || !place.geometry.location) {
+          setError("Cannot get coordinates from the selected address.");
+          return;
+        }
+
+        const lat = place.geometry.location.lat();
+        const lon = place.geometry.location.lng();
+        const address = place.formatted_address || place.name || "";
+
+        if (type === "pickup") {
+          state.pickup = { address, lat, lon };
+          setMarker("pickup", lat, lon);
+        } else {
+          state.dropoff = { address, lat, lon };
+          setMarker("dropoff", lat, lon);
+        }
+
+        clearRoute();
+        clearResults();
+        tryBuildRoute();
+      }
+
+      async function buildRoute(pickup, dropoff) {
+        setRouteStatus("Calculating route...");
+
+        return new Promise((resolve, reject) => {
+          directionsService.route(
+            {
+              origin: { lat: pickup.lat, lng: pickup.lon },
+              destination: { lat: dropoff.lat, lng: dropoff.lon },
+              travelMode: google.maps.TravelMode.DRIVING,
+            },
+            (result, status) => {
+              if (status !== "OK" || !result || !result.routes || !result.routes.length) {
+                reject(new Error("Cannot calculate route."));
+                return;
+              }
+
+              directionsRenderer.setDirections(result);
+
+              const leg = result.routes[0]?.legs?.[0];
+              if (!leg) {
+                reject(new Error("No route leg data returned."));
+                return;
+              }
+
+              resolve({
+                distanceKm: (leg.distance?.value || 0) / 1000,
+                durationMin: (leg.duration?.value || 0) / 60,
+              });
+            }
+          );
+        });
+      }
+
+      async function tryBuildRoute() {
+        if (!state.pickup || !state.dropoff) return;
+
+        try {
+          const r = await buildRoute(state.pickup, state.dropoff);
+          state.route = r;
+          setDistanceUI(r.distanceKm);
+          setRouteStatus(`Estimated time: ~ ${Math.round(r.durationMin)} minutes`);
+        } catch (e) {
+          clearRoute();
+          setError(e?.message || "Cannot calculate route.");
+        }
+      }
+
+      function vehicleImageFromCode(code, imageUrl) {
+        if (imageUrl && String(imageUrl).trim()) return imageUrl;
+
+        const mapByCode = {
+          MOTORCYCLE: "motorcycle.svg",
+          TRICYCLE: "tricycle.svg",
+          VAN_500KG: "van500.svg",
+          VAN_1T: "van1000.svg",
+          TRUCK_500KG: "truck500.svg",
+          TRUCK_1T: "truck1000.svg",
+          TRUCK_1_5T: "truck1500.svg",
+          TRUCK_2T: "truck2000.svg",
+        };
+
+        const filename = mapByCode[code] || "truck1000.svg";
+        return `image/price-check/image/${filename}`;
+      }
+
+      function buildVehicleMeta(vehicle) {
+        const parts = [];
+        if (vehicle.lengthM && vehicle.widthM && vehicle.heightM) {
+          parts.push(`${vehicle.lengthM} x ${vehicle.widthM} x ${vehicle.heightM} m`);
+        }
+        if (vehicle.capacityKg) {
+          parts.push(`${vehicle.capacityKg}kg`);
+        }
+        return parts.join(" • ");
+      }
+
+      function updateSelectedVehicle(index) {
+        state.selectedVehicleIndex = index;
+        if (orderError) orderError.textContent = "";
+
+        if (!orderVehicleList) return;
+        orderVehicleList
+          .querySelectorAll(".order-vehicle-item")
+          .forEach((item, idx) => {
+            item.classList.toggle("is-selected", idx === index);
+          });
+      }
+
+      function renderOrderVehicleOptions(vehicles) {
+        if (!orderVehicleList) return;
+
+        orderVehicleList.innerHTML = "";
+        if (orderError) orderError.textContent = "";
+        state.selectedVehicleIndex = null;
+
+        vehicles.forEach((vehicle, index) => {
+          const label = document.createElement("label");
+          label.className = "order-vehicle-item";
+
+          const radio = document.createElement("input");
+          radio.type = "radio";
+          radio.name = "order-vehicle";
+          radio.value = String(vehicle.vehicleTypeId || vehicle.vehicleCode || index);
+          radio.addEventListener("change", () => updateSelectedVehicle(index));
+
+          const info = document.createElement("div");
+          info.className = "order-vehicle-info";
+
+          const name = document.createElement("div");
+          name.className = "order-vehicle-name";
+          name.textContent = vehicle.vehicleName || "Vehicle type";
+
+          const meta = document.createElement("div");
+          meta.className = "order-vehicle-meta";
+          meta.textContent = buildVehicleMeta(vehicle);
+
+          info.appendChild(name);
+          if (meta.textContent) info.appendChild(meta);
+
+          const price = document.createElement("div");
+          price.className = "order-vehicle-price";
+          price.textContent = fmtVND(vehicle.estimatedPrice);
+
+          label.append(radio, info, price);
+          orderVehicleList.appendChild(label);
+        });
+
+        const firstInput = orderVehicleList.querySelector("input[name='order-vehicle']");
+        if (firstInput) {
+          firstInput.checked = true;
+          updateSelectedVehicle(0);
+        }
+      }
+
+      function renderVehicles(estimateResponse) {
+        const vehicles = (estimateResponse && estimateResponse.vehicles) || [];
+
+        if (!vehicles.length) {
+          showEmpty("No quote data returned. Please try again.");
+          return;
+        }
+
+        elEmpty.style.display = "none";
+        elGrid.innerHTML = "";
+
+        vehicles.forEach((v) => {
+          const sizeText = buildVehicleMeta(v);
+          const imgSrc = vehicleImageFromCode(v.vehicleCode, v.imageUrl);
+
+          const card = document.createElement("div");
+          card.className = "gx-card";
+          card.innerHTML = `
           <img src="${imgSrc}" alt="${v.vehicleName || ""}" onerror="this.style.display='none'" />
           <div class="gx-name">${v.vehicleName || ""}</div>
           <div class="gx-size">${sizeText}</div>
           <div class="gx-price">From ${fmtVND(v.estimatedPrice)}</div>
         `;
-        elGrid.appendChild(card);
-      });
-
-      state.estimateVehicles = vehicles;
-      setOrderActionsVisible(true);
-      renderOrderVehicleOptions(vehicles);
-    }
-
-    const getApi = () => window.UniwaveAPI || window.UniwaveApi;
-
-    const openLoginModal = () => {
-      if (loginRedirect) {
-        loginRedirect.dataset.loginUrl = buildLoginUrl();
-      }
-      openModal(loginModal);
-    };
-
-    const openOrderModal = () => {
-      renderOrderVehicleOptions(state.estimateVehicles);
-      openModal(orderModal);
-    };
-
-    const handleAuthExpired = () => {
-      state.userProfile = null;
-      const Api = getApi();
-      Api?.clearAuthTokens?.();
-      closeModal(orderModal);
-      openLoginModal();
-    };
-
-    const getAuthenticatedProfile = async () => {
-      if (state.userProfile) return state.userProfile;
-
-      const Api = getApi();
-      if (!Api?.apiFetch) {
-        throw new Error("Cannot connect to the server.");
-      }
-
-      const res = await Api.apiFetch("/api/Auth/me");
-      const data = await res.json();
-
-      const email = (data?.email || data?.Email || "").trim();
-      const fullName = (data?.fullName || data?.FullName || "").trim();
-
-      if (!email) {
-        throw new Error("Cannot find logged-in user email.");
-      }
-
-      const profile = { email, fullName };
-      state.userProfile = profile;
-      return profile;
-    };
-
-    const submitOrderLead = async () => {
-      if (!ensureEstimateReady()) return;
-
-      if (state.selectedVehicleIndex == null) {
-        if (orderError) orderError.textContent = "Please choose a vehicle type.";
-        return;
-      }
-
-      const Api = getApi();
-      if (!Api?.apiFetch) {
-        if (orderError) orderError.textContent = "Cannot connect to the server.";
-        return;
-      }
-
-      if (orderError) orderError.textContent = "";
-      const defaultText = orderConfirm ? orderConfirm.textContent : "";
-
-      if (orderConfirm) {
-        orderConfirm.disabled = true;
-        orderConfirm.textContent = "Sending...";
-      }
-
-      try {
-        const profile = await getAuthenticatedProfile();
-        const selectedVehicle = state.estimateVehicles[state.selectedVehicleIndex];
-        const selectedVehicleTypeId = selectedVehicle?.vehicleTypeId;
-
-        if (!selectedVehicleTypeId) {
-          if (orderError) orderError.textContent = "Cannot find selected vehicle type.";
-          return;
-        }
-
-        const customerEmail = profile.email.trim();
-        const customerName = (profile.fullName || profile.email).trim();
-
-        const payload = {
-          customerName,
-          customerEmail,
-          pickupAddress: state.pickup.address,
-          dropoffAddress: state.dropoff.address,
-          distanceKm: Number(state.route.distanceKm.toFixed(3)),
-          selectedVehicleTypeId,
-        };
-
-        const response = await Api.apiFetch("/api/Quote/lead", {
-          method: "POST",
-          body: payload,
+          elGrid.appendChild(card);
         });
 
-        await response.json().catch(() => null);
+        state.estimateVehicles = vehicles;
+        setOrderActionsVisible(true);
+        renderOrderVehicleOptions(vehicles);
+      }
 
+      const getApi = () => window.UniwaveAPI || window.UniwaveApi;
+
+      const openLoginModal = () => {
+        if (loginRedirect) {
+          loginRedirect.dataset.loginUrl = buildLoginUrl();
+        }
+        openModal(loginModal);
+      };
+
+      const openOrderModal = () => {
+        renderOrderVehicleOptions(state.estimateVehicles);
+        openModal(orderModal);
+      };
+
+      const handleAuthExpired = () => {
+        state.userProfile = null;
+        const Api = getApi();
+        Api?.clearAuthTokens?.();
         closeModal(orderModal);
-        openModal(thankyouModal);
-      } catch (error) {
-        if (error?.status === 401) {
-          handleAuthExpired();
-          return;
-        }
+        openLoginModal();
+      };
 
-        if (orderError) {
-          orderError.textContent =
-            error?.message || "Cannot submit order request.";
-        }
-      } finally {
-        if (orderConfirm) {
-          orderConfirm.disabled = false;
-          orderConfirm.textContent = defaultText || "Confirm";
-        }
-      }
-    };
-
-    async function waitForApiClient() {
-      const started = Date.now();
-
-      while (Date.now() - started < 8000) {
-        const api = getApi();
-        if (api?.apiFetch) return api;
-        await new Promise((r) => setTimeout(r, 120));
-      }
-
-      throw new Error("Cannot initialize API client.");
-    }
-
-    async function callEstimateApi() {
-      if (!state.pickup || !state.dropoff) {
-        setError("Please choose both pickup and delivery addresses.");
-        return;
-      }
-
-      if (!state.route) {
-        setError("Route has not been calculated yet. Please choose the addresses again.");
-        return;
-      }
-
-      setError("");
-      clearResults();
-      setLoading(true);
-
-      try {
-        const Api = await waitForApiClient();
-
-        const body = {
-          pickupAddress: state.pickup.address,
-          dropoffAddress: state.dropoff.address,
-          distanceKm: Number(state.route.distanceKm.toFixed(3)),
-        };
-
-        const res = await Api.apiFetch("/api/Quote/estimate", {
-          method: "POST",
-          body,
-        });
-
-        const json = await res.json();
-        renderVehicles(json);
-      } catch (e) {
-        showEmpty(e?.message || "Cannot load estimate data.");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    function resetInput(type) {
-      if (type === "pickup") {
-        elPickup.value = "";
-        state.pickup = null;
-        clearMarker("pickup");
-      } else {
-        elDropoff.value = "";
-        state.dropoff = null;
-        clearMarker("dropoff");
-      }
-
-      clearRoute();
-      clearResults();
-      fitMapToThings();
-    }
-
-    async function bootGoogleMaps() {
-      try {
-        const apiKey = await fetchMapsConfig();
-        await loadGoogleMapsScript(apiKey);
-        initMap();
-        googleMapsLoaded = true;
-      } catch (error) {
-        setError(error?.message || "Cannot initialize Google Maps.");
-        console.error(error);
-      }
-    }
-
-    document.querySelectorAll(".gx-trash").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const type = btn.getAttribute("data-clear");
-        resetInput(type);
-      });
-    });
-
-    bindModalDismiss(loginModal);
-    bindModalDismiss(orderModal);
-    bindModalDismiss(thankyouModal);
-
-    if (loginCancel) {
-      loginCancel.addEventListener("click", () => closeModal(loginModal));
-    }
-
-    if (loginRedirect) {
-      loginRedirect.addEventListener("click", () => {
-        const url = loginRedirect.dataset.loginUrl || buildLoginUrl();
-        window.location.href = url;
-      });
-    }
-
-    if (orderCancel) {
-      orderCancel.addEventListener("click", () => closeModal(orderModal));
-    }
-
-    if (orderConfirm) {
-      orderConfirm.addEventListener("click", submitOrderLead);
-    }
-
-    if (thankyouClose) {
-      thankyouClose.addEventListener("click", () => closeModal(thankyouModal));
-    }
-
-    if (btnOrder) {
-      btnOrder.addEventListener("click", async () => {
-        if (!ensureEstimateReady()) return;
+      const getAuthenticatedProfile = async () => {
+        if (state.userProfile) return state.userProfile;
 
         const Api = getApi();
-        const token = Api?.getAccessToken ? Api.getAccessToken() : null;
+        if (!Api?.apiFetch) {
+          throw new Error("Cannot connect to the server.");
+        }
 
-        if (!token) {
-          openLoginModal();
+        const res = await Api.apiFetch("/api/Auth/me");
+        const data = await res.json();
+
+        const email = (data?.email || data?.Email || "").trim();
+        const fullName = (data?.fullName || data?.FullName || "").trim();
+
+        if (!email) {
+          throw new Error("Cannot find logged-in user email.");
+        }
+
+        const profile = { email, fullName };
+        state.userProfile = profile;
+        return profile;
+      };
+
+      const submitOrderLead = async () => {
+        if (!ensureEstimateReady()) return;
+
+        if (state.selectedVehicleIndex == null) {
+          if (orderError) orderError.textContent = "Please choose a vehicle type.";
           return;
         }
 
-        const defaultText = btnOrder.textContent;
-        btnOrder.disabled = true;
-        btnOrder.textContent = "Checking...";
+        const Api = getApi();
+        if (!Api?.apiFetch) {
+          if (orderError) orderError.textContent = "Cannot connect to the server.";
+          return;
+        }
+
+        if (orderError) orderError.textContent = "";
+        const defaultText = orderConfirm ? orderConfirm.textContent : "";
+
+        if (orderConfirm) {
+          orderConfirm.disabled = true;
+          orderConfirm.textContent = "Sending...";
+        }
 
         try {
-          await getAuthenticatedProfile();
-          openOrderModal();
+          const profile = await getAuthenticatedProfile();
+          const selectedVehicle = state.estimateVehicles[state.selectedVehicleIndex];
+          const selectedVehicleTypeId = selectedVehicle?.vehicleTypeId;
+
+          if (!selectedVehicleTypeId) {
+            if (orderError) orderError.textContent = "Cannot find selected vehicle type.";
+            return;
+          }
+
+          const customerEmail = profile.email.trim();
+          const customerName = (profile.fullName || profile.email).trim();
+
+          const payload = {
+            customerName,
+            customerEmail,
+            pickupAddress: state.pickup.address,
+            dropoffAddress: state.dropoff.address,
+            distanceKm: Number(state.route.distanceKm.toFixed(3)),
+            selectedVehicleTypeId,
+          };
+
+          const response = await Api.apiFetch("/api/Quote/lead", {
+            method: "POST",
+            body: payload,
+          });
+
+          await response.json().catch(() => null);
+
+          closeModal(orderModal);
+          openModal(thankyouModal);
         } catch (error) {
           if (error?.status === 401) {
             handleAuthExpired();
             return;
           }
-          setError(error?.message || "Cannot verify login.");
+
+          if (orderError) {
+            orderError.textContent =
+              error?.message || "Cannot submit order request.";
+          }
         } finally {
-          btnOrder.disabled = false;
-          btnOrder.textContent = defaultText || "Order";
+          if (orderConfirm) {
+            orderConfirm.disabled = false;
+            orderConfirm.textContent = defaultText || "Confirm";
+          }
         }
-      });
-    }
+      };
 
-    btnEstimate.addEventListener("click", async () => {
-      if (!googleMapsLoaded) {
-        setError("Google Maps is not ready yet. Please try again.");
-        return;
+      async function waitForApiClient() {
+        const started = Date.now();
+
+        while (Date.now() - started < 8000) {
+          const api = getApi();
+          if (api?.apiFetch) return api;
+          await new Promise((r) => setTimeout(r, 120));
+        }
+
+        throw new Error("Cannot initialize API client.");
       }
-      await callEstimateApi();
-    });
 
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", bootGoogleMaps, { once: true });
-    } else {
-      bootGoogleMaps();
-    }
-  })();
-</script>
+      async function callEstimateApi() {
+        if (!state.pickup || !state.dropoff) {
+          setError("Please choose both pickup and delivery addresses.");
+          return;
+        }
+
+        if (!state.route) {
+          setError("Route has not been calculated yet. Please choose the addresses again.");
+          return;
+        }
+
+        setError("");
+        clearResults();
+        setLoading(true);
+
+        try {
+          const Api = await waitForApiClient();
+
+          const body = {
+            pickupAddress: state.pickup.address,
+            dropoffAddress: state.dropoff.address,
+            distanceKm: Number(state.route.distanceKm.toFixed(3)),
+          };
+
+          const res = await Api.apiFetch("/api/Quote/estimate", {
+            method: "POST",
+            body,
+          });
+
+          const json = await res.json();
+          renderVehicles(json);
+        } catch (e) {
+          showEmpty(e?.message || "Cannot load estimate data.");
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      function resetInput(type) {
+        if (type === "pickup") {
+          elPickup.value = "";
+          state.pickup = null;
+          clearMarker("pickup");
+        } else {
+          elDropoff.value = "";
+          state.dropoff = null;
+          clearMarker("dropoff");
+        }
+
+        clearRoute();
+        clearResults();
+        fitMapToThings();
+      }
+
+      async function bootGoogleMaps() {
+        try {
+          const apiKey = await fetchMapsConfig();
+          await loadGoogleMapsScript(apiKey);
+          initMap();
+          googleMapsLoaded = true;
+        } catch (error) {
+          setError(error?.message || "Cannot initialize Google Maps.");
+          console.error(error);
+        }
+      }
+
+      document.querySelectorAll(".gx-trash").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const type = btn.getAttribute("data-clear");
+          resetInput(type);
+        });
+      });
+
+      bindModalDismiss(loginModal);
+      bindModalDismiss(orderModal);
+      bindModalDismiss(thankyouModal);
+
+      if (loginCancel) {
+        loginCancel.addEventListener("click", () => closeModal(loginModal));
+      }
+
+      if (loginRedirect) {
+        loginRedirect.addEventListener("click", () => {
+          const url = loginRedirect.dataset.loginUrl || buildLoginUrl();
+          window.location.href = url;
+        });
+      }
+
+      if (orderCancel) {
+        orderCancel.addEventListener("click", () => closeModal(orderModal));
+      }
+
+      if (orderConfirm) {
+        orderConfirm.addEventListener("click", submitOrderLead);
+      }
+
+      if (thankyouClose) {
+        thankyouClose.addEventListener("click", () => closeModal(thankyouModal));
+      }
+
+      if (btnOrder) {
+        btnOrder.addEventListener("click", async () => {
+          if (!ensureEstimateReady()) return;
+
+          const Api = getApi();
+          const token = Api?.getAccessToken ? Api.getAccessToken() : null;
+
+          if (!token) {
+            openLoginModal();
+            return;
+          }
+
+          const defaultText = btnOrder.textContent;
+          btnOrder.disabled = true;
+          btnOrder.textContent = "Checking...";
+
+          try {
+            await getAuthenticatedProfile();
+            openOrderModal();
+          } catch (error) {
+            if (error?.status === 401) {
+              handleAuthExpired();
+              return;
+            }
+            setError(error?.message || "Cannot verify login.");
+          } finally {
+            btnOrder.disabled = false;
+            btnOrder.textContent = defaultText || "Order";
+          }
+        });
+      }
+
+      btnEstimate.addEventListener("click", async () => {
+        if (!googleMapsLoaded) {
+          setError("Google Maps is not ready yet. Please try again.");
+          return;
+        }
+        await callEstimateApi();
+      });
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", bootGoogleMaps, { once: true });
+      } else {
+        bootGoogleMaps();
+      }
+    })();
+  </script>
 </body>
+
 </html>
