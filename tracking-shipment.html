@@ -1262,359 +1262,743 @@
   <!--Scripts chung-->
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const Api = window.UniwaveAPI || window.UniwaveApi;
-      const form = document.getElementById("tracking-form");
-      const input = document.getElementById("tracking-code");
-      const submitBtn = document.getElementById("tracking-submit");
-      const messageBox = document.getElementById("tracking-message");
-      const skeleton = document.getElementById("tracking-skeleton");
-      const result = document.getElementById("tracking-result");
-      const backBtn = document.getElementById("tracking-back");
-      const orderCodeEl = document.getElementById("order-code");
-      const copyBtn = document.getElementById("copy-order-code");
-      const copyHint = document.getElementById("copy-hint");
-      const statusBadge = document.getElementById("status-badge");
-      const statusBadgeIcon = document.getElementById("status-badge-icon");
-      const statusBadgeText = document.getElementById("status-badge-text");
-      const statusDisplayIcon = document.getElementById("status-display-icon");
-      const statusDisplayText = document.getElementById("status-display-text");
-      const currentStatusEl = document.getElementById("current-status");
-      const stepsEl = document.getElementById("tracking-steps");
-      const pickupEl = document.getElementById("pickup-address");
-      const dropoffEl = document.getElementById("dropoff-address");
-      const receiverNameEl = document.getElementById("receiver-name");
-      const receiverPhoneEl = document.getElementById("receiver-phone");
-      const vehicleEl = document.getElementById("vehicle-name");
-      const historyEl = document.getElementById("tracking-history");
+  (() => {
+    const elPickup = document.getElementById("pickupInput");
+    const elDropoff = document.getElementById("dropoffInput");
+    const btnEstimate = document.getElementById("estimate-btn");
+    const elError = document.getElementById("form-error");
+    const elDistance = document.getElementById("distance-value");
+    const elRouteStatus = document.getElementById("route-status");
+    const elLoading = document.getElementById("estimate-loading");
+    const elEmpty = document.getElementById("vehicles-empty");
+    const elGrid = document.getElementById("vehicles-grid");
+    const elOrderActions = document.getElementById("order-actions");
+    const btnOrder = document.getElementById("order-btn");
+    const loginModal = document.getElementById("login-required-modal");
+    const loginCancel = document.getElementById("login-cancel");
+    const loginRedirect = document.getElementById("login-redirect");
+    const orderModal = document.getElementById("order-modal");
+    const orderVehicleList = document.getElementById("order-vehicle-list");
+    const orderError = document.getElementById("order-error");
+    const orderCancel = document.getElementById("order-cancel");
+    const orderConfirm = document.getElementById("order-confirm");
+    const thankyouModal = document.getElementById("thankyou-modal");
+    const thankyouClose = document.getElementById("thankyou-close");
 
-      let hasData = false;
-      let currentController = null;
-      let isTrackingLoading = false;
+    const state = {
+      pickup: null,   // { address, lat, lon }
+      dropoff: null,  // { address, lat, lon }
+      route: null,    // { distanceKm, durationMin }
+      estimateVehicles: [],
+      selectedVehicleIndex: null,
+      userProfile: null,
+    };
 
-      const updateSubmitState = () => {
-        if (!submitBtn) return;
-        submitBtn.disabled = isTrackingLoading;
-      };
+    let map = null;
+    let pickupMarker = null;
+    let dropoffMarker = null;
+    let directionsService = null;
+    let directionsRenderer = null;
+    let pickupAutocomplete = null;
+    let dropoffAutocomplete = null;
+    let googleMapsLoaded = false;
 
-      const setMessage = (text, isError = false) => {
-        if (!messageBox) return;
-        messageBox.textContent = text || "";
-        messageBox.classList.toggle("is-error", Boolean(isError));
-      };
+    const fmtVND = (n) => {
+      const x = Number(n);
+      if (Number.isFinite(x)) return x.toLocaleString("vi-VN") + "đ";
+      return (n ?? "") + "đ";
+    };
 
-      const setLoading = (isLoading) => {
-        isTrackingLoading = isLoading;
-        if (skeleton) {
-          skeleton.style.display = isLoading ? "block" : "none";
-        }
-        if (result) {
-          result.classList.toggle("is-hidden", isLoading || !hasData);
-          result.setAttribute("aria-busy", isLoading ? "true" : "false");
-        }
-        updateSubmitState();
-      };
+    const setError = (msg) => (elError.textContent = msg || "");
+    const setRouteStatus = (msg) => (elRouteStatus.textContent = msg || "");
+    const setDistanceUI = (km) =>
+      (elDistance.textContent = km == null ? "--" : `${km.toFixed(1)} km`);
 
-      const normalizeHex = (value) => {
-        if (!value) return null;
-        const trimmed = String(value).trim();
-        if (/^#([0-9a-fA-F]{3}){1,2}$/.test(trimmed)) return trimmed;
-        return null;
-      };
+    const setLoading = (isLoading) => {
+      elLoading.style.display = isLoading ? "block" : "none";
+      btnEstimate.disabled = isLoading;
+    };
 
-      const hexToRgb = (hex) => {
-        const cleaned = hex.replace("#", "");
-        const normalized = cleaned.length === 3
-          ? cleaned.split("").map((ch) => ch + ch).join("")
-          : cleaned;
-        const intVal = parseInt(normalized, 16);
-        if (Number.isNaN(intVal)) return null;
-        return {
-          r: (intVal >> 16) & 255,
-          g: (intVal >> 8) & 255,
-          b: intVal & 255
-        };
-      };
+    const setOrderActionsVisible = (visible) => {
+      if (!elOrderActions) return;
+      elOrderActions.style.display = visible ? "flex" : "none";
+    };
 
-      const toRgba = (hex, alpha) => {
-        const rgb = hexToRgb(hex);
-        if (!rgb) return "";
-        return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
-      };
+    const resetOrderState = () => {
+      state.estimateVehicles = [];
+      state.selectedVehicleIndex = null;
+      if (orderVehicleList) orderVehicleList.innerHTML = "";
+      if (orderError) orderError.textContent = "";
+      setOrderActionsVisible(false);
+    };
 
-      const resolveIcon = (key) => {
-        const map = {
-          "check-circle": "fa-circle-check",
-          "check": "fa-circle-check",
-          "document": "fa-file-lines",
-          "wallet": "fa-wallet",
-          "truck": "fa-truck",
-          "box": "fa-box",
-          "location": "fa-location-dot",
-          "clock": "fa-clock",
-          "alert": "fa-triangle-exclamation"
-        };
-        const normalized = String(key || "").toLowerCase();
-        return map[normalized] || "fa-circle";
-      };
+    const clearResults = () => {
+      elGrid.innerHTML = "";
+      elEmpty.style.display = "none";
+      resetOrderState();
+    };
 
-      const formatDateTime = (value) => {
-        if (!value) return "--";
-        const date = new Date(value);
-        if (Number.isNaN(date.getTime())) return "--";
-        return new Intl.DateTimeFormat("en-GB", {
-          dateStyle: "medium",
-          timeStyle: "short"
-        }).format(date);
-      };
+    const showEmpty = (msg) => {
+      resetOrderState();
+      elEmpty.style.display = "block";
+      elEmpty.textContent = msg || "Chưa có dữ liệu gì.";
+    };
 
-      const renderStatusDisplay = (statusDisplay) => {
-        const displayText = statusDisplay?.text || "--";
-        const iconKey = statusDisplay?.icon || "";
-        const accent = normalizeHex(statusDisplay?.color) || "#0ea5e9";
-        const soft = toRgba(accent, 0.12) || "rgba(14, 165, 233, 0.12)";
-        const strong = toRgba(accent, 0.24) || "rgba(14, 165, 233, 0.24)";
+    const openModal = (modal) => {
+      if (!modal) return;
+      modal.classList.add("is-open");
+    };
 
-        if (statusBadgeText) statusBadgeText.textContent = displayText;
-        if (statusDisplayText) statusDisplayText.textContent = displayText;
-        if (statusBadgeIcon) statusBadgeIcon.className = `fa-solid ${resolveIcon(iconKey)}`;
-        if (statusDisplayIcon) statusDisplayIcon.className = `fa-solid ${resolveIcon(iconKey)}`;
+    const closeModal = (modal) => {
+      if (!modal) return;
+      modal.classList.remove("is-open");
+    };
 
-        if (result) {
-          result.style.setProperty("--tracking-accent", accent);
-          result.style.setProperty("--tracking-accent-soft", soft);
-          result.style.setProperty("--tracking-accent-strong", strong);
-        }
-
-        if (statusBadge) {
-          statusBadge.style.borderColor = accent;
-          statusBadge.style.backgroundColor = soft;
-          statusBadge.style.color = accent;
-        }
-      };
-
-      const renderSteps = (steps) => {
-        if (!stepsEl) return;
-        stepsEl.innerHTML = "";
-        const list = Array.isArray(steps) ? steps : [];
-        if (!list.length) {
-          const empty = document.createElement("div");
-          empty.className = "stepper-empty";
-          empty.textContent = "No steps available.";
-          stepsEl.appendChild(empty);
-          return;
-        }
-
-        const fragment = document.createDocumentFragment();
-        list.forEach((step, index) => {
-          const item = document.createElement("div");
-          item.className = `stepper-item${step?.completed ? " is-complete" : ""}`;
-          item.style.animationDelay = `${index * 60}ms`;
-
-          const icon = document.createElement("div");
-          icon.className = "stepper-icon";
-          const iconEl = document.createElement("i");
-          iconEl.className = `fa-solid ${resolveIcon(step?.icon)}`;
-          icon.appendChild(iconEl);
-
-          const label = document.createElement("div");
-          label.className = "stepper-label";
-          label.textContent = step?.label || step?.key || "--";
-
-          const time = document.createElement("div");
-          time.className = "stepper-time";
-          time.textContent = formatDateTime(step?.completedAt);
-
-          item.appendChild(icon);
-          item.appendChild(label);
-          item.appendChild(time);
-          fragment.appendChild(item);
-        });
-
-        stepsEl.appendChild(fragment);
-      };
-
-      const renderTimeline = (history) => {
-        if (!historyEl) return;
-        historyEl.innerHTML = "";
-        const list = Array.isArray(history) ? history : [];
-        if (!list.length) {
-          const empty = document.createElement("div");
-          empty.className = "timeline-empty";
-          empty.textContent = "No tracking history.";
-          historyEl.appendChild(empty);
-          return;
-        }
-
-        const sorted = [...list].sort(
-          (a, b) => new Date(b?.createdAt || 0) - new Date(a?.createdAt || 0)
-        );
-
-        const fragment = document.createDocumentFragment();
-        sorted.forEach((item, index) => {
-          const entry = document.createElement("div");
-          entry.className = `timeline-item${index === 0 ? " is-current" : ""}`;
-          entry.style.animationDelay = `${index * 60}ms`;
-
-          const dot = document.createElement("div");
-          dot.className = "timeline-dot";
-
-          const header = document.createElement("div");
-          header.className = "timeline-header";
-
-          const titleWrap = document.createElement("div");
-          const title = document.createElement("div");
-          title.className = "timeline-title";
-          title.textContent = item?.title || item?.status || "Status update";
-
-          const status = document.createElement("div");
-          status.className = "timeline-status";
-          status.textContent = item?.status || "--";
-
-          titleWrap.appendChild(title);
-          titleWrap.appendChild(status);
-
-          const time = document.createElement("div");
-          time.className = "timeline-time";
-          time.textContent = formatDateTime(item?.createdAt);
-
-          header.appendChild(titleWrap);
-          header.appendChild(time);
-
-          entry.appendChild(dot);
-          entry.appendChild(header);
-
-          if (item?.description) {
-            const desc = document.createElement("p");
-            desc.className = "timeline-desc";
-            desc.textContent = item.description;
-            entry.appendChild(desc);
-          }
-
-          if (item?.location) {
-            const location = document.createElement("div");
-            location.className = "timeline-location";
-            location.textContent = item.location;
-            entry.appendChild(location);
-          }
-
-          fragment.appendChild(entry);
-        });
-
-        historyEl.appendChild(fragment);
-      };
-
-      const renderTracking = (data) => {
-        hasData = true;
-        if (result) result.classList.remove("is-hidden");
-        if (orderCodeEl) orderCodeEl.textContent = data?.orderCode || "--";
-        if (currentStatusEl) currentStatusEl.textContent = data?.currentStatus || "--";
-        if (pickupEl) pickupEl.textContent = data?.pickupAddress || "--";
-        if (dropoffEl) dropoffEl.textContent = data?.dropoffAddress || "--";
-        if (receiverNameEl) receiverNameEl.textContent = data?.receiverName || "--";
-        if (receiverPhoneEl) receiverPhoneEl.textContent = data?.receiverPhone || "--";
-        if (vehicleEl) vehicleEl.textContent = data?.vehicleName || "--";
-        renderStatusDisplay(data?.statusDisplay || {});
-        renderSteps(data?.steps || []);
-        renderTimeline(data?.history || []);
-      };
-
-      const copyToClipboard = async (value) => {
-        if (!value) return false;
-        try {
-          if (navigator.clipboard?.writeText) {
-            await navigator.clipboard.writeText(value);
-            return true;
-          }
-        } catch (_) {
-          // fall through
-        }
-
-        try {
-          const temp = document.createElement("textarea");
-          temp.value = value;
-          temp.setAttribute("readonly", "");
-          temp.style.position = "absolute";
-          temp.style.left = "-9999px";
-          document.body.appendChild(temp);
-          temp.select();
-          const ok = document.execCommand("copy");
-          document.body.removeChild(temp);
-          return ok;
-        } catch (_) {
-          return false;
-        }
-      };
-
-      const handleCopy = async () => {
-        if (!orderCodeEl || !copyHint) return;
-        const text = orderCodeEl.textContent?.trim();
-        if (!text || text === "--") return;
-
-        const success = await copyToClipboard(text);
-        copyHint.textContent = success ? "Copied" : "Copy failed";
-        copyHint.classList.toggle("is-error", !success);
-        setTimeout(() => {
-          copyHint.textContent = "";
-          copyHint.classList.remove("is-error");
-        }, 2000);
-      };
-
-      const fetchTracking = async (code) => {
-        if (!Api || typeof Api.apiFetch !== "function") {
-          setMessage("API client not available.", true);
-          return;
-        }
-        if (!code) return;
-
-        if (currentController) currentController.abort();
-        currentController = new AbortController();
-
-        setLoading(true);
-        setMessage("");
-
-        try {
-          const res = await Api.apiFetch(`/api/tracking/${encodeURIComponent(code)}`, {
-            signal: currentController.signal
-          });
-          const data = await res.json();
-          renderTracking(data);
-          setMessage("");
-        } catch (error) {
-          if (error?.name === "AbortError") return;
-          hasData = false;
-          if (result) result.classList.add("is-hidden");
-          const message = error?.message || "Unable to load tracking details.";
-          setMessage(message, true);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      form?.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const code = input?.value?.trim();
-        if (!code) {
-          setMessage("Please enter an order code.", true);
-          return;
-        }
-        await fetchTracking(code);
+    const bindModalDismiss = (modal) => {
+      if (!modal) return;
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) closeModal(modal);
       });
+    };
 
-      copyBtn?.addEventListener("click", handleCopy);
-
-      backBtn?.addEventListener("click", () => {
-        window.history.back();
-      });
-
-      const params = new URLSearchParams(window.location.search);
-      const prefillCode = params.get("orderCode") || params.get("code");
-      if (prefillCode && input) {
-        input.value = prefillCode;
-        fetchTracking(prefillCode);
+    const getCurrentLang = () => {
+      if (typeof getCurrentLanguageFromURL === "function") {
+        return getCurrentLanguageFromURL();
       }
+      const path = window.location.pathname || "";
+      if (path.startsWith("/vi")) return "vi";
+      return "en";
+    };
+
+    const buildLoginUrl = () => {
+      const lang = getCurrentLang();
+      const redirectTarget = `/${lang}/price-check`;
+      return `/${lang}/authentication?redirect=${encodeURIComponent(redirectTarget)}`;
+    };
+
+    const ensureEstimateReady = () => {
+      if (!state.pickup || !state.dropoff || !state.route) {
+        setError("Vui lòng nhập đầy đủ địa chỉ trước khi đặt hàng.");
+        return false;
+      }
+      if (!state.estimateVehicles.length) {
+        setError("Vui lòng ước tính giá trước khi đặt hàng.");
+        return false;
+      }
+      return true;
+    };
+
+    async function fetchMapsConfig() {
+      const res = await fetch("/api/maps-config", {
+        headers: { Accept: "application/json" },
+      });
+
+      if (!res.ok) {
+        throw new Error("Không tải được cấu hình Google Maps từ máy chủ.");
+      }
+
+      const data = await res.json();
+      const key = data?.googleMapsApiKey?.trim();
+
+      if (!key) {
+        throw new Error("Thiếu GOOGLE_MAPS_API_KEY trên máy chủ.");
+      }
+
+      return key;
+    }
+
+    function loadGoogleMapsScript(apiKey) {
+      return new Promise((resolve, reject) => {
+        if (window.google?.maps?.places) {
+          resolve();
+          return;
+        }
+
+        const existing = document.querySelector(
+          'script[data-google-maps="true"]'
+        );
+        if (existing) {
+          existing.addEventListener("load", resolve);
+          existing.addEventListener("error", () =>
+            reject(new Error("Không tải được Google Maps script."))
+          );
+          return;
+        }
+
+        const script = document.createElement("script");
+        script.src =
+          `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}&libraries=places`;
+        script.async = true;
+        script.defer = true;
+        script.dataset.googleMaps = "true";
+        script.onload = () => resolve();
+        script.onerror = () =>
+          reject(new Error("Không tải được Google Maps script."));
+        document.head.appendChild(script);
+      });
+    }
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 10.7758, lng: 106.7004 },
+        zoom: 12,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
+      });
+
+      directionsService = new google.maps.DirectionsService();
+      directionsRenderer = new google.maps.DirectionsRenderer({
+        map,
+        suppressMarkers: true,
+      });
+
+      pickupAutocomplete = new google.maps.places.Autocomplete(elPickup, {
+        componentRestrictions: { country: "vn" },
+        fields: ["formatted_address", "geometry", "name"],
+      });
+
+      dropoffAutocomplete = new google.maps.places.Autocomplete(elDropoff, {
+        componentRestrictions: { country: "vn" },
+        fields: ["formatted_address", "geometry", "name"],
+      });
+
+      pickupAutocomplete.addListener("place_changed", () => {
+        const place = pickupAutocomplete.getPlace();
+        handlePlaceSelected("pickup", place);
+      });
+
+      dropoffAutocomplete.addListener("place_changed", () => {
+        const place = dropoffAutocomplete.getPlace();
+        handlePlaceSelected("dropoff", place);
+      });
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            map.setCenter({
+              lat: pos.coords.latitude,
+              lng: pos.coords.longitude,
+            });
+            map.setZoom(13);
+          },
+          () => {},
+          { enableHighAccuracy: false, timeout: 4000 }
+        );
+      }
+    }
+
+    function fitMapToThings() {
+      if (!map) return;
+
+      const bounds = new google.maps.LatLngBounds();
+      let hasPoint = false;
+
+      if (pickupMarker) {
+        bounds.extend(pickupMarker.getPosition());
+        hasPoint = true;
+      }
+
+      if (dropoffMarker) {
+        bounds.extend(dropoffMarker.getPosition());
+        hasPoint = true;
+      }
+
+      if (hasPoint) {
+        map.fitBounds(bounds);
+      }
+    }
+
+    function setMarker(type, lat, lon) {
+      const position = { lat, lng: lon };
+
+      if (type === "pickup") {
+        if (pickupMarker) pickupMarker.setMap(null);
+        pickupMarker = new google.maps.Marker({
+          position,
+          map,
+          title: "Điểm lấy hàng",
+        });
+      } else {
+        if (dropoffMarker) dropoffMarker.setMap(null);
+        dropoffMarker = new google.maps.Marker({
+          position,
+          map,
+          title: "Điểm giao hàng",
+        });
+      }
+
+      fitMapToThings();
+    }
+
+    function clearMarker(type) {
+      if (type === "pickup" && pickupMarker) {
+        pickupMarker.setMap(null);
+        pickupMarker = null;
+      }
+
+      if (type === "dropoff" && dropoffMarker) {
+        dropoffMarker.setMap(null);
+        dropoffMarker = null;
+      }
+    }
+
+    function clearRoute() {
+      state.route = null;
+      setDistanceUI(null);
+      setRouteStatus("Nhập địa chỉ để nhận được tính.");
+
+      if (directionsRenderer) {
+        directionsRenderer.setDirections({ routes: [] });
+      }
+    }
+
+    function handlePlaceSelected(type, place) {
+      setError("");
+
+      if (!place?.geometry?.location) {
+        setError("Không lấy được tọa độ từ địa chỉ đã chọn.");
+        return;
+      }
+
+      const lat = place.geometry.location.lat();
+      const lon = place.geometry.location.lng();
+      const address = place.formatted_address || place.name || "";
+
+      if (type === "pickup") {
+        state.pickup = { address, lat, lon };
+        setMarker("pickup", lat, lon);
+      } else {
+        state.dropoff = { address, lat, lon };
+        setMarker("dropoff", lat, lon);
+      }
+
+      clearRoute();
+      clearResults();
+      tryBuildRoute();
+    }
+
+    async function buildRoute(pickup, dropoff) {
+      setRouteStatus("Đang tính tuyến đường...");
+
+      return new Promise((resolve, reject) => {
+        directionsService.route(
+          {
+            origin: { lat: pickup.lat, lng: pickup.lon },
+            destination: { lat: dropoff.lat, lng: dropoff.lon },
+            travelMode: google.maps.TravelMode.DRIVING,
+          },
+          (result, status) => {
+            if (status !== "OK" || !result?.routes?.length) {
+              reject(new Error("Không tính được tuyến đường."));
+              return;
+            }
+
+            directionsRenderer.setDirections(result);
+
+            const leg = result.routes[0]?.legs?.[0];
+            if (!leg) {
+              reject(new Error("Không có dữ liệu chặng đường."));
+              return;
+            }
+
+            const distanceKm = (leg.distance?.value || 0) / 1000;
+            const durationMin = (leg.duration?.value || 0) / 60;
+
+            resolve({ distanceKm, durationMin });
+          }
+        );
+      });
+    }
+
+    async function tryBuildRoute() {
+      if (!state.pickup || !state.dropoff) return;
+
+      try {
+        const r = await buildRoute(state.pickup, state.dropoff);
+        state.route = r;
+        setDistanceUI(r.distanceKm);
+        setRouteStatus(`Ước tính thời gian: ~ ${Math.round(r.durationMin)} phút`);
+      } catch (e) {
+        clearRoute();
+        setError(e.message || "Không tính được tuyến đường.");
+      }
+    }
+
+    function vehicleImageFromCode(code, imageUrl) {
+      if (imageUrl && String(imageUrl).trim()) return imageUrl;
+
+      const mapByCode = {
+        MOTORCYCLE: "motorcycle.svg",
+        TRICYCLE: "tricycle.svg",
+        VAN_500KG: "van500.svg",
+        VAN_1T: "van1000.svg",
+        TRUCK_500KG: "truck500.svg",
+        TRUCK_1T: "truck1000.svg",
+        TRUCK_1_5T: "truck1500.svg",
+        TRUCK_2T: "truck2000.svg",
+      };
+
+      const filename = mapByCode[code] || "truck1000.svg";
+      return `image/price-check/image/${filename}`;
+    }
+
+    function buildVehicleMeta(vehicle) {
+      const parts = [];
+      if (vehicle.lengthM && vehicle.widthM && vehicle.heightM) {
+        parts.push(`${vehicle.lengthM} x ${vehicle.widthM} x ${vehicle.heightM} m`);
+      }
+      if (vehicle.capacityKg) {
+        parts.push(`${vehicle.capacityKg}kg`);
+      }
+      return parts.join(" • ");
+    }
+
+    function updateSelectedVehicle(index) {
+      state.selectedVehicleIndex = index;
+      if (orderError) orderError.textContent = "";
+
+      if (!orderVehicleList) return;
+      orderVehicleList
+        .querySelectorAll(".order-vehicle-item")
+        .forEach((item, idx) => {
+          item.classList.toggle("is-selected", idx === index);
+        });
+    }
+
+    function renderOrderVehicleOptions(vehicles) {
+      if (!orderVehicleList) return;
+
+      orderVehicleList.innerHTML = "";
+      if (orderError) orderError.textContent = "";
+      state.selectedVehicleIndex = null;
+
+      vehicles.forEach((vehicle, index) => {
+        const label = document.createElement("label");
+        label.className = "order-vehicle-item";
+
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "order-vehicle";
+        radio.value = String(vehicle.vehicleTypeId || vehicle.vehicleCode || index);
+        radio.addEventListener("change", () => updateSelectedVehicle(index));
+
+        const info = document.createElement("div");
+        info.className = "order-vehicle-info";
+
+        const name = document.createElement("div");
+        name.className = "order-vehicle-name";
+        name.textContent = vehicle.vehicleName || "Loại xe";
+
+        const meta = document.createElement("div");
+        meta.className = "order-vehicle-meta";
+        meta.textContent = buildVehicleMeta(vehicle);
+
+        info.appendChild(name);
+        if (meta.textContent) info.appendChild(meta);
+
+        const price = document.createElement("div");
+        price.className = "order-vehicle-price";
+        price.textContent = fmtVND(vehicle.estimatedPrice);
+
+        label.append(radio, info, price);
+        orderVehicleList.appendChild(label);
+      });
+
+      const firstInput = orderVehicleList.querySelector(
+        "input[name='order-vehicle']"
+      );
+      if (firstInput) {
+        firstInput.checked = true;
+        updateSelectedVehicle(0);
+      }
+    }
+
+    function renderVehicles(estimateResponse) {
+      const vehicles = (estimateResponse && estimateResponse.vehicles) || [];
+
+      if (!vehicles.length) {
+        showEmpty("Chưa có dữ liệu gì. Vui lòng thử lại.");
+        return;
+      }
+
+      elEmpty.style.display = "none";
+      elGrid.innerHTML = "";
+
+      vehicles.forEach((v) => {
+        const sizeText = buildVehicleMeta(v);
+        const imgSrc = vehicleImageFromCode(v.vehicleCode, v.imageUrl);
+
+        const card = document.createElement("div");
+        card.className = "gx-card";
+        card.innerHTML = `
+          <img src="${imgSrc}" alt="${v.vehicleName || ""}" onerror="this.style.display='none'" />
+          <div class="gx-name">${v.vehicleName || ""}</div>
+          <div class="gx-size">${sizeText}</div>
+          <div class="gx-price">Từ ${fmtVND(v.estimatedPrice)}</div>
+        `;
+        elGrid.appendChild(card);
+      });
+
+      state.estimateVehicles = vehicles;
+      setOrderActionsVisible(true);
+      renderOrderVehicleOptions(vehicles);
+    }
+
+    const getApi = () => window.UniwaveAPI || window.UniwaveApi;
+
+    const openLoginModal = () => {
+      if (loginRedirect) {
+        loginRedirect.dataset.loginUrl = buildLoginUrl();
+      }
+      openModal(loginModal);
+    };
+
+    const openOrderModal = () => {
+      renderOrderVehicleOptions(state.estimateVehicles);
+      openModal(orderModal);
+    };
+
+    const handleAuthExpired = () => {
+      state.userProfile = null;
+      const Api = getApi();
+      Api?.clearAuthTokens?.();
+      closeModal(orderModal);
+      openLoginModal();
+    };
+
+    const getAuthenticatedProfile = async () => {
+      if (state.userProfile) {
+        return state.userProfile;
+      }
+
+      const Api = getApi();
+      if (!Api?.apiFetch) {
+        throw new Error("Không thể kết nối đến máy chủ.");
+      }
+
+      const res = await Api.apiFetch("/api/Auth/me");
+      const data = await res.json();
+
+      const email = (data?.email || data?.Email || "").trim();
+      const fullName = (data?.fullName || data?.FullName || "").trim();
+
+      if (!email) {
+        throw new Error("Không tìm thấy email đăng nhập.");
+      }
+
+      const profile = { email, fullName };
+      state.userProfile = profile;
+      return profile;
+    };
+
+    const submitOrderLead = async () => {
+      if (!ensureEstimateReady()) return;
+
+      if (state.selectedVehicleIndex == null) {
+        if (orderError) orderError.textContent = "Vui lòng chọn loại xe.";
+        return;
+      }
+
+      const Api = getApi();
+      if (!Api?.apiFetch) {
+        if (orderError) orderError.textContent = "Không thể kết nối đến máy chủ.";
+        return;
+      }
+
+      if (orderError) orderError.textContent = "";
+      const defaultText = orderConfirm ? orderConfirm.textContent : "";
+
+      if (orderConfirm) {
+        orderConfirm.disabled = true;
+        orderConfirm.textContent = "Đang gửi...";
+      }
+
+      try {
+        const profile = await getAuthenticatedProfile();
+        const selectedVehicle = state.estimateVehicles[state.selectedVehicleIndex];
+        const selectedVehicleTypeId = selectedVehicle?.vehicleTypeId;
+
+        if (!selectedVehicleTypeId) {
+          if (orderError) orderError.textContent = "Không tìm thấy loại xe đã chọn.";
+          return;
+        }
+
+        const customerEmail = profile.email.trim();
+        const customerName = (profile.fullName || profile.email).trim();
+
+        const payload = {
+          customerName,
+          customerEmail,
+          pickupAddress: state.pickup.address,
+          dropoffAddress: state.dropoff.address,
+          distanceKm: Number(state.route.distanceKm.toFixed(3)),
+          selectedVehicleTypeId,
+        };
+
+        const response = await Api.apiFetch("/api/Quote/lead", {
+          method: "POST",
+          body: payload,
+        });
+
+        await response.json().catch(() => null);
+
+        closeModal(orderModal);
+        openModal(thankyouModal);
+      } catch (error) {
+        if (error?.status === 401) {
+          handleAuthExpired();
+          return;
+        }
+
+        if (orderError) {
+          orderError.textContent =
+            error?.message || "Không thể gửi yêu cầu đặt hàng.";
+        }
+      } finally {
+        if (orderConfirm) {
+          orderConfirm.disabled = false;
+          orderConfirm.textContent = defaultText || "Xác nhận";
+        }
+      }
+    };
+
+    async function callEstimateApi() {
+      if (!state.pickup || !state.dropoff) {
+        setError("Vui lòng chọn đầy đủ địa chỉ Từ và Đến.");
+        return;
+      }
+
+      if (!state.route) {
+        setError("Chưa tính được tuyến đường. Vui lòng chọn lại địa chỉ.");
+        return;
+      }
+
+      setError("");
+      clearResults();
+      setLoading(true);
+
+      try {
+        const body = {
+          pickupAddress: state.pickup.address,
+          dropoffAddress: state.dropoff.address,
+          distanceKm: Number(state.route.distanceKm.toFixed(3)),
+        };
+
+        const res = await window.UniwaveAPI.apiFetch("/api/Quote/estimate", {
+          method: "POST",
+          body,
+        });
+
+        const json = await res.json();
+        renderVehicles(json);
+      } catch (e) {
+        showEmpty(e.message || "Không lấy được dữ liệu báo giá.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    async function bootGoogleMaps() {
+      try {
+        const apiKey = await fetchMapsConfig();
+        await loadGoogleMapsScript(apiKey);
+        initMap();
+        googleMapsLoaded = true;
+      } catch (error) {
+        setError(error?.message || "Không thể khởi tạo Google Maps.");
+      }
+    }
+
+    document.querySelectorAll(".gx-trash").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const type = btn.getAttribute("data-clear");
+
+        if (type === "pickup") {
+          elPickup.value = "";
+          state.pickup = null;
+          clearMarker("pickup");
+        } else {
+          elDropoff.value = "";
+          state.dropoff = null;
+          clearMarker("dropoff");
+        }
+
+        clearRoute();
+        clearResults();
+        fitMapToThings();
+      });
     });
-  </script>
+
+    bindModalDismiss(loginModal);
+    bindModalDismiss(orderModal);
+    bindModalDismiss(thankyouModal);
+
+    if (loginCancel) {
+      loginCancel.addEventListener("click", () => closeModal(loginModal));
+    }
+
+    if (loginRedirect) {
+      loginRedirect.addEventListener("click", () => {
+        const url = loginRedirect.dataset.loginUrl || buildLoginUrl();
+        window.location.href = url;
+      });
+    }
+
+    if (orderCancel) {
+      orderCancel.addEventListener("click", () => closeModal(orderModal));
+    }
+
+    if (orderConfirm) {
+      orderConfirm.addEventListener("click", submitOrderLead);
+    }
+
+    if (thankyouClose) {
+      thankyouClose.addEventListener("click", () => closeModal(thankyouModal));
+    }
+
+    if (btnOrder) {
+      btnOrder.addEventListener("click", async () => {
+        if (!ensureEstimateReady()) return;
+
+        const Api = getApi();
+        const token = Api?.getAccessToken ? Api.getAccessToken() : null;
+        if (!token) {
+          openLoginModal();
+          return;
+        }
+
+        const defaultText = btnOrder.textContent;
+        btnOrder.disabled = true;
+        btnOrder.textContent = "Đang kiểm tra...";
+
+        try {
+          await getAuthenticatedProfile();
+          openOrderModal();
+        } catch (error) {
+          if (error?.status === 401) {
+            handleAuthExpired();
+            return;
+          }
+          setError(error?.message || "Không thể xác thực đăng nhập.");
+        } finally {
+          btnOrder.disabled = false;
+          btnOrder.textContent = defaultText || "Đặt hàng";
+        }
+      });
+    }
+
+    btnEstimate.addEventListener("click", async () => {
+      if (!googleMapsLoaded) {
+        setError("Google Maps chưa sẵn sàng. Vui lòng thử lại.");
+        return;
+      }
+      await callEstimateApi();
+    });
+
+    bootGoogleMaps();
+  })();
+</script>
 </body>
 
 </html>
