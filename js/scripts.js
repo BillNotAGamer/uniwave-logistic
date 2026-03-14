@@ -1089,3 +1089,21 @@ async function wakeBackend() {
 // Gọi ngay khi trang load (chạy trên mọi trang)
 document.addEventListener('DOMContentLoaded', wakeBackend);
 // Hoặc dùng window.addEventListener('load', wakeBackend); nếu muốn chắc chắn hơn
+
+document.addEventListener("DOMContentLoaded", () => { 
+  const header = document.querySelector(".header-container");
+  const spacer = document.querySelector(".header-space");
+  
+  function updateHeaderSpacer () {
+    if (header && spacer) {
+        spacer.style.height = header.offsetHeight + 'px';
+      }
+    }
+
+    // Chạy lần đầu + khi resize cửa sổ
+    updateHeaderSpacer();
+    window.addEventListener('resize', updateHeaderSpacer);
+
+    // Nếu sau này bạn có hiệu ứng thu nhỏ header khi scroll thì thêm dòng này:
+    // window.addEventListener('scroll', updateHeaderSpacer);
+  });

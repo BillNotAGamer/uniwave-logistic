@@ -516,7 +516,7 @@ video {
 }
 
 .header-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -1356,6 +1356,11 @@ video {
 /*Style general long banner*/
 .section-banner {
     position: relative;
+    max-height: 220px;
+}
+
+.section-banner img {
+    max-height: 220px;
 }
 
 .section-banner .content {
